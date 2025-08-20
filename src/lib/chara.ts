@@ -67,15 +67,40 @@ export class Chara {
     return this.row.__meta.defaultSortKey;
   }
 
-  get normalizedName() {
-    const { name_JP, aka_JP } = this.row;
-    const prefix = aka_JP ?? "";
-    const name = name_JP && name_JP !== '*r' ? name_JP : "";
-    return prefix + name;
+  normalizedName(locale: string) {
+    switch (locale) {
+      case 'ja':
+        return this.normalizedNameJa();
+      case 'en':
+        return this.normalizedNameEn();
+      default:
+        throw new Error(`Unsupported locale: ${locale}`);
+    }
   }
 
-  get raw() {
-    return this.row;
+  private normalizedNameJa() {
+    const prefix = this.row.aka_JP && this.row.aka_JP !== '*r' ? this.row.aka_JP + ' ' : '';
+    const suffix = this.row.name_JP && this.row.name_JP !== '*r' ? this.row.name_JP : "";
+
+    return prefix + this.bracket(suffix);
+  }
+
+  private normalizedNameEn() {
+    const aka = this.row.aka && this.row.aka !== '*r' ? this.row.aka : "";
+    const name = this.row.name && this.row.name !== '*r' ? this.row.name : "";
+    return (aka + ' ' + this.bracket(name)).trim();
+  }
+
+  private bracket(name: string): string {
+    if (!name) return name;
+
+    if (this.row.quality === 4) {
+      return `『${name}』`;
+    } else if (this.row.quality === 3) {
+      return `《${name}》`;
+    }
+
+    return name;
   }
 }
 

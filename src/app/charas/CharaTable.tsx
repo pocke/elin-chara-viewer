@@ -13,7 +13,7 @@ interface CharaTableProps {
 }
 
 export default function CharaTable({ charas: charaRows }: CharaTableProps) {
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
   const charas = charaRows.map(row => new Chara(row));
   const [sortBy, setSortBy] = useState<SortBy>('default');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
@@ -37,8 +37,8 @@ export default function CharaTable({ charas: charaRows }: CharaTableProps) {
     let aValue, bValue;
     
     if (sortBy === 'name') {
-      aValue = a.normalizedName.toLowerCase();
-      bValue = b.normalizedName.toLowerCase();
+      aValue = a.normalizedName(i18n.language).toLowerCase();
+      bValue = b.normalizedName(i18n.language).toLowerCase();
     } else {
       aValue = a.id;
       bValue = b.id;
@@ -79,7 +79,7 @@ export default function CharaTable({ charas: charaRows }: CharaTableProps) {
             <TableRow key={chara.id} hover>
               <TableCell>
                 <MuiLink component={Link} href={`/charas/${chara.id}`} underline="hover">
-                  {chara.normalizedName}
+                  {chara.normalizedName(i18n.language)}
                 </MuiLink>
               </TableCell>
               <TableCell>{chara.id}</TableCell>
