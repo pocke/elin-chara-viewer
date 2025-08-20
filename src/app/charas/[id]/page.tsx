@@ -1,4 +1,4 @@
-import { allCharas, findCharaById } from "@/lib/chara";
+import { allCharas, findCharaById } from "@/lib/charaDb";
 import { Container, Typography, Box, Paper, Chip, Button, Divider } from '@mui/material';
 import { Person as PersonIcon, ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import Link from 'next/link';

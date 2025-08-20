@@ -1,28 +1,9 @@
 import { z } from "zod";
-import path from "path";
-import { loadCsv } from "./csvLoader";
-
-export const allCharas = async () => {
-  return loadCsv(path.join(process.cwd(), "db/EA 23.173 Patch 1/charas.csv"), CharaSchema);
-}
-
-export const findCharaById = async (id: string) => {
-  const charas = await allCharas();
-  const chara = charas.find((chara) => chara.id === id);
-  if (!chara) throw new Error(`Chara with ID ${id} not found`);
-
-  return chara;
-}
-
-export const normalizedCharaName = (chara: Chara) => {
-  const { name_JP, aka_JP } = chara;
-  const prefix = aka_JP ?? "";
-  const name = name_JP && name_JP !== '*r' ? name_JP : "";
-
-  return prefix + name;
-}
 
 export const CharaSchema = z.object({
+  __meta: z.object({
+    defaultSortKey: z.number(),
+  }),
   id: z.string(),
   _id: z.coerce.number(),
   name_JP: z.string().optional(),
@@ -74,3 +55,11 @@ export const CharaSchema = z.object({
 });
 
 export type Chara = z.infer<typeof CharaSchema>;
+
+export const normalizedCharaName = (chara: Chara) => {
+  const { name_JP, aka_JP } = chara;
+  const prefix = aka_JP ?? "";
+  const name = name_JP && name_JP !== '*r' ? name_JP : "";
+
+  return prefix + name;
+}
