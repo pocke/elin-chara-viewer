@@ -14,6 +14,14 @@ export const findCharaById = async (id: string) => {
   return chara;
 }
 
+export const normalizedCharaName = (chara: Chara) => {
+  const { name_JP, aka_JP } = chara;
+  const prefix = aka_JP ?? "";
+  const name = name_JP && name_JP !== '*r' ? name_JP : "";
+
+  return prefix + name;
+}
+
 export const CharaSchema = z.object({
   id: z.string(),
   _id: z.coerce.number(),

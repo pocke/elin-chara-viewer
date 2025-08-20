@@ -1,7 +1,4 @@
-import path from "node:path";
-import { loadCsv } from "@/lib/csvLoader";
 import { allCharas, findCharaById } from "@/lib/chara";
-
 
 export const generateStaticParams = async () => {
   return (await allCharas()).map(chara => ({ id: chara.id }));
