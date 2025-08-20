@@ -2,6 +2,7 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link as MuiLink, TableSortLabel } from '@mui/material';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Chara, type CharaRow } from '@/lib/chara';
 
 type SortOrder = 'asc' | 'desc';
@@ -12,6 +13,7 @@ interface CharaTableProps {
 }
 
 export default function CharaTable({ charas: charaRows }: CharaTableProps) {
+  const { t } = useTranslation('common');
   const charas = charaRows.map(row => new Chara(row));
   const [sortBy, setSortBy] = useState<SortBy>('default');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
@@ -58,7 +60,7 @@ export default function CharaTable({ charas: charaRows }: CharaTableProps) {
                 direction={sortBy === 'name' ? sortOrder : 'asc'}
                 onClick={() => handleSort('name')}
               >
-                Name
+                {t('name')}
               </TableSortLabel>
             </TableCell>
             <TableCell>
@@ -67,7 +69,7 @@ export default function CharaTable({ charas: charaRows }: CharaTableProps) {
                 direction={sortBy === 'id' ? sortOrder : 'asc'}
                 onClick={() => handleSort('id')}
               >
-                ID
+                {t('id')}
               </TableSortLabel>
             </TableCell>
           </TableRow>
