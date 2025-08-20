@@ -78,6 +78,21 @@ export class Chara {
     }
   }
 
+  elements() {
+    const eles = this.row.elements;
+    if (!eles) return [];
+
+    return eles.split(',').map(t => {
+      const [alias, power] = t.split("/");
+      const powerInt = power ? parseInt(power, 10) : 1;
+      return { alias, power: powerInt };
+    });
+  }
+
+  feats() {
+    return this.elements().filter(element => element.alias.startsWith('feat'));
+  }
+
   private normalizedNameJa() {
     const prefix = this.row.aka_JP && this.row.aka_JP !== '*r' ? this.row.aka_JP + ' ' : '';
     const suffix = this.row.name_JP && this.row.name_JP !== '*r' ? this.row.name_JP : "";

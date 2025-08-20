@@ -1,0 +1,66 @@
+import { z } from "zod";
+
+export const RaceSchema = z.object({
+  __meta: z.object({
+    defaultSortKey: z.number(),
+  }),
+  id: z.string(),
+  name_JP: z.string().optional(),
+  name: z.string().optional(),
+  playable: z.coerce.number().optional(),
+  tag: z.string().optional(),
+  life: z.coerce.number().optional(),
+  mana: z.coerce.number().optional(),
+  vigor: z.coerce.number().optional(),
+  DV: z.coerce.number().optional(),
+  PV: z.coerce.number().optional(),
+  PDR: z.coerce.number().optional(),
+  EDR: z.coerce.number().optional(),
+  EP: z.coerce.number().optional(),
+  STR: z.coerce.number().optional(),
+  END: z.coerce.number().optional(),
+  DEX: z.coerce.number().optional(),
+  PER: z.coerce.number().optional(),
+  LER: z.coerce.number().optional(),
+  WIL: z.coerce.number().optional(),
+  MAG: z.coerce.number().optional(),
+  CHA: z.coerce.number().optional(),
+  SPD: z.coerce.number().optional(),
+  "***": z.string().optional(),
+  INT: z.coerce.number().optional(),
+  martial: z.coerce.number().optional(),
+  pen: z.coerce.number().optional(),
+  elements: z.string().optional(),
+  skill: z.string().optional(),
+  figure: z.string().optional(),
+  geneCap: z.coerce.number().optional(),
+  material: z.string().optional(),
+  corpse: z.string().optional(),
+  loot: z.string().optional(),
+  blood: z.coerce.number().optional(),
+  meleeStyle: z.string().optional(),
+  castStyle: z.string().optional(),
+  EQ: z.string().optional(),
+  sex: z.coerce.number().optional(),
+  age: z.string().optional(),
+  height: z.coerce.number().optional(),
+  breeder: z.coerce.number().optional(),
+  food: z.coerce.number().optional(),
+  fur: z.string().optional(),
+  detail_JP: z.string().optional(),
+  detail: z.string().optional(),
+});
+
+export type RaceRow = z.infer<typeof RaceSchema>;
+
+export class Race {
+  constructor(private row: RaceRow) {}
+
+  get id() {
+    return this.row.id;
+  }
+
+  get defaultSortKey() {
+    return this.row.__meta.defaultSortKey;
+  }
+}

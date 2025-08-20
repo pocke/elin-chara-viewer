@@ -4,14 +4,19 @@ import { Person as PersonIcon, ArrowBack as ArrowBackIcon } from '@mui/icons-mat
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/chara';
+import { Element, type ElementRow } from '@/lib/element';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;
+  elements: ElementRow[];
 }
 
-export default function CharaDetailClient({ charaRow }: CharaDetailClientProps) {
+export default function CharaDetailClient({ charaRow, elements }: CharaDetailClientProps) {
   const chara = new Chara(charaRow);
+  const elementsMap = new Map(elements.map(element => [element.alias, new Element(element)]));
   const { t, i18n } = useTranslation('common');
+  
+  const charaFeats = chara.feats();
 
   return (
     <Container maxWidth="md">
@@ -52,6 +57,28 @@ export default function CharaDetailClient({ charaRow }: CharaDetailClientProps) 
                 {chara.id}
               </Typography>
             </Box>
+            
+            {charaFeats.length > 0 && (
+              <Box>
+                <Typography variant="h6" color="text.secondary" gutterBottom>
+                  Feats
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {charaFeats.map((feat, index) => {
+                    const element = elementsMap.get(feat.alias);
+                    const featName = element ? element.name(i18n.language) : feat.alias;
+                    return (
+                      <Chip
+                        key={index}
+                        label={`${featName}${feat.power > 1 ? ` (${feat.power})` : ''}`}
+                        variant="outlined"
+                        size="small"
+                      />
+                    );
+                  })}
+                </Box>
+              </Box>
+            )}
           </Box>
         </Paper>
       </Box>
