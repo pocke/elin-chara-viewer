@@ -1,6 +1,17 @@
 'use client';
-import { Container, Typography, Box, Paper, Chip, Button, Divider } from '@mui/material';
-import { Person as PersonIcon, ArrowBack as ArrowBackIcon } from '@mui/icons-material';
+import {
+  Container,
+  Typography,
+  Box,
+  Paper,
+  Chip,
+  Button,
+  Divider,
+} from '@mui/material';
+import {
+  Person as PersonIcon,
+  ArrowBack as ArrowBackIcon,
+} from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/chara';
@@ -11,11 +22,16 @@ interface CharaDetailClientProps {
   elements: ElementRow[];
 }
 
-export default function CharaDetailClient({ charaRow, elements }: CharaDetailClientProps) {
+export default function CharaDetailClient({
+  charaRow,
+  elements,
+}: CharaDetailClientProps) {
   const chara = new Chara(charaRow);
-  const elementsMap = new Map(elements.map(element => [element.alias, new Element(element)]));
+  const elementsMap = new Map(
+    elements.map((element) => [element.alias, new Element(element)])
+  );
   const { t, i18n } = useTranslation('common');
-  
+
   const charaFeats = chara.feats();
 
   return (
@@ -38,7 +54,7 @@ export default function CharaDetailClient({ charaRow, elements }: CharaDetailCli
               <Typography variant="h3" component="h1" gutterBottom>
                 {chara.normalizedName(i18n.language)}
               </Typography>
-              <Chip 
+              <Chip
                 label={`${t('id')}: ${chara.id}`}
                 variant="outlined"
                 color="primary"
@@ -53,11 +69,9 @@ export default function CharaDetailClient({ charaRow, elements }: CharaDetailCli
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('characterId')}
               </Typography>
-              <Typography variant="body1">
-                {chara.id}
-              </Typography>
+              <Typography variant="body1">{chara.id}</Typography>
             </Box>
-            
+
             {charaFeats.length > 0 && (
               <Box>
                 <Typography variant="h6" color="text.secondary" gutterBottom>
@@ -66,7 +80,9 @@ export default function CharaDetailClient({ charaRow, elements }: CharaDetailCli
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {charaFeats.map((feat, index) => {
                     const element = elementsMap.get(feat.alias);
-                    const featName = element ? element.name(i18n.language) : feat.alias;
+                    const featName = element
+                      ? element.name(i18n.language)
+                      : feat.alias;
                     return (
                       <Chip
                         key={index}

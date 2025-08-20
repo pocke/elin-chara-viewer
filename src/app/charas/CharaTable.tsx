@@ -1,5 +1,15 @@
 'use client';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link as MuiLink, TableSortLabel } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Link as MuiLink,
+  TableSortLabel,
+} from '@mui/material';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +24,7 @@ interface CharaTableProps {
 
 export default function CharaTable({ charas: charaRows }: CharaTableProps) {
   const { t, i18n } = useTranslation('common');
-  const charas = charaRows.map(row => new Chara(row));
+  const charas = charaRows.map((row) => new Chara(row));
   const [sortBy, setSortBy] = useState<SortBy>('default');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
@@ -35,7 +45,7 @@ export default function CharaTable({ charas: charaRows }: CharaTableProps) {
     }
 
     let aValue, bValue;
-    
+
     if (sortBy === 'name') {
       aValue = a.normalizedName(i18n.language).toLowerCase();
       bValue = b.normalizedName(i18n.language).toLowerCase();
@@ -75,10 +85,14 @@ export default function CharaTable({ charas: charaRows }: CharaTableProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedCharas.map(chara => (
+          {sortedCharas.map((chara) => (
             <TableRow key={chara.id} hover>
               <TableCell>
-                <MuiLink component={Link} href={`/charas/${chara.id}`} underline="hover">
+                <MuiLink
+                  component={Link}
+                  href={`/charas/${chara.id}`}
+                  underline="hover"
+                >
                   {chara.normalizedName(i18n.language)}
                 </MuiLink>
               </TableCell>

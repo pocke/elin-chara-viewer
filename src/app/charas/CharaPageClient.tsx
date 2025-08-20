@@ -21,7 +21,7 @@ export default function CharaPageClient({ charas }: CharaPageClientProps) {
             {t('allCharacters')}
           </Typography>
         </Box>
-        
+
         <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
           {t('charactersCount', { count: charas.length })}
         </Typography>

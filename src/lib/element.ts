@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const ElementSchema = z.object({
   __meta: z.object({
@@ -45,7 +45,7 @@ export const ElementSchema = z.object({
   levelBonus_JP: z.string().optional(),
   levelBonus: z.string().optional(),
   foodEffect: z.string().optional(),
-  "***": z.string().optional(),
+  '***': z.string().optional(),
   langAct: z.string().optional(),
   detail_JP: z.string().optional(),
   detail: z.string().optional(),
@@ -77,6 +77,6 @@ export class Element {
   }
 
   name(locale: string) {
-    return locale === 'ja' ?  this.row.name_JP : this.row.name;
+    return locale === 'ja' ? this.row.name_JP : this.row.name;
   }
 }

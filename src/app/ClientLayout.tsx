@@ -27,9 +27,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
             <LanguageSwitcher />
           </Toolbar>
         </AppBar>
-        <Box component="main">
-          {children}
-        </Box>
+        <Box component="main">{children}</Box>
       </ThemeProvider>
     </AppRouterCacheProvider>
   );

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -82,27 +82,31 @@ export class Chara {
     const eles = this.row.elements;
     if (!eles) return [];
 
-    return eles.split(',').map(t => {
-      const [alias, power] = t.split("/");
+    return eles.split(',').map((t) => {
+      const [alias, power] = t.split('/');
       const powerInt = power ? parseInt(power, 10) : 1;
       return { alias, power: powerInt };
     });
   }
 
   feats() {
-    return this.elements().filter(element => element.alias.startsWith('feat'));
+    return this.elements().filter((element) =>
+      element.alias.startsWith('feat')
+    );
   }
 
   private normalizedNameJa() {
-    const prefix = this.row.aka_JP && this.row.aka_JP !== '*r' ? this.row.aka_JP + ' ' : '';
-    const suffix = this.row.name_JP && this.row.name_JP !== '*r' ? this.row.name_JP : "";
+    const prefix =
+      this.row.aka_JP && this.row.aka_JP !== '*r' ? this.row.aka_JP + ' ' : '';
+    const suffix =
+      this.row.name_JP && this.row.name_JP !== '*r' ? this.row.name_JP : '';
 
     return prefix + this.bracket(suffix);
   }
 
   private normalizedNameEn() {
-    const aka = this.row.aka && this.row.aka !== '*r' ? this.row.aka : "";
-    const name = this.row.name && this.row.name !== '*r' ? this.row.name : "";
+    const aka = this.row.aka && this.row.aka !== '*r' ? this.row.aka : '';
+    const name = this.row.name && this.row.name !== '*r' ? this.row.name : '';
     return (aka + ' ' + this.bracket(name)).trim();
   }
 
@@ -121,8 +125,8 @@ export class Chara {
 
 export const normalizedCharaName = (chara: CharaRow) => {
   const { name_JP, aka_JP } = chara;
-  const prefix = aka_JP ?? "";
-  const name = name_JP && name_JP !== '*r' ? name_JP : "";
+  const prefix = aka_JP ?? '';
+  const name = name_JP && name_JP !== '*r' ? name_JP : '';
 
   return prefix + name;
-}
+};

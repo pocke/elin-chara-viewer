@@ -7,6 +7,9 @@ export async function loadCsv<T>(filePath: string, schema: z.ZodType<T>) {
 
   const parsed = parse(content, {
     columns: true,
-  }).map((row, index) => ({...(row as any), __meta: { defaultSortKey: index }}));
+  }).map((row, index) => ({
+    ...(row as any),
+    __meta: { defaultSortKey: index },
+  }));
   return schema.array().parse(parsed);
 }

@@ -28,28 +28,20 @@ export default function LanguageSwitcher() {
         onClick={handleClick}
         variant="outlined"
         size="small"
-        sx={{ 
+        sx={{
           color: 'white',
           borderColor: 'white',
           '&:hover': {
             borderColor: 'rgba(255, 255, 255, 0.7)',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)'
-          }
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          },
         }}
       >
         {i18n.language === 'ja' ? '日本語' : 'English'}
       </Button>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={() => changeLanguage('ja')}>
-          日本語
-        </MenuItem>
-        <MenuItem onClick={() => changeLanguage('en')}>
-          English
-        </MenuItem>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+        <MenuItem onClick={() => changeLanguage('ja')}>日本語</MenuItem>
+        <MenuItem onClick={() => changeLanguage('en')}>English</MenuItem>
       </Menu>
     </>
   );

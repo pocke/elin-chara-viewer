@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const RaceSchema = z.object({
   __meta: z.object({
@@ -26,7 +26,7 @@ export const RaceSchema = z.object({
   MAG: z.coerce.number().optional(),
   CHA: z.coerce.number().optional(),
   SPD: z.coerce.number().optional(),
-  "***": z.string().optional(),
+  '***': z.string().optional(),
   INT: z.coerce.number().optional(),
   martial: z.coerce.number().optional(),
   pen: z.coerce.number().optional(),
