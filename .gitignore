@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/db/*/*.csv
+!/db/*/charas.csv
+!/db/*/races.csv
