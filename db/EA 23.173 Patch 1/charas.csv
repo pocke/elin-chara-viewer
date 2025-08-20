@@ -1,4 +1,4 @@
-﻿id,_id,name_JP,name,aka_JP,aka,idActor,sort,size,_idRenderData,tiles,tiles_snow,colorMod,components,defMat,LV,chance,quality,hostility,biome,tag,trait,race,job,tactics,aiIdle,aiParam,actCombat,mainElement,elements,equip,loot,category,filter,gachaFilter,tone,actIdle,lightData,idExtra,bio,faith,works,hobbies,idText,moveAnime,factory,detail_JP,detail
+id,_id,name_JP,name,aka_JP,aka,idActor,sort,size,_idRenderData,tiles,tiles_snow,colorMod,components,defMat,LV,chance,quality,hostility,biome,tag,trait,race,job,tactics,aiIdle,aiParam,actCombat,mainElement,elements,equip,loot,category,filter,gachaFilter,tone,actIdle,lightData,idExtra,bio,faith,works,hobbies,idText,moveAnime,factory,detail_JP,detail
 chara,34,*r,*r,*r,*r,pcc,0,,pcc,0,,0,,meat,1,0,0,Friend,,"neutral,noRandomProduct",,juere,*r,,,,,,,,,chara,,,,,,,,,,,,,,,
 test_chicken,358,テストチキン,test chicken,,,,0,,test_chicken,0,,0,,meat,1,0,3,Neutral,,"neutral,noRandomProduct",,chicken,none,,,"1,80",,,,,,chara,,livestock,,,,,,,,,chicken,hop,,,
 chicken,35,チキン,chicken,,,,0,,chara,"1707,2611",,0,,meat,1,100,0,Neutral,,staticSkin,,chicken,none,,,"1,80",,,,,,chara,,livestock,,,,,,,,,chicken,hop,,,
