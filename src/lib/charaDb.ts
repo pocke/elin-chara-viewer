@@ -7,9 +7,9 @@ export const allCharas = async () => {
 }
 
 export const findCharaById = async (id: string) => {
-  const charas = await allCharas();
-  const chara = charas.find((chara) => chara.id === id);
-  if (!chara) throw new Error(`Chara with ID ${id} not found`);
+  const charaRows = await allCharas();
+  const charaRow = charaRows.find((chara) => chara.id === id);
+  if (!charaRow) throw new Error(`Chara with ID ${id} not found`);
 
-  return chara;
+  return charaRow;
 }

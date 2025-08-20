@@ -54,9 +54,32 @@ export const CharaSchema = z.object({
   detail: z.string().optional(),
 });
 
-export type Chara = z.infer<typeof CharaSchema>;
+export type CharaRow = z.infer<typeof CharaSchema>;
 
-export const normalizedCharaName = (chara: Chara) => {
+export class Chara {
+  constructor(private row: CharaRow) {}
+
+  get id() {
+    return this.row.id;
+  }
+
+  get defaultSortKey() {
+    return this.row.__meta.defaultSortKey;
+  }
+
+  get normalizedName() {
+    const { name_JP, aka_JP } = this.row;
+    const prefix = aka_JP ?? "";
+    const name = name_JP && name_JP !== '*r' ? name_JP : "";
+    return prefix + name;
+  }
+
+  get raw() {
+    return this.row;
+  }
+}
+
+export const normalizedCharaName = (chara: CharaRow) => {
   const { name_JP, aka_JP } = chara;
   const prefix = aka_JP ?? "";
   const name = name_JP && name_JP !== '*r' ? name_JP : "";

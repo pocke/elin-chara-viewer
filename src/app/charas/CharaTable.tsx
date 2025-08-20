@@ -2,16 +2,17 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link as MuiLink, TableSortLabel } from '@mui/material';
 import Link from 'next/link';
 import { useState } from 'react';
-import { normalizedCharaName, type Chara } from '@/lib/chara';
+import { Chara, type CharaRow } from '@/lib/chara';
 
 type SortOrder = 'asc' | 'desc';
 type SortBy = 'name' | 'id' | 'default';
 
 interface CharaTableProps {
-  charas: Chara[];
+  charas: CharaRow[];
 }
 
-export default function CharaTable({ charas }: CharaTableProps) {
+export default function CharaTable({ charas: charaRows }: CharaTableProps) {
+  const charas = charaRows.map(row => new Chara(row));
   const [sortBy, setSortBy] = useState<SortBy>('default');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
@@ -26,16 +27,16 @@ export default function CharaTable({ charas }: CharaTableProps) {
 
   const sortedCharas = [...charas].sort((a, b) => {
     if (sortBy === 'default') {
-      const aSort = a.__meta.defaultSortKey;
-      const bSort = b.__meta.defaultSortKey;
+      const aSort = a.defaultSortKey;
+      const bSort = b.defaultSortKey;
       return sortOrder === 'asc' ? aSort - bSort : bSort - aSort;
     }
 
     let aValue, bValue;
     
     if (sortBy === 'name') {
-      aValue = normalizedCharaName(a).toLowerCase();
-      bValue = normalizedCharaName(b).toLowerCase();
+      aValue = a.normalizedName.toLowerCase();
+      bValue = b.normalizedName.toLowerCase();
     } else {
       aValue = a.id;
       bValue = b.id;
@@ -76,7 +77,7 @@ export default function CharaTable({ charas }: CharaTableProps) {
             <TableRow key={chara.id} hover>
               <TableCell>
                 <MuiLink component={Link} href={`/charas/${chara.id}`} underline="hover">
-                  {normalizedCharaName(chara)}
+                  {chara.normalizedName}
                 </MuiLink>
               </TableCell>
               <TableCell>{chara.id}</TableCell>

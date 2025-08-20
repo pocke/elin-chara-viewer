@@ -1,15 +1,17 @@
 import { allCharas, findCharaById } from "@/lib/charaDb";
+import { Chara } from "@/lib/chara";
 import { Container, Typography, Box, Paper, Chip, Button, Divider } from '@mui/material';
 import { Person as PersonIcon, ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import Link from 'next/link';
 
 export const generateStaticParams = async () => {
-  return (await allCharas()).map(chara => ({ id: chara.id }));
+  return (await allCharas()).map(charaRow => ({ id: charaRow.id }));
 }
 
 export default async function CharaPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const chara = await findCharaById(params.id);
+  const charaRow = await findCharaById(params.id);
+  const chara = new Chara(charaRow);
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
