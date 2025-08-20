@@ -1,4 +1,4 @@
-import { allCharas } from "@/lib/charaDb";
+import { allCharas } from "@/lib/db";
 import CharaPageClient from './CharaPageClient';
 
 export default async function CharaPage() {
