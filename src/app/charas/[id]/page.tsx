@@ -5,7 +5,7 @@ import CharaDetailClient from './CharaDetailClient';
 
 export const generateStaticParams = async () => {
   return (await all('charas', CharaSchema)).map((charaRow) => ({
-    id: encodeURIComponent(charaRow.id),
+    id: charaRow.id,
   }));
 };
 
@@ -14,14 +14,11 @@ export default async function CharaPage(props: {
 }) {
   const params = await props.params;
 
-  // NOTE: piranha's id is "fish_ piranha" including a space.
-  // So we need to decode the ID before looking it up.
-  const decodedId = decodeURIComponent(params.id);
   const charaRows = await all('charas', CharaSchema);
-  const charaRow = charaRows.find((chara) => chara.id === decodedId);
+  const charaRow = charaRows.find((chara) => chara.id === params.id);
 
   if (!charaRow) {
-    throw new Error(`Chara with ID ${decodedId} not found`);
+    throw new Error(`Chara with ID ${params.id} not found`);
   }
 
   const elements = await all('elements', ElementSchema);
