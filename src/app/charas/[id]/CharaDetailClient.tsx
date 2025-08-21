@@ -37,6 +37,8 @@ export default function CharaDetailClient({
   const { t, i18n } = useTranslation('common');
 
   const feats = [...raceObj.feats(), ...chara.feats()];
+  const figures = raceObj.figures();
+  const bodyPartsOrder = ['hand', 'head', 'torso', 'back', 'waist', 'arm', 'foot', 'neck', 'finger'];
 
   return (
     <Container maxWidth="md">
@@ -81,6 +83,27 @@ export default function CharaDetailClient({
                 {t('race')}
               </Typography>
               <Typography variant="body1">{raceObj.name(i18n.language)}</Typography>
+            </Box>
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t('bodyParts')}
+              </Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                {bodyPartsOrder.map((part) => {
+                  const count = figures[part as keyof typeof figures];
+                  return (
+                    <Chip
+                      key={part}
+                      label={`${t(part)} (${count})`}
+                      variant={count > 0 ? "outlined" : "filled"}
+                      size="medium"
+                      color={count > 0 ? "info" : "default"}
+                      sx={count === 0 ? { opacity: 0.5 } : {}}
+                    />
+                  );
+                })}
+              </Box>
             </Box>
 
             {feats.length > 0 && (

@@ -1,6 +1,18 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
 
+const figureMap = {
+  手: 'hand',
+  頭: 'head',
+  胴: 'torso',
+  背中: 'back',
+  腰: 'waist',
+  腕: 'arm',
+  足: 'foot',
+  首: 'neck',
+  指: 'finger',
+} as const;
+
 export const RaceSchema = z.object({
   __meta: z.object({
     defaultSortKey: z.number(),
@@ -33,7 +45,7 @@ export const RaceSchema = z.object({
   pen: z.coerce.number().optional(),
   elements: z.string().optional(),
   skill: z.string().optional(),
-  figure: z.string().optional(),
+  figure: z.string(),
   geneCap: z.coerce.number().optional(),
   material: z.string().optional(),
   corpse: z.string().optional(),
@@ -82,5 +94,27 @@ export class Race {
 
   feats() {
     return new Elementable(this.row).feats();
+  }
+
+  figures() {
+    const figures = {
+      hand: 0,
+      head: 0,
+      torso: 0,
+      back: 0,
+      waist: 0,
+      arm: 0,
+      foot: 0,
+      neck: 0,
+      finger: 0,
+    };
+
+    this.row.figure.split('|').forEach((part) => {
+      const key = figureMap[part as keyof typeof figureMap];
+      if (key) {
+        figures[key] += 1;
+      }
+    });
+    return figures;
   }
 }
