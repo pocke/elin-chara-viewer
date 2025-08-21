@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
 import { Element, ElementAttacks } from './element';
+import { Race } from './race';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -153,6 +154,28 @@ export class Chara {
       return (lv * elm.elementPower) / 100;
     }
     return lv;
+  }
+
+  geneSlot(racesMap: Map<string, Race>) {
+    const raceId = this.race();
+    const race = racesMap.get(raceId);
+    if (!race) throw new Error(`Race not found: ${raceId}`);
+
+    const orig = race.geneCap;
+    let actual = orig;
+    const feats = [...this.feats(), ...race.feats()];
+
+    const ftRoran = feats.find((feat) => feat.alias === 'featRoran');
+    if (ftRoran) {
+      actual -= 2 * ftRoran.power;
+    }
+
+    const ftGeneSlot = feats.find((feat) => feat.alias === 'featGeneSlot');
+    if (ftGeneSlot) {
+      actual += ftGeneSlot.power;
+    }
+
+    return [actual, orig];
   }
 
   variants() {
