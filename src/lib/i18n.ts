@@ -41,6 +41,7 @@ const resources = {
       edr: '属性軽減',
       ep: '完全回避',
       defenseStats: '防御ステータス',
+      resistances: '属性耐性',
       backToCharacters: 'キャラクター一覧に戻る',
       gettingStarted: 'はじめに',
       appDescription:
@@ -86,6 +87,7 @@ const resources = {
       edr: 'Elemental Damage Reduction',
       ep: 'Evasion Perfection',
       defenseStats: 'Defense Stats',
+      resistances: 'Resistances',
       backToCharacters: 'Back to Characters',
       gettingStarted: 'Getting Started',
       appDescription:

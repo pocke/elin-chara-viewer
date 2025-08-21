@@ -292,6 +292,36 @@ export class Chara {
       .filter((element) => element.alias === alias)
       .reduce((sum, element) => sum + element.power, 0);
   }
+
+  getResistances() {
+    const resistanceTypes = [
+      'resFire',
+      'resCold',
+      'resLightning',
+      'resDarkness',
+      'resMind',
+      'resPoison',
+      'resNether',
+      'resSound',
+      'resNerve',
+      'resChaos',
+      'resHoly',
+      'resMagic',
+      'resEther',
+      'resAcid',
+      'resCut',
+      'resImpact',
+    ];
+
+    return resistanceTypes.map((resistanceType) => {
+      const element = this.elementsMap.get(resistanceType);
+      if (!element) throw new Error(`Element not found: ${resistanceType}`);
+      return {
+        value: this.getElementModifier(resistanceType),
+        element: element,
+      };
+    });
+  }
 }
 
 export const normalizedCharaName = (chara: CharaRow) => {

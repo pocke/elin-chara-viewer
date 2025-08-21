@@ -1,6 +1,10 @@
 import { all } from '@/lib/db';
 import { Chara, CharaSchema } from '@/lib/models/chara';
-import { Element as GameElement, ElementSchema, ElementAttacks } from '@/lib/models/element';
+import {
+  Element as GameElement,
+  ElementSchema,
+  ElementAttacks,
+} from '@/lib/models/element';
 import CharaDetailClient from './CharaDetailClient';
 import { Race, RaceSchema } from '@/lib/models/race';
 
@@ -9,8 +13,12 @@ export const generateStaticParams = async () => {
   const racesRows = await all('races', RaceSchema);
   const elements = await all('elements', ElementSchema);
   const racesMap = new Map(racesRows.map((race) => [race.id, new Race(race)]));
-  const elementsMap = new Map(elements.map((element) => [element.alias, new GameElement(element)]));
-  const baseCharas = charaRows.map((row) => new Chara(row, racesMap, elementsMap));
+  const elementsMap = new Map(
+    elements.map((element) => [element.alias, new GameElement(element)])
+  );
+  const baseCharas = charaRows.map(
+    (row) => new Chara(row, racesMap, elementsMap)
+  );
 
   // Generate IDs for base characters and their variants
   const ids = baseCharas.flatMap((chara) => {
@@ -42,8 +50,15 @@ export default async function CharaPage(props: {
   const racesRows = await all('races', RaceSchema);
   const elements = await all('elements', ElementSchema);
   const racesMap = new Map(racesRows.map((race) => [race.id, new Race(race)]));
-  const elementsMap = new Map(elements.map((element) => [element.alias, new GameElement(element)]));
-  const chara = new Chara(charaRow, racesMap, elementsMap, variantElement as ElementAttacks | null);
+  const elementsMap = new Map(
+    elements.map((element) => [element.alias, new GameElement(element)])
+  );
+  const chara = new Chara(
+    charaRow,
+    racesMap,
+    elementsMap,
+    variantElement as ElementAttacks | null
+  );
 
   const raceRow = racesRows.find((r) => r.id === chara.race());
   if (!raceRow) {

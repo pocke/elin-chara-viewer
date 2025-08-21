@@ -61,6 +61,7 @@ export default function CharaDetailClient({
   const totalBodyParts = raceObj.totalBodyParts();
   const abilities = chara.abilities();
   const [actualGeneSlot, origGeneSlot] = chara.geneSlot();
+  const resistances = chara.getResistances();
 
   return (
     <Container maxWidth="md">
@@ -113,9 +114,7 @@ export default function CharaDetailClient({
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('level')}
               </Typography>
-              <Typography variant="body1">
-                {chara.level()}
-              </Typography>
+              <Typography variant="body1">{chara.level()}</Typography>
             </Box>
 
             <Box>
@@ -212,6 +211,50 @@ export default function CharaDetailClient({
                   </Typography>
                   <Typography variant="h6">{chara.ep()}</Typography>
                 </Box>
+              </Box>
+            </Box>
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t('resistances')}
+              </Typography>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+                  gap: 1,
+                }}
+              >
+                {resistances.map((resistance) => (
+                  <Box
+                    key={resistance.element.alias}
+                    sx={{
+                      textAlign: 'center',
+                      p: 1,
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      borderRadius: 1,
+                    }}
+                  >
+                    <Typography variant="caption" color="text.secondary">
+                      {resistance.element.name(i18n.language)}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      fontWeight="bold"
+                      color={
+                        resistance.value > 0
+                          ? 'success.main'
+                          : resistance.value < 0
+                            ? 'error.main'
+                            : 'text.primary'
+                      }
+                    >
+                      {resistance.value > 0 ? '+' : ''}
+                      {resistance.value}
+                    </Typography>
+                  </Box>
+                ))}
               </Box>
             </Box>
 

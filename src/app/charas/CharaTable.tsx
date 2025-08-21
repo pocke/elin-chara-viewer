@@ -36,7 +36,9 @@ export default function CharaTable({
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
-  const baseCharas = charaRows.map((row) => new Chara(row, racesMap, elementsMap));
+  const baseCharas = charaRows.map(
+    (row) => new Chara(row, racesMap, elementsMap)
+  );
 
   // Expand characters with variants
   const charas = baseCharas.flatMap((chara) => {
