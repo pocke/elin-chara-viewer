@@ -42,9 +42,7 @@ export default function CharaDetailClient({
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
-  const racesMap = new Map(
-    races.map((race) => [race.id, new Race(race)])
-  );
+  const racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
   const { t, i18n } = useTranslation('common');
 
   const feats = [...raceObj.feats(), ...chara.feats()];
@@ -115,7 +113,9 @@ export default function CharaDetailClient({
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('level')}
               </Typography>
-              <Typography variant="body1">{chara.level(elementsMap)}</Typography>
+              <Typography variant="body1">
+                {chara.level(elementsMap)}
+              </Typography>
             </Box>
 
             <Box>
@@ -125,7 +125,10 @@ export default function CharaDetailClient({
               <Typography variant="body1">
                 {actualGeneSlot}
                 {actualGeneSlot !== origGeneSlot && (
-                  <span style={{ color: 'text.secondary' }}> ({origGeneSlot})</span>
+                  <span style={{ color: 'text.secondary' }}>
+                    {' '}
+                    ({origGeneSlot})
+                  </span>
                 )}
               </Typography>
             </Box>
@@ -164,6 +167,50 @@ export default function CharaDetailClient({
                     {t('vigor')}
                   </Typography>
                   <Typography variant="h6">{raceObj.vigor}</Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t('defenseStats')}
+              </Typography>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                  gap: 2,
+                }}
+              >
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('dv')}
+                  </Typography>
+                  <Typography variant="h6">{chara.dv(racesMap)}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('pv')}
+                  </Typography>
+                  <Typography variant="h6">{chara.pv(racesMap)}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('pdr')}
+                  </Typography>
+                  <Typography variant="h6">{chara.pdr(racesMap)}%</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('edr')}
+                  </Typography>
+                  <Typography variant="h6">{chara.edr(racesMap)}%</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('ep')}
+                  </Typography>
+                  <Typography variant="h6">{chara.ep(racesMap)}</Typography>
                 </Box>
               </Box>
             </Box>
@@ -222,7 +269,7 @@ export default function CharaDetailClient({
                   {abilities.map((ability, index) => {
                     const baseElement = elementsMap.get(ability.name);
                     const elementElement = ability.element
-                      ? elementsMap.get(ability.element) ?? null
+                      ? (elementsMap.get(ability.element) ?? null)
                       : null;
 
                     let abilityName: string;

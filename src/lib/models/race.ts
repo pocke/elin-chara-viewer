@@ -141,4 +141,24 @@ export class Race {
   get geneSlot() {
     return this.row.geneCap;
   }
+
+  get dv() {
+    return this.row.DV;
+  }
+
+  get pv() {
+    return this.row.PV;
+  }
+
+  get pdr() {
+    return this.row.PDR;
+  }
+
+  get edr() {
+    return this.row.EDR;
+  }
+
+  get ep() {
+    return this.row.EP;
+  }
 }
