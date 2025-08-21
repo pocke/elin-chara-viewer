@@ -106,6 +106,38 @@ export default function CharaDetailClient({
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t('stats')}
+              </Typography>
+              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 2 }}>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('life')}
+                  </Typography>
+                  <Typography variant="h6">{raceObj.life}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('mana')}
+                  </Typography>
+                  <Typography variant="h6">{raceObj.mana}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('speed')}
+                  </Typography>
+                  <Typography variant="h6">{raceObj.speed}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('vigor')}
+                  </Typography>
+                  <Typography variant="h6">{raceObj.vigor}</Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('bodyParts')} ({totalBodyParts})
               </Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>

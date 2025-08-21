@@ -121,4 +121,20 @@ export class Race {
   totalBodyParts() {
     return Object.values(this.figures()).reduce((sum, count) => sum + count, 0);
   }
+
+  get life() {
+    return this.row.life ?? 0;
+  }
+
+  get mana() {
+    return this.row.mana ?? 0;
+  }
+
+  get speed() {
+    return this.row.SPD ?? 0;
+  }
+
+  get vigor() {
+    return this.row.vigor ?? 100;
+  }
 }
