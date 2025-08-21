@@ -91,7 +91,6 @@ export class Chara {
 
     if (name.includes('#ele') && this.variantElement) {
       const elm = elementsMap.get(this.variantElement)!;
-      console.log({ elm });
       name = name
         .replace(/#ele(\d)/, (_, n) => elm.altName(parseInt(n, 10), locale))
         .replace('#ele', () => elm.altName(-1, locale));

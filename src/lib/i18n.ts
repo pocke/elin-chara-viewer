@@ -26,6 +26,11 @@ const resources = {
       foot: '足',
       neck: '首',
       finger: '指',
+      stats: 'ステータス',
+      life: '生命値',
+      mana: 'マナ',
+      speed: '速度',
+      vigor: '活力',
       backToCharacters: 'キャラクター一覧に戻る',
       gettingStarted: 'はじめに',
       appDescription:
@@ -57,6 +62,11 @@ const resources = {
       foot: 'Foot',
       neck: 'Neck',
       finger: 'Finger',
+      stats: 'Stats',
+      life: 'Life',
+      mana: 'Mana',
+      speed: 'Speed',
+      vigor: 'Vigor',
       backToCharacters: 'Back to Characters',
       gettingStarted: 'Getting Started',
       appDescription:

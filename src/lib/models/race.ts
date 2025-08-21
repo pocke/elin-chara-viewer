@@ -18,50 +18,50 @@ export const RaceSchema = z.object({
     defaultSortKey: z.number(),
   }),
   id: z.string(),
-  name_JP: z.string().optional(),
-  name: z.string().optional(),
-  playable: z.coerce.number().optional(),
+  name_JP: z.string(),
+  name: z.string(),
+  playable: z.coerce.number(),
   tag: z.string().optional(),
-  life: z.coerce.number().optional(),
-  mana: z.coerce.number().optional(),
-  vigor: z.coerce.number().optional(),
-  DV: z.coerce.number().optional(),
-  PV: z.coerce.number().optional(),
-  PDR: z.coerce.number().optional(),
-  EDR: z.coerce.number().optional(),
-  EP: z.coerce.number().optional(),
-  STR: z.coerce.number().optional(),
-  END: z.coerce.number().optional(),
-  DEX: z.coerce.number().optional(),
-  PER: z.coerce.number().optional(),
-  LER: z.coerce.number().optional(),
-  WIL: z.coerce.number().optional(),
-  MAG: z.coerce.number().optional(),
-  CHA: z.coerce.number().optional(),
-  SPD: z.coerce.number().optional(),
+  life: z.coerce.number(),
+  mana: z.coerce.number(),
+  vigor: z.coerce.number(),
+  DV: z.coerce.number(),
+  PV: z.coerce.number(),
+  PDR: z.coerce.number(),
+  EDR: z.coerce.number(),
+  EP: z.coerce.number(),
+  STR: z.coerce.number(),
+  END: z.coerce.number(),
+  DEX: z.coerce.number(),
+  PER: z.coerce.number(),
+  LER: z.coerce.number(),
+  WIL: z.coerce.number(),
+  MAG: z.coerce.number(),
+  CHA: z.coerce.number(),
+  SPD: z.coerce.number(),
   '***': z.string().optional(),
-  INT: z.coerce.number().optional(),
-  martial: z.coerce.number().optional(),
-  pen: z.coerce.number().optional(),
+  INT: z.coerce.number(),
+  martial: z.coerce.number(),
+  pen: z.coerce.number(),
   elements: z.string().optional(),
   skill: z.string().optional(),
   figure: z.string(),
-  geneCap: z.coerce.number().optional(),
-  material: z.string().optional(),
-  corpse: z.string().optional(),
+  geneCap: z.coerce.number(),
+  material: z.string(),
+  corpse: z.string(),
   loot: z.string().optional(),
-  blood: z.coerce.number().optional(),
+  blood: z.coerce.number(),
   meleeStyle: z.string().optional(),
   castStyle: z.string().optional(),
   EQ: z.string().optional(),
-  sex: z.coerce.number().optional(),
-  age: z.string().optional(),
-  height: z.coerce.number().optional(),
-  breeder: z.coerce.number().optional(),
-  food: z.coerce.number().optional(),
+  sex: z.coerce.number(),
+  age: z.string(),
+  height: z.coerce.number(),
+  breeder: z.coerce.number(),
+  food: z.coerce.number(),
   fur: z.string().optional(),
-  detail_JP: z.string().optional(),
-  detail: z.string().optional(),
+  detail_JP: z.string(),
+  detail: z.string(),
 });
 
 export type RaceRow = z.infer<typeof RaceSchema>;
@@ -120,5 +120,21 @@ export class Race {
 
   totalBodyParts() {
     return Object.values(this.figures()).reduce((sum, count) => sum + count, 0);
+  }
+
+  get life() {
+    return this.row.life;
+  }
+
+  get mana() {
+    return this.row.mana;
+  }
+
+  get speed() {
+    return this.row.SPD;
+  }
+
+  get vigor() {
+    return this.row.vigor;
   }
 }
