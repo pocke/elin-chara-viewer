@@ -173,55 +173,19 @@ export class Chara {
   }
 
   life() {
-    let base = this.raceObj.life;
-    const elements = this.elements();
-
-    for (const element of elements) {
-      if (element.alias === 'life') {
-        base += element.power;
-      }
-    }
-
-    return base;
+    return this.raceObj.life + this.getElementModifier('life');
   }
 
   mana() {
-    let base = this.raceObj.mana;
-    const elements = this.elements();
-
-    for (const element of elements) {
-      if (element.alias === 'mana') {
-        base += element.power;
-      }
-    }
-
-    return base;
+    return this.raceObj.mana + this.getElementModifier('mana');
   }
 
   speed() {
-    let base = this.raceObj.speed;
-    const elements = this.elements();
-
-    for (const element of elements) {
-      if (element.alias === 'SPD') {
-        base += element.power;
-      }
-    }
-
-    return base;
+    return this.raceObj.speed + this.getElementModifier('SPD');
   }
 
   vigor() {
-    let base = this.raceObj.vigor;
-    const elements = this.elements();
-
-    for (const element of elements) {
-      if (element.alias === 'vigor') {
-        base += element.power;
-      }
-    }
-
-    return base;
+    return this.raceObj.vigor + this.getElementModifier('vigor');
   }
 
   level() {
@@ -251,68 +215,23 @@ export class Chara {
   }
 
   dv() {
-    let base = this.raceObj.dv;
-    const elements = this.elements();
-
-    for (const element of elements) {
-      if (element.alias === 'DV') {
-        base += element.power;
-      }
-    }
-
-    return base;
+    return this.raceObj.dv + this.getElementModifier('DV');
   }
 
   pv() {
-    let base = this.raceObj.pv;
-    const elements = this.elements();
-
-    for (const element of elements) {
-      if (element.alias === 'PV') {
-        base += element.power;
-      }
-    }
-
-    return base;
+    return this.raceObj.pv + this.getElementModifier('PV');
   }
 
   pdr() {
-    let base = this.raceObj.pdr;
-    const elements = this.elements();
-
-    for (const element of elements) {
-      if (element.alias === 'PDR') {
-        base += element.power;
-      }
-    }
-
-    return base;
+    return this.raceObj.pdr + this.getElementModifier('PDR');
   }
 
   edr() {
-    let base = this.raceObj.edr;
-    const elements = this.elements();
-
-    for (const element of elements) {
-      if (element.alias === 'EDR') {
-        base += element.power;
-      }
-    }
-
-    return base;
+    return this.raceObj.edr + this.getElementModifier('EDR');
   }
 
   ep() {
-    let base = this.raceObj.ep;
-    const elements = this.elements();
-
-    for (const element of elements) {
-      if (element.alias === 'EP') {
-        base += element.power;
-      }
-    }
-
-    return base;
+    return this.raceObj.ep + this.getElementModifier('EP');
   }
 
   variants(racesMap: Map<string, Race>) {
@@ -365,6 +284,13 @@ export class Chara {
     }
 
     return name;
+  }
+
+  private getElementModifier(alias: string): number {
+    const elements = this.elements();
+    return elements
+      .filter((element) => element.alias === alias)
+      .reduce((sum, element) => sum + element.power, 0);
   }
 }
 
