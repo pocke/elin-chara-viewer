@@ -78,7 +78,7 @@ export default function CharaDetailClient({
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                Race
+                {t('race')}
               </Typography>
               <Typography variant="body1">{raceObj.name(i18n.language)}</Typography>
             </Box>
@@ -86,7 +86,7 @@ export default function CharaDetailClient({
             {charaFeats.length > 0 && (
               <Box>
                 <Typography variant="h6" color="text.secondary" gutterBottom>
-                  Feats
+                  {t('feats')}
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {charaFeats.map((feat, index) => {

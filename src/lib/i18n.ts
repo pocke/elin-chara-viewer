@@ -14,6 +14,8 @@ const resources = {
       characterName: 'キャラクター名',
       japaneseName: '日本語名',
       characterId: 'キャラクターID',
+      race: '種族',
+      feats: 'フィート',
       backToCharacters: 'キャラクター一覧に戻る',
       gettingStarted: 'はじめに',
       appDescription:
@@ -33,6 +35,8 @@ const resources = {
       characterName: 'Character Name',
       japaneseName: 'Japanese Name',
       characterId: 'Character ID',
+      race: 'Race',
+      feats: 'Feats',
       backToCharacters: 'Back to Characters',
       gettingStarted: 'Getting Started',
       appDescription:
