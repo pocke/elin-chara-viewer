@@ -65,7 +65,7 @@ export class Chara {
   ) {}
 
   get id() {
-    return this.row.id;
+    return [this.row.id, this.variantElement].join('#');
   }
 
   get defaultSortKey() {
@@ -89,6 +89,13 @@ export class Chara {
       return '*r';
     }
 
+    if (name.includes('#ele') && this.variantElement) {
+      const elm = elementsMap.get(this.variantElement)!;
+      console.log({ elm });
+      name = name
+        .replace(/#ele(\d)/, (_, n) => elm.altName(parseInt(n, 10), locale))
+        .replace('#ele', () => elm.altName(-1, locale));
+    }
     return name;
   }
 
@@ -108,13 +115,20 @@ export class Chara {
     if (this.variantElement) {
       return [];
     }
-    if (!this.row.name?.match(/#ele\d/)) {
+    if (!this.row.name?.match(/#ele/)) {
       return [];
     }
 
     const elms = this.row.mainElement?.split(',') ?? [];
-    return elms.map((elm) => {
-      return new Chara(this.row, ('elm' + elm) as ElementAttacks);
+    return elms.map((elm, index) => {
+      const variantRow = {
+        ...this.row,
+        __meta: {
+          ...this.row.__meta,
+          defaultSortKey: this.row.__meta.defaultSortKey + (index + 1) * 0.01,
+        },
+      };
+      return new Chara(variantRow, ('ele' + elm) as ElementAttacks);
     });
   }
 

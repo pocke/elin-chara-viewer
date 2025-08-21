@@ -26,10 +26,16 @@ interface CharaTableProps {
 
 export default function CharaTable({ charas: charaRows, elements }: CharaTableProps) {
   const { t, i18n } = useTranslation('common');
-  const charas = charaRows.map((row) => new Chara(row));
+  const baseCharas = charaRows.map((row) => new Chara(row));
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
+  
+  // Expand characters with variants
+  const charas = baseCharas.flatMap((chara) => {
+    const variants = chara.variants();
+    return variants.length > 0 ? variants : [chara];
+  });
   const [sortBy, setSortBy] = useState<SortBy>('default');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 

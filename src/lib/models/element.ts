@@ -6,8 +6,8 @@ export const ElementSchema = z.object({
   }),
   id: z.string(),
   alias: z.string(),
-  name_JP: z.string().optional(),
-  name: z.string().optional(),
+  name_JP: z.string(),
+  name: z.string(),
   altname_JP: z.string().optional(),
   altname: z.string().optional(),
   aliasParent: z.string().optional(),
@@ -97,5 +97,18 @@ export class Element {
 
   name(locale: string) {
     return locale === 'ja' ? this.row.name_JP : this.row.name;
+  }
+
+  altName(n: number, locale: string) {
+    console.log({ n });
+    const names = (
+      locale === 'ja' ? this.row.altname_JP : this.row.altname
+    )?.split(',');
+    if (!names) throw new Error('No alt names found');
+
+    if (n < 0) {
+      return locale === 'ja' ? this.row.name_JP : this.row.name;
+    }
+    return names[n - 2];
   }
 }
