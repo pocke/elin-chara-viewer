@@ -178,6 +178,46 @@ export class Chara {
     return [actual, orig];
   }
 
+  dv(racesMap: Map<string, Race>) {
+    const raceId = this.race();
+    const race = racesMap.get(raceId);
+    if (!race) throw new Error(`Race not found: ${raceId}`);
+
+    return race.dv;
+  }
+
+  pv(racesMap: Map<string, Race>) {
+    const raceId = this.race();
+    const race = racesMap.get(raceId);
+    if (!race) throw new Error(`Race not found: ${raceId}`);
+
+    return race.pv;
+  }
+
+  pdr(racesMap: Map<string, Race>) {
+    const raceId = this.race();
+    const race = racesMap.get(raceId);
+    if (!race) throw new Error(`Race not found: ${raceId}`);
+
+    return race.pdr;
+  }
+
+  edr(racesMap: Map<string, Race>) {
+    const raceId = this.race();
+    const race = racesMap.get(raceId);
+    if (!race) throw new Error(`Race not found: ${raceId}`);
+
+    return race.edr;
+  }
+
+  ep(racesMap: Map<string, Race>) {
+    const raceId = this.race();
+    const race = racesMap.get(raceId);
+    if (!race) throw new Error(`Race not found: ${raceId}`);
+
+    return race.ep;
+  }
+
   variants() {
     if (this.variantElement) {
       return [];
