@@ -117,4 +117,8 @@ export class Race {
     });
     return figures;
   }
+
+  totalBodyParts() {
+    return Object.values(this.figures()).reduce((sum, count) => sum + count, 0);
+  }
 }

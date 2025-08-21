@@ -39,6 +39,7 @@ export default function CharaDetailClient({
   const feats = [...raceObj.feats(), ...chara.feats()];
   const figures = raceObj.figures();
   const bodyPartsOrder = ['hand', 'head', 'torso', 'back', 'waist', 'arm', 'foot', 'neck', 'finger'];
+  const totalBodyParts = raceObj.totalBodyParts();
 
   return (
     <Container maxWidth="md">
@@ -87,7 +88,7 @@ export default function CharaDetailClient({
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t('bodyParts')}
+                {t('bodyParts')} ({totalBodyParts})
               </Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                 {bodyPartsOrder.map((part) => {
