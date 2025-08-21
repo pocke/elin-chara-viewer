@@ -45,7 +45,7 @@ export default function CharaDetailClient({
   const raceObj = new Race(race);
   const { t, i18n } = useTranslation('common');
 
-  const feats = [...raceObj.feats(), ...chara.feats()];
+  const feats = chara.feats();
   const figures = raceObj.figures();
   const bodyPartsOrder = [
     'hand',
@@ -148,25 +148,25 @@ export default function CharaDetailClient({
                   <Typography variant="body2" color="text.secondary">
                     {t('life')}
                   </Typography>
-                  <Typography variant="h6">{raceObj.life}</Typography>
+                  <Typography variant="h6">{chara.life()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t('mana')}
                   </Typography>
-                  <Typography variant="h6">{raceObj.mana}</Typography>
+                  <Typography variant="h6">{chara.mana()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t('speed')}
                   </Typography>
-                  <Typography variant="h6">{raceObj.speed}</Typography>
+                  <Typography variant="h6">{chara.speed()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t('vigor')}
                   </Typography>
-                  <Typography variant="h6">{raceObj.vigor}</Typography>
+                  <Typography variant="h6">{chara.vigor()}</Typography>
                 </Box>
               </Box>
             </Box>

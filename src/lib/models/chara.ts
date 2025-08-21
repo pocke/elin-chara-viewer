@@ -124,11 +124,14 @@ export class Chara {
   }
 
   elements() {
-    return new Elementable(this.row).elements();
+    return [
+      ...new Elementable(this.row).elements(),
+      ...this.raceObj.elements(),
+    ];
   }
 
   feats() {
-    return new Elementable(this.row).feats();
+    return [...new Elementable(this.row).feats(), ...this.raceObj.feats()];
   }
 
   abilities() {
@@ -169,6 +172,22 @@ export class Chara {
     return this.row.race ?? 'norland';
   }
 
+  life() {
+    return this.raceObj.life + this.getElementModifier('life');
+  }
+
+  mana() {
+    return this.raceObj.mana + this.getElementModifier('mana');
+  }
+
+  speed() {
+    return this.raceObj.speed + this.getElementModifier('SPD');
+  }
+
+  vigor() {
+    return this.raceObj.vigor + this.getElementModifier('vigor');
+  }
+
   level() {
     const lv = this.row.LV ?? 1;
     if (this.variantElement) {
@@ -180,7 +199,7 @@ export class Chara {
   geneSlot() {
     const orig = this.raceObj.geneSlot;
     let actual = orig;
-    const feats = [...this.feats(), ...this.raceObj.feats()];
+    const feats = this.feats();
 
     const ftRoran = feats.find((feat) => feat.alias === 'featRoran');
     if (ftRoran) {
@@ -196,23 +215,23 @@ export class Chara {
   }
 
   dv() {
-    return this.raceObj.dv;
+    return this.raceObj.dv + this.getElementModifier('DV');
   }
 
   pv() {
-    return this.raceObj.pv;
+    return this.raceObj.pv + this.getElementModifier('PV');
   }
 
   pdr() {
-    return this.raceObj.pdr;
+    return this.raceObj.pdr + this.getElementModifier('PDR');
   }
 
   edr() {
-    return this.raceObj.edr;
+    return this.raceObj.edr + this.getElementModifier('EDR');
   }
 
   ep() {
-    return this.raceObj.ep;
+    return this.raceObj.ep + this.getElementModifier('EP');
   }
 
   variants(racesMap: Map<string, Race>) {
@@ -265,6 +284,13 @@ export class Chara {
     }
 
     return name;
+  }
+
+  private getElementModifier(alias: string): number {
+    const elements = this.elements();
+    return elements
+      .filter((element) => element.alias === alias)
+      .reduce((sum, element) => sum + element.power, 0);
   }
 }
 
