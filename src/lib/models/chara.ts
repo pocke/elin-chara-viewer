@@ -124,11 +124,11 @@ export class Chara {
   }
 
   elements() {
-    return new Elementable(this.row).elements();
+    return [...new Elementable(this.row).elements(), ...this.raceObj.elements()];
   }
 
   feats() {
-    return new Elementable(this.row).feats();
+    return [...new Elementable(this.row).feats(), ...this.raceObj.feats()];
   }
 
   abilities() {
@@ -180,7 +180,7 @@ export class Chara {
   geneSlot() {
     const orig = this.raceObj.geneSlot;
     let actual = orig;
-    const feats = [...this.feats(), ...this.raceObj.feats()];
+    const feats = this.feats();
 
     const ftRoran = feats.find((feat) => feat.alias === 'featRoran');
     if (ftRoran) {

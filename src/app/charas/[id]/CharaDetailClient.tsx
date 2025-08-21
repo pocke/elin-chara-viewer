@@ -45,7 +45,7 @@ export default function CharaDetailClient({
   const raceObj = new Race(race);
   const { t, i18n } = useTranslation('common');
 
-  const feats = [...raceObj.feats(), ...chara.feats()];
+  const feats = chara.feats();
   const figures = raceObj.figures();
   const bodyPartsOrder = [
     'hand',
