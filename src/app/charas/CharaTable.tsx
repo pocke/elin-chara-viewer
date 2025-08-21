@@ -33,10 +33,10 @@ export default function CharaTable({
 }: CharaTableProps) {
   const { t, i18n } = useTranslation('common');
   const racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
-  const baseCharas = charaRows.map((row) => new Chara(row, racesMap));
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
+  const baseCharas = charaRows.map((row) => new Chara(row, racesMap, elementsMap));
 
   // Expand characters with variants
   const charas = baseCharas.flatMap((chara) => {
@@ -65,8 +65,8 @@ export default function CharaTable({
     let aValue, bValue;
 
     if (sortBy === 'name') {
-      aValue = a.normalizedName(i18n.language, elementsMap).toLowerCase();
-      bValue = b.normalizedName(i18n.language, elementsMap).toLowerCase();
+      aValue = a.normalizedName(i18n.language).toLowerCase();
+      bValue = b.normalizedName(i18n.language).toLowerCase();
     } else {
       aValue = a.id;
       bValue = b.id;
@@ -111,7 +111,7 @@ export default function CharaTable({
                   href={`/charas/${chara.id}`}
                   underline="hover"
                 >
-                  {chara.normalizedName(i18n.language, elementsMap)}
+                  {chara.normalizedName(i18n.language)}
                 </MuiLink>
               </TableCell>
               <TableCell>{chara.id}</TableCell>

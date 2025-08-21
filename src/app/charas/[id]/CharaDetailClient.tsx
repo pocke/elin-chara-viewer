@@ -38,11 +38,11 @@ export default function CharaDetailClient({
   variantElement,
 }: CharaDetailClientProps) {
   const racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
-  const chara = new Chara(charaRow, racesMap, variantElement);
-  const raceObj = new Race(race);
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
+  const chara = new Chara(charaRow, racesMap, elementsMap, variantElement);
+  const raceObj = new Race(race);
   const { t, i18n } = useTranslation('common');
 
   const feats = [...raceObj.feats(), ...chara.feats()];
@@ -80,7 +80,7 @@ export default function CharaDetailClient({
             <PersonIcon sx={{ mr: 2, fontSize: 40 }} />
             <Box>
               <Typography variant="h3" component="h1" gutterBottom>
-                {chara.normalizedName(i18n.language, elementsMap)}
+                {chara.normalizedName(i18n.language)}
               </Typography>
               <Chip
                 label={`${t('id')}: ${chara.id}`}
@@ -114,7 +114,7 @@ export default function CharaDetailClient({
                 {t('level')}
               </Typography>
               <Typography variant="body1">
-                {chara.level(elementsMap)}
+                {chara.level()}
               </Typography>
             </Box>
 

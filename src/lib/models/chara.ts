@@ -61,16 +61,19 @@ export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
   private raceObj: Race;
+  private elementsMap: Map<string, Element>;
 
   constructor(
     private row: CharaRow,
     racesMap: Map<string, Race>,
+    elementsMap: Map<string, Element>,
     private variantElement: ElementAttacks | null = null
   ) {
     const raceId = this.row.race ?? 'norland';
     const race = racesMap.get(raceId);
     if (!race) throw new Error(`Race not found: ${raceId}`);
     this.raceObj = race;
+    this.elementsMap = elementsMap;
   }
 
   get id() {
@@ -81,7 +84,7 @@ export class Chara {
     return this.row.__meta.defaultSortKey;
   }
 
-  normalizedName(locale: string, elementsMap: Map<string, Element>) {
+  normalizedName(locale: string) {
     let name: string;
     switch (locale) {
       case 'ja':
@@ -99,7 +102,7 @@ export class Chara {
     }
 
     if (name.includes('#ele') && this.variantElement) {
-      const elm = elementsMap.get(this.variantElement)!;
+      const elm = this.elementsMap.get(this.variantElement)!;
       name = name
         .replace(/#ele(\d)/, (_, n) => elm.altName(parseInt(n, 10), locale))
         .replace('#ele', () => elm.altName(-1, locale));
@@ -153,10 +156,10 @@ export class Chara {
     return this.row.race ?? 'norland';
   }
 
-  level(elementsMap: Map<string, Element>) {
+  level() {
     const lv = this.row.LV ?? 1;
     if (this.variantElement) {
-      const elm = elementsMap.get(this.variantElement);
+      const elm = this.elementsMap.get(this.variantElement);
       if (!elm) throw new Error(`Element not found: ${this.variantElement}`);
 
       return (lv * elm.elementPower) / 100;
@@ -219,7 +222,7 @@ export class Chara {
           defaultSortKey: this.row.__meta.defaultSortKey + (index + 1) * 0.01,
         },
       };
-      return new Chara(variantRow, racesMap, ('ele' + elm) as ElementAttacks);
+      return new Chara(variantRow, racesMap, this.elementsMap, ('ele' + elm) as ElementAttacks);
     });
   }
 
