@@ -4,16 +4,19 @@ import { Person as PersonIcon } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { type CharaRow } from '@/lib/models/chara';
 import { type ElementRow } from '@/lib/models/element';
+import { type RaceRow } from '@/lib/models/race';
 import CharaTable from './CharaTable';
 
 interface CharaPageClientProps {
   charas: CharaRow[];
   elements: ElementRow[];
+  races: RaceRow[];
 }
 
 export default function CharaPageClient({
   charas,
   elements,
+  races,
 }: CharaPageClientProps) {
   const { t } = useTranslation('common');
 
@@ -31,7 +34,7 @@ export default function CharaPageClient({
           {t('charactersCount', { count: charas.length })}
         </Typography>
 
-        <CharaTable charas={charas} elements={elements} />
+        <CharaTable charas={charas} elements={elements} races={races} />
       </Box>
     </Container>
   );

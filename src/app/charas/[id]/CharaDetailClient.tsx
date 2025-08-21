@@ -37,12 +37,12 @@ export default function CharaDetailClient({
   race,
   variantElement,
 }: CharaDetailClientProps) {
-  const chara = new Chara(charaRow, variantElement);
-  const raceObj = new Race(race);
+  const racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
-  const racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
+  const chara = new Chara(charaRow, racesMap, elementsMap, variantElement);
+  const raceObj = new Race(race);
   const { t, i18n } = useTranslation('common');
 
   const feats = [...raceObj.feats(), ...chara.feats()];
@@ -60,7 +60,7 @@ export default function CharaDetailClient({
   ];
   const totalBodyParts = raceObj.totalBodyParts();
   const abilities = chara.abilities();
-  const [actualGeneSlot, origGeneSlot] = chara.geneSlot(racesMap);
+  const [actualGeneSlot, origGeneSlot] = chara.geneSlot();
 
   return (
     <Container maxWidth="md">
@@ -80,7 +80,7 @@ export default function CharaDetailClient({
             <PersonIcon sx={{ mr: 2, fontSize: 40 }} />
             <Box>
               <Typography variant="h3" component="h1" gutterBottom>
-                {chara.normalizedName(i18n.language, elementsMap)}
+                {chara.normalizedName(i18n.language)}
               </Typography>
               <Chip
                 label={`${t('id')}: ${chara.id}`}
@@ -114,7 +114,7 @@ export default function CharaDetailClient({
                 {t('level')}
               </Typography>
               <Typography variant="body1">
-                {chara.level(elementsMap)}
+                {chara.level()}
               </Typography>
             </Box>
 
@@ -186,31 +186,31 @@ export default function CharaDetailClient({
                   <Typography variant="body2" color="text.secondary">
                     {t('dv')}
                   </Typography>
-                  <Typography variant="h6">{chara.dv(racesMap)}</Typography>
+                  <Typography variant="h6">{chara.dv()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t('pv')}
                   </Typography>
-                  <Typography variant="h6">{chara.pv(racesMap)}</Typography>
+                  <Typography variant="h6">{chara.pv()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t('pdr')}
                   </Typography>
-                  <Typography variant="h6">{chara.pdr(racesMap)}%</Typography>
+                  <Typography variant="h6">{chara.pdr()}%</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t('edr')}
                   </Typography>
-                  <Typography variant="h6">{chara.edr(racesMap)}%</Typography>
+                  <Typography variant="h6">{chara.edr()}%</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t('ep')}
                   </Typography>
-                  <Typography variant="h6">{chara.ep(racesMap)}</Typography>
+                  <Typography variant="h6">{chara.ep()}</Typography>
                 </Box>
               </Box>
             </Box>
