@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
 import { Element, ElementAttacks } from './element';
-import { th } from 'zod/locales';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -9,22 +8,22 @@ export const CharaSchema = z.object({
   }),
   id: z.string(),
   _id: z.coerce.number(),
-  name_JP: z.string().optional(),
-  name: z.string().optional(),
+  name_JP: z.string(),
+  name: z.string(),
   aka_JP: z.string().optional(),
   aka: z.string().optional(),
   idActor: z.string().optional(),
-  sort: z.coerce.number().optional(),
+  sort: z.coerce.number(),
   size: z.string().optional(),
-  _idRenderData: z.string().optional(),
-  tiles: z.string().optional(),
+  _idRenderData: z.string(),
+  tiles: z.string(),
   tiles_snow: z.string().optional(),
   colorMod: z.string().optional(),
   components: z.string().optional(),
   defMat: z.string().optional(),
   LV: z.coerce.number().optional(),
   chance: z.coerce.number().optional(),
-  quality: z.coerce.number().optional(),
+  quality: z.coerce.number(),
   hostility: z.string().optional(),
   biome: z.string().optional(),
   tag: z.string().optional(),
@@ -180,15 +179,14 @@ export class Chara {
   private normalizedNameJa() {
     const prefix =
       this.row.aka_JP && this.row.aka_JP !== '*r' ? this.row.aka_JP + ' ' : '';
-    const suffix =
-      this.row.name_JP && this.row.name_JP !== '*r' ? this.row.name_JP : '';
+    const suffix = this.row.name_JP !== '*r' ? this.row.name_JP : '';
 
     return prefix + this.bracket(suffix);
   }
 
   private normalizedNameEn() {
     const aka = this.row.aka && this.row.aka !== '*r' ? this.row.aka : '';
-    const name = this.row.name && this.row.name !== '*r' ? this.row.name : '';
+    const name = this.row.name !== '*r' ? this.row.name : '';
     return (aka + ' ' + this.bracket(name)).trim();
   }
 
@@ -208,7 +206,7 @@ export class Chara {
 export const normalizedCharaName = (chara: CharaRow) => {
   const { name_JP, aka_JP } = chara;
   const prefix = aka_JP ?? '';
-  const name = name_JP && name_JP !== '*r' ? name_JP : '';
+  const name = name_JP !== '*r' ? name_JP : '';
 
   return prefix + name;
 };
