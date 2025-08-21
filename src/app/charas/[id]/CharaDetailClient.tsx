@@ -15,30 +15,46 @@ import {
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/models/chara';
-import { Element, type ElementRow } from '@/lib/models/element';
+import {
+  Element as GameElement,
+  type ElementRow,
+  ElementAttacks,
+} from '@/lib/models/element';
 import { Race, type RaceRow } from '@/lib/models/race';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;
   elements: ElementRow[];
   race: RaceRow;
+  variantElement: ElementAttacks | null;
 }
 
 export default function CharaDetailClient({
   charaRow,
   elements,
   race,
+  variantElement,
 }: CharaDetailClientProps) {
-  const chara = new Chara(charaRow);
+  const chara = new Chara(charaRow, variantElement);
   const raceObj = new Race(race);
   const elementsMap = new Map(
-    elements.map((element) => [element.alias, new Element(element)])
+    elements.map((element) => [element.alias, new GameElement(element)])
   );
   const { t, i18n } = useTranslation('common');
 
   const feats = [...raceObj.feats(), ...chara.feats()];
   const figures = raceObj.figures();
-  const bodyPartsOrder = ['hand', 'head', 'torso', 'back', 'waist', 'arm', 'foot', 'neck', 'finger'];
+  const bodyPartsOrder = [
+    'hand',
+    'head',
+    'torso',
+    'back',
+    'waist',
+    'arm',
+    'foot',
+    'neck',
+    'finger',
+  ];
   const totalBodyParts = raceObj.totalBodyParts();
 
   return (
@@ -59,7 +75,7 @@ export default function CharaDetailClient({
             <PersonIcon sx={{ mr: 2, fontSize: 40 }} />
             <Box>
               <Typography variant="h3" component="h1" gutterBottom>
-                {chara.normalizedName(i18n.language)}
+                {chara.normalizedName(i18n.language, elementsMap)}
               </Typography>
               <Chip
                 label={`${t('id')}: ${chara.id}`}
@@ -83,7 +99,9 @@ export default function CharaDetailClient({
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('race')}
               </Typography>
-              <Typography variant="body1">{raceObj.name(i18n.language)}</Typography>
+              <Typography variant="body1">
+                {raceObj.name(i18n.language)}
+              </Typography>
             </Box>
 
             <Box>
@@ -97,9 +115,9 @@ export default function CharaDetailClient({
                     <Chip
                       key={part}
                       label={`${t(part)} (${count})`}
-                      variant={count > 0 ? "outlined" : "filled"}
+                      variant={count > 0 ? 'outlined' : 'filled'}
                       size="medium"
-                      color={count > 0 ? "info" : "default"}
+                      color={count > 0 ? 'info' : 'default'}
                       sx={count === 0 ? { opacity: 0.5 } : {}}
                     />
                   );

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
+import { Element, ElementAttacks } from './element';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -58,25 +59,44 @@ export const CharaSchema = z.object({
 export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
-  constructor(private row: CharaRow) {}
+  constructor(
+    private row: CharaRow,
+    private variantElement: ElementAttacks | null = null
+  ) {}
 
   get id() {
-    return this.row.id;
+    return [this.row.id, this.variantElement].filter((x) => x).join('---');
   }
 
   get defaultSortKey() {
     return this.row.__meta.defaultSortKey;
   }
 
-  normalizedName(locale: string) {
+  normalizedName(locale: string, elementsMap: Map<string, Element>) {
+    let name: string;
     switch (locale) {
       case 'ja':
-        return this.normalizedNameJa();
+        name = this.normalizedNameJa();
+        break;
       case 'en':
-        return this.normalizedNameEn();
+        name = this.normalizedNameEn();
+        break;
       default:
         throw new Error(`Unsupported locale: ${locale}`);
     }
+
+    if (name === '') {
+      return '*r';
+    }
+
+    if (name.includes('#ele') && this.variantElement) {
+      const elm = elementsMap.get(this.variantElement)!;
+      console.log({ elm });
+      name = name
+        .replace(/#ele(\d)/, (_, n) => elm.altName(parseInt(n, 10), locale))
+        .replace('#ele', () => elm.altName(-1, locale));
+    }
+    return name;
   }
 
   elements() {
@@ -89,6 +109,27 @@ export class Chara {
 
   race() {
     return this.row.race ?? 'norland';
+  }
+
+  variants() {
+    if (this.variantElement) {
+      return [];
+    }
+    if (!this.row.name?.match(/#ele/)) {
+      return [];
+    }
+
+    const elms = this.row.mainElement?.split(',') ?? [];
+    return elms.map((elm, index) => {
+      const variantRow = {
+        ...this.row,
+        __meta: {
+          ...this.row.__meta,
+          defaultSortKey: this.row.__meta.defaultSortKey + (index + 1) * 0.01,
+        },
+      };
+      return new Chara(variantRow, ('ele' + elm) as ElementAttacks);
+    });
   }
 
   private normalizedNameJa() {
