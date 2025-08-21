@@ -65,6 +65,25 @@ export const ElementSchema = z.object({
 
 export type ElementRow = z.infer<typeof ElementSchema>;
 
+export type ElementAttacks =
+  | 'eleFire'
+  | 'eleCold'
+  | 'eleLightning'
+  | 'eleDarkness'
+  | 'eleMind'
+  | 'elePoison'
+  | 'eleNether'
+  | 'eleSound'
+  | 'eleNerve'
+  | 'eleHoly'
+  | 'eleChaos'
+  | 'eleMagic'
+  | 'eleEther'
+  | 'eleAcid'
+  | 'eleCut'
+  | 'eleImpact'
+  | 'eleVoid';
+
 export class Element {
   constructor(private row: ElementRow) {}
 

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
+import { ElementAttacks } from './element';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -58,7 +59,10 @@ export const CharaSchema = z.object({
 export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
-  constructor(private row: CharaRow) {}
+  constructor(
+    private row: CharaRow,
+    private variantElement: ElementAttacks | null = null
+  ) {}
 
   get id() {
     return this.row.id;
@@ -69,14 +73,23 @@ export class Chara {
   }
 
   normalizedName(locale: string) {
+    let name: string;
     switch (locale) {
       case 'ja':
-        return this.normalizedNameJa();
+        name = this.normalizedNameJa();
+        break;
       case 'en':
-        return this.normalizedNameEn();
+        name = this.normalizedNameEn();
+        break;
       default:
         throw new Error(`Unsupported locale: ${locale}`);
     }
+
+    if (name === '') {
+      return '*r';
+    }
+
+    return name;
   }
 
   elements() {
@@ -89,6 +102,20 @@ export class Chara {
 
   race() {
     return this.row.race ?? 'norland';
+  }
+
+  variants() {
+    if (this.variantElement) {
+      return [];
+    }
+    if (!this.row.name?.match(/#ele\d/)) {
+      return [];
+    }
+
+    const elms = this.row.mainElement?.split(',') ?? [];
+    return elms.map((elm) => {
+      return new Chara(this.row, ('elm' + elm) as ElementAttacks);
+    });
   }
 
   private normalizedNameJa() {
