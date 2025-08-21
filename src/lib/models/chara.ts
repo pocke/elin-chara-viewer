@@ -60,10 +60,18 @@ export const CharaSchema = z.object({
 export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
+  private raceObj: Race;
+
   constructor(
     private row: CharaRow,
+    racesMap: Map<string, Race>,
     private variantElement: ElementAttacks | null = null
-  ) {}
+  ) {
+    const raceId = this.row.race ?? 'norland';
+    const race = racesMap.get(raceId);
+    if (!race) throw new Error(`Race not found: ${raceId}`);
+    this.raceObj = race;
+  }
 
   get id() {
     return [this.row.id, this.variantElement].filter((x) => x).join('---');
@@ -156,14 +164,10 @@ export class Chara {
     return lv;
   }
 
-  geneSlot(racesMap: Map<string, Race>) {
-    const raceId = this.race();
-    const race = racesMap.get(raceId);
-    if (!race) throw new Error(`Race not found: ${raceId}`);
-
-    const orig = race.geneSlot;
+  geneSlot() {
+    const orig = this.raceObj.geneSlot;
     let actual = orig;
-    const feats = [...this.feats(), ...race.feats()];
+    const feats = [...this.feats(), ...this.raceObj.feats()];
 
     const ftRoran = feats.find((feat) => feat.alias === 'featRoran');
     if (ftRoran) {
@@ -178,47 +182,27 @@ export class Chara {
     return [actual, orig];
   }
 
-  dv(racesMap: Map<string, Race>) {
-    const raceId = this.race();
-    const race = racesMap.get(raceId);
-    if (!race) throw new Error(`Race not found: ${raceId}`);
-
-    return race.dv;
+  dv() {
+    return this.raceObj.dv;
   }
 
-  pv(racesMap: Map<string, Race>) {
-    const raceId = this.race();
-    const race = racesMap.get(raceId);
-    if (!race) throw new Error(`Race not found: ${raceId}`);
-
-    return race.pv;
+  pv() {
+    return this.raceObj.pv;
   }
 
-  pdr(racesMap: Map<string, Race>) {
-    const raceId = this.race();
-    const race = racesMap.get(raceId);
-    if (!race) throw new Error(`Race not found: ${raceId}`);
-
-    return race.pdr;
+  pdr() {
+    return this.raceObj.pdr;
   }
 
-  edr(racesMap: Map<string, Race>) {
-    const raceId = this.race();
-    const race = racesMap.get(raceId);
-    if (!race) throw new Error(`Race not found: ${raceId}`);
-
-    return race.edr;
+  edr() {
+    return this.raceObj.edr;
   }
 
-  ep(racesMap: Map<string, Race>) {
-    const raceId = this.race();
-    const race = racesMap.get(raceId);
-    if (!race) throw new Error(`Race not found: ${raceId}`);
-
-    return race.ep;
+  ep() {
+    return this.raceObj.ep;
   }
 
-  variants() {
+  variants(racesMap: Map<string, Race>) {
     if (this.variantElement) {
       return [];
     }
@@ -235,7 +219,7 @@ export class Chara {
           defaultSortKey: this.row.__meta.defaultSortKey + (index + 1) * 0.01,
         },
       };
-      return new Chara(variantRow, ('ele' + elm) as ElementAttacks);
+      return new Chara(variantRow, racesMap, ('ele' + elm) as ElementAttacks);
     });
   }
 

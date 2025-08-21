@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Chara, type CharaRow } from '@/lib/models/chara';
 import { Element as GameElement, type ElementRow } from '@/lib/models/element';
+import { Race, type RaceRow } from '@/lib/models/race';
 
 type SortOrder = 'asc' | 'desc';
 type SortBy = 'name' | 'id' | 'default';
@@ -22,21 +23,24 @@ type SortBy = 'name' | 'id' | 'default';
 interface CharaTableProps {
   charas: CharaRow[];
   elements: ElementRow[];
+  races: RaceRow[];
 }
 
 export default function CharaTable({
   charas: charaRows,
   elements,
+  races,
 }: CharaTableProps) {
   const { t, i18n } = useTranslation('common');
-  const baseCharas = charaRows.map((row) => new Chara(row));
+  const racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
+  const baseCharas = charaRows.map((row) => new Chara(row, racesMap));
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
 
   // Expand characters with variants
   const charas = baseCharas.flatMap((chara) => {
-    const variants = chara.variants();
+    const variants = chara.variants(racesMap);
     return variants.length > 0 ? variants : [chara];
   });
   const [sortBy, setSortBy] = useState<SortBy>('default');
