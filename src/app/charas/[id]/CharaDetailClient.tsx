@@ -25,6 +25,7 @@ import { Race, type RaceRow } from '@/lib/models/race';
 interface CharaDetailClientProps {
   charaRow: CharaRow;
   elements: ElementRow[];
+  races: RaceRow[];
   race: RaceRow;
   variantElement: ElementAttacks | null;
 }
@@ -32,6 +33,7 @@ interface CharaDetailClientProps {
 export default function CharaDetailClient({
   charaRow,
   elements,
+  races,
   race,
   variantElement,
 }: CharaDetailClientProps) {
@@ -39,6 +41,9 @@ export default function CharaDetailClient({
   const raceObj = new Race(race);
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
+  );
+  const racesMap = new Map(
+    races.map((race) => [race.id, new Race(race)])
   );
   const { t, i18n } = useTranslation('common');
 
@@ -57,6 +62,7 @@ export default function CharaDetailClient({
   ];
   const totalBodyParts = raceObj.totalBodyParts();
   const abilities = chara.abilities();
+  const [actualGeneSlot, origGeneSlot] = chara.geneSlot(racesMap);
 
   return (
     <Container maxWidth="md">
@@ -110,6 +116,18 @@ export default function CharaDetailClient({
                 {t('level')}
               </Typography>
               <Typography variant="body1">{chara.level(elementsMap)}</Typography>
+            </Box>
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t('geneSlot')}
+              </Typography>
+              <Typography variant="body1">
+                {actualGeneSlot}
+                {actualGeneSlot !== origGeneSlot && (
+                  <span style={{ color: 'text.secondary' }}> ({origGeneSlot})</span>
+                )}
+              </Typography>
             </Box>
 
             <Box>

@@ -49,6 +49,7 @@ export default async function CharaPage(props: {
     <CharaDetailClient
       charaRow={charaRow}
       elements={elements}
+      races={racesRows}
       race={raceRow}
       variantElement={variantElement as ElementAttacks | null}
     />

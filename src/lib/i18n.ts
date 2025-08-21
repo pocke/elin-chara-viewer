@@ -34,6 +34,7 @@ const resources = {
       vigor: '活力',
       abilities: 'アビリティ',
       range: '範囲',
+      geneSlot: '遺伝子スロット',
       backToCharacters: 'キャラクター一覧に戻る',
       gettingStarted: 'はじめに',
       appDescription:
@@ -72,6 +73,7 @@ const resources = {
       speed: 'Speed',
       vigor: 'Vigor',
       abilities: 'Abilities',
+      geneSlot: 'Gene Slot',
       backToCharacters: 'Back to Characters',
       gettingStarted: 'Getting Started',
       appDescription:
