@@ -4,8 +4,8 @@ import { Elementable } from '../elementable';
 const figureMap = {
   手: 'hand',
   頭: 'head',
-  胴: 'torso',
-  背中: 'back',
+  体: 'torso',
+  背: 'back',
   腰: 'waist',
   腕: 'arm',
   足: 'foot',
