@@ -56,6 +56,7 @@ export default function CharaDetailClient({
     'finger',
   ];
   const totalBodyParts = raceObj.totalBodyParts();
+  const abilities = chara.abilities();
 
   return (
     <Container maxWidth="md">
@@ -108,7 +109,13 @@ export default function CharaDetailClient({
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('stats')}
               </Typography>
-              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 2 }}>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                  gap: 2,
+                }}
+              >
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t('life')}
@@ -174,6 +181,44 @@ export default function CharaDetailClient({
                         label={`${featName}${feat.power > 1 ? ` (${feat.power})` : ''}`}
                         variant="outlined"
                         size="small"
+                      />
+                    );
+                  })}
+                </Box>
+              </Box>
+            )}
+
+            {abilities.length > 0 && (
+              <Box>
+                <Typography variant="h6" color="text.secondary" gutterBottom>
+                  {t('abilities')}
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {abilities.map((ability, index) => {
+                    const baseElement = elementsMap.get(ability.name);
+                    const elementElement = ability.element
+                      ? elementsMap.get(ability.element)
+                      : null;
+
+                    let abilityName: string;
+                    if (baseElement) {
+                      abilityName = baseElement.abilityName(
+                        elementElement,
+                        i18n.language
+                      );
+                    } else {
+                      abilityName = ability.name;
+                    }
+
+                    const displayLabel = `${abilityName}${ability.party ? ` (${t('range')})` : ''}`;
+
+                    return (
+                      <Chip
+                        key={index}
+                        label={displayLabel}
+                        variant="outlined"
+                        size="small"
+                        color="primary"
                       />
                     );
                   })}

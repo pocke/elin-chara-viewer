@@ -106,6 +106,40 @@ export class Chara {
     return new Elementable(this.row).feats();
   }
 
+  abilities() {
+    const actCombat = this.row.actCombat;
+    if (!actCombat) return [];
+
+    return actCombat.split(',').map((ability) => {
+      const parts = ability.trim().split('/');
+      const rawName = parts[0];
+      const chance = parts[1] ? parseInt(parts[1], 10) : 100;
+      const party = !!parts[2];
+
+      // Parse name and element from rawName
+      let name: string;
+      let element: string | null;
+
+      if (rawName.includes('_')) {
+        const underscoreIndex = rawName.lastIndexOf('_');
+        name = rawName.substring(0, underscoreIndex + 1);
+        const elementPart = rawName.substring(underscoreIndex + 1);
+
+        if (elementPart === '') {
+          // If nothing after underscore, use variant element
+          element = this.variantElement;
+        } else {
+          element = 'ele' + elementPart;
+        }
+      } else {
+        name = rawName;
+        element = null;
+      }
+
+      return { name, chance, party, element };
+    });
+  }
+
   race() {
     return this.row.race ?? 'norland';
   }

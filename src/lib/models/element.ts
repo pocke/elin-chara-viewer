@@ -110,4 +110,15 @@ export class Element {
     }
     return names[n - 2];
   }
+
+  abilityName(element: Element | null, locale: string) {
+    if (element) {
+      const elmName = element.altName(2, locale);
+      return locale === 'ja'
+        ? `${elmName}の${this.row.name_JP}`
+        : `${elmName} ${this.row.name}`;
+    } else {
+      return locale === 'ja' ? this.row.name_JP : this.row.name;
+    }
+  }
 }

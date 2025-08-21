@@ -31,6 +31,8 @@ const resources = {
       mana: 'マナ',
       speed: '速度',
       vigor: '活力',
+      abilities: 'アビリティ',
+      range: '範囲',
       backToCharacters: 'キャラクター一覧に戻る',
       gettingStarted: 'はじめに',
       appDescription:
@@ -67,6 +69,7 @@ const resources = {
       mana: 'Mana',
       speed: 'Speed',
       vigor: 'Vigor',
+      abilities: 'Abilities',
       backToCharacters: 'Back to Characters',
       gettingStarted: 'Getting Started',
       appDescription:
