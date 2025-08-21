@@ -95,6 +95,10 @@ export class Element {
     return this.row.__meta.defaultSortKey;
   }
 
+  get elementPower() {
+    return this.row.eleP ?? 100;
+  }
+
   name(locale: string) {
     return locale === 'ja' ? this.row.name_JP : this.row.name;
   }

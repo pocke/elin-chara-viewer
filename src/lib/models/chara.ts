@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
 import { Element, ElementAttacks } from './element';
+import { th } from 'zod/locales';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -142,6 +143,17 @@ export class Chara {
 
   race() {
     return this.row.race ?? 'norland';
+  }
+
+  level(elementsMap: Map<string, Element>) {
+    const lv = this.row.LV ?? 1;
+    if (this.variantElement) {
+      const elm = elementsMap.get(this.variantElement);
+      if (!elm) throw new Error(`Element not found: ${this.variantElement}`);
+
+      return (lv * elm.elementPower) / 100;
+    }
+    return lv;
   }
 
   variants() {
