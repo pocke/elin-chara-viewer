@@ -124,7 +124,10 @@ export class Chara {
   }
 
   elements() {
-    return [...new Elementable(this.row).elements(), ...this.raceObj.elements()];
+    return [
+      ...new Elementable(this.row).elements(),
+      ...this.raceObj.elements(),
+    ];
   }
 
   feats() {
@@ -169,6 +172,58 @@ export class Chara {
     return this.row.race ?? 'norland';
   }
 
+  life() {
+    let base = this.raceObj.life;
+    const elements = this.elements();
+
+    for (const element of elements) {
+      if (element.alias === 'life') {
+        base += element.power;
+      }
+    }
+
+    return base;
+  }
+
+  mana() {
+    let base = this.raceObj.mana;
+    const elements = this.elements();
+
+    for (const element of elements) {
+      if (element.alias === 'mana') {
+        base += element.power;
+      }
+    }
+
+    return base;
+  }
+
+  speed() {
+    let base = this.raceObj.speed;
+    const elements = this.elements();
+
+    for (const element of elements) {
+      if (element.alias === 'SPD') {
+        base += element.power;
+      }
+    }
+
+    return base;
+  }
+
+  vigor() {
+    let base = this.raceObj.vigor;
+    const elements = this.elements();
+
+    for (const element of elements) {
+      if (element.alias === 'vigor') {
+        base += element.power;
+      }
+    }
+
+    return base;
+  }
+
   level() {
     const lv = this.row.LV ?? 1;
     if (this.variantElement) {
@@ -196,23 +251,68 @@ export class Chara {
   }
 
   dv() {
-    return this.raceObj.dv;
+    let base = this.raceObj.dv;
+    const elements = this.elements();
+
+    for (const element of elements) {
+      if (element.alias === 'DV') {
+        base += element.power;
+      }
+    }
+
+    return base;
   }
 
   pv() {
-    return this.raceObj.pv;
+    let base = this.raceObj.pv;
+    const elements = this.elements();
+
+    for (const element of elements) {
+      if (element.alias === 'PV') {
+        base += element.power;
+      }
+    }
+
+    return base;
   }
 
   pdr() {
-    return this.raceObj.pdr;
+    let base = this.raceObj.pdr;
+    const elements = this.elements();
+
+    for (const element of elements) {
+      if (element.alias === 'PDR') {
+        base += element.power;
+      }
+    }
+
+    return base;
   }
 
   edr() {
-    return this.raceObj.edr;
+    let base = this.raceObj.edr;
+    const elements = this.elements();
+
+    for (const element of elements) {
+      if (element.alias === 'EDR') {
+        base += element.power;
+      }
+    }
+
+    return base;
   }
 
   ep() {
-    return this.raceObj.ep;
+    let base = this.raceObj.ep;
+    const elements = this.elements();
+
+    for (const element of elements) {
+      if (element.alias === 'EP') {
+        base += element.power;
+      }
+    }
+
+    return base;
   }
 
   variants(racesMap: Map<string, Race>) {
