@@ -13,7 +13,7 @@ import {
 import Link from 'next/link';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Chara, type CharaRow } from '@/lib/chara';
+import { Chara, type CharaRow } from '@/lib/models/chara';
 
 type SortOrder = 'asc' | 'desc';
 type SortBy = 'name' | 'id' | 'default';

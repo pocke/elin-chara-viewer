@@ -14,9 +14,9 @@ import {
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
-import { Chara, type CharaRow } from '@/lib/chara';
-import { Element, type ElementRow } from '@/lib/element';
-import { Race, type RaceRow } from '@/lib/race';
+import { Chara, type CharaRow } from '@/lib/models/chara';
+import { Element, type ElementRow } from '@/lib/models/element';
+import { Race, type RaceRow } from '@/lib/models/race';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;

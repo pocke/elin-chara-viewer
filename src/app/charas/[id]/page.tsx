@@ -1,8 +1,8 @@
 import { all } from '@/lib/db';
-import { Chara, CharaSchema } from '@/lib/chara';
-import { ElementSchema } from '@/lib/element';
+import { Chara, CharaSchema } from '@/lib/models/chara';
+import { ElementSchema } from '@/lib/models/element';
 import CharaDetailClient from './CharaDetailClient';
-import { RaceSchema } from '@/lib/race';
+import { RaceSchema } from '@/lib/models/race';
 
 export const generateStaticParams = async () => {
   return (await all('charas', CharaSchema)).map((charaRow) => ({

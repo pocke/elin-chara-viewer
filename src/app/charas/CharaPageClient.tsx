@@ -2,7 +2,7 @@
 import { Container, Typography, Box } from '@mui/material';
 import { Person as PersonIcon } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { type CharaRow } from '@/lib/chara';
+import { type CharaRow } from '@/lib/models/chara';
 import CharaTable from './CharaTable';
 
 interface CharaPageClientProps {

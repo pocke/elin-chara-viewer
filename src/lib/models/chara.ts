@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Elementable } from './elementable';
+import { Elementable } from '../elementable';
 
 export const CharaSchema = z.object({
   __meta: z.object({
