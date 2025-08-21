@@ -65,7 +65,7 @@ export class Chara {
   ) {}
 
   get id() {
-    return [this.row.id, this.variantElement].join('#');
+    return [this.row.id, this.variantElement].filter((x) => x).join('---');
   }
 
   get defaultSortKey() {

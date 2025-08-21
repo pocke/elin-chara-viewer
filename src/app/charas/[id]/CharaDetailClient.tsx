@@ -15,21 +15,23 @@ import {
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/models/chara';
-import { Element as GameElement, type ElementRow } from '@/lib/models/element';
+import { Element as GameElement, type ElementRow, ElementAttacks } from '@/lib/models/element';
 import { Race, type RaceRow } from '@/lib/models/race';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;
   elements: ElementRow[];
   race: RaceRow;
+  variantElement: ElementAttacks | null;
 }
 
 export default function CharaDetailClient({
   charaRow,
   elements,
   race,
+  variantElement,
 }: CharaDetailClientProps) {
-  const chara = new Chara(charaRow);
+  const chara = new Chara(charaRow, variantElement);
   const raceObj = new Race(race);
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
