@@ -41,6 +41,9 @@ export default function CharaDetailClient({
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
+  const elementsIdMap = new Map(
+    elements.map((element) => [element.id, new GameElement(element)])
+  );
   const chara = new Chara(charaRow, racesMap, elementsMap, variantElement);
   const raceObj = new Race(race);
   const { t, i18n } = useTranslation('common');
@@ -290,13 +293,47 @@ export default function CharaDetailClient({
                     const featName = element
                       ? element.name(i18n.language)
                       : feat.alias;
+
+                    const subElements = element
+                      ? element.subElements(feat.power, elementsIdMap)
+                      : [];
+
                     return (
-                      <Chip
+                      <Box
                         key={index}
-                        label={`${featName}${feat.power > 1 ? ` (${feat.power})` : ''}`}
-                        variant="outlined"
-                        size="small"
-                      />
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: 0.5,
+                        }}
+                      >
+                        <Chip
+                          label={`${featName}${feat.power > 1 ? ` (${feat.power})` : ''}`}
+                          variant="outlined"
+                          size="small"
+                        />
+                        {subElements.length > 0 && (
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexWrap: 'wrap',
+                              gap: 0.5,
+                              ml: 2,
+                            }}
+                          >
+                            {subElements.map((sub, subIndex) => (
+                              <Chip
+                                key={subIndex}
+                                label={`${sub.element.name(i18n.language)} (${sub.power > 0 ? '+' : ''}${sub.power})`}
+                                variant="filled"
+                                size="small"
+                                color="secondary"
+                                sx={{ fontSize: '0.7rem' }}
+                              />
+                            ))}
+                          </Box>
+                        )}
+                      </Box>
                     );
                   })}
                 </Box>

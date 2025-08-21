@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import featModifierJson from '../../generated/featModifier.json';
 
 export const ElementSchema = z.object({
   __meta: z.object({
@@ -128,5 +129,25 @@ export class Element {
     } else {
       return locale === 'ja' ? this.row.name_JP : this.row.name;
     }
+  }
+
+  subElements(power: number, elementsMap: Map<string, Element>) {
+    const modifiers =
+      featModifierJson[this.row.id as keyof typeof featModifierJson];
+    if (!modifiers) {
+      return [];
+    }
+
+    return Object.entries(modifiers).map(([childId, coefficient]) => {
+      const childElement = elementsMap.get(childId);
+      if (!childElement) {
+        throw new Error(`Child element not found: ${childId}`);
+      }
+
+      return {
+        element: childElement,
+        power: power * coefficient,
+      };
+    });
   }
 }
