@@ -107,6 +107,13 @@ export default function CharaDetailClient({
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t('level')}
+              </Typography>
+              <Typography variant="body1">{chara.level(elementsMap)}</Typography>
+            </Box>
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('stats')}
               </Typography>
               <Box
@@ -197,7 +204,7 @@ export default function CharaDetailClient({
                   {abilities.map((ability, index) => {
                     const baseElement = elementsMap.get(ability.name);
                     const elementElement = ability.element
-                      ? elementsMap.get(ability.element)
+                      ? elementsMap.get(ability.element) ?? null
                       : null;
 
                     let abilityName: string;
