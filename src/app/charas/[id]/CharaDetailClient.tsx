@@ -15,7 +15,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/models/chara';
-import { Element, type ElementRow } from '@/lib/models/element';
+import { Element as GameElement, type ElementRow } from '@/lib/models/element';
 import { Race, type RaceRow } from '@/lib/models/race';
 
 interface CharaDetailClientProps {
@@ -32,7 +32,7 @@ export default function CharaDetailClient({
   const chara = new Chara(charaRow);
   const raceObj = new Race(race);
   const elementsMap = new Map(
-    elements.map((element) => [element.alias, new Element(element)])
+    elements.map((element) => [element.alias, new GameElement(element)])
   );
   const { t, i18n } = useTranslation('common');
 
@@ -59,7 +59,7 @@ export default function CharaDetailClient({
             <PersonIcon sx={{ mr: 2, fontSize: 40 }} />
             <Box>
               <Typography variant="h3" component="h1" gutterBottom>
-                {chara.normalizedName(i18n.language)}
+                {chara.normalizedName(i18n.language, elementsMap)}
               </Typography>
               <Chip
                 label={`${t('id')}: ${chara.id}`}

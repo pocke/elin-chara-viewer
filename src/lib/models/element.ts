@@ -5,7 +5,7 @@ export const ElementSchema = z.object({
     defaultSortKey: z.number(),
   }),
   id: z.string(),
-  alias: z.string().optional(),
+  alias: z.string(),
   name_JP: z.string().optional(),
   name: z.string().optional(),
   altname_JP: z.string().optional(),

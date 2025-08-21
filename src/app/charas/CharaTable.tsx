@@ -14,17 +14,22 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Chara, type CharaRow } from '@/lib/models/chara';
+import { Element as GameElement, type ElementRow } from '@/lib/models/element';
 
 type SortOrder = 'asc' | 'desc';
 type SortBy = 'name' | 'id' | 'default';
 
 interface CharaTableProps {
   charas: CharaRow[];
+  elements: ElementRow[];
 }
 
-export default function CharaTable({ charas: charaRows }: CharaTableProps) {
+export default function CharaTable({ charas: charaRows, elements }: CharaTableProps) {
   const { t, i18n } = useTranslation('common');
   const charas = charaRows.map((row) => new Chara(row));
+  const elementsMap = new Map(
+    elements.map((element) => [element.alias, new GameElement(element)])
+  );
   const [sortBy, setSortBy] = useState<SortBy>('default');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
@@ -47,8 +52,8 @@ export default function CharaTable({ charas: charaRows }: CharaTableProps) {
     let aValue, bValue;
 
     if (sortBy === 'name') {
-      aValue = a.normalizedName(i18n.language).toLowerCase();
-      bValue = b.normalizedName(i18n.language).toLowerCase();
+      aValue = a.normalizedName(i18n.language, elementsMap).toLowerCase();
+      bValue = b.normalizedName(i18n.language, elementsMap).toLowerCase();
     } else {
       aValue = a.id;
       bValue = b.id;
@@ -93,7 +98,7 @@ export default function CharaTable({ charas: charaRows }: CharaTableProps) {
                   href={`/charas/${chara.id}`}
                   underline="hover"
                 >
-                  {chara.normalizedName(i18n.language)}
+                  {chara.normalizedName(i18n.language, elementsMap)}
                 </MuiLink>
               </TableCell>
               <TableCell>{chara.id}</TableCell>

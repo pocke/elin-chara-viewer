@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
-import { ElementAttacks } from './element';
+import { Element, ElementAttacks } from './element';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -72,7 +72,7 @@ export class Chara {
     return this.row.__meta.defaultSortKey;
   }
 
-  normalizedName(locale: string) {
+  normalizedName(locale: string, elementsMap: Map<string, Element>) {
     let name: string;
     switch (locale) {
       case 'ja':
