@@ -16,17 +16,21 @@ import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/chara';
 import { Element, type ElementRow } from '@/lib/element';
+import { Race, type RaceRow } from '@/lib/race';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;
   elements: ElementRow[];
+  race: RaceRow;
 }
 
 export default function CharaDetailClient({
   charaRow,
   elements,
+  race,
 }: CharaDetailClientProps) {
   const chara = new Chara(charaRow);
+  const raceObj = new Race(race);
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new Element(element)])
   );
@@ -70,6 +74,13 @@ export default function CharaDetailClient({
                 {t('characterId')}
               </Typography>
               <Typography variant="body1">{chara.id}</Typography>
+            </Box>
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                Race
+              </Typography>
+              <Typography variant="body1">{raceObj.name(i18n.language)}</Typography>
             </Box>
 
             {charaFeats.length > 0 && (

@@ -95,6 +95,10 @@ export class Chara {
     );
   }
 
+  race() {
+    return this.row.race ?? 'norland';
+  }
+
   private normalizedNameJa() {
     const prefix =
       this.row.aka_JP && this.row.aka_JP !== '*r' ? this.row.aka_JP + ' ' : '';

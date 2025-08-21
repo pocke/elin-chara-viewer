@@ -63,4 +63,15 @@ export class Race {
   get defaultSortKey() {
     return this.row.__meta.defaultSortKey;
   }
+
+  name(locale: string) {
+    switch (locale) {
+      case 'ja':
+        return this.row.name_JP;
+      case 'en':
+        return this.row.name;
+      default:
+        throw new Error(`Unsupported locale: ${locale}`);
+    }
+  }
 }
