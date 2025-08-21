@@ -100,7 +100,6 @@ export class Element {
   }
 
   altName(n: number, locale: string) {
-    console.log({ n });
     const names = (
       locale === 'ja' ? this.row.altname_JP : this.row.altname
     )?.split(',');
