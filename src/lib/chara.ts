@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Elementable } from './elementable';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -79,20 +80,11 @@ export class Chara {
   }
 
   elements() {
-    const eles = this.row.elements;
-    if (!eles) return [];
-
-    return eles.split(',').map((t) => {
-      const [alias, power] = t.split('/');
-      const powerInt = power ? parseInt(power, 10) : 1;
-      return { alias, power: powerInt };
-    });
+    return new Elementable(this.row).elements();
   }
 
   feats() {
-    return this.elements().filter((element) =>
-      element.alias.startsWith('feat')
-    );
+    return new Elementable(this.row).feats();
   }
 
   race() {

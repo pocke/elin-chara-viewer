@@ -36,7 +36,7 @@ export default function CharaDetailClient({
   );
   const { t, i18n } = useTranslation('common');
 
-  const charaFeats = chara.feats();
+  const feats = [...raceObj.feats(), ...chara.feats()];
 
   return (
     <Container maxWidth="md">
@@ -83,13 +83,13 @@ export default function CharaDetailClient({
               <Typography variant="body1">{raceObj.name(i18n.language)}</Typography>
             </Box>
 
-            {charaFeats.length > 0 && (
+            {feats.length > 0 && (
               <Box>
                 <Typography variant="h6" color="text.secondary" gutterBottom>
                   {t('feats')}
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {charaFeats.map((feat, index) => {
+                  {feats.map((feat, index) => {
                     const element = elementsMap.get(feat.alias);
                     const featName = element
                       ? element.name(i18n.language)

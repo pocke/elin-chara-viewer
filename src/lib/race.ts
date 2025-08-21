@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Elementable } from './elementable';
 
 export const RaceSchema = z.object({
   __meta: z.object({
@@ -73,5 +74,13 @@ export class Race {
       default:
         throw new Error(`Unsupported locale: ${locale}`);
     }
+  }
+
+  elements() {
+    return new Elementable(this.row).elements();
+  }
+
+  feats() {
+    return new Elementable(this.row).feats();
   }
 }
