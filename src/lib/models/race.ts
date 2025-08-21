@@ -138,7 +138,7 @@ export class Race {
     return this.row.vigor;
   }
 
-  get geneCap() {
+  get geneSlot() {
     return this.row.geneCap;
   }
 }

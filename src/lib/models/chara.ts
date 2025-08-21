@@ -161,7 +161,7 @@ export class Chara {
     const race = racesMap.get(raceId);
     if (!race) throw new Error(`Race not found: ${raceId}`);
 
-    const orig = race.geneCap;
+    const orig = race.geneSlot;
     let actual = orig;
     const feats = [...this.feats(), ...race.feats()];
 
