@@ -91,6 +91,10 @@ export class Element {
     return this.row.id;
   }
 
+  get alias() {
+    return this.row.alias;
+  }
+
   get defaultSortKey() {
     return this.row.__meta.defaultSortKey;
   }
