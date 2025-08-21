@@ -15,7 +15,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/models/chara';
-import { Element as GameElement, type ElementRow, ElementAttacks } from '@/lib/models/element';
+import {
+  Element as GameElement,
+  type ElementRow,
+  ElementAttacks,
+} from '@/lib/models/element';
 import { Race, type RaceRow } from '@/lib/models/race';
 
 interface CharaDetailClientProps {
@@ -40,7 +44,17 @@ export default function CharaDetailClient({
 
   const feats = [...raceObj.feats(), ...chara.feats()];
   const figures = raceObj.figures();
-  const bodyPartsOrder = ['hand', 'head', 'torso', 'back', 'waist', 'arm', 'foot', 'neck', 'finger'];
+  const bodyPartsOrder = [
+    'hand',
+    'head',
+    'torso',
+    'back',
+    'waist',
+    'arm',
+    'foot',
+    'neck',
+    'finger',
+  ];
   const totalBodyParts = raceObj.totalBodyParts();
 
   return (
@@ -85,7 +99,9 @@ export default function CharaDetailClient({
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('race')}
               </Typography>
-              <Typography variant="body1">{raceObj.name(i18n.language)}</Typography>
+              <Typography variant="body1">
+                {raceObj.name(i18n.language)}
+              </Typography>
             </Box>
 
             <Box>
@@ -99,9 +115,9 @@ export default function CharaDetailClient({
                     <Chip
                       key={part}
                       label={`${t(part)} (${count})`}
-                      variant={count > 0 ? "outlined" : "filled"}
+                      variant={count > 0 ? 'outlined' : 'filled'}
                       size="medium"
-                      color={count > 0 ? "info" : "default"}
+                      color={count > 0 ? 'info' : 'default'}
                       sx={count === 0 ? { opacity: 0.5 } : {}}
                     />
                   );

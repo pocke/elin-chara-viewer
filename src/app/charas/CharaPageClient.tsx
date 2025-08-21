@@ -11,7 +11,10 @@ interface CharaPageClientProps {
   elements: ElementRow[];
 }
 
-export default function CharaPageClient({ charas, elements }: CharaPageClientProps) {
+export default function CharaPageClient({
+  charas,
+  elements,
+}: CharaPageClientProps) {
   const { t } = useTranslation('common');
 
   return (

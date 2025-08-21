@@ -7,13 +7,15 @@ import { RaceSchema } from '@/lib/models/race';
 export const generateStaticParams = async () => {
   const charaRows = await all('charas', CharaSchema);
   const baseCharas = charaRows.map((row) => new Chara(row));
-  
+
   // Generate IDs for base characters and their variants
   const ids = baseCharas.flatMap((chara) => {
     const variants = chara.variants();
-    return variants.length > 0 ? variants.map(v => ({ id: v.id })) : [{ id: chara.id }];
+    return variants.length > 0
+      ? variants.map((v) => ({ id: v.id }))
+      : [{ id: chara.id }];
   });
-  
+
   return ids;
 };
 
@@ -22,10 +24,10 @@ export default async function CharaPage(props: {
 }) {
   const params = await props.params;
   const decodedId = decodeURIComponent(params.id);
-  
+
   // Parse variant element from ID (format: baseId#variantElement)
   const [baseId, variantElement] = decodedId.split('---');
-  
+
   const charaRows = await all('charas', CharaSchema);
   const charaRow = charaRows.find((chara) => chara.id === baseId);
 
@@ -43,5 +45,12 @@ export default async function CharaPage(props: {
 
   const elements = await all('elements', ElementSchema);
 
-  return <CharaDetailClient charaRow={charaRow} elements={elements} race={raceRow} variantElement={variantElement as ElementAttacks | null} />;
+  return (
+    <CharaDetailClient
+      charaRow={charaRow}
+      elements={elements}
+      race={raceRow}
+      variantElement={variantElement as ElementAttacks | null}
+    />
+  );
 }

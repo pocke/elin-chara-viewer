@@ -24,13 +24,16 @@ interface CharaTableProps {
   elements: ElementRow[];
 }
 
-export default function CharaTable({ charas: charaRows, elements }: CharaTableProps) {
+export default function CharaTable({
+  charas: charaRows,
+  elements,
+}: CharaTableProps) {
   const { t, i18n } = useTranslation('common');
   const baseCharas = charaRows.map((row) => new Chara(row));
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
-  
+
   // Expand characters with variants
   const charas = baseCharas.flatMap((chara) => {
     const variants = chara.variants();
