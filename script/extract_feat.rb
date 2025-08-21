@@ -14,7 +14,7 @@ def main
   sc.skip_until(/^\tpublic List<string> Apply\(/) or raise
 
   feat_ids = []
-  modifiers = {}
+  sub_feats = {}
 
   loop do
     if sc.scan(/^\s*case (?=\d+:)/)
@@ -24,9 +24,9 @@ def main
     end
 
     if sc.scan(/^\s*break;\n/)
-      flush feat_ids, modifiers
+      flush feat_ids, sub_feats
       feat_ids = []
-      modifiers = {}
+      sub_feats = {}
       next
     end
 
@@ -34,7 +34,7 @@ def main
     if sc.scan(/^\s*ModBase\((?=\d+,\s*-?a,)/)
       target_id = sc.scan(/\d+/) or raise
       sc.skip(/,\s*/)
-      modifiers[target_id] = sc.scan(/-/) ? -1 : 1
+      sub_feats[target_id] = sc.scan(/-/) ? -1 : 1
       sc.skip(/.+\n/)
       next
     end
@@ -46,7 +46,7 @@ def main
       sign = sc.scan(/-/) ? -1 : 1
       sc.skip(/a\s*\*\s*/)
       power = sc.scan(/-?\d+/) or raise
-      modifiers[target_id] = power.to_i * sign
+      sub_feats[target_id] = power.to_i * sign
       sc.skip(/.+\n/)
       next
     end
@@ -56,13 +56,13 @@ def main
       target_id = sc.scan(/\d+/) or raise
       sc.skip(/,\s*a\s*\/\s*/)
       power = sc.scan(/-?\d+/) or raise
-      modifiers[target_id] = 1 / power.to_f
+      sub_feats[target_id] = 1 / power.to_f
       sc.skip(/.+\n/)
       next
     end
 
     if sc.scan(/^\t}/)
-      flush feat_ids, modifiers
+      flush feat_ids, sub_feats
       break
     end
 
@@ -75,11 +75,11 @@ ensure
   system("rm -f tmp/FEAT.cs")
 end
 
-def flush(feat_ids, modifiers)
-  return if modifiers.empty?
+def flush(feat_ids, sub_feats)
+  return if sub_feats.empty?
 
   feat_ids.each do |feat_id|
-    $result[feat_id] = modifiers
+    $result[feat_id] = sub_feats
   end
 end
 
