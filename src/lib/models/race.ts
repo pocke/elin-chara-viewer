@@ -94,11 +94,19 @@ export class Race {
   }
 
   elements() {
-    return new Elementable(this.row, this.elementsMap, this.elementsIdMap).elements();
+    return new Elementable(
+      this.row,
+      this.elementsMap,
+      this.elementsIdMap
+    ).elements();
   }
 
   feats() {
-    return new Elementable(this.row, this.elementsMap, this.elementsIdMap).feats();
+    return new Elementable(
+      this.row,
+      this.elementsMap,
+      this.elementsIdMap
+    ).feats();
   }
 
   figures() {

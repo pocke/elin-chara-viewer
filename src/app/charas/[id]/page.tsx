@@ -8,17 +8,22 @@ import {
 import CharaDetailClient from './CharaDetailClient';
 import { Race, RaceSchema } from '@/lib/models/race';
 
-export const generateStaticParams = async () => {
-  const charaRows = await all('charas', CharaSchema);
-  const racesRows = await all('races', RaceSchema);
-  const elements = await all('elements', ElementSchema);
+export const generateStaticParams = () => {
+  const charaRows = all('charas', CharaSchema);
+  const racesRows = all('races', RaceSchema);
+  const elements = all('elements', ElementSchema);
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
   const elementsIdMap = new Map(
     elements.map((element) => [element.id, new GameElement(element)])
   );
-  const racesMap = new Map(racesRows.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
+  const racesMap = new Map(
+    racesRows.map((race) => [
+      race.id,
+      new Race(race, elementsMap, elementsIdMap),
+    ])
+  );
   const baseCharas = charaRows.map(
     (row) => new Chara(row, racesMap, elementsMap, elementsIdMap)
   );
@@ -43,22 +48,27 @@ export default async function CharaPage(props: {
   // Parse variant element from ID (format: baseId#variantElement)
   const [baseId, variantElement] = decodedId.split('---');
 
-  const charaRows = await all('charas', CharaSchema);
+  const charaRows = all('charas', CharaSchema);
   const charaRow = charaRows.find((chara) => chara.id === baseId);
 
   if (!charaRow) {
     throw new Error(`Chara with ID ${baseId} not found`);
   }
 
-  const racesRows = await all('races', RaceSchema);
-  const elements = await all('elements', ElementSchema);
+  const racesRows = all('races', RaceSchema);
+  const elements = all('elements', ElementSchema);
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
   const elementsIdMap = new Map(
     elements.map((element) => [element.id, new GameElement(element)])
   );
-  const racesMap = new Map(racesRows.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
+  const racesMap = new Map(
+    racesRows.map((race) => [
+      race.id,
+      new Race(race, elementsMap, elementsIdMap),
+    ])
+  );
   const chara = new Chara(
     charaRow,
     racesMap,

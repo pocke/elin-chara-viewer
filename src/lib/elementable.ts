@@ -17,7 +17,6 @@ export class Elementable {
       return { alias, power: powerInt };
     });
 
-
     const allElements = [...mainElements];
 
     for (const element of mainElements) {

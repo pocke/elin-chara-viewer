@@ -38,7 +38,9 @@ export default function CharaTable({
   const elementsIdMap = new Map(
     elements.map((element) => [element.id, new GameElement(element)])
   );
-  const racesMap = new Map(races.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
+  const racesMap = new Map(
+    races.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)])
+  );
   const baseCharas = charaRows.map(
     (row) => new Chara(row, racesMap, elementsMap, elementsIdMap)
   );

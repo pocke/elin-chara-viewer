@@ -4,9 +4,9 @@ import { ElementSchema } from '@/lib/models/element';
 import { RaceSchema } from '@/lib/models/race';
 import CharaPageClient from './CharaPageClient';
 
-export default async function CharaPage() {
-  const charas = await all('charas', CharaSchema);
-  const elements = await all('elements', ElementSchema);
-  const races = await all('races', RaceSchema);
+export default function CharaPage() {
+  const charas = all('charas', CharaSchema);
+  const elements = all('elements', ElementSchema);
+  const races = all('races', RaceSchema);
   return <CharaPageClient charas={charas} elements={elements} races={races} />;
 }

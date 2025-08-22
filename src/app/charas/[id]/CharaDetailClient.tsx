@@ -43,8 +43,16 @@ export default function CharaDetailClient({
   const elementsIdMap = new Map(
     elements.map((element) => [element.id, new GameElement(element)])
   );
-  const racesMap = new Map(races.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
-  const chara = new Chara(charaRow, racesMap, elementsMap, elementsIdMap, variantElement);
+  const racesMap = new Map(
+    races.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)])
+  );
+  const chara = new Chara(
+    charaRow,
+    racesMap,
+    elementsMap,
+    elementsIdMap,
+    variantElement
+  );
   const raceObj = new Race(race, elementsMap, elementsIdMap);
   const { t, i18n } = useTranslation('common');
 
