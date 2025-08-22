@@ -63,7 +63,17 @@ const VirtuosoTableComponents = {
       sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }}
     />
   ),
-  TableHead,
+  TableHead: (props: React.ComponentProps<typeof TableHead>) => (
+    <TableHead
+      {...props}
+      sx={{
+        backgroundColor: 'background.paper',
+        zIndex: 10,
+        position: 'sticky',
+        top: 0,
+      }}
+    />
+  ),
   TableRow: ({ ...props }: React.ComponentProps<typeof TableRow>) => (
     <TableRow {...props} />
   ),
@@ -256,7 +266,7 @@ export default function VirtualizedCharaTable({
   };
 
   return (
-    <Paper elevation={1} sx={{ height: '70vh' }}>
+    <Paper elevation={1} sx={{ height: '70vh', overflow: 'hidden' }}>
       <TableVirtuoso
         data={sortedCharas}
         components={VirtuosoTableComponents}
