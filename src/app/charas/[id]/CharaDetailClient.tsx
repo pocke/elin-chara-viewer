@@ -279,7 +279,7 @@ export default function CharaDetailClient({
 
                     const subElements = element.subElements().map((sub) => ({
                       element: sub.element,
-                      power: feat.power * sub.coefficient,
+                      power: Math.floor(feat.power * sub.coefficient),
                     }));
 
                     return (
