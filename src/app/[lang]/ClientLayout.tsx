@@ -5,7 +5,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 import theme from '../theme';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
-import { LanguageProvider, useTranslation, Language } from '../../lib/simple-i18n';
+import {
+  LanguageProvider,
+  useTranslation,
+  Language,
+} from '../../lib/simple-i18n';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
