@@ -42,6 +42,7 @@ const resources = {
       ep: '完全回避',
       defenseStats: '防御ステータス',
       resistances: '属性耐性',
+      statusResistances: '状態異常耐性',
       backToCharacters: 'キャラクター一覧に戻る',
       gettingStarted: 'はじめに',
       appDescription:
@@ -88,6 +89,7 @@ const resources = {
       ep: 'Evasion Perfection',
       defenseStats: 'Defense Stats',
       resistances: 'Resistances',
+      statusResistances: 'Status Resistances',
       backToCharacters: 'Back to Characters',
       gettingStarted: 'Getting Started',
       appDescription:
