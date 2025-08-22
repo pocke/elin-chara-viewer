@@ -42,4 +42,13 @@ export class Elementable {
       elementWithPower.element.alias.startsWith('negate')
     );
   }
+
+  others() {
+    return this.elements().filter(
+      (elementWithPower) =>
+        !elementWithPower.element.alias.startsWith('feat') &&
+        !elementWithPower.element.alias.startsWith('negate') &&
+        !elementWithPower.element.alias.startsWith('res')
+    );
+  }
 }

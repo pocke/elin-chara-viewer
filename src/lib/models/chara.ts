@@ -137,6 +137,13 @@ export class Chara {
     ];
   }
 
+  others() {
+    return [
+      ...new Elementable(this.row).others(),
+      ...this.raceObj.others(),
+    ];
+  }
+
   abilities() {
     const actCombat = this.row.actCombat;
     if (!actCombat) return [];

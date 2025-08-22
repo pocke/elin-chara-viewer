@@ -115,6 +115,10 @@ export class Race {
     return new Elementable(this.row).negations();
   }
 
+  others() {
+    return new Elementable(this.row).others();
+  }
+
   figures() {
     const figures = {
       hand: 0,

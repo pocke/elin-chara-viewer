@@ -41,6 +41,7 @@ export default function CharaDetailClient({
 
   const feats = chara.feats();
   const negations = chara.negations();
+  const others = chara.others();
   const figures = raceObj.figures();
   const bodyPartsOrder = [
     'hand',
@@ -61,6 +62,62 @@ export default function CharaDetailClient({
     value: chara.getElementPower(element.alias),
     element: element,
   }));
+
+  const renderElementChips = (
+    elements: Array<{ element: Element; power: number }>
+  ) => {
+    return elements.map((elementWithPower, index) => {
+      const element = elementWithPower.element;
+      const featName = element.name(i18n.language);
+
+      return (
+        <Tooltip
+          key={index}
+          title={createFeatTooltipContent(element, elementWithPower.power)}
+          arrow
+          placement="top"
+          slotProps={{
+            tooltip: {
+              sx: {
+                bgcolor: 'background.paper',
+                color: 'text.primary',
+                border: '1px solid',
+                borderColor: 'divider',
+                boxShadow: 2,
+                '& .MuiTooltip-arrow': {
+                  color: 'background.paper',
+                  '&::before': {
+                    border: '1px solid',
+                    borderColor: 'divider',
+                  },
+                },
+              },
+            },
+          }}
+        >
+          <Chip
+            label={`${featName}${elementWithPower.power !== 1 ? ` (${elementWithPower.power})` : ''}`}
+            variant="outlined"
+            size="small"
+            clickable
+            onClick={() => {
+              console.log(`Navigate to element detail: ${element.id}`);
+            }}
+            sx={{
+              cursor: 'pointer',
+              '&:hover': {
+                backgroundColor: 'primary.light',
+                borderColor: 'primary.main',
+                '& .MuiChip-label': {
+                  color: 'primary.dark',
+                },
+              },
+            }}
+          />
+        </Tooltip>
+      );
+    });
+  };
 
   const createFeatTooltipContent = (element: Element, power: number) => {
     const featName = element.name(i18n.language);
@@ -341,61 +398,7 @@ export default function CharaDetailClient({
                   {t('feats')}
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {feats.map((feat, index) => {
-                    const element = feat.element;
-                    const featName = element.name(i18n.language);
-
-                    return (
-                      <Tooltip
-                        key={index}
-                        title={createFeatTooltipContent(element, feat.power)}
-                        arrow
-                        placement="top"
-                        slotProps={{
-                          tooltip: {
-                            sx: {
-                              bgcolor: 'background.paper',
-                              color: 'text.primary',
-                              border: '1px solid',
-                              borderColor: 'divider',
-                              boxShadow: 2,
-                              '& .MuiTooltip-arrow': {
-                                color: 'background.paper',
-                                '&::before': {
-                                  border: '1px solid',
-                                  borderColor: 'divider',
-                                },
-                              },
-                            },
-                          },
-                        }}
-                      >
-                        <Chip
-                          label={`${featName}${feat.power > 1 ? ` (${feat.power})` : ''}`}
-                          variant="outlined"
-                          size="small"
-                          clickable
-                          onClick={() => {
-                            // TODO: Navigate to feat detail page when implemented
-                            // Example: router.push(`/feats/${element.id}`)
-                            console.log(
-                              `Navigate to feat detail: ${element.id}`
-                            );
-                          }}
-                          sx={{
-                            cursor: 'pointer',
-                            '&:hover': {
-                              backgroundColor: 'primary.light',
-                              borderColor: 'primary.main',
-                              '& .MuiChip-label': {
-                                color: 'primary.dark',
-                              },
-                            },
-                          }}
-                        />
-                      </Tooltip>
-                    );
-                  })}
+                  {renderElementChips(feats)}
                 </Box>
               </Box>
             )}
@@ -428,6 +431,17 @@ export default function CharaDetailClient({
                       </Box>
                     );
                   })}
+                </Box>
+              </Box>
+            )}
+
+            {others.length > 0 && (
+              <Box>
+                <Typography variant="h6" color="text.secondary" gutterBottom>
+                  その他の属性
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {renderElementChips(others)}
                 </Box>
               </Box>
             )}
