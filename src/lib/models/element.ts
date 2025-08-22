@@ -109,6 +109,17 @@ function getElementsIdMap(): Map<string, Element> {
   return _elementsIdMap;
 }
 
+const oppositeElementTable: Record<string, string> = {
+  eleFire: 'eleCold',
+  eleLightning: 'eleDarkness',
+  eleNether: 'eleHoly',
+  eleEther: 'eleImpact',
+  eleMagic: 'eleVoid',
+};
+for (const [key, value] of Object.entries(oppositeElementTable)) {
+  oppositeElementTable[value] = key;
+}
+
 export function elementByAlias(alias: string): Element | undefined {
   return getElementsMap().get(alias);
 }
@@ -205,20 +216,54 @@ export class Element {
   subElements() {
     const modifiers =
       featModifierJson[this.row.id as keyof typeof featModifierJson];
-    if (!modifiers) {
-      return [];
+    const result = [];
+
+    if (modifiers) {
+      result.push(
+        ...Object.entries(modifiers).map(([childId, coefficient]) => {
+          const childElement = elementById(childId);
+          if (!childElement) {
+            throw new Error(`Child element not found: ${childId}`);
+          }
+
+          return {
+            element: childElement,
+            coefficient,
+          };
+        })
+      );
     }
 
-    return Object.entries(modifiers).map(([childId, coefficient]) => {
-      const childElement = elementById(childId);
-      if (!childElement) {
-        throw new Error(`Child element not found: ${childId}`);
+    // If this element's alias starts with 'ele', add aliasRef element and its opposite
+    if (this.row.alias.startsWith('ele')) {
+      if (this.row.aliasRef) {
+        const refElement = elementByAlias(this.row.aliasRef);
+        if (refElement) {
+          result.push({
+            element: refElement,
+            coefficient: 20,
+          });
+        }
       }
 
-      return {
-        element: childElement,
-        coefficient,
-      };
-    });
+      // Add opposite element
+      const oppositeAlias = oppositeElementTable[this.row.alias];
+      if (oppositeAlias) {
+        const oppositeElement = elementByAlias(oppositeAlias);
+        if (oppositeElement && oppositeElement.row.aliasRef) {
+          const oppositeRefElement = elementByAlias(
+            oppositeElement.row.aliasRef
+          );
+          if (oppositeRefElement) {
+            result.push({
+              element: oppositeRefElement,
+              coefficient: -10,
+            });
+          }
+        }
+      }
+    }
+
+    return result;
   }
 }

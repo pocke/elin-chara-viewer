@@ -61,7 +61,8 @@ export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
   private raceObj: Race;
-  private variantElement: Element | null;
+  private mainElement: Element | null = null;
+  private isVariant: boolean = false;
 
   constructor(
     private row: CharaRow,
@@ -76,14 +77,22 @@ export class Chara {
       const element = elementByAlias(variantElementAlias);
       if (!element)
         throw new Error(`Element not found: ${variantElementAlias}`);
-      this.variantElement = element;
+      this.mainElement = element;
+      this.isVariant = true;
     } else {
-      this.variantElement = null;
+      // Parse mainElement from row.mainElement column
+      if (this.row.mainElement) {
+        const mainElementAlias = this.row.mainElement.split('/')[0];
+        if (mainElementAlias) {
+          const element = elementByAlias('ele' + mainElementAlias);
+          this.mainElement = element || null;
+        }
+      }
     }
   }
 
   get id() {
-    return [this.row.id, this.variantElement?.alias]
+    return [this.row.id, this.isVariant ? this.mainElement?.alias : null]
       .filter((x) => x)
       .join('---');
   }
@@ -109,37 +118,40 @@ export class Chara {
       return '*r';
     }
 
-    if (name.includes('#ele') && this.variantElement) {
+    if (name.includes('#ele') && this.mainElement) {
       name = name
         .replace(/#ele(\d)/, (_, n) =>
-          this.variantElement!.altName(parseInt(n, 10), locale)
+          this.mainElement!.altName(parseInt(n, 10), locale)
         )
-        .replace('#ele', () => this.variantElement!.altName(-1, locale));
+        .replace('#ele', () => this.mainElement!.altName(-1, locale));
     }
     return name;
   }
 
   elements() {
     return [
-      ...new Elementable(this.row).elements(),
+      ...new Elementable(this.row, this.mainElement).elements(),
       ...this.raceObj.elements(),
     ];
   }
 
   feats() {
-    return [...new Elementable(this.row).feats(), ...this.raceObj.feats()];
+    return [
+      ...new Elementable(this.row, this.mainElement).feats(),
+      ...this.raceObj.feats(),
+    ];
   }
 
   negations() {
     return [
-      ...new Elementable(this.row).negations(),
+      ...new Elementable(this.row, this.mainElement).negations(),
       ...this.raceObj.negations(),
     ];
   }
 
   others() {
     return [
-      ...new Elementable(this.row).others(),
+      ...new Elementable(this.row, this.mainElement).others(),
       ...this.raceObj.others(),
     ];
   }
@@ -165,7 +177,7 @@ export class Chara {
 
         if (elementPart === '') {
           // If nothing after underscore, use variant element
-          element = this.variantElement?.alias ?? null;
+          element = this.mainElement?.alias ?? null;
         } else {
           element = 'ele' + elementPart;
         }
@@ -200,8 +212,8 @@ export class Chara {
 
   level() {
     const lv = this.row.LV ?? 1;
-    if (this.variantElement) {
-      return (lv * this.variantElement.elementPower) / 100;
+    if (this.mainElement) {
+      return (lv * this.mainElement.elementPower) / 100;
     }
     return lv;
   }
@@ -247,7 +259,7 @@ export class Chara {
   }
 
   variants() {
-    if (this.variantElement) {
+    if (this.isVariant) {
       return [];
     }
     if (!this.row.name?.match(/#ele/)) {
