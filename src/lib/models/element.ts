@@ -117,6 +117,33 @@ export function elementById(id: string): Element | undefined {
   return getElementsIdMap().get(id);
 }
 
+export function resistanceElements(): Element[] {
+  const resistanceAliases = [
+    'resFire',
+    'resCold',
+    'resLightning',
+    'resDarkness',
+    'resMind',
+    'resPoison',
+    'resNether',
+    'resSound',
+    'resNerve',
+    'resChaos',
+    'resHoly',
+    'resMagic',
+    'resEther',
+    'resAcid',
+    'resCut',
+    'resImpact',
+  ];
+
+  return resistanceAliases.map((alias) => {
+    const element = elementByAlias(alias);
+    if (!element) throw new Error(`Element not found: ${alias}`);
+    return element;
+  });
+}
+
 export class Element {
   constructor(private row: ElementRow) {}
 
