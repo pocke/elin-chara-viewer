@@ -181,10 +181,6 @@ export default function VirtualizedCharaTable({
   // Row renderer for virtualization
   const rowContent = (_index: number, chara: Chara) => {
     const [actualGeneSlot, originalGeneSlot] = chara.geneSlot();
-    const resistances = chara.resistances();
-    const resistanceMap = new Map(
-      resistances.map((r) => [r.element.alias, r.power])
-    );
     const bodyParts = chara.bodyParts();
     const totalParts = chara.totalBodyParts();
 
@@ -246,13 +242,13 @@ export default function VirtualizedCharaTable({
         {/* Resistances - conditionally shown */}
         {showResistances &&
           resistanceElementsList.map((resElement) => {
-            const resValue = resistanceMap.get(resElement.alias) || 0;
+            const resValue = chara.getElementPower(resElement.alias) || 0;
             const displayValue =
               resValue > 0
                 ? `+${resValue}${resValue >= 200 ? ' (免疫)' : ''}`
                 : resValue < 0
                   ? `${resValue}`
-                  : '';
+                  : '0';
             return (
               <TableCell key={resElement.alias} sx={{ width: 80 }}>
                 {displayValue}

@@ -351,14 +351,6 @@ export class Chara {
     );
   }
 
-  resistances() {
-    return this.memoize('resistances', () =>
-      this.elements().filter((elementWithPower) =>
-        elementWithPower.element.alias.startsWith('res')
-      )
-    );
-  }
-
   bodyParts() {
     return this.memoize('bodyParts', () => this.race.figures());
   }
