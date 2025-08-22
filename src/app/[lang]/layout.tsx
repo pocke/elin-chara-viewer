@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
+import '../globals.css';
+import ClientLayout from './ClientLayout';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -17,15 +18,25 @@ export const metadata: Metadata = {
   description: 'Browse and manage character information for Elin',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+export async function generateStaticParams() {
+  return [{ lang: 'ja' }, { lang: 'en' }];
+}
+
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+  params: Promise<{ lang: string }>;
+}
+
+export default async function RootLayout({
+  children,
+  params,
+}: RootLayoutProps) {
+  const { lang } = await params;
+
   return (
-    <html lang="ja">
+    <html lang={lang}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <ClientLayout lang={lang}>{children}</ClientLayout>
       </body>
     </html>
   );
