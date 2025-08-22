@@ -23,7 +23,7 @@ export class Elementable {
       const subElements = elementWithPower.element.subElements();
       const subElementsWithPower = subElements.map((sub) => ({
         element: sub.element,
-        power: elementWithPower.power * sub.coefficient,
+        power: Math.floor(elementWithPower.power * sub.coefficient),
       }));
       allElements.push(...subElementsWithPower);
     }
