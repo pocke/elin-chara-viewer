@@ -109,6 +109,7 @@ function getElementsIdMap(): Map<string, Element> {
   return _elementsIdMap;
 }
 
+// https://github.com/Elin-Modding-Resources/Elin-Decompiled/blob/72332a1390e68a8de62bca4acbd6ebbaab92257b/Elin/Chara.cs#L2041-L2086
 const oppositeElementTable: Record<string, string> = {
   eleFire: 'eleCold',
   eleLightning: 'eleDarkness',

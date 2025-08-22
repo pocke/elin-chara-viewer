@@ -212,7 +212,7 @@ export class Chara {
 
   level() {
     const lv = this.row.LV ?? 1;
-    if (this.mainElement) {
+    if (this.mainElement && this.isVariant) {
       return (lv * this.mainElement.elementPower) / 100;
     }
     return lv;
