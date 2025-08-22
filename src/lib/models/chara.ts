@@ -61,7 +61,8 @@ export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
   private raceObj: Race;
-  private mainElement: Element | null;
+  private mainElement: Element | null = null;
+  private isVariant: boolean = false;
 
   constructor(
     private row: CharaRow,
@@ -77,13 +78,23 @@ export class Chara {
       if (!element)
         throw new Error(`Element not found: ${variantElementAlias}`);
       this.mainElement = element;
+      this.isVariant = true;
     } else {
-      this.mainElement = null;
+      // Parse mainElement from row.mainElement column
+      if (this.row.mainElement) {
+        const mainElementAlias = this.row.mainElement.split('/')[0];
+        if (mainElementAlias) {
+          const element = elementByAlias('ele' + mainElementAlias);
+          this.mainElement = element || null;
+        }
+      }
     }
   }
 
   get id() {
-    return [this.row.id, this.mainElement?.alias].filter((x) => x).join('---');
+    return [this.row.id, this.isVariant ? this.mainElement?.alias : null]
+      .filter((x) => x)
+      .join('---');
   }
 
   get defaultSortKey() {
@@ -119,24 +130,30 @@ export class Chara {
 
   elements() {
     return [
-      ...new Elementable(this.row).elements(),
+      ...new Elementable(this.row, this.mainElement).elements(),
       ...this.raceObj.elements(),
     ];
   }
 
   feats() {
-    return [...new Elementable(this.row).feats(), ...this.raceObj.feats()];
+    return [
+      ...new Elementable(this.row, this.mainElement).feats(),
+      ...this.raceObj.feats(),
+    ];
   }
 
   negations() {
     return [
-      ...new Elementable(this.row).negations(),
+      ...new Elementable(this.row, this.mainElement).negations(),
       ...this.raceObj.negations(),
     ];
   }
 
   others() {
-    return [...new Elementable(this.row).others(), ...this.raceObj.others()];
+    return [
+      ...new Elementable(this.row, this.mainElement).others(),
+      ...this.raceObj.others(),
+    ];
   }
 
   abilities() {
@@ -242,7 +259,7 @@ export class Chara {
   }
 
   variants() {
-    if (this.mainElement) {
+    if (this.isVariant) {
       return [];
     }
     if (!this.row.name?.match(/#ele/)) {
