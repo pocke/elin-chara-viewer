@@ -39,9 +39,9 @@ export default async function CharaPage(props: {
 
   const chara = new Chara(charaRow, variantElement as ElementAttacks | null);
 
-  const raceRow = racesRows.find((r) => r.id === chara.race());
+  const raceRow = racesRows.find((r) => r.id === chara.raceId());
   if (!raceRow) {
-    throw new Error(`Race with ID ${chara.race()} not found`);
+    throw new Error(`Race with ID ${chara.raceId()} not found`);
   }
 
   return (

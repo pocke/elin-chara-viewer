@@ -22,7 +22,7 @@ import {
   resistanceElements,
   Element,
 } from '@/lib/models/element';
-import { Race, type RaceRow } from '@/lib/models/race';
+import { type RaceRow } from '@/lib/models/race';
 import ResistanceBarChart from '@/components/ResistanceBarChart';
 
 interface CharaDetailClientProps {
@@ -33,17 +33,15 @@ interface CharaDetailClientProps {
 
 export default function CharaDetailClient({
   charaRow,
-  race,
   variantElement,
 }: CharaDetailClientProps) {
   const chara = new Chara(charaRow, variantElement);
-  const raceObj = new Race(race);
   const { t, i18n } = useTranslation('common');
 
   const feats = chara.feats();
   const negations = chara.negations();
   const others = chara.others();
-  const figures = raceObj.figures();
+  const figures = chara.race.figures();
   const bodyPartsOrder = [
     'hand',
     'head',
@@ -55,7 +53,7 @@ export default function CharaDetailClient({
     'neck',
     'finger',
   ];
-  const totalBodyParts = raceObj.totalBodyParts();
+  const totalBodyParts = chara.race.totalBodyParts();
   const abilities = chara.abilities();
   const [actualGeneSlot, origGeneSlot] = chara.geneSlot();
 
@@ -221,11 +219,6 @@ export default function CharaDetailClient({
                   />
                 )}
               </Box>
-              <Chip
-                label={`${t('id')}: ${chara.id}`}
-                variant="outlined"
-                color="primary"
-              />
             </Box>
           </Box>
 
@@ -234,17 +227,10 @@ export default function CharaDetailClient({
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t('characterId')}
-              </Typography>
-              <Typography variant="body1">{chara.id}</Typography>
-            </Box>
-
-            <Box>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('race')}
               </Typography>
               <Typography variant="body1">
-                {raceObj.name(i18n.language)}
+                {chara.race.name(i18n.language)}
               </Typography>
             </Box>
 

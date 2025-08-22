@@ -60,9 +60,19 @@ export const CharaSchema = z.object({
 export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
-  private raceObj: Race;
+  public race: Race;
   public mainElement: Element | null = null;
   private isVariant: boolean = false;
+
+  // Memoization cache for expensive computations
+  private _memoCache = new Map<string, unknown>();
+
+  private memoize<T>(key: string, factory: () => T): T {
+    if (!this._memoCache.has(key)) {
+      this._memoCache.set(key, factory());
+    }
+    return this._memoCache.get(key) as T;
+  }
 
   constructor(
     private row: CharaRow,
@@ -71,7 +81,7 @@ export class Chara {
     const raceId = this.row.race ?? 'norland';
     const race = raceById(raceId);
     if (!race) throw new Error(`Race not found: ${raceId}`);
-    this.raceObj = race;
+    this.race = race;
 
     if (variantElementAlias) {
       const element = elementByAlias(variantElementAlias);
@@ -102,180 +112,208 @@ export class Chara {
   }
 
   normalizedName(locale: string) {
-    let name: string;
-    switch (locale) {
-      case 'ja':
-        name = this.normalizedNameJa();
-        break;
-      case 'en':
-        name = this.normalizedNameEn();
-        break;
-      default:
-        throw new Error(`Unsupported locale: ${locale}`);
-    }
-
-    if (name === '') {
-      return '*r';
-    }
-
-    if (name.includes('#ele') && this.mainElement) {
-      name = name
-        .replace(/#ele(\d)/, (_, n) =>
-          this.mainElement!.altName(parseInt(n, 10), locale)
-        )
-        .replace('#ele', () => this.mainElement!.altName(-1, locale));
-    }
-    return name;
-  }
-
-  elements() {
-    return [
-      ...new Elementable(this.row, this.mainElement).elements(),
-      ...this.raceObj.elements(),
-    ];
-  }
-
-  feats() {
-    return [
-      ...new Elementable(this.row, this.mainElement).feats(),
-      ...this.raceObj.feats(),
-    ];
-  }
-
-  negations() {
-    return [
-      ...new Elementable(this.row, this.mainElement).negations(),
-      ...this.raceObj.negations(),
-    ];
-  }
-
-  others() {
-    return [
-      ...new Elementable(this.row, this.mainElement).others(),
-      ...this.raceObj.others(),
-    ];
-  }
-
-  abilities() {
-    const actCombat = this.row.actCombat;
-    if (!actCombat) return [];
-
-    return actCombat.split(',').map((ability) => {
-      const parts = ability.trim().split('/');
-      const rawName = parts[0];
-      const chance = parts[1] ? parseInt(parts[1], 10) : 100;
-      const party = !!parts[2];
-
-      // Parse name and element from rawName
+    return this.memoize(`normalizedName:${locale}`, () => {
       let name: string;
-      let element: string | null;
-
-      if (rawName.includes('_')) {
-        const underscoreIndex = rawName.lastIndexOf('_');
-        name = rawName.substring(0, underscoreIndex + 1);
-        const elementPart = rawName.substring(underscoreIndex + 1);
-
-        if (elementPart === '') {
-          // If nothing after underscore, use variant element
-          element = this.mainElement?.alias ?? null;
-        } else {
-          element = 'ele' + elementPart;
-        }
-      } else {
-        name = rawName;
-        element = null;
+      switch (locale) {
+        case 'ja':
+          name = this.normalizedNameJa();
+          break;
+        case 'en':
+          name = this.normalizedNameEn();
+          break;
+        default:
+          throw new Error(`Unsupported locale: ${locale}`);
       }
 
-      return { name, chance, party, element };
+      if (name === '') {
+        return '*r';
+      }
+
+      if (name.includes('#ele') && this.mainElement) {
+        name = name
+          .replace(/#ele(\d)/, (_, n) =>
+            this.mainElement!.altName(parseInt(n, 10), locale)
+          )
+          .replace('#ele', () => this.mainElement!.altName(-1, locale));
+      }
+      return name;
     });
   }
 
-  race() {
+  elements() {
+    return this.memoize('elements', () => [
+      ...new Elementable(this.row, this.mainElement).elements(),
+      ...this.race.elements(),
+    ]);
+  }
+
+  feats() {
+    return this.memoize('feats', () => [
+      ...new Elementable(this.row, this.mainElement).feats(),
+      ...this.race.feats(),
+    ]);
+  }
+
+  negations() {
+    return this.memoize('negations', () => [
+      ...new Elementable(this.row, this.mainElement).negations(),
+      ...this.race.negations(),
+    ]);
+  }
+
+  others() {
+    return this.memoize('others', () => [
+      ...new Elementable(this.row, this.mainElement).others(),
+      ...this.race.others(),
+    ]);
+  }
+
+  abilities() {
+    return this.memoize('abilities', () => {
+      const actCombat = this.row.actCombat;
+      if (!actCombat) return [];
+
+      return actCombat.split(',').map((ability) => {
+        const parts = ability.trim().split('/');
+        const rawName = parts[0];
+        const chance = parts[1] ? parseInt(parts[1], 10) : 100;
+        const party = !!parts[2];
+
+        // Parse name and element from rawName
+        let name: string;
+        let element: string | null;
+
+        if (rawName.includes('_')) {
+          const underscoreIndex = rawName.lastIndexOf('_');
+          name = rawName.substring(0, underscoreIndex + 1);
+          const elementPart = rawName.substring(underscoreIndex + 1);
+
+          if (elementPart === '') {
+            // If nothing after underscore, use variant element
+            element = this.mainElement?.alias ?? null;
+          } else {
+            element = 'ele' + elementPart;
+          }
+        } else {
+          name = rawName;
+          element = null;
+        }
+
+        return { name, chance, party, element };
+      });
+    });
+  }
+
+  raceId() {
     return this.row.race ?? 'norland';
   }
 
   life() {
-    return this.raceObj.life + this.getElementPower('life');
+    return this.memoize(
+      'life',
+      () => this.race.life + this.getElementPower('life')
+    );
   }
 
   mana() {
-    return this.raceObj.mana + this.getElementPower('mana');
+    return this.memoize(
+      'mana',
+      () => this.race.mana + this.getElementPower('mana')
+    );
   }
 
   speed() {
-    return this.raceObj.speed + this.getElementPower('SPD');
+    return this.memoize(
+      'speed',
+      () => this.race.speed + this.getElementPower('SPD')
+    );
   }
 
   vigor() {
-    return this.raceObj.vigor + this.getElementPower('vigor');
+    return this.memoize(
+      'vigor',
+      () => this.race.vigor + this.getElementPower('vigor')
+    );
   }
 
   level() {
-    const lv = this.row.LV ?? 1;
-    if (this.mainElement && this.isVariant) {
-      return (lv * this.mainElement.elementPower) / 100;
-    }
-    return lv;
+    return this.memoize('level', () => {
+      const lv = this.row.LV ?? 1;
+      if (this.mainElement && this.isVariant) {
+        return (lv * this.mainElement.elementPower) / 100;
+      }
+      return lv;
+    });
   }
 
   geneSlot() {
-    const orig = this.raceObj.geneSlot;
-    let actual = orig;
-    const feats = this.feats();
+    return this.memoize('geneSlot', () => {
+      const orig = this.race.geneSlot;
+      let actual = orig;
+      const feats = this.feats();
 
-    const ftRoran = feats.find((feat) => feat.element.alias === 'featRoran');
-    if (ftRoran) {
-      actual -= 2 * ftRoran.power;
-    }
+      const ftRoran = feats.find((feat) => feat.element.alias === 'featRoran');
+      if (ftRoran) {
+        actual -= 2 * ftRoran.power;
+      }
 
-    const ftGeneSlot = feats.find(
-      (feat) => feat.element.alias === 'featGeneSlot'
-    );
-    if (ftGeneSlot) {
-      actual += ftGeneSlot.power;
-    }
+      const ftGeneSlot = feats.find(
+        (feat) => feat.element.alias === 'featGeneSlot'
+      );
+      if (ftGeneSlot) {
+        actual += ftGeneSlot.power;
+      }
 
-    return [actual, orig];
+      return [actual, orig];
+    });
   }
 
   dv() {
-    return this.raceObj.dv + this.getElementPower('DV');
+    return this.memoize('dv', () => this.race.dv + this.getElementPower('DV'));
   }
 
   pv() {
-    return this.raceObj.pv + this.getElementPower('PV');
+    return this.memoize('pv', () => this.race.pv + this.getElementPower('PV'));
   }
 
   pdr() {
-    return this.raceObj.pdr + this.getElementPower('PDR');
+    return this.memoize(
+      'pdr',
+      () => this.race.pdr + this.getElementPower('PDR')
+    );
   }
 
   edr() {
-    return this.raceObj.edr + this.getElementPower('EDR');
+    return this.memoize(
+      'edr',
+      () => this.race.edr + this.getElementPower('EDR')
+    );
   }
 
   ep() {
-    return this.raceObj.ep + this.getElementPower('EP');
+    return this.memoize('ep', () => this.race.ep + this.getElementPower('EP'));
   }
 
   variants() {
-    if (this.isVariant) {
-      return [];
-    }
-    if (!this.row.name?.match(/#ele/)) {
-      return [];
-    }
+    return this.memoize('variants', () => {
+      if (this.isVariant) {
+        return [];
+      }
+      if (!this.row.name?.match(/#ele/)) {
+        return [];
+      }
 
-    const elms = this.row.mainElement?.split(',') ?? [];
-    return elms.map((elm, index) => {
-      const variantRow = {
-        ...this.row,
-        __meta: {
-          ...this.row.__meta,
-          defaultSortKey: this.row.__meta.defaultSortKey + (index + 1) * 0.01,
-        },
-      };
-      return new Chara(variantRow, ('ele' + elm) as ElementAttacks);
+      const elms = this.row.mainElement?.split(',') ?? [];
+      return elms.map((elm, index) => {
+        const variantRow = {
+          ...this.row,
+          __meta: {
+            ...this.row.__meta,
+            defaultSortKey: this.row.__meta.defaultSortKey + (index + 1) * 0.01,
+          },
+        };
+        return new Chara(variantRow, ('ele' + elm) as ElementAttacks);
+      });
     });
   }
 
@@ -306,9 +344,19 @@ export class Chara {
   }
 
   getElementPower(alias: string): number {
-    return this.elements()
-      .filter((elementWithPower) => elementWithPower.element.alias === alias)
-      .reduce((sum, elementWithPower) => sum + elementWithPower.power, 0);
+    return this.memoize(`getElementPower:${alias}`, () =>
+      this.elements()
+        .filter((elementWithPower) => elementWithPower.element.alias === alias)
+        .reduce((sum, elementWithPower) => sum + elementWithPower.power, 0)
+    );
+  }
+
+  bodyParts() {
+    return this.memoize('bodyParts', () => this.race.figures());
+  }
+
+  totalBodyParts() {
+    return this.memoize('totalBodyParts', () => this.race.totalBodyParts());
   }
 }
 
