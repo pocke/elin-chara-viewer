@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { TableVirtuoso } from 'react-virtuoso';
 import { Chara } from '@/lib/models/chara';
 import { resistanceElements } from '@/lib/models/element';
+import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
 
 type SortOrder = 'asc' | 'desc';
 type SortBy =
@@ -243,12 +244,7 @@ export default function VirtualizedCharaTable({
         {showResistances &&
           resistanceElementsList.map((resElement) => {
             const resValue = chara.getElementPower(resElement.alias) || 0;
-            const displayValue =
-              resValue > 0
-                ? `+${resValue}${resValue >= 200 ? ' (免疫)' : ''}`
-                : resValue < 0
-                  ? `${resValue}`
-                  : '0';
+            const displayValue = getResistanceDisplayValueCompact(resValue);
             return (
               <TableCell key={resElement.alias} sx={{ width: 80 }}>
                 {displayValue}

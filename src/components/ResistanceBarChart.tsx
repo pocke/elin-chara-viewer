@@ -30,6 +30,7 @@ import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element } from '@/lib/models/element';
+import { getResistanceLabel } from '@/lib/resistanceUtils';
 
 interface ResistanceData {
   value: number;
@@ -40,20 +41,6 @@ interface ResistanceBarChartProps {
   resistances: ResistanceData[];
   locale: string;
 }
-
-const getResistanceLabel = (
-  value: number,
-  t: (key: string) => string
-): string => {
-  if (value <= -10) return t('common:resistanceDefect');
-  if (value <= -5) return t('common:resistanceWeakness');
-  if (value === 0) return t('common:resistanceNone');
-  if (value >= 20) return t('common:resistanceImmunity');
-  if (value >= 15) return t('common:resistanceSuperb');
-  if (value >= 10) return t('common:resistanceStrong');
-  if (value >= 5) return t('common:resistanceNormal');
-  return t('common:resistanceNone');
-};
 
 export default function ResistanceBarChart({
   resistances,
