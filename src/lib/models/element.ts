@@ -190,6 +190,18 @@ export class Element {
     }
   }
 
+  detail(locale: string) {
+    return locale === 'ja' ? this.row.detail_JP : this.row.detail;
+  }
+
+  textPhase(locale: string) {
+    return locale === 'ja' ? this.row.textPhase_JP : this.row.textPhase;
+  }
+
+  textExtra(locale: string) {
+    return locale === 'ja' ? this.row.textExtra_JP : this.row.textExtra;
+  }
+
   subElements() {
     const modifiers =
       featModifierJson[this.row.id as keyof typeof featModifierJson];
