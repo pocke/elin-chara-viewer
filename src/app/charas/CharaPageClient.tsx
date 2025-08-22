@@ -33,6 +33,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
     [charaRows]
   );
   const { t, i18n } = useTranslation('common');
+  const [isClient, setIsClient] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
@@ -41,6 +42,11 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
   const [selectedAbilities, setSelectedAbilities] = useState<string[]>([]);
   const [featSearch, setFeatSearch] = useState('');
   const [abilitySearch, setAbilitySearch] = useState('');
+
+  // Ensure client-side rendering for i18n consistency
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Debounce search query
   useEffect(() => {
@@ -71,6 +77,15 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
 
   // Get unique body parts, feats, and abilities from all characters
   const availableOptions = useMemo(() => {
+    // Return empty options during server-side rendering to avoid hydration mismatch
+    if (!isClient) {
+      return {
+        bodyParts: [],
+        feats: [],
+        abilities: [],
+      };
+    }
+
     const bodyPartsSet = new Set<string>();
     const featsMap = new Map<string, string>();
     const abilitiesMap = new Map<string, string>();
@@ -112,7 +127,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
         a[1].localeCompare(b[1])
       ),
     };
-  }, [allCharas, i18n.language]);
+  }, [allCharas, i18n.language, isClient]);
 
   // Filter characters based on search and filters (optimized)
   const filteredCharas = useMemo(() => {
@@ -130,28 +145,28 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
       // Body parts filter
       if (selectedBodyParts.length > 0) {
         const charaParts = chara.bodyParts();
-        const hasSelectedPart = selectedBodyParts.some(
+        const hasAllSelectedParts = selectedBodyParts.every(
           (part) => charaParts[part as keyof typeof charaParts] > 0
         );
-        if (!hasSelectedPart) return false;
+        if (!hasAllSelectedParts) return false;
       }
 
       // Feats filter
       if (selectedFeats.length > 0) {
         const charaFeats = chara.feats().map((feat) => feat.element.alias);
-        const hasSelectedFeat = selectedFeats.some((feat) =>
+        const hasAllSelectedFeats = selectedFeats.every((feat) =>
           charaFeats.includes(feat)
         );
-        if (!hasSelectedFeat) return false;
+        if (!hasAllSelectedFeats) return false;
       }
 
       // Abilities filter
       if (selectedAbilities.length > 0) {
         const charaAbilities = chara.abilities().map((ability) => ability.name);
-        const hasSelectedAbility = selectedAbilities.some((ability) =>
+        const hasAllSelectedAbilities = selectedAbilities.every((ability) =>
           charaAbilities.includes(ability)
         );
-        if (!hasSelectedAbility) return false;
+        if (!hasAllSelectedAbilities) return false;
       }
 
       return true;
