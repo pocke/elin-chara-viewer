@@ -274,14 +274,10 @@ export default function CharaDetailClient({
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {feats.map((feat, index) => {
-                    const element = elementByAlias(feat.alias);
-                    const featName = element
-                      ? element.name(i18n.language)
-                      : feat.alias;
+                    const element = feat.element;
+                    const featName = element.name(i18n.language);
 
-                    const subElements = element
-                      ? element.subElements(feat.power)
-                      : [];
+                    const subElements = element.subElements(feat.power);
 
                     return (
                       <Box

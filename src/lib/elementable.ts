@@ -10,30 +10,28 @@ export class Elementable {
     const mainElements = eles.split(',').map((t) => {
       const [alias, power] = t.split('/');
       const powerInt = power ? parseInt(power, 10) : 1;
-      return { alias, power: powerInt };
+      const element = elementByAlias(alias);
+      if (!element) {
+        throw new Error(`Element not found: ${alias}`);
+      }
+      return { element, power: powerInt };
     });
 
     const allElements = [...mainElements];
 
-    for (const element of mainElements) {
-      const elementInstance = elementByAlias(element.alias);
-      if (elementInstance) {
-        const subElements = elementInstance.subElements(element.power);
-        allElements.push(
-          ...subElements.map((sub) => ({
-            alias: sub.element.alias,
-            power: sub.power,
-          }))
-        );
-      }
+    for (const elementWithPower of mainElements) {
+      const subElements = elementWithPower.element.subElements(
+        elementWithPower.power
+      );
+      allElements.push(...subElements);
     }
 
     return allElements;
   }
 
   feats() {
-    return this.elements().filter((element) =>
-      element.alias.startsWith('feat')
+    return this.elements().filter((elementWithPower) =>
+      elementWithPower.element.alias.startsWith('feat')
     );
   }
 }

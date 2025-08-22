@@ -197,12 +197,14 @@ export class Chara {
     let actual = orig;
     const feats = this.feats();
 
-    const ftRoran = feats.find((feat) => feat.alias === 'featRoran');
+    const ftRoran = feats.find((feat) => feat.element.alias === 'featRoran');
     if (ftRoran) {
       actual -= 2 * ftRoran.power;
     }
 
-    const ftGeneSlot = feats.find((feat) => feat.alias === 'featGeneSlot');
+    const ftGeneSlot = feats.find(
+      (feat) => feat.element.alias === 'featGeneSlot'
+    );
     if (ftGeneSlot) {
       actual += ftGeneSlot.power;
     }
@@ -279,8 +281,8 @@ export class Chara {
 
   private getElementModifier(alias: string): number {
     return this.elements()
-      .filter((element) => element.alias === alias)
-      .reduce((sum, element) => sum + element.power, 0);
+      .filter((elementWithPower) => elementWithPower.element.alias === alias)
+      .reduce((sum, elementWithPower) => sum + elementWithPower.power, 0);
   }
 
   getResistances() {
