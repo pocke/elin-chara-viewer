@@ -21,14 +21,17 @@ import { useTranslation } from 'react-i18next';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { type CharaRow, Chara } from '@/lib/models/chara';
 import { elementByAlias } from '@/lib/models/element';
-import CharaTable from './CharaTable';
+import VirtualizedCharaTable from './VirtualizedCharaTable';
 
 interface CharaPageClientProps {
   charaRows: CharaRow[];
 }
 
 export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
-  const charas = charaRows.map((row) => new Chara(row));
+  const charas = useMemo(
+    () => charaRows.map((row) => new Chara(row)),
+    [charaRows]
+  );
   const { t, i18n } = useTranslation('common');
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -204,10 +207,12 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
             placeholder={t('searchCharacters')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <SearchIcon sx={{ mr: 1, color: 'action.active' }} />
-              ),
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <SearchIcon sx={{ mr: 1, color: 'action.active' }} />
+                ),
+              },
             }}
             sx={{ mb: 2 }}
           />
@@ -320,7 +325,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
           </Accordion>
         </Paper>
 
-        <CharaTable charas={filteredCharas} />
+        <VirtualizedCharaTable charas={filteredCharas} />
       </Box>
     </Container>
   );

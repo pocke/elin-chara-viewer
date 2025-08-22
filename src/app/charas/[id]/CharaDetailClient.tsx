@@ -33,7 +33,6 @@ interface CharaDetailClientProps {
 
 export default function CharaDetailClient({
   charaRow,
-  race,
   variantElement,
 }: CharaDetailClientProps) {
   const chara = new Chara(charaRow, variantElement);
