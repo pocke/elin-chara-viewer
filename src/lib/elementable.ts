@@ -1,11 +1,7 @@
-import { Element } from './models/element';
+import { elementsMap } from './models/element';
 
 export class Elementable {
-  constructor(
-    private row: { elements?: string },
-    private elementsMap: Map<string, Element>,
-    private elementsIdMap: Map<string, Element>
-  ) {}
+  constructor(private row: { elements?: string }) {}
 
   elements() {
     const eles = this.row.elements;
@@ -20,12 +16,9 @@ export class Elementable {
     const allElements = [...mainElements];
 
     for (const element of mainElements) {
-      const elementInstance = this.elementsMap.get(element.alias);
+      const elementInstance = elementsMap().get(element.alias);
       if (elementInstance) {
-        const subElements = elementInstance.subElements(
-          element.power,
-          this.elementsIdMap
-        );
+        const subElements = elementInstance.subElements(element.power);
         allElements.push(
           ...subElements.map((sub) => ({
             alias: sub.element.alias,

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
-import { Element, ElementAttacks } from './element';
-import { Race } from './race';
+import { Element, ElementAttacks, elementsMap } from './element';
+import { Race, racesMap } from './race';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -61,26 +61,19 @@ export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
   private raceObj: Race;
-  private elementsMap: Map<string, Element>;
-  private elementsIdMap: Map<string, Element>;
   private variantElement: Element | null;
 
   constructor(
     private row: CharaRow,
-    racesMap: Map<string, Race>,
-    elementsMap: Map<string, Element>,
-    elementsIdMap: Map<string, Element>,
     variantElementAlias: ElementAttacks | null = null
   ) {
     const raceId = this.row.race ?? 'norland';
-    const race = racesMap.get(raceId);
+    const race = racesMap().get(raceId);
     if (!race) throw new Error(`Race not found: ${raceId}`);
     this.raceObj = race;
-    this.elementsMap = elementsMap;
-    this.elementsIdMap = elementsIdMap;
 
     if (variantElementAlias) {
-      const element = elementsMap.get(variantElementAlias);
+      const element = elementsMap().get(variantElementAlias);
       if (!element)
         throw new Error(`Element not found: ${variantElementAlias}`);
       this.variantElement = element;
@@ -128,24 +121,13 @@ export class Chara {
 
   elements() {
     return [
-      ...new Elementable(
-        this.row,
-        this.elementsMap,
-        this.elementsIdMap
-      ).elements(),
+      ...new Elementable(this.row).elements(),
       ...this.raceObj.elements(),
     ];
   }
 
   feats() {
-    return [
-      ...new Elementable(
-        this.row,
-        this.elementsMap,
-        this.elementsIdMap
-      ).feats(),
-      ...this.raceObj.feats(),
-    ];
+    return [...new Elementable(this.row).feats(), ...this.raceObj.feats()];
   }
 
   abilities() {
@@ -248,7 +230,7 @@ export class Chara {
     return this.raceObj.ep + this.getElementModifier('EP');
   }
 
-  variants(racesMap: Map<string, Race>) {
+  variants() {
     if (this.variantElement) {
       return [];
     }
@@ -265,13 +247,7 @@ export class Chara {
           defaultSortKey: this.row.__meta.defaultSortKey + (index + 1) * 0.01,
         },
       };
-      return new Chara(
-        variantRow,
-        racesMap,
-        this.elementsMap,
-        this.elementsIdMap,
-        ('ele' + elm) as ElementAttacks
-      );
+      return new Chara(variantRow, ('ele' + elm) as ElementAttacks);
     });
   }
 
@@ -328,7 +304,7 @@ export class Chara {
     ];
 
     return resistanceTypes.map((resistanceType) => {
-      const element = this.elementsMap.get(resistanceType);
+      const element = elementsMap().get(resistanceType);
       if (!element) throw new Error(`Element not found: ${resistanceType}`);
       return {
         value: this.getElementModifier(resistanceType),

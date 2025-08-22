@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import featModifierJson from '../../generated/featModifier.json';
+import { all } from '../db';
 
 export const ElementSchema = z.object({
   __meta: z.object({
@@ -85,6 +86,29 @@ export type ElementAttacks =
   | 'eleImpact'
   | 'eleVoid';
 
+let _elementsMap: Map<string, Element> | null = null;
+let _elementsIdMap: Map<string, Element> | null = null;
+
+export function elementsMap(): Map<string, Element> {
+  if (!_elementsMap) {
+    const elements = all('elements', ElementSchema);
+    _elementsMap = new Map(
+      elements.map((element) => [element.alias, new Element(element)])
+    );
+  }
+  return _elementsMap;
+}
+
+export function elementsIdMap(): Map<string, Element> {
+  if (!_elementsIdMap) {
+    const elements = all('elements', ElementSchema);
+    _elementsIdMap = new Map(
+      elements.map((element) => [element.id, new Element(element)])
+    );
+  }
+  return _elementsIdMap;
+}
+
 export class Element {
   constructor(private row: ElementRow) {}
 
@@ -131,15 +155,16 @@ export class Element {
     }
   }
 
-  subElements(power: number, elementsMap: Map<string, Element>) {
+  subElements(power: number) {
     const modifiers =
       featModifierJson[this.row.id as keyof typeof featModifierJson];
     if (!modifiers) {
       return [];
     }
 
+    const elementsById = elementsIdMap();
     return Object.entries(modifiers).map(([childId, coefficient]) => {
-      const childElement = elementsMap.get(childId);
+      const childElement = elementsById.get(childId);
       if (!childElement) {
         throw new Error(`Child element not found: ${childId}`);
       }
