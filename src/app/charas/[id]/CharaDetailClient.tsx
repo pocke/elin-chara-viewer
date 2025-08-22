@@ -15,7 +15,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/models/chara';
-import { ElementAttacks, elementsMap } from '@/lib/models/element';
+import { ElementAttacks, elementByAlias } from '@/lib/models/element';
 import { Race, type RaceRow } from '@/lib/models/race';
 
 interface CharaDetailClientProps {
@@ -274,7 +274,7 @@ export default function CharaDetailClient({
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {feats.map((feat, index) => {
-                    const element = elementsMap().get(feat.alias);
+                    const element = elementByAlias(feat.alias);
                     const featName = element
                       ? element.name(i18n.language)
                       : feat.alias;
@@ -332,9 +332,9 @@ export default function CharaDetailClient({
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {abilities.map((ability, index) => {
-                    const baseElement = elementsMap().get(ability.name);
+                    const baseElement = elementByAlias(ability.name);
                     const elementElement = ability.element
-                      ? (elementsMap().get(ability.element) ?? null)
+                      ? (elementByAlias(ability.element) ?? null)
                       : null;
 
                     let abilityName: string;

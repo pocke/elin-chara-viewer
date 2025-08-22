@@ -69,12 +69,16 @@ export type RaceRow = z.infer<typeof RaceSchema>;
 
 let _racesMap: Map<string, Race> | null = null;
 
-export function racesMap(): Map<string, Race> {
+function getRacesMap(): Map<string, Race> {
   if (!_racesMap) {
     const races = all('races', RaceSchema);
     _racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
   }
   return _racesMap;
+}
+
+export function raceById(id: string): Race | undefined {
+  return getRacesMap().get(id);
 }
 
 export class Race {

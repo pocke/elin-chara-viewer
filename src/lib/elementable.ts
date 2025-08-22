@@ -1,4 +1,4 @@
-import { elementsMap } from './models/element';
+import { elementByAlias } from './models/element';
 
 export class Elementable {
   constructor(private row: { elements?: string }) {}
@@ -16,7 +16,7 @@ export class Elementable {
     const allElements = [...mainElements];
 
     for (const element of mainElements) {
-      const elementInstance = elementsMap().get(element.alias);
+      const elementInstance = elementByAlias(element.alias);
       if (elementInstance) {
         const subElements = elementInstance.subElements(element.power);
         allElements.push(

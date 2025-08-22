@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
-import { Element, ElementAttacks, elementsMap } from './element';
-import { Race, racesMap } from './race';
+import { Element, ElementAttacks, elementByAlias } from './element';
+import { Race, raceById } from './race';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -68,12 +68,12 @@ export class Chara {
     variantElementAlias: ElementAttacks | null = null
   ) {
     const raceId = this.row.race ?? 'norland';
-    const race = racesMap().get(raceId);
+    const race = raceById(raceId);
     if (!race) throw new Error(`Race not found: ${raceId}`);
     this.raceObj = race;
 
     if (variantElementAlias) {
-      const element = elementsMap().get(variantElementAlias);
+      const element = elementByAlias(variantElementAlias);
       if (!element)
         throw new Error(`Element not found: ${variantElementAlias}`);
       this.variantElement = element;
@@ -304,7 +304,7 @@ export class Chara {
     ];
 
     return resistanceTypes.map((resistanceType) => {
-      const element = elementsMap().get(resistanceType);
+      const element = elementByAlias(resistanceType);
       if (!element) throw new Error(`Element not found: ${resistanceType}`);
       return {
         value: this.getElementModifier(resistanceType),

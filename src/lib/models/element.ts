@@ -89,7 +89,7 @@ export type ElementAttacks =
 let _elementsMap: Map<string, Element> | null = null;
 let _elementsIdMap: Map<string, Element> | null = null;
 
-export function elementsMap(): Map<string, Element> {
+function getElementsMap(): Map<string, Element> {
   if (!_elementsMap) {
     const elements = all('elements', ElementSchema);
     _elementsMap = new Map(
@@ -99,7 +99,7 @@ export function elementsMap(): Map<string, Element> {
   return _elementsMap;
 }
 
-export function elementsIdMap(): Map<string, Element> {
+function getElementsIdMap(): Map<string, Element> {
   if (!_elementsIdMap) {
     const elements = all('elements', ElementSchema);
     _elementsIdMap = new Map(
@@ -107,6 +107,14 @@ export function elementsIdMap(): Map<string, Element> {
     );
   }
   return _elementsIdMap;
+}
+
+export function elementByAlias(alias: string): Element | undefined {
+  return getElementsMap().get(alias);
+}
+
+export function elementById(id: string): Element | undefined {
+  return getElementsIdMap().get(id);
 }
 
 export class Element {
@@ -162,9 +170,8 @@ export class Element {
       return [];
     }
 
-    const elementsById = elementsIdMap();
     return Object.entries(modifiers).map(([childId, coefficient]) => {
-      const childElement = elementsById.get(childId);
+      const childElement = elementById(childId);
       if (!childElement) {
         throw new Error(`Child element not found: ${childId}`);
       }
