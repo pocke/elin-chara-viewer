@@ -240,7 +240,7 @@ export class Chara {
     return this.memoize('level', () => {
       const lv = this.row.LV ?? 1;
       if (this.mainElement && this.isVariant) {
-        return (lv * this.mainElement.elementPower) / 100;
+        return Math.floor((lv * this.mainElement.elementPower) / 100);
       }
       return lv;
     });
