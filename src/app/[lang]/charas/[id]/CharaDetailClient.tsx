@@ -13,7 +13,7 @@ import {
   Person as PersonIcon,
   ArrowBack as ArrowBackIcon,
 } from '@mui/icons-material';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/models/chara';
@@ -37,7 +37,8 @@ export default function CharaDetailClient({
   variantElement,
 }: CharaDetailClientProps) {
   const chara = new Chara(charaRow, variantElement);
-  const { t, i18n } = useTranslation('common');
+  const { t, language } = useTranslation();
+
   const params = useParams();
   const lang = params.lang as string;
 
@@ -70,7 +71,7 @@ export default function CharaDetailClient({
   ) => {
     return elements.map((elementWithPower, index) => {
       const element = elementWithPower.element;
-      const featName = element.name(i18n.language);
+      const featName = element.name(language);
 
       return (
         <Tooltip
@@ -124,10 +125,10 @@ export default function CharaDetailClient({
   };
 
   const createFeatTooltipContent = (element: Element, power: number) => {
-    const featName = element.name(i18n.language);
-    const detail = element.detail(i18n.language);
-    const textPhase = element.textPhase(i18n.language);
-    const textExtra = element.textExtra(i18n.language);
+    const featName = element.name(language);
+    const detail = element.detail(language);
+    const textPhase = element.textPhase(language);
+    const textExtra = element.textExtra(language);
 
     const subElements = element.subElements().map((sub) => ({
       element: sub.element,
@@ -170,7 +171,7 @@ export default function CharaDetailClient({
                 key={`sub-${subIndex}`}
                 sx={{ mb: 0.5 }}
               >
-                {sub.element.name(i18n.language)} {sub.power > 0 ? '+' : ''}
+                {sub.element.name(language)} {sub.power > 0 ? '+' : ''}
                 {sub.power}
               </Typography>
             ))}
@@ -190,7 +191,7 @@ export default function CharaDetailClient({
           sx={{ mb: 3 }}
           variant="outlined"
         >
-          {t('backToCharacters')}
+          {t.common.backToCharacters}
         </Button>
 
         <Paper elevation={2} sx={{ p: 4 }}>
@@ -201,11 +202,11 @@ export default function CharaDetailClient({
                 sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}
               >
                 <Typography variant="h3" component="h1">
-                  {chara.normalizedName(i18n.language)}
+                  {chara.normalizedName(language)}
                 </Typography>
                 {chara.mainElement && (
                   <Chip
-                    label={chara.mainElement.name(i18n.language)}
+                    label={chara.mainElement.name(language)}
                     variant="filled"
                     size="medium"
                     sx={{
@@ -230,23 +231,23 @@ export default function CharaDetailClient({
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t('race')}
+                {t.common.race}
               </Typography>
               <Typography variant="body1">
-                {chara.race.name(i18n.language)}
+                {chara.race.name(language)}
               </Typography>
             </Box>
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t('level')}
+                {t.common.level}
               </Typography>
               <Typography variant="body1">{chara.level()}</Typography>
             </Box>
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t('geneSlot')}
+                {t.common.geneSlot}
               </Typography>
               <Typography variant="body1">
                 {actualGeneSlot}
@@ -261,7 +262,7 @@ export default function CharaDetailClient({
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t('stats')}
+                {t.common.stats}
               </Typography>
               <Box
                 sx={{
@@ -272,25 +273,25 @@ export default function CharaDetailClient({
               >
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    {t('life')}
+                    {t.common.life}
                   </Typography>
                   <Typography variant="h6">{chara.life()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    {t('mana')}
+                    {t.common.mana}
                   </Typography>
                   <Typography variant="h6">{chara.mana()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    {t('speed')}
+                    {t.common.speed}
                   </Typography>
                   <Typography variant="h6">{chara.speed()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    {t('vigor')}
+                    {t.common.vigor}
                   </Typography>
                   <Typography variant="h6">{chara.vigor()}</Typography>
                 </Box>
@@ -299,7 +300,7 @@ export default function CharaDetailClient({
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t('defenseStats')}
+                {t.common.defenseStats}
               </Typography>
               <Box
                 sx={{
@@ -310,45 +311,42 @@ export default function CharaDetailClient({
               >
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    {t('dv')}
+                    {t.common.dv}
                   </Typography>
                   <Typography variant="h6">{chara.dv()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    {t('pv')}
+                    {t.common.pv}
                   </Typography>
                   <Typography variant="h6">{chara.pv()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    {t('pdr')}
+                    {t.common.pdr}
                   </Typography>
                   <Typography variant="h6">{chara.pdr()}%</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    {t('edr')}
+                    {t.common.edr}
                   </Typography>
                   <Typography variant="h6">{chara.edr()}%</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    {t('ep')}
+                    {t.common.ep}
                   </Typography>
                   <Typography variant="h6">{chara.ep()}</Typography>
                 </Box>
               </Box>
             </Box>
 
-            <ResistanceBarChart
-              resistances={resistances}
-              locale={i18n.language}
-            />
+            <ResistanceBarChart resistances={resistances} locale={language} />
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t('bodyParts')} ({totalBodyParts})
+                {t.common.bodyParts} ({totalBodyParts})
               </Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                 {bodyPartsOrder.map((part) => {
@@ -356,7 +354,7 @@ export default function CharaDetailClient({
                   return (
                     <Chip
                       key={part}
-                      label={`${t(part)} (${count})`}
+                      label={`${t.common[part as keyof typeof t.common]} (${count})`}
                       variant={count > 0 ? 'outlined' : 'filled'}
                       size="medium"
                       color={count > 0 ? 'info' : 'default'}
@@ -370,7 +368,7 @@ export default function CharaDetailClient({
             {feats.length > 0 && (
               <Box>
                 <Typography variant="h6" color="text.secondary" gutterBottom>
-                  {t('feats')}
+                  {t.common.feats}
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {renderElementChips(feats)}
@@ -381,12 +379,12 @@ export default function CharaDetailClient({
             {negations.length > 0 && (
               <Box>
                 <Typography variant="h6" color="text.secondary" gutterBottom>
-                  {t('statusResistances')}
+                  {t.common.statusResistances}
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {negations.map((negation, index) => {
                     const element = negation.element;
-                    const negationName = element.name(i18n.language);
+                    const negationName = element.name(language);
 
                     return (
                       <Box
@@ -431,7 +429,7 @@ export default function CharaDetailClient({
             {abilities.length > 0 && (
               <Box>
                 <Typography variant="h6" color="text.secondary" gutterBottom>
-                  {t('abilities')}
+                  {t.common.abilities}
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {abilities.map((ability, index) => {
@@ -444,13 +442,13 @@ export default function CharaDetailClient({
                     if (baseElement) {
                       abilityName = baseElement.abilityName(
                         elementElement,
-                        i18n.language
+                        language
                       );
                     } else {
                       abilityName = ability.name;
                     }
 
-                    const displayLabel = `${abilityName}${ability.party ? ` (${t('range')})` : ''}`;
+                    const displayLabel = `${abilityName}${ability.party ? ` (${t.common.range})` : ''}`;
 
                     return (
                       <Chip

@@ -11,21 +11,23 @@
  * - >= 5: "耐性" / "Normal"
  */
 
+import { Translations } from './simple-i18n';
+
 /**
  * 耐性値に基づいてラベルを取得する
  */
 export const getResistanceLabel = (
   value: number,
-  t: (key: string) => string
+  translations: Translations
 ): string => {
-  if (value <= -10) return t('common:resistanceDefect');
-  if (value <= -5) return t('common:resistanceWeakness');
-  if (value === 0) return t('common:resistanceNone');
-  if (value >= 20) return t('common:resistanceImmunity');
-  if (value >= 15) return t('common:resistanceSuperb');
-  if (value >= 10) return t('common:resistanceStrong');
-  if (value >= 5) return t('common:resistanceNormal');
-  return t('common:resistanceNone');
+  if (value <= -10) return translations.common.resistanceDefect;
+  if (value <= -5) return translations.common.resistanceWeakness;
+  if (value === 0) return translations.common.resistanceNone;
+  if (value >= 20) return translations.common.resistanceImmunity;
+  if (value >= 15) return translations.common.resistanceSuperb;
+  if (value >= 10) return translations.common.resistanceStrong;
+  if (value >= 5) return translations.common.resistanceNormal;
+  return translations.common.resistanceNone;
 };
 
 /**

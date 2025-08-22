@@ -2,11 +2,11 @@
 import { Button, Menu, MenuItem } from '@mui/material';
 import { Language as LanguageIcon } from '@mui/icons-material';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '../lib/simple-i18n';
 import { usePathname, useRouter } from 'next/navigation';
 
 export default function LanguageSwitcher() {
-  const { i18n } = useTranslation();
+  const { language } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const pathname = usePathname();
   const router = useRouter();
@@ -42,7 +42,7 @@ export default function LanguageSwitcher() {
           },
         }}
       >
-        {i18n.language === 'ja' ? '日本語' : 'English'}
+        {language === 'ja' ? '日本語' : 'English'}
       </Button>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={() => changeLanguage('ja')}>日本語</MenuItem>

@@ -21,7 +21,7 @@ import {
   ExpandMore as ExpandMoreIcon,
   ViewColumn as ViewColumnIcon,
 } from '@mui/icons-material';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@/lib/simple-i18n';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { type CharaRow, Chara } from '@/lib/models/chara';
@@ -37,7 +37,8 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
     () => charaRows.map((row) => new Chara(row)),
     [charaRows]
   );
-  const { t, i18n } = useTranslation('common');
+  const { t, language } = useTranslation();
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [isClient, setIsClient] = useState(false);
@@ -91,10 +92,10 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
     return new Map(
       allCharas.map((chara) => [
         chara.id,
-        chara.normalizedName(i18n.language).toLowerCase(),
+        chara.normalizedName(language).toLowerCase(),
       ])
     );
-  }, [allCharas, i18n.language]);
+  }, [allCharas, language]);
 
   // Get unique body parts, feats, and abilities from all characters
   const availableOptions = useMemo(() => {
@@ -119,7 +120,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
 
       // Feats
       chara.feats().forEach((feat) => {
-        featsMap.set(feat.element.alias, feat.element.name(i18n.language));
+        featsMap.set(feat.element.alias, feat.element.name(language));
       });
 
       // Abilities
@@ -131,7 +132,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
 
         let abilityName: string;
         if (baseElement) {
-          abilityName = baseElement.abilityName(elementElement, i18n.language);
+          abilityName = baseElement.abilityName(elementElement, language);
         } else {
           abilityName = ability.name;
         }
@@ -148,7 +149,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
         a[1].localeCompare(b[1])
       ),
     };
-  }, [allCharas, i18n.language, isClient]);
+  }, [allCharas, language, isClient]);
 
   // Filter characters based on search and filters (optimized)
   const filteredCharas = useMemo(() => {
@@ -248,20 +249,23 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
           <PersonIcon sx={{ mr: 2, fontSize: 40 }} />
           <Typography variant="h3" component="h1">
-            {t('allCharacters')}
+            {t.common.allCharacters}
           </Typography>
         </Box>
 
         <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-          {t('charactersCount', { count: filteredCharas.length })} /{' '}
-          {allCharas.length}
+          {t.common.charactersCount.replace(
+            '{{count}}',
+            filteredCharas.length.toString()
+          )}{' '}
+          / {allCharas.length}
         </Typography>
 
         <Paper elevation={2} sx={{ p: 2, mb: 4 }}>
           <TextField
             fullWidth
             variant="outlined"
-            placeholder={t('searchCharacters')}
+            placeholder={t.common.searchCharacters}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             slotProps={{
@@ -276,7 +280,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
 
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h6">{t('filters')}</Typography>
+              <Typography variant="h6">{t.common.filters}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Box
@@ -289,7 +293,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
               >
                 <Box sx={{ flex: 1 }}>
                   <Typography variant="subtitle1" gutterBottom>
-                    {t('bodyParts')}
+                    {t.common.bodyParts}
                   </Typography>
                   <FormGroup>
                     {availableOptions.bodyParts.map((part) => (
@@ -301,7 +305,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
                             onChange={() => handleBodyPartToggle(part)}
                           />
                         }
-                        label={t(part)}
+                        label={t.common[part as keyof typeof t.common]}
                       />
                     ))}
                   </FormGroup>
@@ -309,13 +313,13 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
 
                 <Box sx={{ flex: 1 }}>
                   <Typography variant="subtitle1" gutterBottom>
-                    {t('feats')}
+                    {t.common.feats}
                   </Typography>
                   <TextField
                     fullWidth
                     variant="outlined"
                     size="small"
-                    placeholder={t('searchFeats')}
+                    placeholder={t.common.searchFeats}
                     value={featSearch}
                     onChange={(e) => setFeatSearch(e.target.value)}
                     sx={{ mb: 1 }}
@@ -344,13 +348,13 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
 
                 <Box sx={{ flex: 1 }}>
                   <Typography variant="subtitle1" gutterBottom>
-                    {t('abilities')}
+                    {t.common.abilities}
                   </Typography>
                   <TextField
                     fullWidth
                     variant="outlined"
                     size="small"
-                    placeholder={t('searchAbilities')}
+                    placeholder={t.common.searchAbilities}
                     value={abilitySearch}
                     onChange={(e) => setAbilitySearch(e.target.value)}
                     sx={{ mb: 1 }}
@@ -393,7 +397,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
             aria-haspopup="true"
             aria-expanded={isColumnMenuOpen ? 'true' : undefined}
           >
-            {t('columnVisibility')}
+            {t.common.columnVisibility}
           </Button>
           <Menu
             id="column-menu"
@@ -408,7 +412,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
                 size="small"
                 sx={{ mr: 1 }}
               />
-              {t('statusColumns')}
+              {t.common.statusColumns}
             </MenuItem>
             <MenuItem onClick={handleResistancesToggle}>
               <Checkbox
@@ -417,7 +421,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
                 size="small"
                 sx={{ mr: 1 }}
               />
-              {t('resistances')}
+              {t.common.resistances}
             </MenuItem>
           </Menu>
         </Box>
