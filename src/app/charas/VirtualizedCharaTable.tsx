@@ -299,13 +299,15 @@ export default function VirtualizedCharaTable({
               </TableSortLabel>
             </TableCell>
             <TableCell sx={{ width: 100 }}>
-              <TableSortLabel
-                active={sortBy === 'geneSlot'}
-                direction={sortBy === 'geneSlot' ? sortOrder : 'asc'}
-                onClick={() => handleSort('geneSlot')}
-              >
-                {t('geneSlot')}
-              </TableSortLabel>
+              <Tooltip title={t('geneSlot')} arrow placement="top">
+                <TableSortLabel
+                  active={sortBy === 'geneSlot'}
+                  direction={sortBy === 'geneSlot' ? sortOrder : 'asc'}
+                  onClick={() => handleSort('geneSlot')}
+                >
+                  {t('geneSlotShort')}
+                </TableSortLabel>
+              </Tooltip>
             </TableCell>
             {/* Body Parts moved right after Gene Slot */}
             <TableCell sx={{ width: 80 }}>
@@ -375,31 +377,37 @@ export default function VirtualizedCharaTable({
                   </TableSortLabel>
                 </TableCell>
                 <TableCell sx={{ width: 60 }}>
-                  <TableSortLabel
-                    active={sortBy === 'pdr'}
-                    direction={sortBy === 'pdr' ? sortOrder : 'asc'}
-                    onClick={() => handleSort('pdr')}
-                  >
-                    {t('pdr')}
-                  </TableSortLabel>
+                  <Tooltip title={t('pdr')} arrow placement="top">
+                    <TableSortLabel
+                      active={sortBy === 'pdr'}
+                      direction={sortBy === 'pdr' ? sortOrder : 'asc'}
+                      onClick={() => handleSort('pdr')}
+                    >
+                      {t('pdrShort')}
+                    </TableSortLabel>
+                  </Tooltip>
                 </TableCell>
                 <TableCell sx={{ width: 60 }}>
-                  <TableSortLabel
-                    active={sortBy === 'edr'}
-                    direction={sortBy === 'edr' ? sortOrder : 'asc'}
-                    onClick={() => handleSort('edr')}
-                  >
-                    {t('edr')}
-                  </TableSortLabel>
+                  <Tooltip title={t('edr')} arrow placement="top">
+                    <TableSortLabel
+                      active={sortBy === 'edr'}
+                      direction={sortBy === 'edr' ? sortOrder : 'asc'}
+                      onClick={() => handleSort('edr')}
+                    >
+                      {t('edrShort')}
+                    </TableSortLabel>
+                  </Tooltip>
                 </TableCell>
                 <TableCell sx={{ width: 60 }}>
-                  <TableSortLabel
-                    active={sortBy === 'ep'}
-                    direction={sortBy === 'ep' ? sortOrder : 'asc'}
-                    onClick={() => handleSort('ep')}
-                  >
-                    {t('ep')}
-                  </TableSortLabel>
+                  <Tooltip title={t('ep')} arrow placement="top">
+                    <TableSortLabel
+                      active={sortBy === 'ep'}
+                      direction={sortBy === 'ep' ? sortOrder : 'asc'}
+                      onClick={() => handleSort('ep')}
+                    >
+                      {t('epShort')}
+                    </TableSortLabel>
+                  </Tooltip>
                 </TableCell>
               </>
             )}
