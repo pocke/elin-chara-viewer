@@ -1,5 +1,5 @@
 'use client';
-import { Box, Typography, Collapse, Button } from '@mui/material';
+import { Box, Typography, Collapse, Button, Tooltip } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { useState } from 'react';
 import { Element } from '@/lib/models/element';
@@ -30,7 +30,7 @@ export default function ResistanceBarChart({
   locale,
 }: ResistanceBarChartProps) {
   const [showZeroResistances, setShowZeroResistances] = useState(false);
-  const chartWidth = 600;
+  const chartWidth = { xs: 280, sm: 400, md: 600 };
   const rowHeight = 40;
 
   // 耐性を0でないものと0のものに分ける
@@ -46,15 +46,53 @@ export default function ResistanceBarChart({
     gridValues.push(i);
   }
 
-  // 値を座標に変換する関数
-  const valueToX = (value: number) => {
-    const range = maxValue - minValue;
-    const ratio = (value - minValue) / range;
-    return ratio * chartWidth;
-  };
-
-  // 0の位置を計算
-  const zeroX = valueToX(0);
+  // X軸ラベルのコンポーネント
+  const XAxisLabels = () => (
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+      <Box sx={{ width: { xs: 80, sm: 100, md: 120 } }} />
+      <Box
+        sx={{
+          width: chartWidth,
+          position: 'relative',
+          height: { xs: 50, sm: 45, md: 40 },
+        }}
+      >
+        {gridValues.map((value) => (
+          <Box
+            key={value}
+            sx={{
+              position: 'absolute',
+              left: `${((value - minValue) / (maxValue - minValue)) * 100}%`,
+              top: 0,
+              transform: 'translateX(-50%)',
+              textAlign: 'center',
+            }}
+          >
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ fontSize: { xs: '0.6rem', sm: '0.75rem' } }}
+            >
+              {value}
+            </Typography>
+            {value >= -10 && value <= 20 && (
+              <Typography
+                variant="caption"
+                color="text.primary"
+                sx={{
+                  display: { xs: 'none', sm: 'none', md: 'block' },
+                  fontWeight: 'bold',
+                  fontSize: '0.75rem',
+                }}
+              >
+                {getResistanceLabel(value)}
+              </Typography>
+            )}
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  );
 
   return (
     <Box>
@@ -63,49 +101,20 @@ export default function ResistanceBarChart({
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {/* X軸ラベル（上部） */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Box sx={{ width: 120 }} />
-          <Box
-            sx={{
-              width: chartWidth,
-              position: 'relative',
-              height: 40,
-            }}
-          >
-            {gridValues.map((value) => (
-              <Box
-                key={value}
-                sx={{
-                  position: 'absolute',
-                  left: valueToX(value),
-                  top: 0,
-                  transform: 'translateX(-50%)',
-                  textAlign: 'center',
-                }}
-              >
-                <Typography variant="caption" color="text.secondary">
-                  {value}
-                </Typography>
-                {value >= -10 && value <= 20 && (
-                  <Typography
-                    variant="caption"
-                    color="text.primary"
-                    sx={{ display: 'block', fontWeight: 'bold' }}
-                  >
-                    {getResistanceLabel(value)}
-                  </Typography>
-                )}
-              </Box>
-            ))}
-          </Box>
-        </Box>
+        {nonZeroResistances.length > 0 && <XAxisLabels />}
 
         {/* 0でない耐性のチャートエリア */}
         {nonZeroResistances.map((resistance) => {
           const elementColor = resistance.element.getColor();
-          const barWidth = Math.abs(valueToX(resistance.value) - zeroX);
           const isNegative = resistance.value < 0;
           const resistanceLabel = getResistanceLabel(resistance.value);
+
+          // パーセンテージベースでバーの位置とサイズを計算
+          const valuePercent =
+            ((resistance.value - minValue) / (maxValue - minValue)) * 100;
+          const zeroPercent = ((0 - minValue) / (maxValue - minValue)) * 100;
+          const barWidth = Math.abs(valuePercent - zeroPercent);
+          const barLeft = isNegative ? valuePercent : zeroPercent;
 
           return (
             <Box
@@ -113,14 +122,14 @@ export default function ResistanceBarChart({
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 2,
+                gap: { xs: 1, sm: 2 },
                 height: rowHeight,
               }}
             >
               {/* 要素名 */}
               <Box
                 sx={{
-                  width: 120,
+                  width: { xs: 80, sm: 100, md: 120 },
                   textAlign: 'right',
                 }}
               >
@@ -128,6 +137,7 @@ export default function ResistanceBarChart({
                   variant="body2"
                   sx={{
                     fontWeight: 'bold',
+                    fontSize: { xs: '0.75rem', sm: '0.875rem' },
                   }}
                 >
                   {resistance.element.name(locale)}
@@ -135,73 +145,67 @@ export default function ResistanceBarChart({
               </Box>
 
               {/* バーエリア */}
-              <Box
-                sx={{
-                  width: chartWidth,
-                  height: 24,
-                  position: 'relative',
-                  backgroundColor: 'grey.100',
-                  borderRadius: 1,
-                  overflow: 'hidden',
-                }}
+              <Tooltip
+                title={
+                  <Box>
+                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                      {resistance.element.name(locale)}
+                    </Typography>
+                    <Typography variant="body2">
+                      {resistance.value > 0 ? '+' : ''}
+                      {resistance.value} ({resistanceLabel})
+                    </Typography>
+                  </Box>
+                }
+                arrow
+                placement="top"
               >
-                {/* グリッドライン */}
-                {gridValues.map((value) => (
-                  <Box
-                    key={`grid-${value}-${resistance.element.alias}`}
-                    sx={{
-                      position: 'absolute',
-                      left: valueToX(value),
-                      top: 0,
-                      bottom: 0,
-                      width: '1px',
-                      backgroundColor: value === 0 ? 'grey.600' : 'grey.300',
-                      zIndex: 1,
-                    }}
-                  />
-                ))}
-
-                {/* バー */}
                 <Box
                   sx={{
-                    position: 'absolute',
-                    left: isNegative ? valueToX(resistance.value) : zeroX,
-                    top: 2,
-                    bottom: 2,
-                    width: barWidth,
-                    backgroundColor: elementColor + '80',
+                    width: chartWidth,
+                    height: 24,
+                    position: 'relative',
+                    backgroundColor: 'grey.100',
                     borderRadius: 1,
-                    transition: 'width 0.3s ease-in-out',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 2,
+                    overflow: 'hidden',
+                    cursor: 'pointer',
                   }}
                 >
-                  <Typography
-                    variant="caption"
-                    fontWeight="bold"
-                    color="text.primary"
-                    sx={{
-                      textShadow: '1px 1px 2px rgba(255,255,255,0.8)',
-                    }}
-                  >
-                    {resistance.value > 0 ? '+' : ''}
-                    {resistance.value}
-                  </Typography>
-                </Box>
-              </Box>
+                  {/* グリッドライン */}
+                  {gridValues.map((value) => (
+                    <Box
+                      key={`grid-${value}-${resistance.element.alias}`}
+                      sx={{
+                        position: 'absolute',
+                        left: `${((value - minValue) / (maxValue - minValue)) * 100}%`,
+                        top: 0,
+                        bottom: 0,
+                        width: '1px',
+                        backgroundColor: value === 0 ? 'grey.600' : 'grey.300',
+                        zIndex: 1,
+                      }}
+                    />
+                  ))}
 
-              {/* ラベル */}
-              <Box sx={{ minWidth: 100 }}>
-                <Typography
-                  variant="caption"
-                  color="text.secondary"
-                  sx={{ fontWeight: 'bold' }}
-                >
-                  ({resistanceLabel})
-                </Typography>
-              </Box>
+                  {/* バー */}
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      left: `${barLeft}%`,
+                      top: 2,
+                      bottom: 2,
+                      width: `${barWidth}%`,
+                      backgroundColor: elementColor + '80',
+                      borderRadius: 1,
+                      transition: 'all 0.3s ease-in-out',
+                      zIndex: 2,
+                      '&:hover': {
+                        backgroundColor: elementColor + 'CC',
+                      },
+                    }}
+                  />
+                </Box>
+              </Tooltip>
             </Box>
           );
         })}
@@ -219,6 +223,7 @@ export default function ResistanceBarChart({
               耐性なし ({zeroResistances.length}個)
             </Button>
             <Collapse in={showZeroResistances}>
+              <XAxisLabels />
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 {zeroResistances.map((resistance) => (
                   <Box
@@ -226,14 +231,14 @@ export default function ResistanceBarChart({
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 2,
+                      gap: { xs: 1, sm: 2 },
                       height: rowHeight,
                     }}
                   >
                     {/* 要素名 */}
                     <Box
                       sx={{
-                        width: 120,
+                        width: { xs: 80, sm: 100, md: 120 },
                         textAlign: 'right',
                       }}
                     >
@@ -242,6 +247,7 @@ export default function ResistanceBarChart({
                         color="text.secondary"
                         sx={{
                           fontWeight: 'normal',
+                          fontSize: { xs: '0.75rem', sm: '0.875rem' },
                         }}
                       >
                         {resistance.element.name(locale)}
@@ -249,57 +255,46 @@ export default function ResistanceBarChart({
                     </Box>
 
                     {/* バーエリア */}
-                    <Box
-                      sx={{
-                        width: chartWidth,
-                        height: 24,
-                        position: 'relative',
-                        backgroundColor: 'grey.50',
-                        borderRadius: 1,
-                        overflow: 'hidden',
-                      }}
+                    <Tooltip
+                      title={
+                        <Box>
+                          <Typography
+                            variant="body2"
+                            sx={{ fontWeight: 'bold' }}
+                          >
+                            {resistance.element.name(locale)}
+                          </Typography>
+                          <Typography variant="body2">0 (なし)</Typography>
+                        </Box>
+                      }
+                      arrow
+                      placement="top"
                     >
-                      {/* 0線のみ表示 */}
                       <Box
                         sx={{
-                          position: 'absolute',
-                          left: zeroX,
-                          top: 0,
-                          bottom: 0,
-                          width: '1px',
-                          backgroundColor: 'grey.400',
-                          zIndex: 1,
-                        }}
-                      />
-
-                      {/* 0の表示（線から少しずらす） */}
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          left: zeroX + 10,
-                          top: 0,
-                          bottom: 0,
-                          display: 'flex',
-                          alignItems: 'center',
-                          zIndex: 2,
+                          width: chartWidth,
+                          height: 24,
+                          position: 'relative',
+                          backgroundColor: 'grey.50',
+                          borderRadius: 1,
+                          overflow: 'hidden',
+                          cursor: 'pointer',
                         }}
                       >
-                        <Typography
-                          variant="caption"
-                          color="text.secondary"
-                          sx={{ fontSize: '0.7rem' }}
-                        >
-                          0
-                        </Typography>
+                        {/* 0線のみ表示 */}
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            left: `${((0 - minValue) / (maxValue - minValue)) * 100}%`,
+                            top: 0,
+                            bottom: 0,
+                            width: '1px',
+                            backgroundColor: 'grey.400',
+                            zIndex: 1,
+                          }}
+                        />
                       </Box>
-                    </Box>
-
-                    {/* ラベル */}
-                    <Box sx={{ minWidth: 100 }}>
-                      <Typography variant="caption" color="text.secondary">
-                        (なし)
-                      </Typography>
-                    </Box>
+                    </Tooltip>
                   </Box>
                 ))}
               </Box>
