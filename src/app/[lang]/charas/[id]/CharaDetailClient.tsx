@@ -25,6 +25,7 @@ import {
 } from '@/lib/models/element';
 import { type RaceRow } from '@/lib/models/race';
 import ResistanceBarChart from '@/components/ResistanceBarChart';
+import { getContrastColor } from '@/lib/colorUtils';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;
@@ -214,7 +215,7 @@ export default function CharaDetailClient({
                       fontWeight: 'bold',
                       height: '32px',
                       backgroundColor: chara.mainElement.getColor(),
-                      color: 'white',
+                      color: getContrastColor(chara.mainElement.getColor()),
                       '&:hover': {
                         backgroundColor: chara.mainElement.getColor(),
                         opacity: 0.8,

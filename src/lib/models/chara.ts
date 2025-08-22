@@ -338,7 +338,10 @@ export class Chara {
       return `『${name}』`;
     } else if (this.row.quality === 3) {
       return `《${name}》`;
-    } else if (['Adventurer', 'AdventurerBacker'].includes(this.row.trait)) {
+    } else if (
+      this.row.trait &&
+      ['Adventurer', 'AdventurerBacker'].includes(this.row.trait)
+    ) {
       return `「${name}」`;
     }
 
