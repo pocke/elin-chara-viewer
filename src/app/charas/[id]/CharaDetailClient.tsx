@@ -38,6 +38,7 @@ export default function CharaDetailClient({
   const { t, i18n } = useTranslation('common');
 
   const feats = chara.feats();
+  const negations = chara.negations();
   const figures = raceObj.figures();
   const bodyPartsOrder = [
     'hand',
@@ -325,6 +326,38 @@ export default function CharaDetailClient({
                             ))}
                           </Box>
                         )}
+                      </Box>
+                    );
+                  })}
+                </Box>
+              </Box>
+            )}
+
+            {negations.length > 0 && (
+              <Box>
+                <Typography variant="h6" color="text.secondary" gutterBottom>
+                  {t('statusResistances')}
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {negations.map((negation, index) => {
+                    const element = negation.element;
+                    const negationName = element.name(i18n.language);
+
+                    return (
+                      <Box
+                        key={index}
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: 0.5,
+                        }}
+                      >
+                        <Chip
+                          label={`${negationName}${negation.power > 1 ? ` (${negation.power})` : ''}`}
+                          variant="outlined"
+                          size="small"
+                          color="error"
+                        />
                       </Box>
                     );
                   })}

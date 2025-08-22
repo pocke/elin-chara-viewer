@@ -130,6 +130,13 @@ export class Chara {
     return [...new Elementable(this.row).feats(), ...this.raceObj.feats()];
   }
 
+  negations() {
+    return [
+      ...new Elementable(this.row).negations(),
+      ...this.raceObj.negations(),
+    ];
+  }
+
   abilities() {
     const actCombat = this.row.actCombat;
     if (!actCombat) return [];
