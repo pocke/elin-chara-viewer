@@ -15,7 +15,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/models/chara';
-import { ElementAttacks, elementByAlias } from '@/lib/models/element';
+import {
+  ElementAttacks,
+  elementByAlias,
+  resistanceElements,
+} from '@/lib/models/element';
 import { Race, type RaceRow } from '@/lib/models/race';
 
 interface CharaDetailClientProps {
@@ -49,7 +53,11 @@ export default function CharaDetailClient({
   const totalBodyParts = raceObj.totalBodyParts();
   const abilities = chara.abilities();
   const [actualGeneSlot, origGeneSlot] = chara.geneSlot();
-  const resistances = chara.getResistances();
+
+  const resistances = resistanceElements().map((element) => ({
+    value: chara.getElementPower(element.alias),
+    element: element,
+  }));
 
   return (
     <Container maxWidth="md">

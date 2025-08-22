@@ -169,19 +169,19 @@ export class Chara {
   }
 
   life() {
-    return this.raceObj.life + this.getElementModifier('life');
+    return this.raceObj.life + this.getElementPower('life');
   }
 
   mana() {
-    return this.raceObj.mana + this.getElementModifier('mana');
+    return this.raceObj.mana + this.getElementPower('mana');
   }
 
   speed() {
-    return this.raceObj.speed + this.getElementModifier('SPD');
+    return this.raceObj.speed + this.getElementPower('SPD');
   }
 
   vigor() {
-    return this.raceObj.vigor + this.getElementModifier('vigor');
+    return this.raceObj.vigor + this.getElementPower('vigor');
   }
 
   level() {
@@ -213,23 +213,23 @@ export class Chara {
   }
 
   dv() {
-    return this.raceObj.dv + this.getElementModifier('DV');
+    return this.raceObj.dv + this.getElementPower('DV');
   }
 
   pv() {
-    return this.raceObj.pv + this.getElementModifier('PV');
+    return this.raceObj.pv + this.getElementPower('PV');
   }
 
   pdr() {
-    return this.raceObj.pdr + this.getElementModifier('PDR');
+    return this.raceObj.pdr + this.getElementPower('PDR');
   }
 
   edr() {
-    return this.raceObj.edr + this.getElementModifier('EDR');
+    return this.raceObj.edr + this.getElementPower('EDR');
   }
 
   ep() {
-    return this.raceObj.ep + this.getElementModifier('EP');
+    return this.raceObj.ep + this.getElementPower('EP');
   }
 
   variants() {
@@ -279,40 +279,10 @@ export class Chara {
     return name;
   }
 
-  private getElementModifier(alias: string): number {
+  getElementPower(alias: string): number {
     return this.elements()
       .filter((elementWithPower) => elementWithPower.element.alias === alias)
       .reduce((sum, elementWithPower) => sum + elementWithPower.power, 0);
-  }
-
-  getResistances() {
-    const resistanceTypes = [
-      'resFire',
-      'resCold',
-      'resLightning',
-      'resDarkness',
-      'resMind',
-      'resPoison',
-      'resNether',
-      'resSound',
-      'resNerve',
-      'resChaos',
-      'resHoly',
-      'resMagic',
-      'resEther',
-      'resAcid',
-      'resCut',
-      'resImpact',
-    ];
-
-    return resistanceTypes.map((resistanceType) => {
-      const element = elementByAlias(resistanceType);
-      if (!element) throw new Error(`Element not found: ${resistanceType}`);
-      return {
-        value: this.getElementModifier(resistanceType),
-        element: element,
-      };
-    });
   }
 }
 
