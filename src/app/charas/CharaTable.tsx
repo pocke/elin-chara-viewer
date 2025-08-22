@@ -20,7 +20,6 @@ import { resistanceElements, elementByAlias } from '@/lib/models/element';
 type SortOrder = 'asc' | 'desc';
 type SortBy =
   | 'name'
-  | 'id'
   | 'race'
   | 'level'
   | 'geneSlot'
@@ -72,13 +71,9 @@ export default function CharaTable({ charas }: CharaTableProps) {
         aValue = a.normalizedName(i18n.language).toLowerCase();
         bValue = b.normalizedName(i18n.language).toLowerCase();
         break;
-      case 'id':
-        aValue = a.id;
-        bValue = b.id;
-        break;
       case 'race':
-        aValue = a.race();
-        bValue = b.race();
+        aValue = a.race.name(i18n.language);
+        bValue = b.race.name(i18n.language);
         break;
       case 'level':
         aValue = a.level();
@@ -142,8 +137,8 @@ export default function CharaTable({ charas }: CharaTableProps) {
           aValue = a.getElementPower(sortBy);
           bValue = b.getElementPower(sortBy);
         } else {
-          aValue = a.id;
-          bValue = b.id;
+          aValue = a.normalizedName(i18n.language).toLowerCase();
+          bValue = b.normalizedName(i18n.language).toLowerCase();
         }
     }
 
@@ -170,15 +165,6 @@ export default function CharaTable({ charas }: CharaTableProps) {
                 onClick={() => handleSort('name')}
               >
                 {t('name')}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell>
-              <TableSortLabel
-                active={sortBy === 'id'}
-                direction={sortBy === 'id' ? sortOrder : 'asc'}
-                onClick={() => handleSort('id')}
-              >
-                {t('id')}
               </TableSortLabel>
             </TableCell>
             <TableCell>
@@ -352,8 +338,7 @@ export default function CharaTable({ charas }: CharaTableProps) {
                     {chara.normalizedName(i18n.language)}
                   </MuiLink>
                 </TableCell>
-                <TableCell>{chara.id}</TableCell>
-                <TableCell>{chara.race()}</TableCell>
+                <TableCell>{chara.race.name(i18n.language)}</TableCell>
                 <TableCell>{Math.round(chara.level() * 100) / 100}</TableCell>
                 <TableCell>
                   {actualGeneSlot !== originalGeneSlot

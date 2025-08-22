@@ -60,7 +60,7 @@ export const CharaSchema = z.object({
 export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
-  private raceObj: Race;
+  public race: Race;
   public mainElement: Element | null = null;
   private isVariant: boolean = false;
 
@@ -71,7 +71,7 @@ export class Chara {
     const raceId = this.row.race ?? 'norland';
     const race = raceById(raceId);
     if (!race) throw new Error(`Race not found: ${raceId}`);
-    this.raceObj = race;
+    this.race = race;
 
     if (variantElementAlias) {
       const element = elementByAlias(variantElementAlias);
@@ -131,28 +131,28 @@ export class Chara {
   elements() {
     return [
       ...new Elementable(this.row, this.mainElement).elements(),
-      ...this.raceObj.elements(),
+      ...this.race.elements(),
     ];
   }
 
   feats() {
     return [
       ...new Elementable(this.row, this.mainElement).feats(),
-      ...this.raceObj.feats(),
+      ...this.race.feats(),
     ];
   }
 
   negations() {
     return [
       ...new Elementable(this.row, this.mainElement).negations(),
-      ...this.raceObj.negations(),
+      ...this.race.negations(),
     ];
   }
 
   others() {
     return [
       ...new Elementable(this.row, this.mainElement).others(),
-      ...this.raceObj.others(),
+      ...this.race.others(),
     ];
   }
 
@@ -190,24 +190,24 @@ export class Chara {
     });
   }
 
-  race() {
+  raceId() {
     return this.row.race ?? 'norland';
   }
 
   life() {
-    return this.raceObj.life + this.getElementPower('life');
+    return this.race.life + this.getElementPower('life');
   }
 
   mana() {
-    return this.raceObj.mana + this.getElementPower('mana');
+    return this.race.mana + this.getElementPower('mana');
   }
 
   speed() {
-    return this.raceObj.speed + this.getElementPower('SPD');
+    return this.race.speed + this.getElementPower('SPD');
   }
 
   vigor() {
-    return this.raceObj.vigor + this.getElementPower('vigor');
+    return this.race.vigor + this.getElementPower('vigor');
   }
 
   level() {
@@ -219,7 +219,7 @@ export class Chara {
   }
 
   geneSlot() {
-    const orig = this.raceObj.geneSlot;
+    const orig = this.race.geneSlot;
     let actual = orig;
     const feats = this.feats();
 
@@ -239,23 +239,23 @@ export class Chara {
   }
 
   dv() {
-    return this.raceObj.dv + this.getElementPower('DV');
+    return this.race.dv + this.getElementPower('DV');
   }
 
   pv() {
-    return this.raceObj.pv + this.getElementPower('PV');
+    return this.race.pv + this.getElementPower('PV');
   }
 
   pdr() {
-    return this.raceObj.pdr + this.getElementPower('PDR');
+    return this.race.pdr + this.getElementPower('PDR');
   }
 
   edr() {
-    return this.raceObj.edr + this.getElementPower('EDR');
+    return this.race.edr + this.getElementPower('EDR');
   }
 
   ep() {
-    return this.raceObj.ep + this.getElementPower('EP');
+    return this.race.ep + this.getElementPower('EP');
   }
 
   variants() {
@@ -318,11 +318,11 @@ export class Chara {
   }
 
   bodyParts() {
-    return this.raceObj.figures();
+    return this.race.figures();
   }
 
   totalBodyParts() {
-    return this.raceObj.totalBodyParts();
+    return this.race.totalBodyParts();
   }
 }
 
