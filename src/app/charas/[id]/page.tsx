@@ -12,12 +12,15 @@ export const generateStaticParams = async () => {
   const charaRows = await all('charas', CharaSchema);
   const racesRows = await all('races', RaceSchema);
   const elements = await all('elements', ElementSchema);
-  const racesMap = new Map(racesRows.map((race) => [race.id, new Race(race)]));
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
+  const elementsIdMap = new Map(
+    elements.map((element) => [element.id, new GameElement(element)])
+  );
+  const racesMap = new Map(racesRows.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
   const baseCharas = charaRows.map(
-    (row) => new Chara(row, racesMap, elementsMap)
+    (row) => new Chara(row, racesMap, elementsMap, elementsIdMap)
   );
 
   // Generate IDs for base characters and their variants
@@ -49,14 +52,18 @@ export default async function CharaPage(props: {
 
   const racesRows = await all('races', RaceSchema);
   const elements = await all('elements', ElementSchema);
-  const racesMap = new Map(racesRows.map((race) => [race.id, new Race(race)]));
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
+  const elementsIdMap = new Map(
+    elements.map((element) => [element.id, new GameElement(element)])
+  );
+  const racesMap = new Map(racesRows.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
   const chara = new Chara(
     charaRow,
     racesMap,
     elementsMap,
+    elementsIdMap,
     variantElement as ElementAttacks | null
   );
 

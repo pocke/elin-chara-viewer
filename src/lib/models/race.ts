@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
+import { Element } from './element';
 
 const figureMap = {
   手: 'hand',
@@ -67,7 +68,11 @@ export const RaceSchema = z.object({
 export type RaceRow = z.infer<typeof RaceSchema>;
 
 export class Race {
-  constructor(private row: RaceRow) {}
+  constructor(
+    private row: RaceRow,
+    private elementsMap: Map<string, Element>,
+    private elementsIdMap: Map<string, Element>
+  ) {}
 
   get id() {
     return this.row.id;
@@ -89,11 +94,11 @@ export class Race {
   }
 
   elements() {
-    return new Elementable(this.row).elements();
+    return new Elementable(this.row, this.elementsMap, this.elementsIdMap).elements();
   }
 
   feats() {
-    return new Elementable(this.row).feats();
+    return new Elementable(this.row, this.elementsMap, this.elementsIdMap).feats();
   }
 
   figures() {

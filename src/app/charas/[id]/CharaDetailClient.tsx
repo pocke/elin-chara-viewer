@@ -37,15 +37,15 @@ export default function CharaDetailClient({
   race,
   variantElement,
 }: CharaDetailClientProps) {
-  const racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
   const elementsIdMap = new Map(
     elements.map((element) => [element.id, new GameElement(element)])
   );
-  const chara = new Chara(charaRow, racesMap, elementsMap, variantElement);
-  const raceObj = new Race(race);
+  const racesMap = new Map(races.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
+  const chara = new Chara(charaRow, racesMap, elementsMap, elementsIdMap, variantElement);
+  const raceObj = new Race(race, elementsMap, elementsIdMap);
   const { t, i18n } = useTranslation('common');
 
   const feats = chara.feats();

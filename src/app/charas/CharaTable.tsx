@@ -32,12 +32,15 @@ export default function CharaTable({
   races,
 }: CharaTableProps) {
   const { t, i18n } = useTranslation('common');
-  const racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
+  const elementsIdMap = new Map(
+    elements.map((element) => [element.id, new GameElement(element)])
+  );
+  const racesMap = new Map(races.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
   const baseCharas = charaRows.map(
-    (row) => new Chara(row, racesMap, elementsMap)
+    (row) => new Chara(row, racesMap, elementsMap, elementsIdMap)
   );
 
   // Expand characters with variants
