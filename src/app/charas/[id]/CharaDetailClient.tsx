@@ -7,6 +7,7 @@ import {
   Chip,
   Button,
   Divider,
+  Tooltip,
 } from '@mui/material';
 import {
   Person as PersonIcon,
@@ -19,6 +20,7 @@ import {
   ElementAttacks,
   elementByAlias,
   resistanceElements,
+  Element,
 } from '@/lib/models/element';
 import { Race, type RaceRow } from '@/lib/models/race';
 
@@ -59,6 +61,63 @@ export default function CharaDetailClient({
     value: chara.getElementPower(element.alias),
     element: element,
   }));
+
+  const createFeatTooltipContent = (element: Element, power: number) => {
+    const featName = element.name(i18n.language);
+    const detail = element.detail(i18n.language);
+    const textPhase = element.textPhase(i18n.language);
+    const textExtra = element.textExtra(i18n.language);
+
+    const subElements = element.subElements().map((sub) => ({
+      element: sub.element,
+      power: Math.floor(power * sub.coefficient),
+    }));
+
+    return (
+      <Box sx={{ maxWidth: 300 }}>
+        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>
+          {featName}
+          {power > 1 ? ` (${power})` : ''}
+        </Typography>
+        {detail && (
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            {detail}
+          </Typography>
+        )}
+        {textPhase && (
+          <Typography variant="body2" sx={{ mb: 1, fontStyle: 'italic' }}>
+            {textPhase}
+          </Typography>
+        )}
+        {(textExtra || subElements.length > 0) && (
+          <Box component="ul" sx={{ m: 0, pl: 2, listStyleType: 'disc' }}>
+            {textExtra &&
+              textExtra.split(',').map((item: string, index: number) => (
+                <Typography
+                  component="li"
+                  variant="body2"
+                  key={`text-${index}`}
+                  sx={{ mb: 0.5 }}
+                >
+                  {item.trim()}
+                </Typography>
+              ))}
+            {subElements.map((sub, subIndex: number) => (
+              <Typography
+                component="li"
+                variant="body2"
+                key={`sub-${subIndex}`}
+                sx={{ mb: 0.5 }}
+              >
+                {sub.element.name(i18n.language)} {sub.power > 0 ? '+' : ''}
+                {sub.power}
+              </Typography>
+            ))}
+          </Box>
+        )}
+      </Box>
+    );
+  };
 
   return (
     <Container maxWidth="md">
@@ -286,47 +345,55 @@ export default function CharaDetailClient({
                     const element = feat.element;
                     const featName = element.name(i18n.language);
 
-                    const subElements = element.subElements().map((sub) => ({
-                      element: sub.element,
-                      power: Math.floor(feat.power * sub.coefficient),
-                    }));
-
                     return (
-                      <Box
+                      <Tooltip
                         key={index}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: 0.5,
+                        title={createFeatTooltipContent(element, feat.power)}
+                        arrow
+                        placement="top"
+                        slotProps={{
+                          tooltip: {
+                            sx: {
+                              bgcolor: 'background.paper',
+                              color: 'text.primary',
+                              border: '1px solid',
+                              borderColor: 'divider',
+                              boxShadow: 2,
+                              '& .MuiTooltip-arrow': {
+                                color: 'background.paper',
+                                '&::before': {
+                                  border: '1px solid',
+                                  borderColor: 'divider',
+                                },
+                              },
+                            },
+                          },
                         }}
                       >
                         <Chip
                           label={`${featName}${feat.power > 1 ? ` (${feat.power})` : ''}`}
                           variant="outlined"
                           size="small"
+                          clickable
+                          onClick={() => {
+                            // TODO: Navigate to feat detail page when implemented
+                            // Example: router.push(`/feats/${element.id}`)
+                            console.log(
+                              `Navigate to feat detail: ${element.id}`
+                            );
+                          }}
+                          sx={{
+                            cursor: 'pointer',
+                            '&:hover': {
+                              backgroundColor: 'primary.light',
+                              borderColor: 'primary.main',
+                              '& .MuiChip-label': {
+                                color: 'primary.dark',
+                              },
+                            },
+                          }}
                         />
-                        {subElements.length > 0 && (
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              flexWrap: 'wrap',
-                              gap: 0.5,
-                              ml: 2,
-                            }}
-                          >
-                            {subElements.map((sub, subIndex) => (
-                              <Chip
-                                key={subIndex}
-                                label={`${sub.element.name(i18n.language)} (${sub.power > 0 ? '+' : ''}${sub.power})`}
-                                variant="filled"
-                                size="small"
-                                color="secondary"
-                                sx={{ fontSize: '0.7rem' }}
-                              />
-                            ))}
-                          </Box>
-                        )}
-                      </Box>
+                      </Tooltip>
                     );
                   })}
                 </Box>
