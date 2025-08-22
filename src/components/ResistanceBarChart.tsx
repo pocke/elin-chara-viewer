@@ -28,7 +28,7 @@
 import { Box, Typography, Collapse, Button, Tooltip } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@/lib/simple-i18n';
 import { Element } from '@/lib/models/element';
 import { getResistanceLabel } from '@/lib/resistanceUtils';
 
@@ -115,7 +115,7 @@ export default function ResistanceBarChart({
   return (
     <Box>
       <Typography variant="h6" color="text.secondary" gutterBottom>
-        {t('common:resistances')}
+        {t.common.resistances}
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {/* X軸ラベル（上部） */}
@@ -238,9 +238,10 @@ export default function ResistanceBarChart({
               size="small"
               sx={{ mb: 1 }}
             >
-              {t('common:resistanceNoneCount', {
-                count: zeroResistances.length,
-              })}
+              {t.common.resistanceNoneCount.replace(
+                '{{count}}',
+                zeroResistances.length.toString()
+              )}
             </Button>
             <Collapse in={showZeroResistances}>
               <XAxisLabels />

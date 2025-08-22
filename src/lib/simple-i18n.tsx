@@ -1,7 +1,7 @@
 'use client';
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+// 既存のresourcesをそのまま使用
 const resources = {
   ja: {
     common: {
@@ -99,6 +99,7 @@ const resources = {
       speed: 'Speed',
       vigor: 'Vigor',
       abilities: 'Abilities',
+      range: 'Range',
       geneSlot: 'Gene Slot',
       geneSlotShort: 'Gene',
       dv: 'DV',
@@ -136,16 +137,45 @@ const resources = {
   },
 };
 
-if (!i18n.isInitialized) {
-  i18n.use(initReactI18next).init({
-    resources,
-    lng: 'ja',
-    fallbackLng: 'ja',
-    debug: false,
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+export type Language = 'ja' | 'en';
+export type Resources = typeof resources;
+export type Translations = Resources[Language];
+
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
 }
 
-export default i18n;
+const LanguageContext = createContext<LanguageContextType | undefined>(
+  undefined
+);
+
+interface LanguageProviderProps {
+  children: ReactNode;
+  initialLanguage?: Language;
+}
+
+export function LanguageProvider({
+  children,
+  initialLanguage = 'ja',
+}: LanguageProviderProps): React.JSX.Element {
+  const [language, setLanguage] = useState<Language>(initialLanguage);
+
+  return (
+    <LanguageContext value={{ language, setLanguage }}>
+      {children}
+    </LanguageContext>
+  );
+}
+
+export function useTranslation(): { t: Translations; language: Language } {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error('useLanguage must be used within a LanguageProvider');
+  }
+
+  const { language } = context;
+  return { t: resources[language], language };
+}
+
+export { resources };

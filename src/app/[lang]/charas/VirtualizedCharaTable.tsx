@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import { useState, useMemo, forwardRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
 import { TableVirtuoso } from 'react-virtuoso';
 import { Chara } from '@/lib/models/chara';
@@ -86,7 +86,8 @@ export default function VirtualizedCharaTable({
   showStatusColumns,
   showResistances,
 }: VirtualizedCharaTableProps) {
-  const { t, i18n } = useTranslation('common');
+  const { t, language } = useTranslation();
+
   const params = useParams();
   const lang = params.lang as string;
   const resistanceElementsList = resistanceElements();
@@ -114,12 +115,12 @@ export default function VirtualizedCharaTable({
 
       switch (sortBy) {
         case 'name':
-          aValue = a.normalizedName(i18n.language).toLowerCase();
-          bValue = b.normalizedName(i18n.language).toLowerCase();
+          aValue = a.normalizedName(language).toLowerCase();
+          bValue = b.normalizedName(language).toLowerCase();
           break;
         case 'race':
-          aValue = a.race.name(i18n.language);
-          bValue = b.race.name(i18n.language);
+          aValue = a.race.name(language);
+          bValue = b.race.name(language);
           break;
         case 'level':
           aValue = a.level();
@@ -175,8 +176,8 @@ export default function VirtualizedCharaTable({
             aValue = a.getElementPower(sortBy);
             bValue = b.getElementPower(sortBy);
           } else {
-            aValue = a.normalizedName(i18n.language).toLowerCase();
-            bValue = b.normalizedName(i18n.language).toLowerCase();
+            aValue = a.normalizedName(language).toLowerCase();
+            bValue = b.normalizedName(language).toLowerCase();
           }
       }
 
@@ -190,7 +191,7 @@ export default function VirtualizedCharaTable({
       if (aStr > bStr) return sortOrder === 'asc' ? 1 : -1;
       return 0;
     });
-  }, [charas, sortBy, sortOrder, i18n.language]);
+  }, [charas, sortBy, sortOrder, language]);
 
   // Row renderer for virtualization
   const rowContent = (_index: number, chara: Chara) => {
@@ -207,12 +208,10 @@ export default function VirtualizedCharaTable({
             href={`/${lang}/charas/${chara.id}`}
             underline="hover"
           >
-            {chara.normalizedName(i18n.language)}
+            {chara.normalizedName(language)}
           </MuiLink>
         </TableCell>
-        <TableCell sx={{ width: 120 }}>
-          {chara.race.name(i18n.language)}
-        </TableCell>
+        <TableCell sx={{ width: 120 }}>{chara.race.name(language)}</TableCell>
         <TableCell sx={{ width: 80 }}>
           {Math.round(chara.level() * 100) / 100}
         </TableCell>
@@ -228,7 +227,7 @@ export default function VirtualizedCharaTable({
               <div>
                 {Object.entries(bodyParts).map(([part, count]) => (
                   <div key={part}>
-                    {t(part)}: {count}
+                    {t.common[part as keyof typeof t.common]}: {count}
                   </div>
                 ))}
               </div>
@@ -282,7 +281,7 @@ export default function VirtualizedCharaTable({
                 direction={sortBy === 'name' ? sortOrder : 'asc'}
                 onClick={() => handleSort('name')}
               >
-                {t('name')}
+                {t.common.name}
               </TableSortLabel>
             </TableCell>
             <TableCell sx={{ width: 120 }}>
@@ -291,7 +290,7 @@ export default function VirtualizedCharaTable({
                 direction={sortBy === 'race' ? sortOrder : 'asc'}
                 onClick={() => handleSort('race')}
               >
-                {t('race')}
+                {t.common.race}
               </TableSortLabel>
             </TableCell>
             <TableCell sx={{ width: 80 }}>
@@ -300,17 +299,17 @@ export default function VirtualizedCharaTable({
                 direction={sortBy === 'level' ? sortOrder : 'asc'}
                 onClick={() => handleSort('level')}
               >
-                {t('level')}
+                {t.common.level}
               </TableSortLabel>
             </TableCell>
             <TableCell sx={{ width: 100 }}>
-              <Tooltip title={t('geneSlot')} arrow placement="top">
+              <Tooltip title={t.common.geneSlot} arrow placement="top">
                 <TableSortLabel
                   active={sortBy === 'geneSlot'}
                   direction={sortBy === 'geneSlot' ? sortOrder : 'asc'}
                   onClick={() => handleSort('geneSlot')}
                 >
-                  {t('geneSlotShort')}
+                  {t.common.geneSlotShort}
                 </TableSortLabel>
               </Tooltip>
             </TableCell>
@@ -321,7 +320,7 @@ export default function VirtualizedCharaTable({
                 direction={sortBy === 'bodyParts' ? sortOrder : 'asc'}
                 onClick={() => handleSort('bodyParts')}
               >
-                {t('bodyParts')}
+                {t.common.bodyParts}
               </TableSortLabel>
             </TableCell>
             {/* Status columns - conditionally shown */}
@@ -333,7 +332,7 @@ export default function VirtualizedCharaTable({
                     direction={sortBy === 'life' ? sortOrder : 'asc'}
                     onClick={() => handleSort('life')}
                   >
-                    {t('life')}
+                    {t.common.life}
                   </TableSortLabel>
                 </TableCell>
                 <TableCell sx={{ width: 80 }}>
@@ -342,7 +341,7 @@ export default function VirtualizedCharaTable({
                     direction={sortBy === 'mana' ? sortOrder : 'asc'}
                     onClick={() => handleSort('mana')}
                   >
-                    {t('mana')}
+                    {t.common.mana}
                   </TableSortLabel>
                 </TableCell>
                 <TableCell sx={{ width: 80 }}>
@@ -351,7 +350,7 @@ export default function VirtualizedCharaTable({
                     direction={sortBy === 'speed' ? sortOrder : 'asc'}
                     onClick={() => handleSort('speed')}
                   >
-                    {t('speed')}
+                    {t.common.speed}
                   </TableSortLabel>
                 </TableCell>
                 <TableCell sx={{ width: 80 }}>
@@ -360,7 +359,7 @@ export default function VirtualizedCharaTable({
                     direction={sortBy === 'vigor' ? sortOrder : 'asc'}
                     onClick={() => handleSort('vigor')}
                   >
-                    {t('vigor')}
+                    {t.common.vigor}
                   </TableSortLabel>
                 </TableCell>
                 <TableCell sx={{ width: 60 }}>
@@ -369,7 +368,7 @@ export default function VirtualizedCharaTable({
                     direction={sortBy === 'dv' ? sortOrder : 'asc'}
                     onClick={() => handleSort('dv')}
                   >
-                    {t('dv')}
+                    {t.common.dv}
                   </TableSortLabel>
                 </TableCell>
                 <TableCell sx={{ width: 60 }}>
@@ -378,39 +377,39 @@ export default function VirtualizedCharaTable({
                     direction={sortBy === 'pv' ? sortOrder : 'asc'}
                     onClick={() => handleSort('pv')}
                   >
-                    {t('pv')}
+                    {t.common.pv}
                   </TableSortLabel>
                 </TableCell>
                 <TableCell sx={{ width: 60 }}>
-                  <Tooltip title={t('pdr')} arrow placement="top">
+                  <Tooltip title={t.common.pdr} arrow placement="top">
                     <TableSortLabel
                       active={sortBy === 'pdr'}
                       direction={sortBy === 'pdr' ? sortOrder : 'asc'}
                       onClick={() => handleSort('pdr')}
                     >
-                      {t('pdrShort')}
+                      {t.common.pdrShort}
                     </TableSortLabel>
                   </Tooltip>
                 </TableCell>
                 <TableCell sx={{ width: 60 }}>
-                  <Tooltip title={t('edr')} arrow placement="top">
+                  <Tooltip title={t.common.edr} arrow placement="top">
                     <TableSortLabel
                       active={sortBy === 'edr'}
                       direction={sortBy === 'edr' ? sortOrder : 'asc'}
                       onClick={() => handleSort('edr')}
                     >
-                      {t('edrShort')}
+                      {t.common.edrShort}
                     </TableSortLabel>
                   </Tooltip>
                 </TableCell>
                 <TableCell sx={{ width: 60 }}>
-                  <Tooltip title={t('ep')} arrow placement="top">
+                  <Tooltip title={t.common.ep} arrow placement="top">
                     <TableSortLabel
                       active={sortBy === 'ep'}
                       direction={sortBy === 'ep' ? sortOrder : 'asc'}
                       onClick={() => handleSort('ep')}
                     >
-                      {t('epShort')}
+                      {t.common.epShort}
                     </TableSortLabel>
                   </Tooltip>
                 </TableCell>
@@ -425,7 +424,7 @@ export default function VirtualizedCharaTable({
                     direction={sortBy === resElement.alias ? sortOrder : 'asc'}
                     onClick={() => handleSort(resElement.alias)}
                   >
-                    {resElement.name(i18n.language)}
+                    {resElement.name(language)}
                   </TableSortLabel>
                 </TableCell>
               ))}
