@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Elementable } from '../elementable';
 import { all } from '../db';
 
 export const JobSchema = z.object({
@@ -52,5 +53,40 @@ export class Job {
 
   get defaultSortKey() {
     return this.index;
+  }
+
+  name(locale: string) {
+    switch (locale) {
+      case 'ja':
+        return this.row.name_JP;
+      case 'en':
+        return this.row.name;
+      default:
+        throw new Error(`Unsupported locale: ${locale}`);
+    }
+  }
+
+  get mag() {
+    return this.row.MAG;
+  }
+
+  get speed() {
+    return this.row.SPD;
+  }
+
+  elements() {
+    return new Elementable(this.row).elements();
+  }
+
+  feats() {
+    return new Elementable(this.row).feats();
+  }
+
+  negations() {
+    return new Elementable(this.row).negations();
+  }
+
+  others() {
+    return new Elementable(this.row).others();
   }
 }

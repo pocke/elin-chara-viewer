@@ -5,12 +5,16 @@ import { z } from 'zod';
 import charasContent from '../../db/EA 23.173 Patch 1/charas.csv';
 import elementsContent from '../../db/EA 23.173 Patch 1/elements.csv';
 import racesContent from '../../db/EA 23.173 Patch 1/races.csv';
+import jobsContent from '../../db/EA 23.173 Patch 1/jobs.csv';
+import tacticsContent from '../../db/EA 23.173 Patch 1/tactics.csv';
 
 // Map table names to their CSV content
 const csvContentMap: Record<string, string> = {
   charas: charasContent,
   elements: elementsContent,
   races: racesContent,
+  jobs: jobsContent,
+  tactics: tacticsContent,
 };
 
 const cache = new Map<string, unknown[]>();
