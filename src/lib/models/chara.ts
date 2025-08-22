@@ -310,6 +310,20 @@ export class Chara {
       .filter((elementWithPower) => elementWithPower.element.alias === alias)
       .reduce((sum, elementWithPower) => sum + elementWithPower.power, 0);
   }
+
+  resistances() {
+    return this.elements().filter((elementWithPower) =>
+      elementWithPower.element.alias.startsWith('res')
+    );
+  }
+
+  bodyParts() {
+    return this.raceObj.figures();
+  }
+
+  totalBodyParts() {
+    return this.raceObj.totalBodyParts();
+  }
 }
 
 export const normalizedCharaName = (chara: CharaRow) => {
