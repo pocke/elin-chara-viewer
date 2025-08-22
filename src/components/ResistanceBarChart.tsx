@@ -12,13 +12,13 @@
  * - X軸ラベルは耐性なしセクションにも表示、全体の耐性がない場合は非表示
  *
  * 耐性ラベル定義:
- * - <= -10: "致命的な弱点"
- * - <= -5: "弱点"
- * - === 0: "なし"
- * - >= 20: "免疫"
- * - >= 15: "素晴らしい耐性"
- * - >= 10: "強い耐性"
- * - >= 5: "耐性"
+ * - <= -10: "致命的な弱点" / "Defect"
+ * - <= -5: "弱点" / "Weakness"
+ * - === 0: "なし" / "None"
+ * - >= 20: "免疫" / "Immunity"
+ * - >= 15: "素晴らしい耐性" / "Superb"
+ * - >= 10: "強い耐性" / "Strong"
+ * - >= 5: "耐性" / "Normal"
  *
  * 表示範囲: -15 ～ +25
  * グリッドライン: -15, -10, -5, 0, 5, 10, 15, 20, 25
@@ -28,6 +28,7 @@
 import { Box, Typography, Collapse, Button, Tooltip } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Element } from '@/lib/models/element';
 
 interface ResistanceData {
@@ -40,21 +41,25 @@ interface ResistanceBarChartProps {
   locale: string;
 }
 
-const getResistanceLabel = (value: number): string => {
-  if (value <= -10) return '致命的な弱点';
-  if (value <= -5) return '弱点';
-  if (value === 0) return 'なし';
-  if (value >= 20) return '免疫';
-  if (value >= 15) return '素晴らしい耐性';
-  if (value >= 10) return '強い耐性';
-  if (value >= 5) return '耐性';
-  return 'なし';
+const getResistanceLabel = (
+  value: number,
+  t: (key: string) => string
+): string => {
+  if (value <= -10) return t('common:resistanceDefect');
+  if (value <= -5) return t('common:resistanceWeakness');
+  if (value === 0) return t('common:resistanceNone');
+  if (value >= 20) return t('common:resistanceImmunity');
+  if (value >= 15) return t('common:resistanceSuperb');
+  if (value >= 10) return t('common:resistanceStrong');
+  if (value >= 5) return t('common:resistanceNormal');
+  return t('common:resistanceNone');
 };
 
 export default function ResistanceBarChart({
   resistances,
   locale,
 }: ResistanceBarChartProps) {
+  const { t } = useTranslation();
   const [showZeroResistances, setShowZeroResistances] = useState(false);
   const chartWidth = { xs: 280, sm: 400, md: 600 };
   const rowHeight = 40;
@@ -111,7 +116,7 @@ export default function ResistanceBarChart({
                   fontSize: '0.75rem',
                 }}
               >
-                {getResistanceLabel(value)}
+                {getResistanceLabel(value, t)}
               </Typography>
             )}
           </Box>
@@ -123,7 +128,7 @@ export default function ResistanceBarChart({
   return (
     <Box>
       <Typography variant="h6" color="text.secondary" gutterBottom>
-        耐性
+        {t('common:resistances')}
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {/* X軸ラベル（上部） */}
@@ -133,7 +138,7 @@ export default function ResistanceBarChart({
         {nonZeroResistances.map((resistance) => {
           const elementColor = resistance.element.getColor();
           const isNegative = resistance.value < 0;
-          const resistanceLabel = getResistanceLabel(resistance.value);
+          const resistanceLabel = getResistanceLabel(resistance.value, t);
 
           // パーセンテージベースでバーの位置とサイズを計算
           const valuePercent =
@@ -246,7 +251,9 @@ export default function ResistanceBarChart({
               size="small"
               sx={{ mb: 1 }}
             >
-              耐性なし ({zeroResistances.length}個)
+              {t('common:resistanceNoneCount', {
+                count: zeroResistances.length,
+              })}
             </Button>
             <Collapse in={showZeroResistances}>
               <XAxisLabels />
@@ -290,7 +297,9 @@ export default function ResistanceBarChart({
                           >
                             {resistance.element.name(locale)}
                           </Typography>
-                          <Typography variant="body2">0 (なし)</Typography>
+                          <Typography variant="body2">
+                            0 ({getResistanceLabel(0, t)})
+                          </Typography>
                         </Box>
                       }
                       arrow
