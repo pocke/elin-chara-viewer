@@ -23,6 +23,7 @@ import {
   Element,
 } from '@/lib/models/element';
 import { Race, type RaceRow } from '@/lib/models/race';
+import ResistanceBarChart from '@/components/ResistanceBarChart';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;
@@ -105,11 +106,13 @@ export default function CharaDetailClient({
             }}
             sx={{
               cursor: 'pointer',
+              borderColor: element.getColor(),
+              color: element.getColor(),
               '&:hover': {
-                backgroundColor: 'primary.light',
-                borderColor: 'primary.main',
+                backgroundColor: element.getColor() + '20',
+                borderColor: element.getColor(),
                 '& .MuiChip-label': {
-                  color: 'primary.dark',
+                  color: element.getColor(),
                 },
               },
             }}
@@ -193,9 +196,31 @@ export default function CharaDetailClient({
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
             <PersonIcon sx={{ mr: 2, fontSize: 40 }} />
             <Box>
-              <Typography variant="h3" component="h1" gutterBottom>
-                {chara.normalizedName(i18n.language)}
-              </Typography>
+              <Box
+                sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}
+              >
+                <Typography variant="h3" component="h1">
+                  {chara.normalizedName(i18n.language)}
+                </Typography>
+                {chara.mainElement && (
+                  <Chip
+                    label={chara.mainElement.name(i18n.language)}
+                    variant="filled"
+                    size="medium"
+                    sx={{
+                      fontSize: '1rem',
+                      fontWeight: 'bold',
+                      height: '32px',
+                      backgroundColor: chara.mainElement.getColor(),
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: chara.mainElement.getColor(),
+                        opacity: 0.8,
+                      },
+                    }}
+                  />
+                )}
+              </Box>
               <Chip
                 label={`${t('id')}: ${chara.id}`}
                 variant="outlined"
@@ -327,49 +352,10 @@ export default function CharaDetailClient({
               </Box>
             </Box>
 
-            <Box>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t('resistances')}
-              </Typography>
-              <Box
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
-                  gap: 1,
-                }}
-              >
-                {resistances.map((resistance) => (
-                  <Box
-                    key={resistance.element.alias}
-                    sx={{
-                      textAlign: 'center',
-                      p: 1,
-                      border: '1px solid',
-                      borderColor: 'divider',
-                      borderRadius: 1,
-                    }}
-                  >
-                    <Typography variant="caption" color="text.secondary">
-                      {resistance.element.name(i18n.language)}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      fontWeight="bold"
-                      color={
-                        resistance.value > 0
-                          ? 'success.main'
-                          : resistance.value < 0
-                            ? 'error.main'
-                            : 'text.primary'
-                      }
-                    >
-                      {resistance.value > 0 ? '+' : ''}
-                      {resistance.value}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            </Box>
+            <ResistanceBarChart
+              resistances={resistances}
+              locale={i18n.language}
+            />
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
@@ -426,7 +412,14 @@ export default function CharaDetailClient({
                           label={`${negationName}${negation.power > 1 ? ` (${negation.power})` : ''}`}
                           variant="outlined"
                           size="small"
-                          color="error"
+                          sx={{
+                            borderColor: element.getColor(),
+                            color: element.getColor(),
+                            '&:hover': {
+                              backgroundColor: element.getColor() + '20',
+                              borderColor: element.getColor(),
+                            },
+                          }}
                         />
                       </Box>
                     );

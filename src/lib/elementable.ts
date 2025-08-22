@@ -58,6 +58,7 @@ export class Elementable {
       (elementWithPower) =>
         !elementWithPower.element.alias.startsWith('feat') &&
         !elementWithPower.element.alias.startsWith('negate') &&
+        !elementWithPower.element.alias.startsWith('ele') &&
         !elementWithPower.element.alias.startsWith('res')
     );
   }

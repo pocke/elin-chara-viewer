@@ -213,6 +213,47 @@ export class Element {
     return locale === 'ja' ? this.row.textExtra_JP : this.row.textExtra;
   }
 
+  getColor() {
+    const elementColors: Record<string, string> = {
+      eleFire: '#ff4500',
+      eleCold: '#0000ff',
+      eleLightning: '#ffff00',
+      eleDarkness: '#000000',
+      eleMind: '#ff69b4',
+      elePoison: '#00ff00',
+      eleNether: '#191970',
+      eleSound: '#f0e68c',
+      eleNerve: '#808000',
+      eleHoly: '#bbbbff',
+      eleChaos: '#ff00ff',
+      eleMagic: '#0000cd',
+      eleEther: '#00bfff',
+      eleAcid: '#2e8b57',
+      eleCut: '#ff0000',
+      eleImpact: '#666666',
+      eleVoid: '#666666',
+
+      resFire: '#ff4500',
+      resCold: '#0000ff',
+      resLightning: '#ffff00',
+      resDarkness: '#000000',
+      resMind: '#ff69b4',
+      resPoison: '#00ff00',
+      resNether: '#191970',
+      resSound: '#f0e68c',
+      resNerve: '#808000',
+      resHoly: '#bbbbff',
+      resChaos: '#ff00ff',
+      resMagic: '#0000cd',
+      resEther: '#00bfff',
+      resAcid: '#2e8b57',
+      resCut: '#ff0000',
+      resImpact: '#666666',
+    };
+
+    return elementColors[this.row.alias] || '#666666';
+  }
+
   subElements() {
     const modifiers =
       featModifierJson[this.row.id as keyof typeof featModifierJson];

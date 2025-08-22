@@ -61,7 +61,7 @@ export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
   private raceObj: Race;
-  private mainElement: Element | null = null;
+  public mainElement: Element | null = null;
   private isVariant: boolean = false;
 
   constructor(
