@@ -277,7 +277,10 @@ export default function CharaDetailClient({
                     const element = feat.element;
                     const featName = element.name(i18n.language);
 
-                    const subElements = element.subElements(feat.power);
+                    const subElements = element.subElements().map((sub) => ({
+                      element: sub.element,
+                      power: feat.power * sub.coefficient,
+                    }));
 
                     return (
                       <Box

@@ -163,7 +163,7 @@ export class Element {
     }
   }
 
-  subElements(power: number) {
+  subElements() {
     const modifiers =
       featModifierJson[this.row.id as keyof typeof featModifierJson];
     if (!modifiers) {
@@ -178,7 +178,7 @@ export class Element {
 
       return {
         element: childElement,
-        power: power * coefficient,
+        coefficient,
       };
     });
   }

@@ -20,10 +20,12 @@ export class Elementable {
     const allElements = [...mainElements];
 
     for (const elementWithPower of mainElements) {
-      const subElements = elementWithPower.element.subElements(
-        elementWithPower.power
-      );
-      allElements.push(...subElements);
+      const subElements = elementWithPower.element.subElements();
+      const subElementsWithPower = subElements.map((sub) => ({
+        element: sub.element,
+        power: elementWithPower.power * sub.coefficient,
+      }));
+      allElements.push(...subElementsWithPower);
     }
 
     return allElements;
