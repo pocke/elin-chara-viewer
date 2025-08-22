@@ -18,7 +18,7 @@ import {
   ExpandMore as ExpandMoreIcon,
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { type CharaRow, Chara } from '@/lib/models/chara';
 import { elementByAlias } from '@/lib/models/element';
 import CharaTable from './CharaTable';
@@ -32,19 +32,39 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
   const { t, i18n } = useTranslation('common');
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [selectedBodyParts, setSelectedBodyParts] = useState<string[]>([]);
   const [selectedFeats, setSelectedFeats] = useState<string[]>([]);
   const [selectedAbilities, setSelectedAbilities] = useState<string[]>([]);
   const [featSearch, setFeatSearch] = useState('');
   const [abilitySearch, setAbilitySearch] = useState('');
 
-  // Expand characters with variants
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Expand characters with variants (memoized for performance)
   const allCharas = useMemo(() => {
     return charas.flatMap((chara) => {
       const variants = chara.variants();
       return variants.length > 0 ? variants : [chara];
     });
   }, [charas]);
+
+  // Pre-normalize character names for better search performance
+  const normalizedCharaNames = useMemo(() => {
+    return new Map(
+      allCharas.map((chara) => [
+        chara.id,
+        chara.normalizedName(i18n.language).toLowerCase(),
+      ])
+    );
+  }, [allCharas, i18n.language]);
 
   // Get unique body parts, feats, and abilities from all characters
   const availableOptions = useMemo(() => {
@@ -91,15 +111,18 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
     };
   }, [allCharas, i18n.language]);
 
-  // Filter characters based on search and filters
+  // Filter characters based on search and filters (optimized)
   const filteredCharas = useMemo(() => {
+    const searchLower = debouncedSearchQuery.toLowerCase();
+
     return allCharas.filter((chara) => {
-      // Name search
-      const nameMatch = chara
-        .normalizedName(i18n.language)
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
-      if (!nameMatch) return false;
+      // Name search - use pre-normalized names for better performance
+      if (searchLower) {
+        const normalizedName = normalizedCharaNames.get(chara.id);
+        if (!normalizedName || !normalizedName.includes(searchLower)) {
+          return false;
+        }
+      }
 
       // Body parts filter
       if (selectedBodyParts.length > 0) {
@@ -132,32 +155,32 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
     });
   }, [
     allCharas,
-    searchQuery,
+    debouncedSearchQuery,
     selectedBodyParts,
     selectedFeats,
     selectedAbilities,
-    i18n.language,
+    normalizedCharaNames,
   ]);
 
-  const handleBodyPartToggle = (part: string) => {
+  const handleBodyPartToggle = useCallback((part: string) => {
     setSelectedBodyParts((prev) =>
       prev.includes(part) ? prev.filter((p) => p !== part) : [...prev, part]
     );
-  };
+  }, []);
 
-  const handleFeatToggle = (feat: string) => {
+  const handleFeatToggle = useCallback((feat: string) => {
     setSelectedFeats((prev) =>
       prev.includes(feat) ? prev.filter((f) => f !== feat) : [...prev, feat]
     );
-  };
+  }, []);
 
-  const handleAbilityToggle = (ability: string) => {
+  const handleAbilityToggle = useCallback((ability: string) => {
     setSelectedAbilities((prev) =>
       prev.includes(ability)
         ? prev.filter((a) => a !== ability)
         : [...prev, ability]
     );
-  };
+  }, []);
 
   return (
     <Container maxWidth="xl">
