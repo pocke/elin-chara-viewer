@@ -37,12 +37,15 @@ export default function CharaDetailClient({
   race,
   variantElement,
 }: CharaDetailClientProps) {
-  const racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
   const elementsMap = new Map(
     elements.map((element) => [element.alias, new GameElement(element)])
   );
-  const chara = new Chara(charaRow, racesMap, elementsMap, variantElement);
-  const raceObj = new Race(race);
+  const elementsIdMap = new Map(
+    elements.map((element) => [element.id, new GameElement(element)])
+  );
+  const racesMap = new Map(races.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
+  const chara = new Chara(charaRow, racesMap, elementsMap, elementsIdMap, variantElement);
+  const raceObj = new Race(race, elementsMap, elementsIdMap);
   const { t, i18n } = useTranslation('common');
 
   const feats = chara.feats();
@@ -61,6 +64,7 @@ export default function CharaDetailClient({
   const totalBodyParts = raceObj.totalBodyParts();
   const abilities = chara.abilities();
   const [actualGeneSlot, origGeneSlot] = chara.geneSlot();
+  const resistances = chara.getResistances();
 
   return (
     <Container maxWidth="md">
@@ -113,9 +117,7 @@ export default function CharaDetailClient({
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('level')}
               </Typography>
-              <Typography variant="body1">
-                {chara.level()}
-              </Typography>
+              <Typography variant="body1">{chara.level()}</Typography>
             </Box>
 
             <Box>
@@ -217,6 +219,50 @@ export default function CharaDetailClient({
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t('resistances')}
+              </Typography>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+                  gap: 1,
+                }}
+              >
+                {resistances.map((resistance) => (
+                  <Box
+                    key={resistance.element.alias}
+                    sx={{
+                      textAlign: 'center',
+                      p: 1,
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      borderRadius: 1,
+                    }}
+                  >
+                    <Typography variant="caption" color="text.secondary">
+                      {resistance.element.name(i18n.language)}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      fontWeight="bold"
+                      color={
+                        resistance.value > 0
+                          ? 'success.main'
+                          : resistance.value < 0
+                            ? 'error.main'
+                            : 'text.primary'
+                      }
+                    >
+                      {resistance.value > 0 ? '+' : ''}
+                      {resistance.value}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t('bodyParts')} ({totalBodyParts})
               </Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -247,13 +293,47 @@ export default function CharaDetailClient({
                     const featName = element
                       ? element.name(i18n.language)
                       : feat.alias;
+
+                    const subElements = element
+                      ? element.subElements(feat.power, elementsIdMap)
+                      : [];
+
                     return (
-                      <Chip
+                      <Box
                         key={index}
-                        label={`${featName}${feat.power > 1 ? ` (${feat.power})` : ''}`}
-                        variant="outlined"
-                        size="small"
-                      />
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: 0.5,
+                        }}
+                      >
+                        <Chip
+                          label={`${featName}${feat.power > 1 ? ` (${feat.power})` : ''}`}
+                          variant="outlined"
+                          size="small"
+                        />
+                        {subElements.length > 0 && (
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexWrap: 'wrap',
+                              gap: 0.5,
+                              ml: 2,
+                            }}
+                          >
+                            {subElements.map((sub, subIndex) => (
+                              <Chip
+                                key={subIndex}
+                                label={`${sub.element.name(i18n.language)} (${sub.power > 0 ? '+' : ''}${sub.power})`}
+                                variant="filled"
+                                size="small"
+                                color="secondary"
+                                sx={{ fontSize: '0.7rem' }}
+                              />
+                            ))}
+                          </Box>
+                        )}
+                      </Box>
                     );
                   })}
                 </Box>

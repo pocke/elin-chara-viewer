@@ -62,12 +62,14 @@ export type CharaRow = z.infer<typeof CharaSchema>;
 export class Chara {
   private raceObj: Race;
   private elementsMap: Map<string, Element>;
+  private elementsIdMap: Map<string, Element>;
   private variantElement: Element | null;
 
   constructor(
     private row: CharaRow,
     racesMap: Map<string, Race>,
     elementsMap: Map<string, Element>,
+    elementsIdMap: Map<string, Element>,
     variantElementAlias: ElementAttacks | null = null
   ) {
     const raceId = this.row.race ?? 'norland';
@@ -75,6 +77,7 @@ export class Chara {
     if (!race) throw new Error(`Race not found: ${raceId}`);
     this.raceObj = race;
     this.elementsMap = elementsMap;
+    this.elementsIdMap = elementsIdMap;
 
     if (variantElementAlias) {
       const element = elementsMap.get(variantElementAlias);
@@ -125,13 +128,24 @@ export class Chara {
 
   elements() {
     return [
-      ...new Elementable(this.row).elements(),
+      ...new Elementable(
+        this.row,
+        this.elementsMap,
+        this.elementsIdMap
+      ).elements(),
       ...this.raceObj.elements(),
     ];
   }
 
   feats() {
-    return [...new Elementable(this.row).feats(), ...this.raceObj.feats()];
+    return [
+      ...new Elementable(
+        this.row,
+        this.elementsMap,
+        this.elementsIdMap
+      ).feats(),
+      ...this.raceObj.feats(),
+    ];
   }
 
   abilities() {
@@ -255,6 +269,7 @@ export class Chara {
         variantRow,
         racesMap,
         this.elementsMap,
+        this.elementsIdMap,
         ('ele' + elm) as ElementAttacks
       );
     });
@@ -287,10 +302,39 @@ export class Chara {
   }
 
   private getElementModifier(alias: string): number {
-    const elements = this.elements();
-    return elements
+    return this.elements()
       .filter((element) => element.alias === alias)
       .reduce((sum, element) => sum + element.power, 0);
+  }
+
+  getResistances() {
+    const resistanceTypes = [
+      'resFire',
+      'resCold',
+      'resLightning',
+      'resDarkness',
+      'resMind',
+      'resPoison',
+      'resNether',
+      'resSound',
+      'resNerve',
+      'resChaos',
+      'resHoly',
+      'resMagic',
+      'resEther',
+      'resAcid',
+      'resCut',
+      'resImpact',
+    ];
+
+    return resistanceTypes.map((resistanceType) => {
+      const element = this.elementsMap.get(resistanceType);
+      if (!element) throw new Error(`Element not found: ${resistanceType}`);
+      return {
+        value: this.getElementModifier(resistanceType),
+        element: element,
+      };
+    });
   }
 }
 
