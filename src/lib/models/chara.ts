@@ -61,7 +61,7 @@ export type CharaRow = z.infer<typeof CharaSchema>;
 
 export class Chara {
   private raceObj: Race;
-  private variantElement: Element | null;
+  private mainElement: Element | null;
 
   constructor(
     private row: CharaRow,
@@ -76,16 +76,14 @@ export class Chara {
       const element = elementByAlias(variantElementAlias);
       if (!element)
         throw new Error(`Element not found: ${variantElementAlias}`);
-      this.variantElement = element;
+      this.mainElement = element;
     } else {
-      this.variantElement = null;
+      this.mainElement = null;
     }
   }
 
   get id() {
-    return [this.row.id, this.variantElement?.alias]
-      .filter((x) => x)
-      .join('---');
+    return [this.row.id, this.mainElement?.alias].filter((x) => x).join('---');
   }
 
   get defaultSortKey() {
@@ -109,12 +107,12 @@ export class Chara {
       return '*r';
     }
 
-    if (name.includes('#ele') && this.variantElement) {
+    if (name.includes('#ele') && this.mainElement) {
       name = name
         .replace(/#ele(\d)/, (_, n) =>
-          this.variantElement!.altName(parseInt(n, 10), locale)
+          this.mainElement!.altName(parseInt(n, 10), locale)
         )
-        .replace('#ele', () => this.variantElement!.altName(-1, locale));
+        .replace('#ele', () => this.mainElement!.altName(-1, locale));
     }
     return name;
   }
@@ -138,10 +136,7 @@ export class Chara {
   }
 
   others() {
-    return [
-      ...new Elementable(this.row).others(),
-      ...this.raceObj.others(),
-    ];
+    return [...new Elementable(this.row).others(), ...this.raceObj.others()];
   }
 
   abilities() {
@@ -165,7 +160,7 @@ export class Chara {
 
         if (elementPart === '') {
           // If nothing after underscore, use variant element
-          element = this.variantElement?.alias ?? null;
+          element = this.mainElement?.alias ?? null;
         } else {
           element = 'ele' + elementPart;
         }
@@ -200,8 +195,8 @@ export class Chara {
 
   level() {
     const lv = this.row.LV ?? 1;
-    if (this.variantElement) {
-      return (lv * this.variantElement.elementPower) / 100;
+    if (this.mainElement) {
+      return (lv * this.mainElement.elementPower) / 100;
     }
     return lv;
   }
@@ -247,7 +242,7 @@ export class Chara {
   }
 
   variants() {
-    if (this.variantElement) {
+    if (this.mainElement) {
       return [];
     }
     if (!this.row.name?.match(/#ele/)) {
