@@ -193,9 +193,26 @@ export default function CharaDetailClient({
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
             <PersonIcon sx={{ mr: 2, fontSize: 40 }} />
             <Box>
-              <Typography variant="h3" component="h1" gutterBottom>
-                {chara.normalizedName(i18n.language)}
-              </Typography>
+              <Box
+                sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}
+              >
+                <Typography variant="h3" component="h1">
+                  {chara.normalizedName(i18n.language)}
+                </Typography>
+                {chara.mainElement && (
+                  <Chip
+                    label={chara.mainElement.name(i18n.language)}
+                    variant="filled"
+                    color="secondary"
+                    size="medium"
+                    sx={{
+                      fontSize: '1rem',
+                      fontWeight: 'bold',
+                      height: '32px',
+                    }}
+                  />
+                )}
+              </Box>
               <Chip
                 label={`${t('id')}: ${chara.id}`}
                 variant="outlined"
