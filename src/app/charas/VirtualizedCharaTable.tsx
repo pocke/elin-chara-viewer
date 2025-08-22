@@ -16,7 +16,7 @@ import { useState, useMemo, forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TableVirtuoso } from 'react-virtuoso';
 import { Chara } from '@/lib/models/chara';
-import { resistanceElements, elementByAlias } from '@/lib/models/element';
+import { resistanceElements } from '@/lib/models/element';
 
 type SortOrder = 'asc' | 'desc';
 type SortBy =
@@ -34,13 +34,13 @@ type SortBy =
   | 'edr'
   | 'ep'
   | 'bodyParts'
-  | 'feats'
-  | 'abilities'
   | string
   | 'default';
 
 interface VirtualizedCharaTableProps {
   charas: Chara[];
+  showStatusColumns: boolean;
+  showResistances: boolean;
 }
 
 // Table components for react-virtuoso
@@ -71,6 +71,8 @@ const VirtuosoTableComponents = {
 
 export default function VirtualizedCharaTable({
   charas,
+  showStatusColumns,
+  showResistances,
 }: VirtualizedCharaTableProps) {
   const { t, i18n } = useTranslation('common');
   const resistanceElementsList = resistanceElements();
@@ -153,14 +155,6 @@ export default function VirtualizedCharaTable({
           aValue = a.totalBodyParts();
           bValue = b.totalBodyParts();
           break;
-        case 'feats':
-          aValue = a.feats().length;
-          bValue = b.feats().length;
-          break;
-        case 'abilities':
-          aValue = a.abilities().length;
-          bValue = b.abilities().length;
-          break;
         default:
           // Check if it's a resistance sort
           if (sortBy.startsWith('res')) {
@@ -193,11 +187,10 @@ export default function VirtualizedCharaTable({
     );
     const bodyParts = chara.bodyParts();
     const totalParts = chara.totalBodyParts();
-    const feats = chara.feats();
-    const abilities = chara.abilities();
 
     return (
       <>
+        {/* Always visible columns */}
         <TableCell sx={{ width: 200 }}>
           <MuiLink
             component={Link}
@@ -218,15 +211,7 @@ export default function VirtualizedCharaTable({
             ? `${actualGeneSlot} (${originalGeneSlot})`
             : actualGeneSlot}
         </TableCell>
-        <TableCell sx={{ width: 80 }}>{chara.life()}</TableCell>
-        <TableCell sx={{ width: 80 }}>{chara.mana()}</TableCell>
-        <TableCell sx={{ width: 80 }}>{chara.speed()}</TableCell>
-        <TableCell sx={{ width: 80 }}>{chara.vigor()}</TableCell>
-        <TableCell sx={{ width: 60 }}>{chara.dv()}</TableCell>
-        <TableCell sx={{ width: 60 }}>{chara.pv()}</TableCell>
-        <TableCell sx={{ width: 60 }}>{chara.pdr()}</TableCell>
-        <TableCell sx={{ width: 60 }}>{chara.edr()}</TableCell>
-        <TableCell sx={{ width: 60 }}>{chara.ep()}</TableCell>
+        {/* Body Parts moved right after Gene Slot */}
         <TableCell sx={{ width: 80 }}>
           <Tooltip
             title={
@@ -244,81 +229,36 @@ export default function VirtualizedCharaTable({
             <span style={{ cursor: 'help' }}>{totalParts}</span>
           </Tooltip>
         </TableCell>
-        <TableCell sx={{ width: 80 }}>
-          <Tooltip
-            title={
-              <div style={{ maxWidth: 300 }}>
-                {feats.length === 0 ? (
-                  <div>なし</div>
-                ) : (
-                  feats.map((feat, index) => (
-                    <div key={index}>
-                      {feat.element.name(i18n.language)}
-                      {feat.power !== 1 ? ` (${feat.power})` : ''}
-                    </div>
-                  ))
-                )}
-              </div>
-            }
-            arrow
-            placement="top"
-          >
-            <span style={{ cursor: 'help' }}>{feats.length}</span>
-          </Tooltip>
-        </TableCell>
-        <TableCell sx={{ width: 80 }}>
-          <Tooltip
-            title={
-              <div style={{ maxWidth: 300 }}>
-                {abilities.length === 0 ? (
-                  <div>なし</div>
-                ) : (
-                  abilities.map((ability, index) => {
-                    const baseElement = elementByAlias(ability.name);
-                    const elementElement = ability.element
-                      ? (elementByAlias(ability.element) ?? null)
-                      : null;
-
-                    let abilityName: string;
-                    if (baseElement) {
-                      abilityName = baseElement.abilityName(
-                        elementElement,
-                        i18n.language
-                      );
-                    } else {
-                      abilityName = ability.name;
-                    }
-
-                    return (
-                      <div key={index}>
-                        {abilityName}
-                        {ability.party ? ` (${t('range')})` : ''}
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-            }
-            arrow
-            placement="top"
-          >
-            <span style={{ cursor: 'help' }}>{abilities.length}</span>
-          </Tooltip>
-        </TableCell>
-        {resistanceElementsList.map((resElement) => {
-          const resValue = resistanceMap.get(resElement.alias) || 0;
-          const displayValue =
-            resValue > 0
-              ? `+${resValue}${resValue >= 200 ? ' (免疫)' : ''}`
-              : resValue < 0
-                ? `${resValue}`
-                : '';
-          return (
-            <TableCell key={resElement.alias} sx={{ width: 80 }}>
-              {displayValue}
-            </TableCell>
-          );
-        })}
+        {/* Status columns - conditionally shown */}
+        {showStatusColumns && (
+          <>
+            <TableCell sx={{ width: 80 }}>{chara.life()}</TableCell>
+            <TableCell sx={{ width: 80 }}>{chara.mana()}</TableCell>
+            <TableCell sx={{ width: 80 }}>{chara.speed()}</TableCell>
+            <TableCell sx={{ width: 80 }}>{chara.vigor()}</TableCell>
+            <TableCell sx={{ width: 60 }}>{chara.dv()}</TableCell>
+            <TableCell sx={{ width: 60 }}>{chara.pv()}</TableCell>
+            <TableCell sx={{ width: 60 }}>{chara.pdr()}</TableCell>
+            <TableCell sx={{ width: 60 }}>{chara.edr()}</TableCell>
+            <TableCell sx={{ width: 60 }}>{chara.ep()}</TableCell>
+          </>
+        )}
+        {/* Resistances - conditionally shown */}
+        {showResistances &&
+          resistanceElementsList.map((resElement) => {
+            const resValue = resistanceMap.get(resElement.alias) || 0;
+            const displayValue =
+              resValue > 0
+                ? `+${resValue}${resValue >= 200 ? ' (免疫)' : ''}`
+                : resValue < 0
+                  ? `${resValue}`
+                  : '';
+            return (
+              <TableCell key={resElement.alias} sx={{ width: 80 }}>
+                {displayValue}
+              </TableCell>
+            );
+          })}
       </>
     );
   };
@@ -330,6 +270,7 @@ export default function VirtualizedCharaTable({
         components={VirtuosoTableComponents}
         fixedHeaderContent={() => (
           <TableRow>
+            {/* Always visible columns */}
             <TableCell sx={{ width: 200 }}>
               <TableSortLabel
                 active={sortBy === 'name'}
@@ -366,87 +307,7 @@ export default function VirtualizedCharaTable({
                 {t('geneSlot')}
               </TableSortLabel>
             </TableCell>
-            <TableCell sx={{ width: 80 }}>
-              <TableSortLabel
-                active={sortBy === 'life'}
-                direction={sortBy === 'life' ? sortOrder : 'asc'}
-                onClick={() => handleSort('life')}
-              >
-                {t('life')}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ width: 80 }}>
-              <TableSortLabel
-                active={sortBy === 'mana'}
-                direction={sortBy === 'mana' ? sortOrder : 'asc'}
-                onClick={() => handleSort('mana')}
-              >
-                {t('mana')}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ width: 80 }}>
-              <TableSortLabel
-                active={sortBy === 'speed'}
-                direction={sortBy === 'speed' ? sortOrder : 'asc'}
-                onClick={() => handleSort('speed')}
-              >
-                {t('speed')}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ width: 80 }}>
-              <TableSortLabel
-                active={sortBy === 'vigor'}
-                direction={sortBy === 'vigor' ? sortOrder : 'asc'}
-                onClick={() => handleSort('vigor')}
-              >
-                {t('vigor')}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ width: 60 }}>
-              <TableSortLabel
-                active={sortBy === 'dv'}
-                direction={sortBy === 'dv' ? sortOrder : 'asc'}
-                onClick={() => handleSort('dv')}
-              >
-                {t('dv')}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ width: 60 }}>
-              <TableSortLabel
-                active={sortBy === 'pv'}
-                direction={sortBy === 'pv' ? sortOrder : 'asc'}
-                onClick={() => handleSort('pv')}
-              >
-                {t('pv')}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ width: 60 }}>
-              <TableSortLabel
-                active={sortBy === 'pdr'}
-                direction={sortBy === 'pdr' ? sortOrder : 'asc'}
-                onClick={() => handleSort('pdr')}
-              >
-                {t('pdr')}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ width: 60 }}>
-              <TableSortLabel
-                active={sortBy === 'edr'}
-                direction={sortBy === 'edr' ? sortOrder : 'asc'}
-                onClick={() => handleSort('edr')}
-              >
-                {t('edr')}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ width: 60 }}>
-              <TableSortLabel
-                active={sortBy === 'ep'}
-                direction={sortBy === 'ep' ? sortOrder : 'asc'}
-                onClick={() => handleSort('ep')}
-              >
-                {t('ep')}
-              </TableSortLabel>
-            </TableCell>
+            {/* Body Parts moved right after Gene Slot */}
             <TableCell sx={{ width: 80 }}>
               <TableSortLabel
                 active={sortBy === 'bodyParts'}
@@ -456,35 +317,105 @@ export default function VirtualizedCharaTable({
                 {t('bodyParts')}
               </TableSortLabel>
             </TableCell>
-            <TableCell sx={{ width: 80 }}>
-              <TableSortLabel
-                active={sortBy === 'feats'}
-                direction={sortBy === 'feats' ? sortOrder : 'asc'}
-                onClick={() => handleSort('feats')}
-              >
-                {t('feats')}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ width: 80 }}>
-              <TableSortLabel
-                active={sortBy === 'abilities'}
-                direction={sortBy === 'abilities' ? sortOrder : 'asc'}
-                onClick={() => handleSort('abilities')}
-              >
-                {t('abilities')}
-              </TableSortLabel>
-            </TableCell>
-            {resistanceElementsList.map((resElement) => (
-              <TableCell key={resElement.alias} sx={{ width: 80 }}>
-                <TableSortLabel
-                  active={sortBy === resElement.alias}
-                  direction={sortBy === resElement.alias ? sortOrder : 'asc'}
-                  onClick={() => handleSort(resElement.alias)}
-                >
-                  {resElement.name(i18n.language)}
-                </TableSortLabel>
-              </TableCell>
-            ))}
+            {/* Status columns - conditionally shown */}
+            {showStatusColumns && (
+              <>
+                <TableCell sx={{ width: 80 }}>
+                  <TableSortLabel
+                    active={sortBy === 'life'}
+                    direction={sortBy === 'life' ? sortOrder : 'asc'}
+                    onClick={() => handleSort('life')}
+                  >
+                    {t('life')}
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell sx={{ width: 80 }}>
+                  <TableSortLabel
+                    active={sortBy === 'mana'}
+                    direction={sortBy === 'mana' ? sortOrder : 'asc'}
+                    onClick={() => handleSort('mana')}
+                  >
+                    {t('mana')}
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell sx={{ width: 80 }}>
+                  <TableSortLabel
+                    active={sortBy === 'speed'}
+                    direction={sortBy === 'speed' ? sortOrder : 'asc'}
+                    onClick={() => handleSort('speed')}
+                  >
+                    {t('speed')}
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell sx={{ width: 80 }}>
+                  <TableSortLabel
+                    active={sortBy === 'vigor'}
+                    direction={sortBy === 'vigor' ? sortOrder : 'asc'}
+                    onClick={() => handleSort('vigor')}
+                  >
+                    {t('vigor')}
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell sx={{ width: 60 }}>
+                  <TableSortLabel
+                    active={sortBy === 'dv'}
+                    direction={sortBy === 'dv' ? sortOrder : 'asc'}
+                    onClick={() => handleSort('dv')}
+                  >
+                    {t('dv')}
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell sx={{ width: 60 }}>
+                  <TableSortLabel
+                    active={sortBy === 'pv'}
+                    direction={sortBy === 'pv' ? sortOrder : 'asc'}
+                    onClick={() => handleSort('pv')}
+                  >
+                    {t('pv')}
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell sx={{ width: 60 }}>
+                  <TableSortLabel
+                    active={sortBy === 'pdr'}
+                    direction={sortBy === 'pdr' ? sortOrder : 'asc'}
+                    onClick={() => handleSort('pdr')}
+                  >
+                    {t('pdr')}
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell sx={{ width: 60 }}>
+                  <TableSortLabel
+                    active={sortBy === 'edr'}
+                    direction={sortBy === 'edr' ? sortOrder : 'asc'}
+                    onClick={() => handleSort('edr')}
+                  >
+                    {t('edr')}
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell sx={{ width: 60 }}>
+                  <TableSortLabel
+                    active={sortBy === 'ep'}
+                    direction={sortBy === 'ep' ? sortOrder : 'asc'}
+                    onClick={() => handleSort('ep')}
+                  >
+                    {t('ep')}
+                  </TableSortLabel>
+                </TableCell>
+              </>
+            )}
+            {/* Resistances - conditionally shown */}
+            {showResistances &&
+              resistanceElementsList.map((resElement) => (
+                <TableCell key={resElement.alias} sx={{ width: 80 }}>
+                  <TableSortLabel
+                    active={sortBy === resElement.alias}
+                    direction={sortBy === resElement.alias ? sortOrder : 'asc'}
+                    onClick={() => handleSort(resElement.alias)}
+                  >
+                    {resElement.name(i18n.language)}
+                  </TableSortLabel>
+                </TableCell>
+              ))}
           </TableRow>
         )}
         itemContent={rowContent}

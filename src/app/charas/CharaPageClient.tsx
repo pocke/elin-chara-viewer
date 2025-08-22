@@ -11,11 +11,15 @@ import {
   FormControlLabel,
   Checkbox,
   FormGroup,
+  Button,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import {
   Person as PersonIcon,
   Search as SearchIcon,
   ExpandMore as ExpandMoreIcon,
+  ViewColumn as ViewColumnIcon,
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useState, useMemo, useCallback, useEffect } from 'react';
@@ -42,6 +46,15 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
   const [selectedAbilities, setSelectedAbilities] = useState<string[]>([]);
   const [featSearch, setFeatSearch] = useState('');
   const [abilitySearch, setAbilitySearch] = useState('');
+
+  // Column visibility state - simplified to groups only
+  const [showStatusColumns, setShowStatusColumns] = useState(true);
+  const [showResistances, setShowResistances] = useState(false);
+
+  // Menu state for column visibility
+  const [columnMenuAnchorEl, setColumnMenuAnchorEl] =
+    useState<null | HTMLElement>(null);
+  const isColumnMenuOpen = Boolean(columnMenuAnchorEl);
 
   // Ensure client-side rendering for i18n consistency
   useEffect(() => {
@@ -200,6 +213,27 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
     );
   }, []);
 
+  // Column visibility handlers - simplified
+  const handleStatusColumnsToggle = useCallback(() => {
+    setShowStatusColumns((prev) => !prev);
+  }, []);
+
+  const handleResistancesToggle = useCallback(() => {
+    setShowResistances((prev) => !prev);
+  }, []);
+
+  // Menu handlers
+  const handleColumnMenuOpen = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      setColumnMenuAnchorEl(event.currentTarget);
+    },
+    []
+  );
+
+  const handleColumnMenuClose = useCallback(() => {
+    setColumnMenuAnchorEl(null);
+  }, []);
+
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: 4 }}>
@@ -242,6 +276,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
                   display: 'flex',
                   flexDirection: { xs: 'column', md: 'row' },
                   gap: 3,
+                  mb: 3,
                 }}
               >
                 <Box sx={{ flex: 1 }}>
@@ -340,7 +375,50 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
           </Accordion>
         </Paper>
 
-        <VirtualizedCharaTable charas={filteredCharas} />
+        {/* Column visibility controls */}
+        <Box sx={{ mb: 2 }}>
+          <Button
+            variant="outlined"
+            startIcon={<ViewColumnIcon />}
+            onClick={handleColumnMenuOpen}
+            aria-controls={isColumnMenuOpen ? 'column-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={isColumnMenuOpen ? 'true' : undefined}
+          >
+            {t('columnVisibility')}
+          </Button>
+          <Menu
+            id="column-menu"
+            anchorEl={columnMenuAnchorEl}
+            open={isColumnMenuOpen}
+            onClose={handleColumnMenuClose}
+          >
+            <MenuItem onClick={handleStatusColumnsToggle}>
+              <Checkbox
+                checked={showStatusColumns}
+                onChange={handleStatusColumnsToggle}
+                size="small"
+                sx={{ mr: 1 }}
+              />
+              {t('statusColumns')}
+            </MenuItem>
+            <MenuItem onClick={handleResistancesToggle}>
+              <Checkbox
+                checked={showResistances}
+                onChange={handleResistancesToggle}
+                size="small"
+                sx={{ mr: 1 }}
+              />
+              {t('resistances')}
+            </MenuItem>
+          </Menu>
+        </Box>
+
+        <VirtualizedCharaTable
+          charas={filteredCharas}
+          showStatusColumns={showStatusColumns}
+          showResistances={showResistances}
+        />
       </Box>
     </Container>
   );
