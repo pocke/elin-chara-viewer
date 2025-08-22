@@ -1,11 +1,7 @@
-import { Element } from './models/element';
+import { elementByAlias } from './models/element';
 
 export class Elementable {
-  constructor(
-    private row: { elements?: string },
-    private elementsMap: Map<string, Element>,
-    private elementsIdMap: Map<string, Element>
-  ) {}
+  constructor(private row: { elements?: string }) {}
 
   elements() {
     const eles = this.row.elements;
@@ -14,34 +10,30 @@ export class Elementable {
     const mainElements = eles.split(',').map((t) => {
       const [alias, power] = t.split('/');
       const powerInt = power ? parseInt(power, 10) : 1;
-      return { alias, power: powerInt };
+      const element = elementByAlias(alias);
+      if (!element) {
+        throw new Error(`Element not found: ${alias}`);
+      }
+      return { element, power: powerInt };
     });
-
 
     const allElements = [...mainElements];
 
-    for (const element of mainElements) {
-      const elementInstance = this.elementsMap.get(element.alias);
-      if (elementInstance) {
-        const subElements = elementInstance.subElements(
-          element.power,
-          this.elementsIdMap
-        );
-        allElements.push(
-          ...subElements.map((sub) => ({
-            alias: sub.element.alias,
-            power: sub.power,
-          }))
-        );
-      }
+    for (const elementWithPower of mainElements) {
+      const subElements = elementWithPower.element.subElements();
+      const subElementsWithPower = subElements.map((sub) => ({
+        element: sub.element,
+        power: elementWithPower.power * sub.coefficient,
+      }));
+      allElements.push(...subElementsWithPower);
     }
 
     return allElements;
   }
 
   feats() {
-    return this.elements().filter((element) =>
-      element.alias.startsWith('feat')
+    return this.elements().filter((elementWithPower) =>
+      elementWithPower.element.alias.startsWith('feat')
     );
   }
 }

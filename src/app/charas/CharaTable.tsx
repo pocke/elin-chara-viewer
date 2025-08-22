@@ -13,39 +13,21 @@ import {
 import Link from 'next/link';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Chara, type CharaRow } from '@/lib/models/chara';
-import { Element as GameElement, type ElementRow } from '@/lib/models/element';
-import { Race, type RaceRow } from '@/lib/models/race';
+import { Chara } from '@/lib/models/chara';
 
 type SortOrder = 'asc' | 'desc';
 type SortBy = 'name' | 'id' | 'default';
 
 interface CharaTableProps {
-  charas: CharaRow[];
-  elements: ElementRow[];
-  races: RaceRow[];
+  charas: Chara[];
 }
 
-export default function CharaTable({
-  charas: charaRows,
-  elements,
-  races,
-}: CharaTableProps) {
+export default function CharaTable({ charas: baseCharas }: CharaTableProps) {
   const { t, i18n } = useTranslation('common');
-  const elementsMap = new Map(
-    elements.map((element) => [element.alias, new GameElement(element)])
-  );
-  const elementsIdMap = new Map(
-    elements.map((element) => [element.id, new GameElement(element)])
-  );
-  const racesMap = new Map(races.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
-  const baseCharas = charaRows.map(
-    (row) => new Chara(row, racesMap, elementsMap, elementsIdMap)
-  );
 
   // Expand characters with variants
   const charas = baseCharas.flatMap((chara) => {
-    const variants = chara.variants(racesMap);
+    const variants = chara.variants();
     return variants.length > 0 ? variants : [chara];
   });
   const [sortBy, setSortBy] = useState<SortBy>('default');

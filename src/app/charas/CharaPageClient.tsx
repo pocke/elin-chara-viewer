@@ -2,22 +2,15 @@
 import { Container, Typography, Box } from '@mui/material';
 import { Person as PersonIcon } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { type CharaRow } from '@/lib/models/chara';
-import { type ElementRow } from '@/lib/models/element';
-import { type RaceRow } from '@/lib/models/race';
+import { type CharaRow, Chara } from '@/lib/models/chara';
 import CharaTable from './CharaTable';
 
 interface CharaPageClientProps {
-  charas: CharaRow[];
-  elements: ElementRow[];
-  races: RaceRow[];
+  charaRows: CharaRow[];
 }
 
-export default function CharaPageClient({
-  charas,
-  elements,
-  races,
-}: CharaPageClientProps) {
+export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
+  const charas = charaRows.map((row) => new Chara(row));
   const { t } = useTranslation('common');
 
   return (
@@ -34,7 +27,7 @@ export default function CharaPageClient({
           {t('charactersCount', { count: charas.length })}
         </Typography>
 
-        <CharaTable charas={charas} elements={elements} races={races} />
+        <CharaTable charas={charas} />
       </Box>
     </Container>
   );

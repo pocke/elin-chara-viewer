@@ -1,19 +1,31 @@
-import path from 'path';
 import { loadCsv } from './csvLoader';
 import { z } from 'zod';
 
+// Import only CSV files that are not ignored in .gitignore
+import charasContent from '../../db/EA 23.173 Patch 1/charas.csv';
+import elementsContent from '../../db/EA 23.173 Patch 1/elements.csv';
+import racesContent from '../../db/EA 23.173 Patch 1/races.csv';
+
+// Map table names to their CSV content
+const csvContentMap: Record<string, string> = {
+  charas: charasContent,
+  elements: elementsContent,
+  races: racesContent,
+};
+
 const cache = new Map<string, unknown[]>();
 
-export const all = async <T>(tableName: string, schema: z.ZodType<T>) => {
+export const all = <T>(tableName: string, schema: z.ZodType<T>): T[] => {
   if (cache.has(tableName)) {
     return cache.get(tableName) as T[];
   }
 
-  const csvPath = path.join(
-    process.cwd(),
-    `db/EA 23.173 Patch 1/${tableName}.csv`
-  );
-  const result = await loadCsv(csvPath, schema);
+  const content = csvContentMap[tableName];
+  if (!content) {
+    throw new Error(`Table ${tableName} not found`);
+  }
+
+  const result = loadCsv(content, schema);
   cache.set(tableName, result);
   return result;
 };

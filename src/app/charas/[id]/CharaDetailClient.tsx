@@ -15,37 +15,22 @@ import {
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/models/chara';
-import {
-  Element as GameElement,
-  type ElementRow,
-  ElementAttacks,
-} from '@/lib/models/element';
+import { ElementAttacks, elementByAlias } from '@/lib/models/element';
 import { Race, type RaceRow } from '@/lib/models/race';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;
-  elements: ElementRow[];
-  races: RaceRow[];
   race: RaceRow;
   variantElement: ElementAttacks | null;
 }
 
 export default function CharaDetailClient({
   charaRow,
-  elements,
-  races,
   race,
   variantElement,
 }: CharaDetailClientProps) {
-  const elementsMap = new Map(
-    elements.map((element) => [element.alias, new GameElement(element)])
-  );
-  const elementsIdMap = new Map(
-    elements.map((element) => [element.id, new GameElement(element)])
-  );
-  const racesMap = new Map(races.map((race) => [race.id, new Race(race, elementsMap, elementsIdMap)]));
-  const chara = new Chara(charaRow, racesMap, elementsMap, elementsIdMap, variantElement);
-  const raceObj = new Race(race, elementsMap, elementsIdMap);
+  const chara = new Chara(charaRow, variantElement);
+  const raceObj = new Race(race);
   const { t, i18n } = useTranslation('common');
 
   const feats = chara.feats();
@@ -289,14 +274,13 @@ export default function CharaDetailClient({
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {feats.map((feat, index) => {
-                    const element = elementsMap.get(feat.alias);
-                    const featName = element
-                      ? element.name(i18n.language)
-                      : feat.alias;
+                    const element = feat.element;
+                    const featName = element.name(i18n.language);
 
-                    const subElements = element
-                      ? element.subElements(feat.power, elementsIdMap)
-                      : [];
+                    const subElements = element.subElements().map((sub) => ({
+                      element: sub.element,
+                      power: feat.power * sub.coefficient,
+                    }));
 
                     return (
                       <Box
@@ -347,9 +331,9 @@ export default function CharaDetailClient({
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {abilities.map((ability, index) => {
-                    const baseElement = elementsMap.get(ability.name);
+                    const baseElement = elementByAlias(ability.name);
                     const elementElement = ability.element
-                      ? (elementsMap.get(ability.element) ?? null)
+                      ? (elementByAlias(ability.element) ?? null)
                       : null;
 
                     let abilityName: string;
