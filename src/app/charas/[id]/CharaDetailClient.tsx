@@ -105,11 +105,13 @@ export default function CharaDetailClient({
             }}
             sx={{
               cursor: 'pointer',
+              borderColor: element.getColor(),
+              color: element.getColor(),
               '&:hover': {
-                backgroundColor: 'primary.light',
-                borderColor: 'primary.main',
+                backgroundColor: element.getColor() + '20',
+                borderColor: element.getColor(),
                 '& .MuiChip-label': {
-                  color: 'primary.dark',
+                  color: element.getColor(),
                 },
               },
             }}
@@ -203,12 +205,17 @@ export default function CharaDetailClient({
                   <Chip
                     label={chara.mainElement.name(i18n.language)}
                     variant="filled"
-                    color="secondary"
                     size="medium"
                     sx={{
                       fontSize: '1rem',
                       fontWeight: 'bold',
                       height: '32px',
+                      backgroundColor: chara.mainElement.getColor(),
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: chara.mainElement.getColor(),
+                        opacity: 0.8,
+                      },
                     }}
                   />
                 )}
@@ -366,7 +373,13 @@ export default function CharaDetailClient({
                       borderRadius: 1,
                     }}
                   >
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: resistance.element.getColor(),
+                        fontWeight: 'bold',
+                      }}
+                    >
                       {resistance.element.name(i18n.language)}
                     </Typography>
                     <Typography
@@ -443,7 +456,14 @@ export default function CharaDetailClient({
                           label={`${negationName}${negation.power > 1 ? ` (${negation.power})` : ''}`}
                           variant="outlined"
                           size="small"
-                          color="error"
+                          sx={{
+                            borderColor: element.getColor(),
+                            color: element.getColor(),
+                            '&:hover': {
+                              backgroundColor: element.getColor() + '20',
+                              borderColor: element.getColor(),
+                            },
+                          }}
                         />
                       </Box>
                     );
