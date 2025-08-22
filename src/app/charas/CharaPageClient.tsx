@@ -23,6 +23,7 @@ import {
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useTheme, useMediaQuery } from '@mui/material';
 import { type CharaRow, Chara } from '@/lib/models/chara';
 import { elementByAlias } from '@/lib/models/element';
 import VirtualizedCharaTable from './VirtualizedCharaTable';
@@ -37,6 +38,8 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
     [charaRows]
   );
   const { t, i18n } = useTranslation('common');
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [isClient, setIsClient] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -59,7 +62,12 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
   // Ensure client-side rendering for i18n consistency
   useEffect(() => {
     setIsClient(true);
-  }, []);
+
+    // On mobile devices, hide status columns by default to save space
+    if (isMobile) {
+      setShowStatusColumns(false);
+    }
+  }, [isMobile]);
 
   // Debounce search query
   useEffect(() => {
