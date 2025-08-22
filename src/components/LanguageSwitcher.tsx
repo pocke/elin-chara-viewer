@@ -3,10 +3,13 @@ import { Button, Menu, MenuItem } from '@mui/material';
 import { Language as LanguageIcon } from '@mui/icons-material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -17,7 +20,9 @@ export default function LanguageSwitcher() {
   };
 
   const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
+    const currentPath = pathname.split('/').slice(2).join('/');
+    const newPath = `/${lng}/${currentPath}`;
+    router.push(newPath);
     handleClose();
   };
 

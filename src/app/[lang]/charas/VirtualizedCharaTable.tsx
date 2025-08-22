@@ -14,6 +14,7 @@ import {
 import Link from 'next/link';
 import { useState, useMemo, forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'next/navigation';
 import { TableVirtuoso } from 'react-virtuoso';
 import { Chara } from '@/lib/models/chara';
 import { resistanceElements } from '@/lib/models/element';
@@ -86,6 +87,8 @@ export default function VirtualizedCharaTable({
   showResistances,
 }: VirtualizedCharaTableProps) {
   const { t, i18n } = useTranslation('common');
+  const params = useParams();
+  const lang = params.lang as string;
   const resistanceElementsList = resistanceElements();
   const [sortBy, setSortBy] = useState<SortBy>('default');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
@@ -201,7 +204,7 @@ export default function VirtualizedCharaTable({
         <TableCell sx={{ width: 200 }}>
           <MuiLink
             component={Link}
-            href={`/charas/${chara.id}`}
+            href={`/${lang}/charas/${chara.id}`}
             underline="hover"
           >
             {chara.normalizedName(i18n.language)}

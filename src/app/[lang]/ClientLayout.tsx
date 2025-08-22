@@ -3,17 +3,25 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AppBar, Toolbar, Typography, Box } from '@mui/material';
-import theme from './theme';
-import '../lib/i18n';
-import LanguageSwitcher from '../components/LanguageSwitcher';
+import theme from '../theme';
+import '../../lib/i18n';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
+  lang: string;
 }
 
-export default function ClientLayout({ children }: ClientLayoutProps) {
-  const { t } = useTranslation('common');
+export default function ClientLayout({ children, lang }: ClientLayoutProps) {
+  const { t, i18n } = useTranslation('common');
+
+  useEffect(() => {
+    if (i18n.language !== lang) {
+      i18n.changeLanguage(lang);
+    }
+  }, [lang, i18n]);
 
   return (
     <AppRouterCacheProvider>

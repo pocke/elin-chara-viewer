@@ -14,6 +14,7 @@ import {
   ArrowBack as ArrowBackIcon,
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/models/chara';
 import {
@@ -37,6 +38,8 @@ export default function CharaDetailClient({
 }: CharaDetailClientProps) {
   const chara = new Chara(charaRow, variantElement);
   const { t, i18n } = useTranslation('common');
+  const params = useParams();
+  const lang = params.lang as string;
 
   const feats = chara.feats();
   const negations = chara.negations();
@@ -182,7 +185,7 @@ export default function CharaDetailClient({
       <Box sx={{ my: 4 }}>
         <Button
           component={Link}
-          href="/charas"
+          href={`/${lang}/charas`}
           startIcon={<ArrowBackIcon />}
           sx={{ mb: 3 }}
           variant="outlined"
