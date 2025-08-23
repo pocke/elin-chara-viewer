@@ -1,20 +1,8 @@
 'use client';
-import {
-  Container,
-  Typography,
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Checkbox,
-} from '@mui/material';
-import {
-  Person as PersonIcon,
-  ViewColumn as ViewColumnIcon,
-} from '@mui/icons-material';
+import { Container, Typography, Box } from '@mui/material';
+import { Person as PersonIcon } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
-import { useState, useMemo, useCallback, useEffect } from 'react';
-import { useTheme, useMediaQuery } from '@mui/material';
+import { useMemo } from 'react';
 import { type CharaRow, Chara } from '@/lib/models/chara';
 import DataGridCharaTable from './DataGridCharaTable';
 
@@ -29,24 +17,9 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
   );
   const { t } = useTranslation();
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  // Column visibility state - simplified to groups only
-  const [showStatusColumns, setShowStatusColumns] = useState(true);
-  const [showResistances, setShowResistances] = useState(false);
-
-  // Menu state for column visibility
-  const [columnMenuAnchorEl, setColumnMenuAnchorEl] =
-    useState<null | HTMLElement>(null);
-  const isColumnMenuOpen = Boolean(columnMenuAnchorEl);
-
-  // On mobile devices, hide status columns by default to save space
-  useEffect(() => {
-    if (isMobile) {
-      setShowStatusColumns(false);
-    }
-  }, [isMobile]);
+  // Show all columns by default
+  const showStatusColumns = true;
+  const showResistances = true;
 
   // Expand characters with variants (memoized for performance)
   const allCharas = useMemo(() => {
@@ -55,27 +28,6 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
       return variants.length > 0 ? variants : [chara];
     });
   }, [charas]);
-
-  // Column visibility handlers - simplified
-  const handleStatusColumnsToggle = useCallback(() => {
-    setShowStatusColumns((prev) => !prev);
-  }, []);
-
-  const handleResistancesToggle = useCallback(() => {
-    setShowResistances((prev) => !prev);
-  }, []);
-
-  // Menu handlers
-  const handleColumnMenuOpen = useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
-      setColumnMenuAnchorEl(event.currentTarget);
-    },
-    []
-  );
-
-  const handleColumnMenuClose = useCallback(() => {
-    setColumnMenuAnchorEl(null);
-  }, []);
 
   return (
     <Container maxWidth="xl">
@@ -93,45 +45,6 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
             allCharas.length.toString()
           )}
         </Typography>
-
-        {/* Column visibility controls */}
-        <Box sx={{ mb: 2 }}>
-          <Button
-            variant="outlined"
-            startIcon={<ViewColumnIcon />}
-            onClick={handleColumnMenuOpen}
-            aria-controls={isColumnMenuOpen ? 'column-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={isColumnMenuOpen ? 'true' : undefined}
-          >
-            {t.common.columnVisibility}
-          </Button>
-          <Menu
-            id="column-menu"
-            anchorEl={columnMenuAnchorEl}
-            open={isColumnMenuOpen}
-            onClose={handleColumnMenuClose}
-          >
-            <MenuItem onClick={handleStatusColumnsToggle}>
-              <Checkbox
-                checked={showStatusColumns}
-                onChange={handleStatusColumnsToggle}
-                size="small"
-                sx={{ mr: 1 }}
-              />
-              {t.common.statusColumns}
-            </MenuItem>
-            <MenuItem onClick={handleResistancesToggle}>
-              <Checkbox
-                checked={showResistances}
-                onChange={handleResistancesToggle}
-                size="small"
-                sx={{ mr: 1 }}
-              />
-              {t.common.resistances}
-            </MenuItem>
-          </Menu>
-        </Box>
 
         <DataGridCharaTable
           charas={allCharas}
