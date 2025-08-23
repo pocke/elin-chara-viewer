@@ -132,14 +132,14 @@ export default function DataGridCharaTable({
   // Get unique race, job, feat, and ability options for select filters
   const { raceOptions, jobOptions, featOptions, abilityOptions } =
     useMemo(() => {
-      const raceSet = new Set<string>();
-      const jobSet = new Set<string>();
+      const raceMap = new Map<string, string>();
+      const jobMap = new Map<string, string>();
       const featMap = new Map<string, string>();
       const abilityMap = new Map<string, string>();
 
       charas.forEach((chara) => {
-        raceSet.add(chara.race.name(language));
-        jobSet.add(chara.job().name(language));
+        raceMap.set(chara.race.id, chara.race.name(language));
+        jobMap.set(chara.job().id, chara.job().name(language));
 
         // Feats
         chara.feats().forEach((feat) => {
@@ -173,8 +173,12 @@ export default function DataGridCharaTable({
       });
 
       return {
-        raceOptions: Array.from(raceSet).sort(),
-        jobOptions: Array.from(jobSet).sort(),
+        raceOptions: Array.from(raceMap.entries()).sort((a, b) =>
+          a[1].localeCompare(b[1])
+        ),
+        jobOptions: Array.from(jobMap.entries()).sort((a, b) =>
+          a[1].localeCompare(b[1])
+        ),
         featOptions: Array.from(featMap.entries()).sort((a, b) =>
           a[1].localeCompare(b[1])
         ),
@@ -197,7 +201,7 @@ export default function DataGridCharaTable({
 
       // Race filter
       if (selectedRaces.length > 0) {
-        const charaRace = chara.race.name(language);
+        const charaRace = chara.race.id;
         if (!selectedRaces.includes(charaRace)) {
           return false;
         }
@@ -205,7 +209,7 @@ export default function DataGridCharaTable({
 
       // Job filter
       if (selectedJobs.length > 0) {
-        const charaJob = chara.job().name(language);
+        const charaJob = chara.job().id;
         if (!selectedJobs.includes(charaJob)) {
           return false;
         }
@@ -213,9 +217,7 @@ export default function DataGridCharaTable({
 
       // Feats filter
       if (selectedFeats.length > 0) {
-        const charaFeats = chara
-          .feats()
-          .map((feat) => feat.element.name(language));
+        const charaFeats = chara.feats().map((feat) => feat.element.alias);
         const hasAllSelectedFeats = selectedFeats.every((feat) =>
           charaFeats.includes(feat)
         );
@@ -322,14 +324,14 @@ export default function DataGridCharaTable({
         field: 'race',
         headerName: t.common.race,
         type: 'singleSelect',
-        valueOptions: raceOptions,
+        valueOptions: raceOptions.map(([, name]) => name),
         width: 120,
       },
       {
         field: 'job',
         headerName: t.common.job,
         type: 'singleSelect',
-        valueOptions: jobOptions,
+        valueOptions: jobOptions.map(([, name]) => name),
         width: 120,
       },
       {
