@@ -2,7 +2,7 @@
 import { Container, Typography, Box } from '@mui/material';
 import { Person as PersonIcon } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
-import { useMemo } from 'react';
+import { useMemo, Suspense } from 'react';
 import { type CharaRow, Chara } from '@/lib/models/chara';
 import DataGridCharaTable from './DataGridCharaTable';
 
@@ -42,7 +42,9 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
           )}
         </Typography>
 
-        <DataGridCharaTable charas={allCharas} />
+        <Suspense fallback={<div>{t.common.loading}...</div>}>
+          <DataGridCharaTable charas={allCharas} />
+        </Suspense>
       </Box>
     </Container>
   );

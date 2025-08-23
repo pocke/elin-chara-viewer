@@ -3,13 +3,18 @@ import {
   DataGrid,
   GridColDef,
   GridRowsProp,
-  GridToolbar,
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarQuickFilter,
 } from '@mui/x-data-grid';
 import { Link as MuiLink, Tooltip, Paper, Box } from '@mui/material';
 import Link from 'next/link';
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Chara } from '@/lib/models/chara';
 import { resistanceElements, elementByAlias } from '@/lib/models/element';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
@@ -19,11 +24,25 @@ interface DataGridCharaTableProps {
   charas: Chara[];
 }
 
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
+      <GridToolbarExport />
+      <GridToolbarQuickFilter debounceMs={500} />
+    </GridToolbarContainer>
+  );
+}
+
 export default function DataGridCharaTable({
   charas,
 }: DataGridCharaTableProps) {
   const { t, language } = useTranslation();
   const params = useParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const lang = params.lang as string;
   const resistanceElementsList = resistanceElements();
 
@@ -33,6 +52,58 @@ export default function DataGridCharaTable({
   const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
   const [selectedFeats, setSelectedFeats] = useState<string[]>([]);
   const [selectedAbilities, setSelectedAbilities] = useState<string[]>([]);
+
+  // Initialize state from URL parameters
+  useEffect(() => {
+    const query = searchParams.get('q') || '';
+    const races = searchParams.get('races')?.split(',').filter(Boolean) || [];
+    const jobs = searchParams.get('jobs')?.split(',').filter(Boolean) || [];
+    const feats = searchParams.get('feats')?.split(',').filter(Boolean) || [];
+    const abilities =
+      searchParams.get('abilities')?.split(',').filter(Boolean) || [];
+
+    setSearchQuery(query);
+    setSelectedRaces(races);
+    setSelectedJobs(jobs);
+    setSelectedFeats(feats);
+    setSelectedAbilities(abilities);
+  }, [searchParams]);
+
+  // Update URL when filters change
+  const updateURL = useCallback(
+    (
+      query: string,
+      races: string[],
+      jobs: string[],
+      feats: string[],
+      abilities: string[]
+    ) => {
+      const urlSearchParams = new URLSearchParams();
+
+      if (query) {
+        urlSearchParams.set('q', query);
+      }
+      if (races.length > 0) {
+        urlSearchParams.set('races', races.join(','));
+      }
+      if (jobs.length > 0) {
+        urlSearchParams.set('jobs', jobs.join(','));
+      }
+      if (feats.length > 0) {
+        urlSearchParams.set('feats', feats.join(','));
+      }
+      if (abilities.length > 0) {
+        urlSearchParams.set('abilities', abilities.join(','));
+      }
+
+      const newUrl = urlSearchParams.toString()
+        ? `/${lang}/charas?${urlSearchParams.toString()}`
+        : `/${lang}/charas`;
+
+      router.replace(newUrl, { scroll: false });
+    },
+    [lang, router]
+  );
 
   // Convert Chara objects to DataGrid rows
   // Get unique race, job, feat, and ability options for select filters
@@ -353,25 +424,75 @@ export default function DataGridCharaTable({
   }, [t, lang, language, resistanceElementsList, raceOptions, jobOptions]);
 
   // Search bar callback functions
-  const handleSearchChange = useCallback((search: string) => {
-    setSearchQuery(search);
-  }, []);
+  const handleSearchChange = useCallback(
+    (search: string) => {
+      setSearchQuery(search);
+      updateURL(
+        search,
+        selectedRaces,
+        selectedJobs,
+        selectedFeats,
+        selectedAbilities
+      );
+    },
+    [updateURL, selectedRaces, selectedJobs, selectedFeats, selectedAbilities]
+  );
 
-  const handleRaceChange = useCallback((races: string[]) => {
-    setSelectedRaces(races);
-  }, []);
+  const handleRaceChange = useCallback(
+    (races: string[]) => {
+      setSelectedRaces(races);
+      updateURL(
+        searchQuery,
+        races,
+        selectedJobs,
+        selectedFeats,
+        selectedAbilities
+      );
+    },
+    [updateURL, searchQuery, selectedJobs, selectedFeats, selectedAbilities]
+  );
 
-  const handleJobChange = useCallback((jobs: string[]) => {
-    setSelectedJobs(jobs);
-  }, []);
+  const handleJobChange = useCallback(
+    (jobs: string[]) => {
+      setSelectedJobs(jobs);
+      updateURL(
+        searchQuery,
+        selectedRaces,
+        jobs,
+        selectedFeats,
+        selectedAbilities
+      );
+    },
+    [updateURL, searchQuery, selectedRaces, selectedFeats, selectedAbilities]
+  );
 
-  const handleFeatChange = useCallback((feats: string[]) => {
-    setSelectedFeats(feats);
-  }, []);
+  const handleFeatChange = useCallback(
+    (feats: string[]) => {
+      setSelectedFeats(feats);
+      updateURL(
+        searchQuery,
+        selectedRaces,
+        selectedJobs,
+        feats,
+        selectedAbilities
+      );
+    },
+    [updateURL, searchQuery, selectedRaces, selectedJobs, selectedAbilities]
+  );
 
-  const handleAbilityChange = useCallback((abilities: string[]) => {
-    setSelectedAbilities(abilities);
-  }, []);
+  const handleAbilityChange = useCallback(
+    (abilities: string[]) => {
+      setSelectedAbilities(abilities);
+      updateURL(
+        searchQuery,
+        selectedRaces,
+        selectedJobs,
+        selectedFeats,
+        abilities
+      );
+    },
+    [updateURL, searchQuery, selectedRaces, selectedJobs, selectedFeats]
+  );
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -380,6 +501,11 @@ export default function DataGridCharaTable({
         jobOptions={jobOptions}
         featOptions={featOptions}
         abilityOptions={abilityOptions}
+        initialSearchQuery={searchQuery}
+        initialSelectedRaces={selectedRaces}
+        initialSelectedJobs={selectedJobs}
+        initialSelectedFeats={selectedFeats}
+        initialSelectedAbilities={selectedAbilities}
         onSearchChange={handleSearchChange}
         onRaceChange={handleRaceChange}
         onJobChange={handleJobChange}
@@ -391,13 +517,7 @@ export default function DataGridCharaTable({
           rows={rows}
           columns={columns}
           slots={{
-            toolbar: GridToolbar,
-          }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-              quickFilterProps: { debounceMs: 500 },
-            },
+            toolbar: CustomToolbar,
           }}
           initialState={{
             sorting: {
