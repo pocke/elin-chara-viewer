@@ -17,14 +17,10 @@ import CharaSearchBar from './CharaSearchBar';
 
 interface DataGridCharaTableProps {
   charas: Chara[];
-  showStatusColumns: boolean;
-  showResistances: boolean;
 }
 
 export default function DataGridCharaTable({
   charas,
-  showStatusColumns,
-  showResistances,
 }: DataGridCharaTableProps) {
   const { t, language } = useTranslation();
   const params = useParams();
@@ -179,37 +175,26 @@ export default function DataGridCharaTable({
           .join('\n'),
       };
 
-      // Add status columns if shown
-      if (showStatusColumns) {
-        row.life = chara.life();
-        row.mana = chara.mana();
-        row.speed = chara.speed();
-        row.vigor = chara.vigor();
-        row.dv = chara.dv();
-        row.pv = chara.pv();
-        row.pdr = chara.pdr();
-        row.edr = chara.edr();
-        row.ep = chara.ep();
-      }
+      // Add status columns
+      row.life = chara.life();
+      row.mana = chara.mana();
+      row.speed = chara.speed();
+      row.vigor = chara.vigor();
+      row.dv = chara.dv();
+      row.pv = chara.pv();
+      row.pdr = chara.pdr();
+      row.edr = chara.edr();
+      row.ep = chara.ep();
 
-      // Add resistance columns if shown
-      if (showResistances) {
-        resistanceElementsList.forEach((resElement) => {
-          const resValue = chara.getElementPower(resElement.alias) || 0;
-          row[resElement.alias] = getResistanceDisplayValueCompact(resValue);
-        });
-      }
+      // Add resistance columns
+      resistanceElementsList.forEach((resElement) => {
+        const resValue = chara.getElementPower(resElement.alias) || 0;
+        row[resElement.alias] = getResistanceDisplayValueCompact(resValue);
+      });
 
       return row;
     });
-  }, [
-    filteredCharas,
-    language,
-    t,
-    showStatusColumns,
-    showResistances,
-    resistanceElementsList,
-  ]);
+  }, [filteredCharas, language, t, resistanceElementsList]);
 
   // Define columns
   const columns: GridColDef[] = useMemo(() => {
@@ -266,88 +251,75 @@ export default function DataGridCharaTable({
       },
     ];
 
-    // Add status columns if shown
-    if (showStatusColumns) {
-      baseColumns.push(
-        {
-          field: 'life',
-          headerName: t.common.life,
-          type: 'number',
-          width: 80,
-        },
-        {
-          field: 'mana',
-          headerName: t.common.mana,
-          type: 'number',
-          width: 80,
-        },
-        {
-          field: 'speed',
-          headerName: t.common.speed,
-          type: 'number',
-          width: 80,
-        },
-        {
-          field: 'vigor',
-          headerName: t.common.vigor,
-          type: 'number',
-          width: 80,
-        },
-        {
-          field: 'dv',
-          headerName: t.common.dv,
-          type: 'number',
-          width: 60,
-        },
-        {
-          field: 'pv',
-          headerName: t.common.pv,
-          type: 'number',
-          width: 60,
-        },
-        {
-          field: 'pdr',
-          headerName: t.common.pdrShort,
-          type: 'number',
-          width: 60,
-        },
-        {
-          field: 'edr',
-          headerName: t.common.edrShort,
-          type: 'number',
-          width: 60,
-        },
-        {
-          field: 'ep',
-          headerName: t.common.epShort,
-          type: 'number',
-          width: 60,
-        }
-      );
-    }
+    // Add status columns
+    baseColumns.push(
+      {
+        field: 'life',
+        headerName: t.common.life,
+        type: 'number',
+        width: 80,
+      },
+      {
+        field: 'mana',
+        headerName: t.common.mana,
+        type: 'number',
+        width: 80,
+      },
+      {
+        field: 'speed',
+        headerName: t.common.speed,
+        type: 'number',
+        width: 80,
+      },
+      {
+        field: 'vigor',
+        headerName: t.common.vigor,
+        type: 'number',
+        width: 80,
+      },
+      {
+        field: 'dv',
+        headerName: t.common.dv,
+        type: 'number',
+        width: 60,
+      },
+      {
+        field: 'pv',
+        headerName: t.common.pv,
+        type: 'number',
+        width: 60,
+      },
+      {
+        field: 'pdr',
+        headerName: t.common.pdr,
+        type: 'number',
+        width: 60,
+      },
+      {
+        field: 'edr',
+        headerName: t.common.edr,
+        type: 'number',
+        width: 60,
+      },
+      {
+        field: 'ep',
+        headerName: t.common.ep,
+        type: 'number',
+        width: 60,
+      }
+    );
 
-    // Add resistance columns if shown
-    if (showResistances) {
-      resistanceElementsList.forEach((resElement) => {
-        baseColumns.push({
-          field: resElement.alias,
-          headerName: resElement.name(language),
-          width: 80,
-        });
+    // Add resistance columns
+    resistanceElementsList.forEach((resElement) => {
+      baseColumns.push({
+        field: resElement.alias,
+        headerName: resElement.name(language),
+        width: 80,
       });
-    }
+    });
 
     return baseColumns;
-  }, [
-    t,
-    lang,
-    language,
-    showStatusColumns,
-    showResistances,
-    resistanceElementsList,
-    raceOptions,
-    jobOptions,
-  ]);
+  }, [t, lang, language, resistanceElementsList, raceOptions, jobOptions]);
 
   // Search bar callback functions
   const handleSearchChange = useCallback((search: string) => {

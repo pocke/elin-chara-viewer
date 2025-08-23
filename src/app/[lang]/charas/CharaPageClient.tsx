@@ -17,10 +17,6 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
   );
   const { t } = useTranslation();
 
-  // Show all columns by default
-  const showStatusColumns = true;
-  const showResistances = true;
-
   // Expand characters with variants (memoized for performance)
   const allCharas = useMemo(() => {
     return charas.flatMap((chara) => {
@@ -46,11 +42,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
           )}
         </Typography>
 
-        <DataGridCharaTable
-          charas={allCharas}
-          showStatusColumns={showStatusColumns}
-          showResistances={showResistances}
-        />
+        <DataGridCharaTable charas={allCharas} />
       </Box>
     </Container>
   );
