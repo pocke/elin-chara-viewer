@@ -98,12 +98,12 @@ export default function DataGridCharaTable({
       }
 
       const newUrl = urlSearchParams.toString()
-        ? `/${lang}/charas?${urlSearchParams.toString()}`
-        : `/${lang}/charas`;
+        ? `/${lang}/${version}/charas?${urlSearchParams.toString()}`
+        : `/${lang}/${version}/charas`;
 
       router.replace(newUrl, { scroll: false });
     },
-    [lang, router]
+    [lang, version, router]
   );
 
   // Convert Chara objects to DataGrid rows
