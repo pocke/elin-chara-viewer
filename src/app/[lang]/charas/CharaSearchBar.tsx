@@ -9,13 +9,18 @@ import {
 } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 interface CharaSearchBarProps {
   raceOptions: string[];
   jobOptions: string[];
   featOptions: Array<[string, string]>;
   abilityOptions: Array<[string, string]>;
+  initialSearchQuery?: string;
+  initialSelectedRaces?: string[];
+  initialSelectedJobs?: string[];
+  initialSelectedFeats?: string[];
+  initialSelectedAbilities?: string[];
   onSearchChange: (search: string) => void;
   onRaceChange: (races: string[]) => void;
   onJobChange: (jobs: string[]) => void;
@@ -28,6 +33,11 @@ export default function CharaSearchBar({
   jobOptions,
   featOptions,
   abilityOptions,
+  initialSearchQuery = '',
+  initialSelectedRaces = [],
+  initialSelectedJobs = [],
+  initialSelectedFeats = [],
+  initialSelectedAbilities = [],
   onSearchChange,
   onRaceChange,
   onJobChange,
@@ -36,11 +46,31 @@ export default function CharaSearchBar({
 }: CharaSearchBarProps) {
   const { t } = useTranslation();
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedRaces, setSelectedRaces] = useState<string[]>([]);
-  const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
-  const [selectedFeats, setSelectedFeats] = useState<string[]>([]);
-  const [selectedAbilities, setSelectedAbilities] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
+  const [selectedRaces, setSelectedRaces] =
+    useState<string[]>(initialSelectedRaces);
+  const [selectedJobs, setSelectedJobs] =
+    useState<string[]>(initialSelectedJobs);
+  const [selectedFeats, setSelectedFeats] =
+    useState<string[]>(initialSelectedFeats);
+  const [selectedAbilities, setSelectedAbilities] = useState<string[]>(
+    initialSelectedAbilities
+  );
+
+  // Update state when initial values change (for when URL changes)
+  useEffect(() => {
+    setSearchQuery(initialSearchQuery);
+    setSelectedRaces(initialSelectedRaces);
+    setSelectedJobs(initialSelectedJobs);
+    setSelectedFeats(initialSelectedFeats);
+    setSelectedAbilities(initialSelectedAbilities);
+  }, [
+    initialSearchQuery,
+    initialSelectedRaces,
+    initialSelectedJobs,
+    initialSelectedFeats,
+    initialSelectedAbilities,
+  ]);
 
   const handleSearchChange = useCallback(
     (value: string) => {
