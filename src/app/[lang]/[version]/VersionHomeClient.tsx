@@ -17,15 +17,6 @@ export default function VersionHomeClient() {
         <Typography variant="h2" component="h1" gutterBottom align="center">
           {t.common.title} - {version}
         </Typography>
-        <Typography
-          variant="h5"
-          component="h2"
-          gutterBottom
-          align="center"
-          color="text.secondary"
-        >
-          {t.common.welcome}
-        </Typography>
 
         <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
