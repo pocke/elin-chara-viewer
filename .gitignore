@@ -44,5 +44,7 @@ next-env.d.ts
 !/db/*/charas.csv
 !/db/*/races.csv
 !/db/*/elements.csv
+!/db/*/tactics.csv
+!/db/*/jobs.csv
 
 /tmp/

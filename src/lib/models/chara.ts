@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { Elementable } from '../elementable';
 import { Element, ElementAttacks, elementByAlias } from './element';
 import { Race, raceById } from './race';
+import { jobById } from './job';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -144,6 +145,7 @@ export class Chara {
     return this.memoize('elements', () => [
       ...new Elementable(this.row, this.mainElement).elements(),
       ...this.race.elements(),
+      ...this.job().elements(),
     ]);
   }
 
@@ -151,6 +153,7 @@ export class Chara {
     return this.memoize('feats', () => [
       ...new Elementable(this.row, this.mainElement).feats(),
       ...this.race.feats(),
+      ...this.job().feats(),
     ]);
   }
 
@@ -158,6 +161,7 @@ export class Chara {
     return this.memoize('negations', () => [
       ...new Elementable(this.row, this.mainElement).negations(),
       ...this.race.negations(),
+      ...this.job().negations(),
     ]);
   }
 
@@ -165,6 +169,7 @@ export class Chara {
     return this.memoize('others', () => [
       ...new Elementable(this.row, this.mainElement).others(),
       ...this.race.others(),
+      ...this.job().others(),
     ]);
   }
 
@@ -208,6 +213,18 @@ export class Chara {
     return this.row.race ?? 'norland';
   }
 
+  job() {
+    return this.memoize('job', () => {
+      let jobId = this.row.job ?? 'none';
+      if (jobId === '*r') {
+        jobId = 'none';
+      }
+      const job = jobById(jobId);
+      if (!job) throw new Error(`Job not found: ${jobId}`);
+      return job;
+    });
+  }
+
   life() {
     return this.memoize(
       'life',
@@ -225,7 +242,7 @@ export class Chara {
   speed() {
     return this.memoize(
       'speed',
-      () => this.race.speed + this.getElementPower('SPD')
+      () => this.race.speed + this.getElementPower('SPD') + this.job().speed
     );
   }
 
@@ -362,6 +379,13 @@ export class Chara {
 
   totalBodyParts() {
     return this.memoize('totalBodyParts', () => this.race.totalBodyParts());
+  }
+
+  mag() {
+    return this.memoize(
+      'mag',
+      () => this.getElementPower('MAG') + this.job().mag
+    );
   }
 }
 

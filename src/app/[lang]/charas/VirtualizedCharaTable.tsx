@@ -24,6 +24,7 @@ type SortOrder = 'asc' | 'desc';
 type SortBy =
   | 'name'
   | 'race'
+  | 'job'
   | 'level'
   | 'geneSlot'
   | 'life'
@@ -122,6 +123,10 @@ export default function VirtualizedCharaTable({
           aValue = a.race.name(language);
           bValue = b.race.name(language);
           break;
+        case 'job':
+          aValue = a.job().name(language);
+          bValue = b.job().name(language);
+          break;
         case 'level':
           aValue = a.level();
           bValue = b.level();
@@ -212,6 +217,7 @@ export default function VirtualizedCharaTable({
           </MuiLink>
         </TableCell>
         <TableCell sx={{ width: 120 }}>{chara.race.name(language)}</TableCell>
+        <TableCell sx={{ width: 120 }}>{chara.job().name(language)}</TableCell>
         <TableCell sx={{ width: 80 }}>
           {Math.round(chara.level() * 100) / 100}
         </TableCell>
@@ -291,6 +297,15 @@ export default function VirtualizedCharaTable({
                 onClick={() => handleSort('race')}
               >
                 {t.common.race}
+              </TableSortLabel>
+            </TableCell>
+            <TableCell sx={{ width: 120 }}>
+              <TableSortLabel
+                active={sortBy === 'job'}
+                direction={sortBy === 'job' ? sortOrder : 'asc'}
+                onClick={() => handleSort('job')}
+              >
+                {t.common.job}
               </TableSortLabel>
             </TableCell>
             <TableCell sx={{ width: 80 }}>
