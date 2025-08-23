@@ -48,3 +48,4 @@ next-env.d.ts
 !/db/*/jobs.csv
 
 /tmp/
+.claude/settings.local.json
