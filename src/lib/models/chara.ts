@@ -345,9 +345,9 @@ export class Chara {
       return true;
     }
     const hiddenCharaIds = [
-      'chara1',
-      'chara2',
-      'chara3',
+      'nerun',
+      'ancient_golem',
+      'mirage',
       'ehekatl',
       'elin',
       'itz',
