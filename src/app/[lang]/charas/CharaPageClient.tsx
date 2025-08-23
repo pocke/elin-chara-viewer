@@ -35,13 +35,6 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
           </Typography>
         </Box>
 
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-          {t.common.charactersCount.replace(
-            '{{count}}',
-            allCharas.length.toString()
-          )}
-        </Typography>
-
         <Suspense fallback={<div>{t.common.loading}...</div>}>
           <DataGridCharaTable charas={allCharas} />
         </Suspense>
