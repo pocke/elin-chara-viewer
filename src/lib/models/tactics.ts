@@ -54,4 +54,19 @@ export class Tactics {
   get defaultSortKey() {
     return this.index;
   }
+
+  name(locale: string): string {
+    if (locale === 'ja') {
+      return this.row.name_JP;
+    }
+    return this.row.name;
+  }
+
+  get distance() {
+    return this.row.dist;
+  }
+
+  get moveFrequency() {
+    return this.row.move;
+  }
 }
