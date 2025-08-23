@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { Elementable } from '../elementable';
 import { Element, ElementAttacks, elementByAlias } from './element';
 import { Race, raceById } from './race';
-import { Job, jobById } from './job';
+import { jobById } from './job';
 
 export const CharaSchema = z.object({
   __meta: z.object({
