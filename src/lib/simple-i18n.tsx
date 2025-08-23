@@ -69,6 +69,7 @@ const resources = {
       tacticsName: '戦闘タイプ名',
       tacticsDistance: '距離',
       tacticsMoveFrequency: '移動頻度',
+      loading: '読み込み中',
     },
   },
   en: {
@@ -137,6 +138,7 @@ const resources = {
       tacticsName: 'Tactics Name',
       tacticsDistance: 'Distance',
       tacticsMoveFrequency: 'Move Frequency',
+      loading: 'Loading',
     },
   },
 };

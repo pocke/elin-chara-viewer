@@ -3,7 +3,12 @@ import {
   DataGrid,
   GridColDef,
   GridRowsProp,
-  GridToolbar,
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarQuickFilter,
 } from '@mui/x-data-grid';
 import { Link as MuiLink, Tooltip, Paper, Box } from '@mui/material';
 import Link from 'next/link';
@@ -17,6 +22,18 @@ import CharaSearchBar from './CharaSearchBar';
 
 interface DataGridCharaTableProps {
   charas: Chara[];
+}
+
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
+      <GridToolbarExport />
+      <GridToolbarQuickFilter debounceMs={500} />
+    </GridToolbarContainer>
+  );
 }
 
 export default function DataGridCharaTable({
@@ -469,13 +486,7 @@ export default function DataGridCharaTable({
           rows={rows}
           columns={columns}
           slots={{
-            toolbar: GridToolbar,
-          }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-              quickFilterProps: { debounceMs: 500 },
-            },
+            toolbar: CustomToolbar,
           }}
           initialState={{
             sorting: {
