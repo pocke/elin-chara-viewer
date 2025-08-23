@@ -26,7 +26,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { type CharaRow, Chara } from '@/lib/models/chara';
 import { elementByAlias } from '@/lib/models/element';
-import VirtualizedCharaTable from './VirtualizedCharaTable';
+import DataGridCharaTable from './DataGridCharaTable';
 
 interface CharaPageClientProps {
   charaRows: CharaRow[];
@@ -553,7 +553,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
           </Menu>
         </Box>
 
-        <VirtualizedCharaTable
+        <DataGridCharaTable
           charas={filteredCharas}
           showStatusColumns={showStatusColumns}
           showResistances={showResistances}
