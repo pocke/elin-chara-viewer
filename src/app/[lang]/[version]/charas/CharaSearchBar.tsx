@@ -12,8 +12,8 @@ import { useTranslation } from '@/lib/simple-i18n';
 import { useState, useCallback, useEffect } from 'react';
 
 interface CharaSearchBarProps {
-  raceOptions: string[];
-  jobOptions: string[];
+  raceOptions: Array<[string, string]>;
+  jobOptions: Array<[string, string]>;
   featOptions: Array<[string, string]>;
   abilityOptions: Array<[string, string]>;
   initialSearchQuery?: string;
@@ -189,17 +189,25 @@ export default function CharaSearchBar({
             multiple
             value={selectedRaces}
             onChange={(_, newValue) => handleRaceChange(newValue)}
-            options={raceOptions}
+            options={raceOptions.map(([key]) => key)}
+            getOptionLabel={(option) => {
+              const raceOption = raceOptions.find(([key]) => key === option);
+              return raceOption ? raceOption[1] : option;
+            }}
             renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  variant="outlined"
-                  label={option}
-                  size="small"
-                  {...getTagProps({ index })}
-                  key={option}
-                />
-              ))
+              value.map((option, index) => {
+                const raceOption = raceOptions.find(([key]) => key === option);
+                const label = raceOption ? raceOption[1] : option;
+                return (
+                  <Chip
+                    variant="outlined"
+                    label={label}
+                    size="small"
+                    {...getTagProps({ index })}
+                    key={option}
+                  />
+                );
+              })
             }
             renderInput={(params) => (
               <TextField
@@ -218,17 +226,25 @@ export default function CharaSearchBar({
             multiple
             value={selectedJobs}
             onChange={(_, newValue) => handleJobChange(newValue)}
-            options={jobOptions}
+            options={jobOptions.map(([key]) => key)}
+            getOptionLabel={(option) => {
+              const jobOption = jobOptions.find(([key]) => key === option);
+              return jobOption ? jobOption[1] : option;
+            }}
             renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  variant="outlined"
-                  label={option}
-                  size="small"
-                  {...getTagProps({ index })}
-                  key={option}
-                />
-              ))
+              value.map((option, index) => {
+                const jobOption = jobOptions.find(([key]) => key === option);
+                const label = jobOption ? jobOption[1] : option;
+                return (
+                  <Chip
+                    variant="outlined"
+                    label={label}
+                    size="small"
+                    {...getTagProps({ index })}
+                    key={option}
+                  />
+                );
+              })
             }
             renderInput={(params) => (
               <TextField
