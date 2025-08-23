@@ -10,7 +10,14 @@ import {
   GridToolbarExport,
   GridToolbarQuickFilter,
 } from '@mui/x-data-grid';
-import { Link as MuiLink, Tooltip, Paper, Box } from '@mui/material';
+import {
+  Link as MuiLink,
+  Tooltip,
+  Paper,
+  Box,
+  FormControlLabel,
+  Checkbox,
+} from '@mui/material';
 import Link from 'next/link';
 import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
@@ -61,6 +68,7 @@ export default function DataGridCharaTable({
   const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
   const [selectedFeats, setSelectedFeats] = useState<string[]>([]);
   const [selectedAbilities, setSelectedAbilities] = useState<string[]>([]);
+  const [showHiddenCharas, setShowHiddenCharas] = useState(false);
 
   // Initialize state from URL parameters
   useEffect(() => {
@@ -70,12 +78,14 @@ export default function DataGridCharaTable({
     const feats = searchParams.get('feats')?.split(',').filter(Boolean) || [];
     const abilities =
       searchParams.get('abilities')?.split(',').filter(Boolean) || [];
+    const hidden = searchParams.get('hidden') === 'true';
 
     setSearchQuery(query);
     setSelectedRaces(races);
     setSelectedJobs(jobs);
     setSelectedFeats(feats);
     setSelectedAbilities(abilities);
+    setShowHiddenCharas(hidden);
   }, [searchParams]);
 
   // Update URL when filters change
@@ -85,7 +95,8 @@ export default function DataGridCharaTable({
       races: string[],
       jobs: string[],
       feats: string[],
-      abilities: string[]
+      abilities: string[],
+      hidden: boolean
     ) => {
       const urlSearchParams = new URLSearchParams();
 
@@ -103,6 +114,9 @@ export default function DataGridCharaTable({
       }
       if (abilities.length > 0) {
         urlSearchParams.set('abilities', abilities.join(','));
+      }
+      if (hidden) {
+        urlSearchParams.set('hidden', 'true');
       }
 
       const newUrl = urlSearchParams.toString()
@@ -221,6 +235,11 @@ export default function DataGridCharaTable({
         if (!hasAllSelectedAbilities) return false;
       }
 
+      // Hidden characters filter
+      if (!showHiddenCharas && chara.isHidden()) {
+        return false;
+      }
+
       return true;
     });
   }, [
@@ -231,6 +250,7 @@ export default function DataGridCharaTable({
     selectedFeats,
     selectedAbilities,
     language,
+    showHiddenCharas,
   ]);
 
   const rows: GridRowsProp = useMemo(() => {
@@ -428,10 +448,18 @@ export default function DataGridCharaTable({
         selectedRaces,
         selectedJobs,
         selectedFeats,
-        selectedAbilities
+        selectedAbilities,
+        showHiddenCharas
       );
     },
-    [updateURL, selectedRaces, selectedJobs, selectedFeats, selectedAbilities]
+    [
+      updateURL,
+      selectedRaces,
+      selectedJobs,
+      selectedFeats,
+      selectedAbilities,
+      showHiddenCharas,
+    ]
   );
 
   const handleRaceChange = useCallback(
@@ -442,10 +470,18 @@ export default function DataGridCharaTable({
         races,
         selectedJobs,
         selectedFeats,
-        selectedAbilities
+        selectedAbilities,
+        showHiddenCharas
       );
     },
-    [updateURL, searchQuery, selectedJobs, selectedFeats, selectedAbilities]
+    [
+      updateURL,
+      searchQuery,
+      selectedJobs,
+      selectedFeats,
+      selectedAbilities,
+      showHiddenCharas,
+    ]
   );
 
   const handleJobChange = useCallback(
@@ -456,10 +492,18 @@ export default function DataGridCharaTable({
         selectedRaces,
         jobs,
         selectedFeats,
-        selectedAbilities
+        selectedAbilities,
+        showHiddenCharas
       );
     },
-    [updateURL, searchQuery, selectedRaces, selectedFeats, selectedAbilities]
+    [
+      updateURL,
+      searchQuery,
+      selectedRaces,
+      selectedFeats,
+      selectedAbilities,
+      showHiddenCharas,
+    ]
   );
 
   const handleFeatChange = useCallback(
@@ -470,10 +514,18 @@ export default function DataGridCharaTable({
         selectedRaces,
         selectedJobs,
         feats,
-        selectedAbilities
+        selectedAbilities,
+        showHiddenCharas
       );
     },
-    [updateURL, searchQuery, selectedRaces, selectedJobs, selectedAbilities]
+    [
+      updateURL,
+      searchQuery,
+      selectedRaces,
+      selectedJobs,
+      selectedAbilities,
+      showHiddenCharas,
+    ]
   );
 
   const handleAbilityChange = useCallback(
@@ -484,10 +536,18 @@ export default function DataGridCharaTable({
         selectedRaces,
         selectedJobs,
         selectedFeats,
-        abilities
+        abilities,
+        showHiddenCharas
       );
     },
-    [updateURL, searchQuery, selectedRaces, selectedJobs, selectedFeats]
+    [
+      updateURL,
+      searchQuery,
+      selectedRaces,
+      selectedJobs,
+      selectedFeats,
+      showHiddenCharas,
+    ]
   );
 
   return (
@@ -535,6 +595,28 @@ export default function DataGridCharaTable({
           }}
         />
       </Paper>
+      <Box sx={{ mt: 2 }}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={showHiddenCharas}
+              onChange={(e) => {
+                const newValue = e.target.checked;
+                setShowHiddenCharas(newValue);
+                updateURL(
+                  searchQuery,
+                  selectedRaces,
+                  selectedJobs,
+                  selectedFeats,
+                  selectedAbilities,
+                  newValue
+                );
+              }}
+            />
+          }
+          label={t.common.showHiddenCharacters}
+        />
+      </Box>
     </Box>
   );
 }
