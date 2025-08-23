@@ -131,12 +131,16 @@ export class Chara {
         return '*r';
       }
 
-      if (name.includes('#ele') && this.mainElement) {
-        name = name
-          .replace(/#ele(\d)/, (_, n) =>
-            this.mainElement!.altName(parseInt(n, 10), locale)
-          )
-          .replace('#ele', () => this.mainElement!.altName(-1, locale));
+      if (this.mainElement) {
+        if (name.includes('#ele')) {
+          name = name
+            .replace(/#ele(\d)/, (_, n) =>
+              this.mainElement!.altName(parseInt(n, 10), locale)
+            )
+            .replace('#ele', () => this.mainElement!.altName(-1, locale));
+        } else {
+          name = `${name} (${this.mainElement.altName(-1, locale)})`;
+        }
       }
       return name;
     });
@@ -317,7 +321,8 @@ export class Chara {
       if (this.isVariant) {
         return [];
       }
-      if (!this.row.name?.match(/#ele/)) {
+      const mainElements = this.row.mainElement?.split(',') ?? [];
+      if (mainElements.length < 2) {
         return [];
       }
 
@@ -455,11 +460,3 @@ export class Chara {
     });
   }
 }
-
-export const normalizedCharaName = (chara: CharaRow) => {
-  const { name_JP, aka_JP } = chara;
-  const prefix = aka_JP ?? '';
-  const name = name_JP !== '*r' ? name_JP : '';
-
-  return prefix + name;
-};
