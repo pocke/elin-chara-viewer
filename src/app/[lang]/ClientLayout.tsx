@@ -30,8 +30,6 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
               style={{
                 textDecoration: 'none',
                 color: 'inherit',
-                display: 'block',
-                width: '100%',
               }}
             >
               {t.common.title}
