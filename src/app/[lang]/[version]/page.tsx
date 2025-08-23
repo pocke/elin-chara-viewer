@@ -1,20 +1,21 @@
 'use client';
 import { Container, Typography, Box, Button, Paper } from '@mui/material';
 import { Home as HomeIcon, Menu as MenuIcon } from '@mui/icons-material';
-import { useTranslation } from '../../lib/simple-i18n';
+import { useTranslation } from '../../../lib/simple-i18n';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function Home() {
+export default function VersionHome() {
   const { t } = useTranslation();
   const params = useParams();
   const lang = params.lang as string;
+  const version = params.version as string;
 
   return (
     <Container maxWidth="lg">
       <Box sx={{ my: 4 }}>
         <Typography variant="h2" component="h1" gutterBottom align="center">
-          {t.common.title}
+          {t.common.title} - {version}
         </Typography>
         <Typography
           variant="h5"
@@ -33,7 +34,7 @@ export default function Home() {
           </Box>
           <Typography paragraph>{t.common.appDescription}</Typography>
           <Box sx={{ mt: 3, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-            <Link href={`/${lang}/EA/charas`} passHref>
+            <Link href={`/${lang}/${version}/charas`} passHref>
               <Button variant="contained" startIcon={<MenuIcon />}>
                 {t.common.browseCharacters}
               </Button>

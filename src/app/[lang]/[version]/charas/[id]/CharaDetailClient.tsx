@@ -42,6 +42,7 @@ export default function CharaDetailClient({
 
   const params = useParams();
   const lang = params.lang as string;
+  const version = params.version as string;
 
   const feats = chara.feats();
   const negations = chara.negations();
@@ -187,7 +188,7 @@ export default function CharaDetailClient({
       <Box sx={{ my: 4 }}>
         <Button
           component={Link}
-          href={`/${lang}/charas`}
+          href={`/${lang}/${version}/charas`}
           startIcon={<ArrowBackIcon />}
           sx={{ mb: 3 }}
           variant="outlined"
