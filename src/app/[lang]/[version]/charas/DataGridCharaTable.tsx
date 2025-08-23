@@ -292,7 +292,9 @@ export default function DataGridCharaTable({
       // Add resistance columns
       resistanceElementsList.forEach((resElement) => {
         const resValue = chara.getElementPower(resElement.alias) || 0;
-        row[resElement.alias] = getResistanceDisplayValueCompact(resValue);
+        row[resElement.alias] = resValue; // Store numeric value for sorting
+        row[`${resElement.alias}_display`] =
+          getResistanceDisplayValueCompact(resValue); // Store display value
       });
 
       return row;
@@ -417,7 +419,12 @@ export default function DataGridCharaTable({
       baseColumns.push({
         field: resElement.alias,
         headerName: resElement.name(language),
+        type: 'number',
         width: 80,
+        renderCell: (params) => {
+          const displayValue = params.row[`${resElement.alias}_display`];
+          return displayValue;
+        },
       });
     });
 
