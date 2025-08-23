@@ -230,13 +230,29 @@ export default function CharaDetailClient({
           <Divider sx={{ my: 3 }} />
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Box>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t.common.race}
-              </Typography>
-              <Typography variant="body1">
-                {chara.race.name(language)}
-              </Typography>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: 2,
+              }}
+            >
+              <Box>
+                <Typography variant="h6" color="text.secondary" gutterBottom>
+                  {t.common.race}
+                </Typography>
+                <Typography variant="body1">
+                  {chara.race.name(language)}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="h6" color="text.secondary" gutterBottom>
+                  {t.common.job}
+                </Typography>
+                <Typography variant="body1">
+                  {chara.job().name(language)}
+                </Typography>
+              </Box>
             </Box>
 
             <Box>
