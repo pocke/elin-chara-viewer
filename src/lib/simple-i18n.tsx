@@ -5,7 +5,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 const resources = {
   ja: {
     common: {
-      title: 'Elin キャラクタービューア',
+      title: 'Elin キャラクタービューワー',
       welcome: 'キャラクターデータベースへようこそ',
       allCharacters: '全キャラクター',
       name: '名前',
@@ -58,8 +58,8 @@ const resources = {
       backToCharacters: 'キャラクター一覧に戻る',
       gettingStarted: 'はじめに',
       appDescription:
-        'このアプリケーションでは、Elinのキャラクター情報を閲覧・管理できます。',
-      browseCharacters: 'キャラクターを見る',
+        'このアプリケーションは、Elinの非公式キャラクタービューワーです。ゲームの解析データを元にキャラクターの情報を表示します。',
+      browseCharacters: 'キャラクター一覧',
       viewDocumentation: 'ドキュメントを見る',
       searchCharacters: '名前',
       filters: 'フィルター',
@@ -126,7 +126,7 @@ const resources = {
       backToCharacters: 'Back to Characters',
       gettingStarted: 'Getting Started',
       appDescription:
-        'This application allows you to browse and manage character information for Elin.',
+        'This application is an unofficial character viewer for Elin. It displays character information based on game data analysis.',
       browseCharacters: 'Browse Characters',
       viewDocumentation: 'View Documentation',
       searchCharacters: 'Name',

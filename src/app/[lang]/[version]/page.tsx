@@ -1,4 +1,4 @@
-import VersionHomeClient from './VersionHomeClient';
+import { redirect } from 'next/navigation';
 
 export function generateStaticParams() {
   return [
@@ -7,6 +7,11 @@ export function generateStaticParams() {
   ];
 }
 
-export default function VersionHome() {
-  return <VersionHomeClient />;
+interface PageProps {
+  params: Promise<{ lang: string; version: string }>;
+}
+
+export default async function VersionHome({ params }: PageProps) {
+  const { lang } = await params;
+  redirect(`/${lang}`);
 }
