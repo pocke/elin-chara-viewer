@@ -36,9 +36,13 @@ function CustomToolbar() {
   );
 }
 
-const abilityToSearchKey = (ability: {name:string, element:string|null, party:boolean}) => {
+const abilityToSearchKey = (ability: {
+  name: string;
+  element: string | null;
+  party: boolean;
+}) => {
   return `${ability.name}:${ability.element ?? ''}:${ability.party}`;
-}
+};
 
 export default function DataGridCharaTable({
   charas,
