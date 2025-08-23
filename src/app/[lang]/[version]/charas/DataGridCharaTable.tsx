@@ -44,6 +44,7 @@ export default function DataGridCharaTable({
   const router = useRouter();
   const searchParams = useSearchParams();
   const lang = params.lang as string;
+  const version = params.version as string;
   const resistanceElementsList = resistanceElements();
 
   // Custom filter states
@@ -308,7 +309,7 @@ export default function DataGridCharaTable({
         renderCell: (params) => (
           <MuiLink
             component={Link}
-            href={`/${lang}/charas/${params.row.id}`}
+            href={`/${lang}/${version}/charas/${params.row.id}`}
             underline="hover"
           >
             {params.value}
@@ -421,7 +422,15 @@ export default function DataGridCharaTable({
     });
 
     return baseColumns;
-  }, [t, lang, language, resistanceElementsList, raceOptions, jobOptions]);
+  }, [
+    t,
+    lang,
+    version,
+    language,
+    resistanceElementsList,
+    raceOptions,
+    jobOptions,
+  ]);
 
   // Search bar callback functions
   const handleSearchChange = useCallback(

@@ -11,12 +11,20 @@ export const generateStaticParams = () => {
   // Generate IDs for base characters and their variants
   const ids = baseCharas.flatMap((chara) => {
     const variants = chara.variants();
-    return variants.length > 0
-      ? variants.map((v) => ({ id: v.id }))
-      : [{ id: chara.id }];
+    return variants.length > 0 ? variants.map((v) => v.id) : [chara.id];
   });
 
-  return ids;
+  // Generate combinations of lang, version, and id
+  const params = [];
+  for (const lang of ['ja', 'en']) {
+    for (const version of ['EA']) {
+      for (const id of ids) {
+        params.push({ lang, version, id });
+      }
+    }
+  }
+
+  return params;
 };
 
 export default async function CharaPage(props: {
