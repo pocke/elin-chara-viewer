@@ -139,12 +139,12 @@ export default function DataGridCharaTable({
           }
 
           // Always add the normal variant (party: false)
-          const normalKey = `${ability.name}:false`;
+          const normalKey = `${ability.name}:${ability.element || ''}:false`;
           abilityMap.set(normalKey, baseAbilityName);
 
           // Add party variant only if this ability actually has party: true
           if (ability.party) {
-            const partyKey = `${ability.name}:true`;
+            const partyKey = `${ability.name}:${ability.element || ''}:true`;
             const partyAbilityName = `${baseAbilityName} (${t.common.range})`;
             abilityMap.set(partyKey, partyAbilityName);
           }
