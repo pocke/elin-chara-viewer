@@ -59,13 +59,23 @@ export default function DataGridCharaTable({
             ? (elementByAlias(ability.element) ?? null)
             : null;
 
-          let abilityName: string;
+          let baseAbilityName: string;
           if (baseElement) {
-            abilityName = baseElement.abilityName(elementElement, language);
+            baseAbilityName = baseElement.abilityName(elementElement, language);
           } else {
-            abilityName = ability.name;
+            baseAbilityName = ability.name;
           }
-          abilityMap.set(ability.name, abilityName);
+
+          // Always add the normal variant (party: false)
+          const normalKey = `${ability.name}:false`;
+          abilityMap.set(normalKey, baseAbilityName);
+
+          // Add party variant only if this ability actually has party: true
+          if (ability.party) {
+            const partyKey = `${ability.name}:true`;
+            const partyAbilityName = `${baseAbilityName} (${t.common.range})`;
+            abilityMap.set(partyKey, partyAbilityName);
+          }
         });
       });
 
@@ -79,7 +89,7 @@ export default function DataGridCharaTable({
           a[1].localeCompare(b[1])
         ),
       };
-    }, [charas, language]);
+    }, [charas, language, t.common.range]);
 
   // Apply custom filters to charas
   const filteredCharas = useMemo(() => {
@@ -121,19 +131,39 @@ export default function DataGridCharaTable({
 
       // Abilities filter
       if (selectedAbilities.length > 0) {
-        const charaAbilities = chara.abilities().map((ability) => {
-          const baseElement = elementByAlias(ability.name);
-          const elementElement = ability.element
-            ? (elementByAlias(ability.element) ?? null)
-            : null;
+        const charaAbilities = chara.abilities();
+        const hasAllSelectedAbilities = selectedAbilities.every(
+          (selectedAbility) => {
+            // selectedAbility format: "abilityName (範囲)" or "abilityName"
+            // Determine if this is a party variant by checking for range text
+            const isPartyVariant = selectedAbility.includes(
+              `(${t.common.range})`
+            );
+            const baseAbilityName = isPartyVariant
+              ? selectedAbility.replace(` (${t.common.range})`, '')
+              : selectedAbility;
 
-          if (baseElement) {
-            return baseElement.abilityName(elementElement, language);
+            // Check if any chara ability matches the selected criteria
+            return charaAbilities.some((ability) => {
+              const baseElement = elementByAlias(ability.name);
+              const elementElement = ability.element
+                ? (elementByAlias(ability.element) ?? null)
+                : null;
+
+              let abilityName: string;
+              if (baseElement) {
+                abilityName = baseElement.abilityName(elementElement, language);
+              } else {
+                abilityName = ability.name;
+              }
+
+              // Check if ability name matches and party status matches
+              return (
+                abilityName === baseAbilityName &&
+                ability.party === isPartyVariant
+              );
+            });
           }
-          return ability.name;
-        });
-        const hasAllSelectedAbilities = selectedAbilities.every((ability) =>
-          charaAbilities.includes(ability)
         );
         if (!hasAllSelectedAbilities) return false;
       }
@@ -148,6 +178,7 @@ export default function DataGridCharaTable({
     selectedFeats,
     selectedAbilities,
     language,
+    t.common.range,
   ]);
 
   const rows: GridRowsProp = useMemo(() => {
