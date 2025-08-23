@@ -5,6 +5,13 @@ import { useTranslation } from '../../../lib/simple-i18n';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
+export function generateStaticParams() {
+  return [
+    { lang: 'ja', version: 'EA' },
+    { lang: 'en', version: 'EA' },
+  ];
+}
+
 export default function VersionHome() {
   const { t } = useTranslation();
   const params = useParams();

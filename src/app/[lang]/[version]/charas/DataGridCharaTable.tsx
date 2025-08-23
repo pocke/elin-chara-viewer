@@ -422,7 +422,15 @@ export default function DataGridCharaTable({
     });
 
     return baseColumns;
-  }, [t, lang, version, language, resistanceElementsList, raceOptions, jobOptions]);
+  }, [
+    t,
+    lang,
+    version,
+    language,
+    resistanceElementsList,
+    raceOptions,
+    jobOptions,
+  ]);
 
   // Search bar callback functions
   const handleSearchChange = useCallback(
