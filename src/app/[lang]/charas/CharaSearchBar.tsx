@@ -123,7 +123,7 @@ export default function CharaSearchBar({
         </Typography>
         {hasActiveFilters && (
           <Chip
-            label="フィルターをクリア"
+            label={t.common.clearFilters}
             onClick={clearAllFilters}
             variant="outlined"
             size="small"
