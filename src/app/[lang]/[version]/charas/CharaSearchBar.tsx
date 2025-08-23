@@ -21,11 +21,13 @@ interface CharaSearchBarProps {
   initialSelectedJobs?: string[];
   initialSelectedFeats?: string[];
   initialSelectedAbilities?: string[];
+  initialShowHiddenCharas?: boolean;
   onSearchChange: (search: string) => void;
   onRaceChange: (races: string[]) => void;
   onJobChange: (jobs: string[]) => void;
   onFeatChange: (feats: string[]) => void;
   onAbilityChange: (abilities: string[]) => void;
+  onClearAllFilters: () => void;
 }
 
 export default function CharaSearchBar({
@@ -38,11 +40,13 @@ export default function CharaSearchBar({
   initialSelectedJobs = [],
   initialSelectedFeats = [],
   initialSelectedAbilities = [],
+  initialShowHiddenCharas = false,
   onSearchChange,
   onRaceChange,
   onJobChange,
   onFeatChange,
   onAbilityChange,
+  onClearAllFilters,
 }: CharaSearchBarProps) {
   const { t } = useTranslation();
 
@@ -70,6 +74,7 @@ export default function CharaSearchBar({
     initialSelectedJobs,
     initialSelectedFeats,
     initialSelectedAbilities,
+    initialShowHiddenCharas,
   ]);
 
   const handleSearchChange = useCallback(
@@ -118,25 +123,16 @@ export default function CharaSearchBar({
     setSelectedJobs([]);
     setSelectedFeats([]);
     setSelectedAbilities([]);
-    onSearchChange('');
-    onRaceChange([]);
-    onJobChange([]);
-    onFeatChange([]);
-    onAbilityChange([]);
-  }, [
-    onSearchChange,
-    onRaceChange,
-    onJobChange,
-    onFeatChange,
-    onAbilityChange,
-  ]);
+    onClearAllFilters();
+  }, [onClearAllFilters]);
 
   const hasActiveFilters =
     searchQuery ||
     selectedRaces.length > 0 ||
     selectedJobs.length > 0 ||
     selectedFeats.length > 0 ||
-    selectedAbilities.length > 0;
+    selectedAbilities.length > 0 ||
+    initialShowHiddenCharas;
 
   return (
     <Paper elevation={2} sx={{ p: 3, mb: 2 }}>

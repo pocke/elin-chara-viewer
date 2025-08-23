@@ -550,6 +550,16 @@ export default function DataGridCharaTable({
     ]
   );
 
+  const handleClearAllFilters = useCallback(() => {
+    setSearchQuery('');
+    setSelectedRaces([]);
+    setSelectedJobs([]);
+    setSelectedFeats([]);
+    setSelectedAbilities([]);
+    setShowHiddenCharas(false);
+    updateURL('', [], [], [], [], false);
+  }, [updateURL]);
+
   return (
     <Box sx={{ width: '100%' }}>
       <CharaSearchBar
@@ -562,11 +572,13 @@ export default function DataGridCharaTable({
         initialSelectedJobs={selectedJobs}
         initialSelectedFeats={selectedFeats}
         initialSelectedAbilities={selectedAbilities}
+        initialShowHiddenCharas={showHiddenCharas}
         onSearchChange={handleSearchChange}
         onRaceChange={handleRaceChange}
         onJobChange={handleJobChange}
         onFeatChange={handleFeatChange}
         onAbilityChange={handleAbilityChange}
+        onClearAllFilters={handleClearAllFilters}
       />
       <Paper elevation={1} sx={{ height: '70vh', width: '100%' }}>
         <DataGrid
