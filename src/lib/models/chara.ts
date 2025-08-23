@@ -3,6 +3,7 @@ import { Elementable } from '../elementable';
 import { Element, ElementAttacks, elementByAlias } from './element';
 import { Race, raceById } from './race';
 import { jobById } from './job';
+import { Tactics, tacticsById } from './tactics';
 
 export const CharaSchema = z.object({
   __meta: z.object({
@@ -386,6 +387,72 @@ export class Chara {
       'mag',
       () => this.getElementPower('MAG') + this.job().mag
     );
+  }
+
+  // https://github.com/Elin-Modding-Resources/Elin-Decompiled/blob/72332a1390e68a8de62bca4acbd6ebbaab92257b/Elin/Tactics.cs#L180-L181
+  tactics(): Tactics {
+    return this.memoize('tactics', () => {
+      if (this.row.tactics) {
+        const tactics = tacticsById(this.row.tactics);
+        if (tactics) {
+          return tactics;
+        }
+      }
+
+      const characterTactics = tacticsById(this.row.id);
+      if (characterTactics) {
+        return characterTactics;
+      }
+
+      const job = this.job();
+      const jobTactics = tacticsById(job.id);
+      if (jobTactics) {
+        return jobTactics;
+      }
+
+      const predatorTactics = tacticsById('predator');
+      if (predatorTactics) {
+        return predatorTactics;
+      }
+
+      throw new Error(`No tactics found for character ${this.row.id}`);
+    });
+  }
+
+  tacticsDistance(): number {
+    return this.memoize('tacticsDistance', () => {
+      // aiParamがあれば最初の値を使用
+      if (this.row.aiParam) {
+        const params = this.row.aiParam.split(',');
+        if (params.length > 0) {
+          const distance = parseInt(params[0], 10);
+          if (!isNaN(distance)) {
+            return distance;
+          }
+        }
+      }
+
+      // aiParamがない場合は基本のtacticsから取得
+      return this.tactics().distance;
+    });
+  }
+
+  tacticsMoveFrequency(): number {
+    return this.memoize('tacticsMoveFrequency', () => {
+      // aiParamがあれば2番目の値を使用
+      if (this.row.aiParam) {
+        const params = this.row.aiParam.split(',');
+        if (params.length > 1) {
+          const moveFreq = parseInt(params[1], 10);
+          if (!isNaN(moveFreq)) {
+            return moveFreq;
+          }
+        }
+      }
+
+      // aiParamがない場合は基本のtacticsから取得
+      return this.tactics().moveFrequency;
+    });
   }
 }
 

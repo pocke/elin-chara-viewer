@@ -480,6 +480,44 @@ export default function CharaDetailClient({
                 </Box>
               </Box>
             )}
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t.common.tactics}
+              </Typography>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                  gap: 2,
+                }}
+              >
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsName}
+                  </Typography>
+                  <Typography variant="h6">
+                    {chara.tactics().name(language)}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsDistance}
+                  </Typography>
+                  <Typography variant="h6">
+                    {chara.tacticsDistance()}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsMoveFrequency}
+                  </Typography>
+                  <Typography variant="h6">
+                    {chara.tacticsMoveFrequency()}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
           </Box>
         </Paper>
       </Box>

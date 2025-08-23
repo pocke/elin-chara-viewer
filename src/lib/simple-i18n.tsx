@@ -68,6 +68,10 @@ const resources = {
       filters: 'フィルター',
       columnVisibility: 'カラムの表示',
       statusColumns: 'ステータス',
+      tactics: '戦闘タイプ',
+      tacticsName: '戦闘タイプ名',
+      tacticsDistance: '距離',
+      tacticsMoveFrequency: '移動頻度',
     },
   },
   en: {
@@ -135,6 +139,10 @@ const resources = {
       filters: 'Filters',
       columnVisibility: 'Column Display',
       statusColumns: 'Status Columns',
+      tactics: 'Tactics',
+      tacticsName: 'Tactics Name',
+      tacticsDistance: 'Distance',
+      tacticsMoveFrequency: 'Move Frequency',
     },
   },
 };
