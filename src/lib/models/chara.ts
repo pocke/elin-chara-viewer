@@ -340,6 +340,33 @@ export class Chara {
     });
   }
 
+  isHidden() {
+    if (this.tags().includes('noRandomProduct')) {
+      return true;
+    }
+    const hiddenCharaIds = [
+      'chara1',
+      'chara2',
+      'chara3',
+      'ehekatl',
+      'elin',
+      'itz',
+      'jure',
+      'kumiromi',
+      'lulwy',
+      'mani',
+      'opatos',
+    ];
+    if (hiddenCharaIds.includes(this.row.id)) {
+      return true;
+    }
+    return false;
+  }
+
+  tags() {
+    return this.row.tag?.split(',') ?? [];
+  }
+
   private normalizedNameJa() {
     const prefix =
       this.row.aka_JP && this.row.aka_JP !== '*r' ? this.row.aka_JP + ' ' : '';

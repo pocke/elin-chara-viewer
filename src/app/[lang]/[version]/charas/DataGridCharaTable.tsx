@@ -231,7 +231,6 @@ export default function DataGridCharaTable({
     selectedFeats,
     selectedAbilities,
     language,
-    t.common.range,
   ]);
 
   const rows: GridRowsProp = useMemo(() => {
