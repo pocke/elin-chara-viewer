@@ -59,7 +59,7 @@ const resources = {
       gettingStarted: 'はじめに',
       appDescription:
         'このアプリケーションでは、Elinのキャラクター情報を閲覧・管理できます。',
-      browseCharacters: 'キャラクターを見る',
+      browseCharacters: 'キャラクター一覧',
       viewDocumentation: 'ドキュメントを見る',
       searchCharacters: '名前',
       filters: 'フィルター',
