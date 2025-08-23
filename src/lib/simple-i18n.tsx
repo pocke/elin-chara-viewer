@@ -65,6 +65,10 @@ const resources = {
       searchCharacters: '名前',
       filters: 'フィルター',
       clearFilters: 'フィルターをクリア',
+      tactics: '戦闘タイプ',
+      tacticsName: '戦闘タイプ名',
+      tacticsDistance: '距離',
+      tacticsMoveFrequency: '移動頻度',
     },
   },
   en: {
@@ -129,6 +133,10 @@ const resources = {
       searchCharacters: 'Name',
       filters: 'Filters',
       clearFilters: 'Clear Filters',
+      tactics: 'Tactics',
+      tacticsName: 'Tactics Name',
+      tacticsDistance: 'Distance',
+      tacticsMoveFrequency: 'Move Frequency',
     },
   },
 };
