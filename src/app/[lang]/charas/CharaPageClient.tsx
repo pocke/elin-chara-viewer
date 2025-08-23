@@ -32,7 +32,6 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-
   // Column visibility state - simplified to groups only
   const [showStatusColumns, setShowStatusColumns] = useState(true);
   const [showResistances, setShowResistances] = useState(false);
@@ -56,10 +55,6 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
       return variants.length > 0 ? variants : [chara];
     });
   }, [charas]);
-
-
-
-
 
   // Column visibility handlers - simplified
   const handleStatusColumnsToggle = useCallback(() => {

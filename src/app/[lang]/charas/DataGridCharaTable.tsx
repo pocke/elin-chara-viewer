@@ -398,7 +398,7 @@ export default function DataGridCharaTable({
           }}
           initialState={{
             sorting: {
-              sortModel: [{ field: 'level', sort: 'desc' }],
+              sortModel: [],
             },
             filter: {
               filterModel: {
