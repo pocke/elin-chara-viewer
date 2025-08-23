@@ -76,6 +76,7 @@ const resources = {
       tacticsDistance: '距離',
       tacticsMoveFrequency: '移動頻度',
       loading: '読み込み中',
+      showHiddenCharacters: '通常ゲームでは登場しないキャラを表示',
     },
   },
   en: {
@@ -150,6 +151,7 @@ const resources = {
       tacticsDistance: 'Distance',
       tacticsMoveFrequency: 'Move Frequency',
       loading: 'Loading',
+      showHiddenCharacters: 'Show characters not appearing in regular gameplay',
     },
   },
 };
