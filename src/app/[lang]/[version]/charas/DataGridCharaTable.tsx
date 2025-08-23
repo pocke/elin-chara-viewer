@@ -213,9 +213,7 @@ export default function DataGridCharaTable({
 
       // Feats filter
       if (selectedFeats.length > 0) {
-        const charaFeats = chara
-          .feats()
-          .map((feat) => feat.element.name(language));
+        const charaFeats = chara.feats().map((feat) => feat.element.alias);
         const hasAllSelectedFeats = selectedFeats.every((feat) =>
           charaFeats.includes(feat)
         );

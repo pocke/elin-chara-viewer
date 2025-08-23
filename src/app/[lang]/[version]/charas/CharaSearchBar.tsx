@@ -247,17 +247,25 @@ export default function CharaSearchBar({
             multiple
             value={selectedFeats}
             onChange={(_, newValue) => handleFeatChange(newValue)}
-            options={featOptions.map(([, name]) => name)}
+            options={featOptions.map(([key]) => key)}
+            getOptionLabel={(option) => {
+              const featOption = featOptions.find(([key]) => key === option);
+              return featOption ? featOption[1] : option;
+            }}
             renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  variant="outlined"
-                  label={option}
-                  size="small"
-                  {...getTagProps({ index })}
-                  key={option}
-                />
-              ))
+              value.map((option, index) => {
+                const featOption = featOptions.find(([key]) => key === option);
+                const label = featOption ? featOption[1] : option;
+                return (
+                  <Chip
+                    variant="outlined"
+                    label={label}
+                    size="small"
+                    {...getTagProps({ index })}
+                    key={option}
+                  />
+                );
+              })
             }
             renderInput={(params) => (
               <TextField
@@ -276,17 +284,29 @@ export default function CharaSearchBar({
             multiple
             value={selectedAbilities}
             onChange={(_, newValue) => handleAbilityChange(newValue)}
-            options={abilityOptions.map(([, name]) => name)}
+            options={abilityOptions.map(([key]) => key)}
+            getOptionLabel={(option) => {
+              const abilityOption = abilityOptions.find(
+                ([key]) => key === option
+              );
+              return abilityOption ? abilityOption[1] : option;
+            }}
             renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  variant="outlined"
-                  label={option}
-                  size="small"
-                  {...getTagProps({ index })}
-                  key={option}
-                />
-              ))
+              value.map((option, index) => {
+                const abilityOption = abilityOptions.find(
+                  ([key]) => key === option
+                );
+                const label = abilityOption ? abilityOption[1] : option;
+                return (
+                  <Chip
+                    variant="outlined"
+                    label={label}
+                    size="small"
+                    {...getTagProps({ index })}
+                    key={option}
+                  />
+                );
+              })
             }
             renderInput={(params) => (
               <TextField
