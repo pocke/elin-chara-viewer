@@ -138,7 +138,7 @@ export class Chara {
               this.mainElement!.altName(parseInt(n, 10), locale)
             )
             .replace('#ele', () => this.mainElement!.altName(-1, locale));
-        } else {
+        } else if (this.isVariant) {
           name = `${name} (${this.mainElement.altName(-1, locale)})`;
         }
       }
