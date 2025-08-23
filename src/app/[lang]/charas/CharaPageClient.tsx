@@ -48,8 +48,12 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
   const [selectedBodyParts, setSelectedBodyParts] = useState<string[]>([]);
   const [selectedFeats, setSelectedFeats] = useState<string[]>([]);
   const [selectedAbilities, setSelectedAbilities] = useState<string[]>([]);
+  const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
+  const [selectedRaces, setSelectedRaces] = useState<string[]>([]);
   const [featSearch, setFeatSearch] = useState('');
   const [abilitySearch, setAbilitySearch] = useState('');
+  const [jobSearch, setJobSearch] = useState('');
+  const [raceSearch, setRaceSearch] = useState('');
 
   // Column visibility state - simplified to groups only
   const [showStatusColumns, setShowStatusColumns] = useState(true);
@@ -105,12 +109,16 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
         bodyParts: [],
         feats: [],
         abilities: [],
+        jobs: [],
+        races: [],
       };
     }
 
     const bodyPartsSet = new Set<string>();
     const featsMap = new Map<string, string>();
     const abilitiesMap = new Map<string, string>();
+    const jobsMap = new Map<string, string>();
+    const racesMap = new Map<string, string>();
 
     allCharas.forEach((chara) => {
       // Body parts
@@ -138,6 +146,14 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
         }
         abilitiesMap.set(ability.name, abilityName);
       });
+
+      // Jobs
+      const job = chara.job();
+      jobsMap.set(job.id, job.name(language));
+
+      // Races
+      const race = chara.race;
+      racesMap.set(race.id, race.name(language));
     });
 
     return {
@@ -146,6 +162,12 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
         a[1].localeCompare(b[1])
       ),
       abilities: Array.from(abilitiesMap.entries()).sort((a, b) =>
+        a[1].localeCompare(b[1])
+      ),
+      jobs: Array.from(jobsMap.entries()).sort((a, b) =>
+        a[1].localeCompare(b[1])
+      ),
+      races: Array.from(racesMap.entries()).sort((a, b) =>
         a[1].localeCompare(b[1])
       ),
     };
@@ -191,6 +213,18 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
         if (!hasAllSelectedAbilities) return false;
       }
 
+      // Jobs filter
+      if (selectedJobs.length > 0) {
+        const charaJobId = chara.job().id;
+        if (!selectedJobs.includes(charaJobId)) return false;
+      }
+
+      // Races filter
+      if (selectedRaces.length > 0) {
+        const charaRaceId = chara.race.id;
+        if (!selectedRaces.includes(charaRaceId)) return false;
+      }
+
       return true;
     });
   }, [
@@ -199,6 +233,8 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
     selectedBodyParts,
     selectedFeats,
     selectedAbilities,
+    selectedJobs,
+    selectedRaces,
     normalizedCharaNames,
   ]);
 
@@ -219,6 +255,18 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
       prev.includes(ability)
         ? prev.filter((a) => a !== ability)
         : [...prev, ability]
+    );
+  }, []);
+
+  const handleJobToggle = useCallback((job: string) => {
+    setSelectedJobs((prev) =>
+      prev.includes(job) ? prev.filter((j) => j !== job) : [...prev, job]
+    );
+  }, []);
+
+  const handleRaceToggle = useCallback((race: string) => {
+    setSelectedRaces((prev) =>
+      prev.includes(race) ? prev.filter((r) => r !== race) : [...prev, race]
     );
   }, []);
 
@@ -283,6 +331,85 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
               <Typography variant="h6">{t.common.filters}</Typography>
             </AccordionSummary>
             <AccordionDetails>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'column', md: 'row' },
+                  gap: 3,
+                  mb: 3,
+                }}
+              >
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    {t.common.job}
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    size="small"
+                    placeholder={t.common.searchJobs}
+                    value={jobSearch}
+                    onChange={(e) => setJobSearch(e.target.value)}
+                    sx={{ mb: 1 }}
+                  />
+                  <Box sx={{ maxHeight: 200, overflow: 'auto' }}>
+                    <FormGroup>
+                      {availableOptions.jobs
+                        .filter(([, name]) =>
+                          name.toLowerCase().includes(jobSearch.toLowerCase())
+                        )
+                        .map(([alias, name]) => (
+                          <FormControlLabel
+                            key={alias}
+                            control={
+                              <Checkbox
+                                checked={selectedJobs.includes(alias)}
+                                onChange={() => handleJobToggle(alias)}
+                              />
+                            }
+                            label={name}
+                          />
+                        ))}
+                    </FormGroup>
+                  </Box>
+                </Box>
+
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    {t.common.race}
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    size="small"
+                    placeholder={t.common.searchRaces}
+                    value={raceSearch}
+                    onChange={(e) => setRaceSearch(e.target.value)}
+                    sx={{ mb: 1 }}
+                  />
+                  <Box sx={{ maxHeight: 200, overflow: 'auto' }}>
+                    <FormGroup>
+                      {availableOptions.races
+                        .filter(([, name]) =>
+                          name.toLowerCase().includes(raceSearch.toLowerCase())
+                        )
+                        .map(([alias, name]) => (
+                          <FormControlLabel
+                            key={alias}
+                            control={
+                              <Checkbox
+                                checked={selectedRaces.includes(alias)}
+                                onChange={() => handleRaceToggle(alias)}
+                              />
+                            }
+                            label={name}
+                          />
+                        ))}
+                    </FormGroup>
+                  </Box>
+                </Box>
+              </Box>
+
               <Box
                 sx={{
                   display: 'flex',
