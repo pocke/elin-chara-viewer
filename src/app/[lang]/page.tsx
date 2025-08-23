@@ -30,7 +30,6 @@ export default function Home() {
                 {t.common.browseCharacters}
               </Button>
             </Link>
-            <Button variant="outlined">{t.common.viewDocumentation}</Button>
           </Box>
         </Paper>
 
