@@ -61,7 +61,7 @@ const resources = {
       appDescription:
         'このアプリケーションは、Elinの非公式キャラクタービューワーです。ゲームの解析データを元にキャラクターの情報を表示します。',
       versionInfo:
-        'バージョンは EA 23.173 Patch 1 です。将来的にNightlyにも対応する予定です。',
+        'バージョンは EA 23.187 です。将来的にNightlyにも対応する予定です。',
       internalDataNotice: 'キャラクターの一覧には内部データも含まれています。',
       bugReportPrefix: '不具合報告は ',
       bugReportGitHub: 'GitHub レポジトリ',
@@ -137,7 +137,7 @@ const resources = {
       appDescription:
         'This application is an unofficial character viewer for Elin. It displays character information based on game data analysis.',
       versionInfo:
-        'Version is EA 23.173 Patch 1. We plan to support Nightly builds in the future.',
+        'Version is EA 23.187. We plan to support Nightly builds in the future.',
       internalDataNotice: 'The character list includes internal data.',
       bugReportPrefix: 'Please report bugs to the ',
       bugReportGitHub: 'GitHub repository',
