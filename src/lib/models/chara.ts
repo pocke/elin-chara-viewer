@@ -24,7 +24,7 @@ export const CharaSchema = z.object({
   colorMod: z.string().optional(),
   components: z.string().optional(),
   defMat: z.string().optional(),
-  LV: z.coerce.number().optional(),
+  LV: z.coerce.number(),
   chance: z.coerce.number().optional(),
   quality: z.coerce.number(),
   hostility: z.string().optional(),
@@ -260,7 +260,7 @@ export class Chara {
 
   level() {
     return this.memoize('level', () => {
-      const lv = this.row.LV ?? 1;
+      const lv = this.row.LV;
       if (this.mainElement && this.isVariant) {
         return Math.floor((lv * this.mainElement.elementPower) / 100);
       }
