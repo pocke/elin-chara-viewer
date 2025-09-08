@@ -6,6 +6,7 @@ import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 import Link from 'next/link';
 import theme from '../theme';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
+import Footer from '../../components/Footer';
 import {
   LanguageProvider,
   useTranslation,
@@ -21,7 +22,13 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
   const { t, language } = useTranslation();
 
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      }}
+    >
       <AppBar position="static" elevation={1}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -38,8 +45,11 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
           <LanguageSwitcher />
         </Toolbar>
       </AppBar>
-      <Box component="main">{children}</Box>
-    </>
+      <Box component="main" sx={{ flexGrow: 1 }}>
+        {children}
+      </Box>
+      <Footer />
+    </Box>
   );
 }
 

@@ -78,6 +78,10 @@ const resources = {
       loading: '読み込み中',
       showHiddenCharacters: '通常ゲームでは登場しないキャラを表示',
     },
+    footer: {
+      lastUpdated: '最終更新',
+      github: 'GitHub',
+    },
   },
   en: {
     common: {
@@ -152,6 +156,10 @@ const resources = {
       tacticsMoveFrequency: 'Move Frequency',
       loading: 'Loading',
       showHiddenCharacters: 'Show characters not appearing in regular gameplay',
+    },
+    footer: {
+      lastUpdated: 'Last Updated',
+      github: 'GitHub',
     },
   },
 };
