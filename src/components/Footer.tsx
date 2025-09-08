@@ -2,22 +2,12 @@
 import { Box, Typography, Link as MuiLink } from '@mui/material';
 import { useTranslation } from '../lib/simple-i18n';
 
+const REPOSITORY_URL = 'https://github.com/pocke/elin-chara-viewer';
+
 const Footer = () => {
   const { t } = useTranslation();
 
   const lastCommitDate = process.env.GIT_LAST_COMMIT_DATE;
-  const repositoryUrl = process.env.GIT_REPOSITORY_URL;
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
 
   return (
     <Box
@@ -47,27 +37,25 @@ const Footer = () => {
         <Typography variant="body2" color="text.secondary">
           {lastCommitDate && (
             <>
-              {t.footer.lastUpdated}: {formatDate(lastCommitDate)}
+              {t.footer.lastUpdated}: {lastCommitDate}
             </>
           )}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          {repositoryUrl && (
-            <MuiLink
-              href={repositoryUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{
-                color: 'text.secondary',
-                textDecoration: 'none',
-                '&:hover': {
-                  textDecoration: 'underline',
-                },
-              }}
-            >
-              <Typography variant="body2">{t.footer.github}</Typography>
-            </MuiLink>
-          )}
+          <MuiLink
+            href={REPOSITORY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              color: 'text.secondary',
+              textDecoration: 'none',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            }}
+          >
+            <Typography variant="body2">{t.footer.github}</Typography>
+          </MuiLink>
         </Box>
       </Box>
     </Box>
