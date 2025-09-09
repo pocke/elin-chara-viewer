@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
-import { Element, ElementAttacks, elementByAlias } from './element';
+import {
+  attackElements,
+  Element,
+  ElementAttacks,
+  elementByAlias,
+} from './element';
 import { Race, raceById } from './race';
 import { jobById } from './job';
 import { Tactics, tacticsById } from './tactics';
@@ -321,12 +326,8 @@ export class Chara {
       if (this.isVariant) {
         return [];
       }
-      const mainElements = this.row.mainElement?.split(',') ?? [];
-      if (mainElements.length < 2) {
-        return [];
-      }
+      const elms = this.variantElements();
 
-      const elms = this.row.mainElement?.split(',') ?? [];
       return elms.map((elm, index) => {
         const variantRow = {
           ...this.row,
@@ -338,6 +339,19 @@ export class Chara {
         return new Chara(variantRow, ('ele' + elm) as ElementAttacks);
       });
     });
+  }
+
+  private variantElements() {
+    if (this.row.id === 'bit') {
+      return attackElements().map((e) => e.alias.substring(3));
+    }
+
+    const mainElements = this.row.mainElement?.split(',') ?? [];
+    if (mainElements.length < 2) {
+      return [];
+    }
+
+    return mainElements;
   }
 
   isHidden() {
