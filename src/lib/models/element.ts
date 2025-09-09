@@ -156,6 +156,12 @@ export function resistanceElements(): Element[] {
   });
 }
 
+export function attackElements(): Element[] {
+  return all('elements', ElementSchema)
+    .filter((row) => row.alias.startsWith('ele'))
+    .map((row) => new Element(row));
+}
+
 export class Element {
   constructor(private row: ElementRow) {}
 
