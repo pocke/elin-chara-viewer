@@ -10,7 +10,9 @@ export function generateStaticParams() {
 }
 
 export default function CharaPage() {
-  const charaRows = all('charas', CharaSchema).filter((row) => !Chara.isIgnoredCharaId(row.id));
+  const charaRows = all('charas', CharaSchema).filter(
+    (row) => !Chara.isIgnoredCharaId(row.id)
+  );
 
   return <CharaPageClient charaRows={charaRows} />;
 }
