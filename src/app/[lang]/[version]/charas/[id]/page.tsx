@@ -6,7 +6,7 @@ import { RaceSchema } from '@/lib/models/race';
 
 export const generateStaticParams = () => {
   const charaRows = all('charas', CharaSchema);
-  const baseCharas = charaRows.map((row) => new Chara(row));
+  const baseCharas = charaRows.filter((row) => !Chara.isIgnoredCharaId(row.id)).map((row) => new Chara(row));
 
   // Generate IDs for base characters and their variants
   const ids = baseCharas.flatMap((chara) => {
