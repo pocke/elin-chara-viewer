@@ -81,13 +81,18 @@ export class Chara {
     return this._memoCache.get(key) as T;
   }
 
+  static isIgnoredCharaId(id: string): boolean {
+    return id === 'sorin' || id === 'azzrasizzle';
+  }
+
   constructor(
     private row: CharaRow,
     variantElementAlias: ElementAttacks | null = null
   ) {
     const raceId = this.row.race ?? 'norland';
     const race = raceById(raceId);
-    if (!race) throw new Error(`Race not found: ${raceId}`);
+    if (!race)
+      throw new Error(`Race "${raceId}" not found for chara "${this.row.id}"`);
     this.race = race;
 
     if (variantElementAlias) {
