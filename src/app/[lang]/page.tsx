@@ -38,7 +38,12 @@ export default function Home() {
             <HomeIcon sx={{ mr: 1 }} />
             <Typography variant="h6">{t.common.importantInfo}</Typography>
           </Box>
-          <Typography paragraph>{t.common.versionInfo}</Typography>
+          <Typography paragraph>
+            {t.common.versionInfo.replace(
+              '{{version}}',
+              process.env.ELIN_EA_VERSION!
+            )}
+          </Typography>
           <Typography paragraph>{t.common.internalDataNotice}</Typography>
           <Typography paragraph>
             {t.common.bugReportPrefix}
