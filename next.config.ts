@@ -25,6 +25,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   env: {
     GIT_LAST_COMMIT_DATE: gitInfo.lastCommitDate,
+    ELIN_EA_VERSION: '23.100',
   },
   webpack: (config) => {
     // Enable asset/source for CSV files
