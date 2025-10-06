@@ -82,7 +82,7 @@ export function raceById(id: string): Race | undefined {
 }
 
 export class Race {
-  constructor(private row: RaceRow) {}
+  constructor(public row: RaceRow) {}
 
   get id() {
     return this.row.id;
