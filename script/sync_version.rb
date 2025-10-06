@@ -11,7 +11,7 @@ versions = db_paths.map { |p|
 if 1 < versions.size
   versions[1..].each do |_, _, path|
     puts "Removing #{path}"
-    # path.rmtree
+    path.rmtree
   end
 end
 
