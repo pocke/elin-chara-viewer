@@ -43,7 +43,7 @@ export function jobById(id: string): Job | undefined {
 
 export class Job {
   constructor(
-    private row: JobRow,
+    public row: JobRow,
     private index: number
   ) {}
 

@@ -8,10 +8,20 @@ import {
   Button,
   Divider,
   Tooltip,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material';
 import {
   Person as PersonIcon,
   ArrowBack as ArrowBackIcon,
+  ExpandMore as ExpandMoreIcon,
 } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
@@ -23,13 +33,11 @@ import {
   resistanceElements,
   Element,
 } from '@/lib/models/element';
-import { type RaceRow } from '@/lib/models/race';
 import ResistanceBarChart from '@/components/ResistanceBarChart';
 import { getContrastColor } from '@/lib/colorUtils';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;
-  race: RaceRow;
   variantElement: ElementAttacks | null;
 }
 
@@ -124,6 +132,44 @@ export default function CharaDetailClient({
         </Tooltip>
       );
     });
+  };
+
+  const createRawDataTable = <T extends Record<string, unknown>>(
+    title: string,
+    row: T
+  ) => {
+    // Filter out __meta field
+    const filteredEntries = Object.entries(row).filter(
+      ([key]) => key !== '__meta'
+    );
+
+    return (
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
+          {title}
+        </Typography>
+        <TableContainer>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 'bold' }}>Key</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Value</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredEntries.map(([key, value]) => (
+                <TableRow key={key}>
+                  <TableCell>{key}</TableCell>
+                  <TableCell>
+                    {value !== null && value !== undefined ? String(value) : ''}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    );
   };
 
   const createFeatTooltipContent = (element: Element, power: number) => {
@@ -519,6 +565,21 @@ export default function CharaDetailClient({
                 </Box>
               </Box>
             </Box>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h6" color="text.secondary">
+                  Raw Data
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                {createRawDataTable('Chara Raw Data', charaRow)}
+                {createRawDataTable('Race Raw Data', chara.race.row)}
+                {createRawDataTable('Job Raw Data', chara.job().row)}
+              </AccordionDetails>
+            </Accordion>
           </Box>
         </Paper>
       </Box>
