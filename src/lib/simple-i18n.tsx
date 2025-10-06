@@ -77,6 +77,10 @@ const resources = {
       tacticsMoveFrequency: '移動頻度',
       loading: '読み込み中',
       showHiddenCharacters: '通常ゲームでは登場しないキャラを表示',
+      rawData: '生データ',
+      charaRawData: 'キャラクター生データ',
+      raceRawData: '種族生データ',
+      jobRawData: '職業生データ',
     },
     footer: {
       lastUpdated: '最終更新',
@@ -156,6 +160,10 @@ const resources = {
       tacticsMoveFrequency: 'Move Frequency',
       loading: 'Loading',
       showHiddenCharacters: 'Show characters not appearing in regular gameplay',
+      rawData: 'Raw Data',
+      charaRawData: 'Character Raw Data',
+      raceRawData: 'Race Raw Data',
+      jobRawData: 'Job Raw Data',
     },
     footer: {
       lastUpdated: 'Last Updated',

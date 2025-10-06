@@ -571,13 +571,13 @@ export default function CharaDetailClient({
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="h6" color="text.secondary">
-                  Raw Data
+                  {t.common.rawData}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                {createRawDataTable('Chara Raw Data', charaRow)}
-                {createRawDataTable('Race Raw Data', chara.race.row)}
-                {createRawDataTable('Job Raw Data', chara.job().row)}
+                {createRawDataTable(t.common.charaRawData, charaRow)}
+                {createRawDataTable(t.common.raceRawData, chara.race.row)}
+                {createRawDataTable(t.common.jobRawData, chara.job().row)}
               </AccordionDetails>
             </Accordion>
           </Box>
