@@ -163,7 +163,7 @@ export function attackElements(): Element[] {
 }
 
 export class Element {
-  constructor(private row: ElementRow) {}
+  constructor(public row: ElementRow) {}
 
   get id() {
     return this.row.id;
