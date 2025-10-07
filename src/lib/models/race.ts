@@ -85,8 +85,13 @@ function getRacesByFeatMap(): Map<string, Race[]> {
 
     for (const race of races) {
       const feats = race.feats();
+      const seenAliases = new Set<string>();
       for (const feat of feats) {
         const alias = feat.element.alias;
+        if (seenAliases.has(alias)) {
+          continue;
+        }
+        seenAliases.add(alias);
         if (!_racesByFeatMap.has(alias)) {
           _racesByFeatMap.set(alias, []);
         }

@@ -45,8 +45,13 @@ function getJobsByFeatMap(): Map<string, Job[]> {
 
     for (const job of jobs) {
       const feats = job.feats();
+      const seenAliases = new Set<string>();
       for (const feat of feats) {
         const alias = feat.element.alias;
+        if (seenAliases.has(alias)) {
+          continue;
+        }
+        seenAliases.add(alias);
         if (!_jobsByFeatMap.has(alias)) {
           _jobsByFeatMap.set(alias, []);
         }

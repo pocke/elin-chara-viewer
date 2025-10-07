@@ -10,7 +10,7 @@ import {
   GridToolbarExport,
   GridToolbarQuickFilter,
 } from '@mui/x-data-grid';
-import { Link as MuiLink, Paper, Box } from '@mui/material';
+import { Link as MuiLink, Paper, Box, Chip } from '@mui/material';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
@@ -51,8 +51,8 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         id: feat.alias,
         alias: feat.alias,
         name: feat.name(language),
-        races: races.map((r) => r.name(language)).join(', '),
-        jobs: jobs.map((j) => j.name(language)).join(', '),
+        races: races,
+        jobs: jobs,
         geneSlot: feat.getGeneSlot(),
         max: feat.getMax(),
         canDropAsGene: feat.canDropAsGene(),
@@ -79,16 +79,6 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         ),
       },
       {
-        field: 'races',
-        headerName: t.common.race,
-        width: 200,
-      },
-      {
-        field: 'jobs',
-        headerName: t.common.job,
-        width: 200,
-      },
-      {
         field: 'geneSlot',
         headerName: t.feat.geneSlot,
         type: 'number',
@@ -107,6 +97,44 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         type: 'boolean',
         width: 150,
         renderCell: (params) => (params.value ? t.feat.yes : t.feat.no),
+      },
+      {
+        field: 'races',
+        headerName: t.common.race,
+        width: 250,
+        renderCell: (params) => (
+          <Box sx={{ display: 'flex', gap: 0.5, py: 0.5 }}>
+            {params.value.map(
+              (race: { id: string; name: (lang: string) => string }) => (
+                <Chip
+                  key={race.id}
+                  label={race.name(language)}
+                  size="small"
+                  variant="outlined"
+                />
+              )
+            )}
+          </Box>
+        ),
+      },
+      {
+        field: 'jobs',
+        headerName: t.common.job,
+        width: 250,
+        renderCell: (params) => (
+          <Box sx={{ display: 'flex', gap: 0.5, py: 0.5 }}>
+            {params.value.map(
+              (job: { id: string; name: (lang: string) => string }) => (
+                <Chip
+                  key={job.id}
+                  label={job.name(language)}
+                  size="small"
+                  variant="outlined"
+                />
+              )
+            )}
+          </Box>
+        ),
       },
       {
         field: 'textExtra',
