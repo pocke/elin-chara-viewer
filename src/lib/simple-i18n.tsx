@@ -82,6 +82,11 @@ const resources = {
       raceRawData: '種族生データ',
       jobRawData: '職業生データ',
     },
+    feat: {
+      geneSlot: '使用スロット数',
+      max: '重ね合わせ上限',
+      textExtra: '説明',
+    },
     footer: {
       lastUpdated: '最終更新',
       github: 'GitHub',
@@ -164,6 +169,11 @@ const resources = {
       charaRawData: 'Character Raw Data',
       raceRawData: 'Race Raw Data',
       jobRawData: 'Job Raw Data',
+    },
+    feat: {
+      geneSlot: 'Slot Count',
+      max: 'Stack Limit',
+      textExtra: 'Description',
     },
     footer: {
       lastUpdated: 'Last Updated',

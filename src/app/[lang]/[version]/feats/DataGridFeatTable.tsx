@@ -71,19 +71,19 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
       },
       {
         field: 'geneSlot',
-        headerName: t.common.geneSlotShort,
+        headerName: t.feat.geneSlot,
         type: 'number',
         width: 120,
       },
       {
         field: 'max',
-        headerName: 'Max',
+        headerName: t.feat.max,
         type: 'number',
         width: 100,
       },
       {
         field: 'textExtra',
-        headerName: 'TextExtra',
+        headerName: t.feat.textExtra,
         width: 400,
         flex: 1,
       },
