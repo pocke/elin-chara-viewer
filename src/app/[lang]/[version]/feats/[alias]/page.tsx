@@ -1,5 +1,8 @@
 import { all } from '@/lib/db';
 import { ElementSchema, elementByAlias, Element } from '@/lib/models/element';
+import { CharaSchema, Chara } from '@/lib/models/chara';
+import { racesByFeat } from '@/lib/models/race';
+import { jobsByFeat } from '@/lib/models/job';
 import FeatDetailClient from './FeatDetailClient';
 
 export const generateStaticParams = () => {
@@ -37,5 +40,28 @@ export default async function FeatPage(props: {
     throw new Error(`Feat with alias ${decodedAlias} not found`);
   }
 
-  return <FeatDetailClient elementRow={element.row} />;
+  // Find races with this feat
+  const racesWithFeat = racesByFeat(decodedAlias);
+
+  // Find jobs with this feat
+  const jobsWithFeat = jobsByFeat(decodedAlias);
+
+  // Find characters with this feat
+  const charaRows = all('charas', CharaSchema);
+  const charactersWithFeat = charaRows
+    .filter((row) => !Chara.isIgnoredCharaId(row.id))
+    .map((row) => new Chara(row))
+    .filter((chara) => {
+      const feats = chara.feats();
+      return feats.some((f) => f.element.alias === decodedAlias);
+    });
+
+  return (
+    <FeatDetailClient
+      elementRow={element.row}
+      raceRows={racesWithFeat.map((r) => r.row)}
+      jobRows={jobsWithFeat.map((j) => j.row)}
+      charaRows={charactersWithFeat.map((c) => c.row)}
+    />
+  );
 }

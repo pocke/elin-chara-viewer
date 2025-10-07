@@ -68,6 +68,7 @@ export const RaceSchema = z.object({
 export type RaceRow = z.infer<typeof RaceSchema>;
 
 let _racesMap: Map<string, Race> | null = null;
+let _racesByFeatMap: Map<string, Race[]> | null = null;
 
 function getRacesMap(): Map<string, Race> {
   if (!_racesMap) {
@@ -77,8 +78,36 @@ function getRacesMap(): Map<string, Race> {
   return _racesMap;
 }
 
+function getRacesByFeatMap(): Map<string, Race[]> {
+  if (!_racesByFeatMap) {
+    _racesByFeatMap = new Map();
+    const races = Array.from(getRacesMap().values());
+
+    for (const race of races) {
+      const feats = race.feats();
+      const seenAliases = new Set<string>();
+      for (const feat of feats) {
+        const alias = feat.element.alias;
+        if (seenAliases.has(alias)) {
+          continue;
+        }
+        seenAliases.add(alias);
+        if (!_racesByFeatMap.has(alias)) {
+          _racesByFeatMap.set(alias, []);
+        }
+        _racesByFeatMap.get(alias)!.push(race);
+      }
+    }
+  }
+  return _racesByFeatMap;
+}
+
 export function raceById(id: string): Race | undefined {
   return getRacesMap().get(id);
+}
+
+export function racesByFeat(featAlias: string): Race[] {
+  return getRacesByFeatMap().get(featAlias) ?? [];
 }
 
 export class Race {

@@ -15,6 +15,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Chip,
 } from '@mui/material';
 import {
   EmojiEvents as FeatIcon,
@@ -26,17 +27,37 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Element, type ElementRow } from '@/lib/models/element';
 import { Feat } from '@/lib/models/feat';
+import { Race, type RaceRow } from '@/lib/models/race';
+import { Job, type JobRow } from '@/lib/models/job';
+import { Chara, type CharaRow } from '@/lib/models/chara';
 
 interface FeatDetailClientProps {
   elementRow: ElementRow;
+  raceRows: RaceRow[];
+  jobRows: JobRow[];
+  charaRows: CharaRow[];
 }
 
 export default function FeatDetailClient({
   elementRow,
+  raceRows,
+  jobRows,
+  charaRows,
 }: FeatDetailClientProps) {
   const element = new Element(elementRow);
   const feat = new Feat(elementRow);
   const { t, language } = useTranslation();
+
+  const racesWithFeat = raceRows.map((row) => new Race(row));
+  const jobsWithFeat = jobRows.map((row, index) => new Job(row, index));
+
+  // Expand variants: if a chara has variants, include the variants instead of the parent
+  const charactersWithFeat = charaRows
+    .map((row) => new Chara(row))
+    .flatMap((chara) => {
+      const variants = chara.variants();
+      return variants.length > 0 ? variants : [chara];
+    });
 
   const params = useParams();
   const lang = params.lang as string;
@@ -203,6 +224,108 @@ export default function FeatDetailClient({
                   </Typography>
                 </Box>
               </Box>
+            </Box>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t.feat.racesWithFeat}
+              </Typography>
+              {racesWithFeat.length === 0 ? (
+                <Typography variant="body1">{t.feat.none}</Typography>
+              ) : (
+                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                  {racesWithFeat.map((race) => (
+                    <Link
+                      key={race.id}
+                      href={`/${lang}/${version}/charas?races=${race.id}`}
+                      passHref
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <Chip
+                        label={race.name(language)}
+                        variant="outlined"
+                        clickable
+                        sx={{ cursor: 'pointer' }}
+                      />
+                    </Link>
+                  ))}
+                </Box>
+              )}
+            </Box>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t.feat.jobsWithFeat}
+              </Typography>
+              {jobsWithFeat.length === 0 ? (
+                <Typography variant="body1">{t.feat.none}</Typography>
+              ) : (
+                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                  {jobsWithFeat.map((job) => (
+                    <Link
+                      key={job.id}
+                      href={`/${lang}/${version}/charas?jobs=${job.id}`}
+                      passHref
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <Chip
+                        label={job.name(language)}
+                        variant="outlined"
+                        clickable
+                        sx={{ cursor: 'pointer' }}
+                      />
+                    </Link>
+                  ))}
+                </Box>
+              )}
+            </Box>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t.feat.charactersWithFeat}
+              </Typography>
+              {charactersWithFeat.length === 0 ? (
+                <Typography variant="body1">{t.feat.none}</Typography>
+              ) : (
+                <>
+                  <Box
+                    sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}
+                  >
+                    {charactersWithFeat.map((character) => (
+                      <Link
+                        key={character.id}
+                        href={`/${lang}/${version}/charas/${character.id}`}
+                        passHref
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <Chip
+                          label={character.normalizedName(language)}
+                          variant="outlined"
+                          clickable
+                          sx={{ cursor: 'pointer' }}
+                        />
+                      </Link>
+                    ))}
+                  </Box>
+                  <Button
+                    component={Link}
+                    href={`/${lang}/${version}/charas?feats=${element.alias}`}
+                    variant="outlined"
+                    size="small"
+                  >
+                    {t.feat.searchCharactersWithFeat.replace(
+                      '{{featName}}',
+                      element.name(language)
+                    )}
+                  </Button>
+                </>
+              )}
             </Box>
 
             <Divider sx={{ my: 3 }} />

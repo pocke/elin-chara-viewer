@@ -28,6 +28,7 @@ export const JobSchema = z.object({
 export type JobRow = z.infer<typeof JobSchema>;
 
 let _jobsMap: Map<string, Job> | null = null;
+let _jobsByFeatMap: Map<string, Job[]> | null = null;
 
 function getJobsMap(): Map<string, Job> {
   if (!_jobsMap) {
@@ -37,8 +38,36 @@ function getJobsMap(): Map<string, Job> {
   return _jobsMap;
 }
 
+function getJobsByFeatMap(): Map<string, Job[]> {
+  if (!_jobsByFeatMap) {
+    _jobsByFeatMap = new Map();
+    const jobs = Array.from(getJobsMap().values());
+
+    for (const job of jobs) {
+      const feats = job.feats();
+      const seenAliases = new Set<string>();
+      for (const feat of feats) {
+        const alias = feat.element.alias;
+        if (seenAliases.has(alias)) {
+          continue;
+        }
+        seenAliases.add(alias);
+        if (!_jobsByFeatMap.has(alias)) {
+          _jobsByFeatMap.set(alias, []);
+        }
+        _jobsByFeatMap.get(alias)!.push(job);
+      }
+    }
+  }
+  return _jobsByFeatMap;
+}
+
 export function jobById(id: string): Job | undefined {
   return getJobsMap().get(id);
+}
+
+export function jobsByFeat(featAlias: string): Job[] {
+  return getJobsByFeatMap().get(featAlias) ?? [];
 }
 
 export class Job {
