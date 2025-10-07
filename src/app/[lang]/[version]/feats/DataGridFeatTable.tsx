@@ -16,6 +16,8 @@ import { useMemo } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
 import { Feat } from '@/lib/models/feat';
+import { racesByFeat } from '@/lib/models/race';
+import { jobsByFeat } from '@/lib/models/job';
 
 interface DataGridFeatTableProps {
   feats: Feat[];
@@ -42,10 +44,15 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
   // Convert Feat objects to DataGrid rows
   const rows: GridRowsProp = useMemo(() => {
     return feats.map((feat) => {
+      const races = racesByFeat(feat.alias);
+      const jobs = jobsByFeat(feat.alias);
+
       return {
         id: feat.alias,
         alias: feat.alias,
         name: feat.name(language),
+        races: races.map((r) => r.name(language)).join(', '),
+        jobs: jobs.map((j) => j.name(language)).join(', '),
         geneSlot: feat.getGeneSlot(),
         max: feat.getMax(),
         canDropAsGene: feat.canDropAsGene(),
@@ -60,7 +67,7 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
       {
         field: 'name',
         headerName: t.common.name,
-        width: 300,
+        width: 250,
         renderCell: (params) => (
           <MuiLink
             component={Link}
@@ -70,6 +77,16 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
             {params.value}
           </MuiLink>
         ),
+      },
+      {
+        field: 'races',
+        headerName: t.common.race,
+        width: 200,
+      },
+      {
+        field: 'jobs',
+        headerName: t.common.job,
+        width: 200,
       },
       {
         field: 'geneSlot',

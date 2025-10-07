@@ -86,7 +86,7 @@ export class Chara {
   }
 
   constructor(
-    private row: CharaRow,
+    public row: CharaRow,
     variantElementAlias: ElementAttacks | null = null
   ) {
     const raceId = this.row.race ?? 'norland';

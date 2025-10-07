@@ -27,23 +27,30 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Element, type ElementRow } from '@/lib/models/element';
 import { Feat } from '@/lib/models/feat';
+import { Race, type RaceRow } from '@/lib/models/race';
+import { Job, type JobRow } from '@/lib/models/job';
+import { Chara, type CharaRow } from '@/lib/models/chara';
 
 interface FeatDetailClientProps {
   elementRow: ElementRow;
-  racesWithFeat: Array<{ id: string; name_JP: string; name: string }>;
-  jobsWithFeat: Array<{ id: string; name_JP: string; name: string }>;
-  charactersWithFeat: Array<{ id: string; name_JP: string; name: string }>;
+  raceRows: RaceRow[];
+  jobRows: JobRow[];
+  charaRows: CharaRow[];
 }
 
 export default function FeatDetailClient({
   elementRow,
-  racesWithFeat,
-  jobsWithFeat,
-  charactersWithFeat,
+  raceRows,
+  jobRows,
+  charaRows,
 }: FeatDetailClientProps) {
   const element = new Element(elementRow);
   const feat = new Feat(elementRow);
   const { t, language } = useTranslation();
+
+  const racesWithFeat = raceRows.map((row) => new Race(row));
+  const jobsWithFeat = jobRows.map((row, index) => new Job(row, index));
+  const charactersWithFeat = charaRows.map((row) => new Chara(row));
 
   const params = useParams();
   const lang = params.lang as string;
@@ -230,7 +237,7 @@ export default function FeatDetailClient({
                       style={{ textDecoration: 'none' }}
                     >
                       <Chip
-                        label={language === 'ja' ? race.name_JP : race.name}
+                        label={race.name(language)}
                         variant="outlined"
                         clickable
                         sx={{ cursor: 'pointer' }}
@@ -259,7 +266,7 @@ export default function FeatDetailClient({
                       style={{ textDecoration: 'none' }}
                     >
                       <Chip
-                        label={language === 'ja' ? job.name_JP : job.name}
+                        label={job.name(language)}
                         variant="outlined"
                         clickable
                         sx={{ cursor: 'pointer' }}
@@ -291,11 +298,7 @@ export default function FeatDetailClient({
                         style={{ textDecoration: 'none' }}
                       >
                         <Chip
-                          label={
-                            language === 'ja'
-                              ? character.name_JP
-                              : character.name
-                          }
+                          label={character.normalizedName(language)}
                           variant="outlined"
                           clickable
                           sx={{ cursor: 'pointer' }}
