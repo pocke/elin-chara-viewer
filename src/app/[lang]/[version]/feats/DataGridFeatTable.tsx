@@ -43,7 +43,8 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
   const rows: GridRowsProp = useMemo(() => {
     return feats.map((feat) => {
       return {
-        id: feat.id,
+        id: feat.alias,
+        alias: feat.alias,
         name: feat.name(language),
         geneSlot: feat.getGeneSlot(),
         max: feat.getMax(),
@@ -62,7 +63,7 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         renderCell: (params) => (
           <MuiLink
             component={Link}
-            href={`/${lang}/${version}/feats/${params.row.id}`}
+            href={`/${lang}/${version}/feats/${params.row.alias}`}
             underline="hover"
           >
             {params.value}
@@ -74,6 +75,7 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         headerName: t.feat.geneSlot,
         type: 'number',
         width: 120,
+        renderCell: (params) => (params.value === -1 ? '-' : params.value),
       },
       {
         field: 'max',

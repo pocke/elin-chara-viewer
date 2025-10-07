@@ -86,9 +86,7 @@ const resources = {
       description: '説明',
       flavorText: 'フレーバーテキスト',
       effects: '効果',
-      subElements: 'サブ属性',
       basicInfo: '基本情報',
-      alias: 'エイリアス',
     },
     feat: {
       geneSlot: '使用スロット数',
@@ -182,9 +180,7 @@ const resources = {
       description: 'Description',
       flavorText: 'Flavor Text',
       effects: 'Effects',
-      subElements: 'Sub Elements',
       basicInfo: 'Basic Info',
-      alias: 'Alias',
     },
     feat: {
       geneSlot: 'Slot Count',

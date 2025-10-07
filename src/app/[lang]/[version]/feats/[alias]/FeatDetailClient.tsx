@@ -4,7 +4,6 @@ import {
   Typography,
   Box,
   Paper,
-  Chip,
   Button,
   Divider,
   Table,
@@ -26,7 +25,6 @@ import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Element, type ElementRow } from '@/lib/models/element';
-import { getContrastColor } from '@/lib/colorUtils';
 
 interface FeatDetailClientProps {
   elementRow: ElementRow;
@@ -97,31 +95,9 @@ export default function FeatDetailClient({
         <Paper elevation={2} sx={{ p: 4 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
             <FeatIcon sx={{ mr: 2, fontSize: 40 }} />
-            <Box>
-              <Box
-                sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}
-              >
-                <Typography variant="h3" component="h1">
-                  {element.name(language)}
-                </Typography>
-                <Chip
-                  label={element.alias}
-                  variant="filled"
-                  size="medium"
-                  sx={{
-                    fontSize: '1rem',
-                    fontWeight: 'bold',
-                    height: '32px',
-                    backgroundColor: element.getColor(),
-                    color: getContrastColor(element.getColor()),
-                    '&:hover': {
-                      backgroundColor: element.getColor(),
-                      opacity: 0.8,
-                    },
-                  }}
-                />
-              </Box>
-            </Box>
+            <Typography variant="h3" component="h1">
+              {element.name(language)}
+            </Typography>
           </Box>
 
           <Divider sx={{ my: 3 }} />
@@ -149,55 +125,40 @@ export default function FeatDetailClient({
               </Box>
             )}
 
-            {element.textExtra(language) && (
+            {(element.textExtra(language) || subElements.length > 0) && (
               <Box>
                 <Typography variant="h6" color="text.secondary" gutterBottom>
                   {t.common.effects}
                 </Typography>
                 <Box component="ul" sx={{ m: 0, pl: 3 }}>
-                  {element
-                    .textExtra(language)
-                    ?.split(',')
-                    .map((item, index) => (
-                      <Typography
-                        component="li"
-                        variant="body1"
-                        key={index}
-                        sx={{ mb: 0.5 }}
-                      >
-                        {item.trim()}
-                      </Typography>
-                    ))}
-                </Box>
-              </Box>
-            )}
-
-            {subElements.length > 0 && (
-              <Box>
-                <Typography variant="h6" color="text.secondary" gutterBottom>
-                  {t.common.subElements}
-                </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {element.textExtra(language) &&
+                    element
+                      .textExtra(language)
+                      ?.split(',')
+                      .map((item, index) => (
+                        <Typography
+                          component="li"
+                          variant="body1"
+                          key={`text-${index}`}
+                          sx={{ mb: 0.5 }}
+                        >
+                          {item.trim()}
+                        </Typography>
+                      ))}
                   {subElements.map((sub, index) => {
                     const subElement = sub.element;
                     const coefficient = sub.coefficient;
-                    const displayText = `${subElement.name(language)} ${coefficient > 0 ? '+' : ''}${coefficient}`;
 
                     return (
-                      <Chip
-                        key={index}
-                        label={displayText}
-                        variant="outlined"
-                        size="medium"
-                        sx={{
-                          borderColor: subElement.getColor(),
-                          color: subElement.getColor(),
-                          '&:hover': {
-                            backgroundColor: subElement.getColor() + '20',
-                            borderColor: subElement.getColor(),
-                          },
-                        }}
-                      />
+                      <Typography
+                        component="li"
+                        variant="body1"
+                        key={`sub-${index}`}
+                        sx={{ mb: 0.5 }}
+                      >
+                        {subElement.name(language)} {coefficient > 0 ? '+' : ''}
+                        {coefficient}
+                      </Typography>
                     );
                   })}
                 </Box>
@@ -219,15 +180,17 @@ export default function FeatDetailClient({
               >
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    ID
+                    {t.feat.geneSlot}
                   </Typography>
-                  <Typography variant="body1">{element.id}</Typography>
+                  <Typography variant="body1">
+                    {element.row.geneSlot === -1 ? '-' : element.row.geneSlot}
+                  </Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    {t.common.alias}
+                    {t.feat.max}
                   </Typography>
-                  <Typography variant="body1">{element.alias}</Typography>
+                  <Typography variant="body1">{element.row.max}</Typography>
                 </Box>
               </Box>
             </Box>
