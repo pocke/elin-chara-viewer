@@ -20,11 +20,35 @@ export const generateMetadata = async (props: {
   }
 
   const chara = new Chara(charaRow, variantElement as ElementAttacks | null);
-  const charaName = chara.normalizedName(params.lang);
-  const appTitle = resources[params.lang as Language].common.title;
+  const lang = (
+    params.lang === 'ja' || params.lang === 'en' ? params.lang : 'en'
+  ) as Language;
+  const charaName = chara.normalizedName(lang);
+  const appTitle = resources[lang].common.title;
+
+  const raceName = chara.race.name(lang);
+  const jobName = chara.job().name(lang);
+  const life = chara.life();
+  const mana = chara.mana();
+  const speed = chara.speed();
+  const vigor = chara.vigor();
+
+  const t = resources[lang].common;
+  const description = `${raceName}/${jobName}\n${t.life}${life}/${t.mana}${mana}/${t.speed}${speed}/${t.vigor}${vigor}`;
 
   return {
     title: `${charaName} - ${appTitle}`,
+    description,
+    openGraph: {
+      title: `${charaName} - ${appTitle}`,
+      description,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary',
+      title: `${charaName} - ${appTitle}`,
+      description,
+    },
   };
 };
 
