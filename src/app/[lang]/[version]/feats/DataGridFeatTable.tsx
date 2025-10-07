@@ -143,7 +143,7 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         flex: 1,
       },
     ];
-  }, [t, lang, version]);
+  }, [t, lang, version, language]);
 
   return (
     <Box sx={{ width: '100%' }}>
