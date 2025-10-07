@@ -50,7 +50,14 @@ export default function FeatDetailClient({
 
   const racesWithFeat = raceRows.map((row) => new Race(row));
   const jobsWithFeat = jobRows.map((row, index) => new Job(row, index));
-  const charactersWithFeat = charaRows.map((row) => new Chara(row));
+
+  // Expand variants: if a chara has variants, include the variants instead of the parent
+  const charactersWithFeat = charaRows
+    .map((row) => new Chara(row))
+    .flatMap((chara) => {
+      const variants = chara.variants();
+      return variants.length > 0 ? variants : [chara];
+    });
 
   const params = useParams();
   const lang = params.lang as string;
