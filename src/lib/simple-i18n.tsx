@@ -96,6 +96,11 @@ const resources = {
       canDropAsGene: '遺伝子化',
       yes: 'true',
       no: 'false',
+      racesWithFeat: 'このフィートを持つ種族',
+      jobsWithFeat: 'このフィートを持つ職業',
+      charactersWithFeat: 'このフィートを持つキャラクター',
+      none: 'なし',
+      searchCharactersWithFeat: '{{featName}}を持つキャラクターを検索する',
     },
     footer: {
       lastUpdated: '最終更新',
@@ -194,6 +199,11 @@ const resources = {
       canDropAsGene: 'Can Drop as Gene',
       yes: 'true',
       no: 'false',
+      racesWithFeat: 'Races with this Feat',
+      jobsWithFeat: 'Jobs with this Feat',
+      charactersWithFeat: 'Characters with this Feat',
+      none: 'None',
+      searchCharactersWithFeat: 'Search characters with {{featName}}',
     },
     footer: {
       lastUpdated: 'Last Updated',

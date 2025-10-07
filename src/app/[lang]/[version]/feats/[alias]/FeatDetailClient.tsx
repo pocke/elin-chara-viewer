@@ -15,6 +15,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Chip,
 } from '@mui/material';
 import {
   EmojiEvents as FeatIcon,
@@ -29,10 +30,16 @@ import { Feat } from '@/lib/models/feat';
 
 interface FeatDetailClientProps {
   elementRow: ElementRow;
+  racesWithFeat: Array<{ id: string; name_JP: string; name: string }>;
+  jobsWithFeat: Array<{ id: string; name_JP: string; name: string }>;
+  charactersWithFeat: Array<{ id: string; name_JP: string; name: string }>;
 }
 
 export default function FeatDetailClient({
   elementRow,
+  racesWithFeat,
+  jobsWithFeat,
+  charactersWithFeat,
 }: FeatDetailClientProps) {
   const element = new Element(elementRow);
   const feat = new Feat(elementRow);
@@ -203,6 +210,112 @@ export default function FeatDetailClient({
                   </Typography>
                 </Box>
               </Box>
+            </Box>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t.feat.racesWithFeat}
+              </Typography>
+              {racesWithFeat.length === 0 ? (
+                <Typography variant="body1">{t.feat.none}</Typography>
+              ) : (
+                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                  {racesWithFeat.map((race) => (
+                    <Link
+                      key={race.id}
+                      href={`/${lang}/${version}/charas?races=${race.id}`}
+                      passHref
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <Chip
+                        label={language === 'ja' ? race.name_JP : race.name}
+                        variant="outlined"
+                        clickable
+                        sx={{ cursor: 'pointer' }}
+                      />
+                    </Link>
+                  ))}
+                </Box>
+              )}
+            </Box>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t.feat.jobsWithFeat}
+              </Typography>
+              {jobsWithFeat.length === 0 ? (
+                <Typography variant="body1">{t.feat.none}</Typography>
+              ) : (
+                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                  {jobsWithFeat.map((job) => (
+                    <Link
+                      key={job.id}
+                      href={`/${lang}/${version}/charas?jobs=${job.id}`}
+                      passHref
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <Chip
+                        label={language === 'ja' ? job.name_JP : job.name}
+                        variant="outlined"
+                        clickable
+                        sx={{ cursor: 'pointer' }}
+                      />
+                    </Link>
+                  ))}
+                </Box>
+              )}
+            </Box>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t.feat.charactersWithFeat}
+              </Typography>
+              {charactersWithFeat.length === 0 ? (
+                <Typography variant="body1">{t.feat.none}</Typography>
+              ) : (
+                <>
+                  <Box
+                    sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}
+                  >
+                    {charactersWithFeat.map((character) => (
+                      <Link
+                        key={character.id}
+                        href={`/${lang}/${version}/charas/${character.id}`}
+                        passHref
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <Chip
+                          label={
+                            language === 'ja'
+                              ? character.name_JP
+                              : character.name
+                          }
+                          variant="outlined"
+                          clickable
+                          sx={{ cursor: 'pointer' }}
+                        />
+                      </Link>
+                    ))}
+                  </Box>
+                  <Button
+                    component={Link}
+                    href={`/${lang}/${version}/charas?feats=${element.alias}`}
+                    variant="outlined"
+                    size="small"
+                  >
+                    {t.feat.searchCharactersWithFeat.replace(
+                      '{{featName}}',
+                      element.name(language)
+                    )}
+                  </Button>
+                </>
+              )}
             </Box>
 
             <Divider sx={{ my: 3 }} />
