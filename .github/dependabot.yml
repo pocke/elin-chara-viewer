@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+      cooldown:
+        - semver-major: 3
+        - semver-minor: 3
+        - semver-patch: 3
+    open-pull-requests-limit: 5
+    groups:
+      production-dependencies:
+        dependency-type: 'production'
+      development-dependencies:
+        dependency-type: 'development'
