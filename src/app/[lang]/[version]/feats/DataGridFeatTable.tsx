@@ -48,6 +48,7 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         name: feat.name(language),
         geneSlot: feat.getGeneSlot(),
         max: feat.getMax(),
+        canDropAsGene: feat.canDropAsGene(),
         textExtra: feat.textExtra(language) || '',
       };
     });
@@ -82,6 +83,13 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         headerName: t.feat.max,
         type: 'number',
         width: 100,
+      },
+      {
+        field: 'canDropAsGene',
+        headerName: t.feat.canDropAsGene,
+        type: 'boolean',
+        width: 150,
+        renderCell: (params) => (params.value ? t.feat.yes : t.feat.no),
       },
       {
         field: 'textExtra',

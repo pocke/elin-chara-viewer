@@ -92,6 +92,9 @@ const resources = {
       geneSlot: '使用スロット数',
       max: '重ね合わせ上限',
       textExtra: '説明',
+      canDropAsGene: '遺伝子化',
+      yes: 'true',
+      no: 'false',
     },
     footer: {
       lastUpdated: '最終更新',
@@ -186,6 +189,9 @@ const resources = {
       geneSlot: 'Slot Count',
       max: 'Stack Limit',
       textExtra: 'Description',
+      canDropAsGene: 'Can Drop as Gene',
+      yes: 'true',
+      no: 'false',
     },
     footer: {
       lastUpdated: 'Last Updated',

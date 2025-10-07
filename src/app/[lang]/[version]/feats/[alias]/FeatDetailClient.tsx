@@ -25,6 +25,7 @@ import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Element, type ElementRow } from '@/lib/models/element';
+import { Feat } from '@/lib/models/feat';
 
 interface FeatDetailClientProps {
   elementRow: ElementRow;
@@ -34,6 +35,7 @@ export default function FeatDetailClient({
   elementRow,
 }: FeatDetailClientProps) {
   const element = new Element(elementRow);
+  const feat = new Feat(elementRow);
   const { t, language } = useTranslation();
 
   const params = useParams();
@@ -191,6 +193,14 @@ export default function FeatDetailClient({
                     {t.feat.max}
                   </Typography>
                   <Typography variant="body1">{element.row.max}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.feat.canDropAsGene}
+                  </Typography>
+                  <Typography variant="body1">
+                    {feat.canDropAsGene() ? t.feat.yes : t.feat.no}
+                  </Typography>
                 </Box>
               </Box>
             </Box>

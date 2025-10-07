@@ -35,6 +35,17 @@ export class Feat {
   getMax(): number {
     return this.row.max;
   }
+
+  costs(): number[] {
+    if (!this.row.cost) return [];
+    return this.row.cost.split(',').map((c) => parseInt(c.trim(), 10));
+  }
+
+  // https://github.com/Elin-Modding-Resources/Elin-Decompiled/blob/862d04aa6ed431f8a78f8c33b8fa49d85e4e57bb/Elin/ElementContainer.cs#L628-L631
+  canDropAsGene(): boolean {
+    const costs = this.costs();
+    return costs.length > 0 && costs[0] > 0 && this.row.geneSlot >= 0;
+  }
 }
 
 export function allFeats(): Feat[] {
