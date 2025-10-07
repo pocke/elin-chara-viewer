@@ -49,7 +49,7 @@ export default function FeatDetailClient({
   const { t, language } = useTranslation();
 
   const racesWithFeat = raceRows.map((row) => new Race(row));
-  const jobsWithFeat = jobRows.map((row, index) => new Job(row, index));
+  const jobsWithFeat = jobRows.map((row) => new Job(row));
 
   // Expand variants: if a chara has variants, include the variants instead of the parent
   const charactersWithFeat = charaRows

@@ -3,6 +3,9 @@ import { Elementable } from '../elementable';
 import { all } from '../db';
 
 export const JobSchema = z.object({
+  __meta: z.object({
+    defaultSortKey: z.number(),
+  }),
   id: z.string(),
   name_JP: z.string(),
   name: z.string(),
@@ -33,7 +36,7 @@ let _jobsByFeatMap: Map<string, Job[]> | null = null;
 function getJobsMap(): Map<string, Job> {
   if (!_jobsMap) {
     const jobs = all('jobs', JobSchema);
-    _jobsMap = new Map(jobs.map((job, index) => [job.id, new Job(job, index)]));
+    _jobsMap = new Map(jobs.map((job) => [job.id, new Job(job)]));
   }
   return _jobsMap;
 }
@@ -71,17 +74,14 @@ export function jobsByFeat(featAlias: string): Job[] {
 }
 
 export class Job {
-  constructor(
-    public row: JobRow,
-    private index: number
-  ) {}
+  constructor(public row: JobRow) {}
 
   get id() {
     return this.row.id;
   }
 
   get defaultSortKey() {
-    return this.index;
+    return this.row.__meta.defaultSortKey;
   }
 
   name(locale: string) {
