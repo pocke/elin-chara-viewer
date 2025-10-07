@@ -53,6 +53,8 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         name: feat.name(language),
         races: races,
         jobs: jobs,
+        racesForSort: races.length > 0 ? races[0].name(language) : '',
+        jobsForSort: jobs.length > 0 ? jobs[0].name(language) : '',
         geneSlot: feat.getGeneSlot(),
         max: feat.getMax(),
         canDropAsGene: feat.canDropAsGene(),
@@ -102,9 +104,10 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         field: 'races',
         headerName: t.common.race,
         width: 250,
+        valueGetter: (_value, row) => row.racesForSort,
         renderCell: (params) => (
           <Box sx={{ display: 'flex', gap: 0.5, py: 0.5 }}>
-            {params.value.map(
+            {params.row.races.map(
               (race: { id: string; name: (lang: string) => string }) => (
                 <Chip
                   key={race.id}
@@ -121,9 +124,10 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         field: 'jobs',
         headerName: t.common.job,
         width: 250,
+        valueGetter: (_value, row) => row.jobsForSort,
         renderCell: (params) => (
           <Box sx={{ display: 'flex', gap: 0.5, py: 0.5 }}>
-            {params.value.map(
+            {params.row.jobs.map(
               (job: { id: string; name: (lang: string) => string }) => (
                 <Chip
                   key={job.id}
