@@ -30,6 +30,11 @@ export default function Home() {
                 {t.common.browseCharacters}
               </Button>
             </Link>
+            <Link href={`/${lang}/EA/feats`} passHref>
+              <Button variant="contained" startIcon={<MenuIcon />}>
+                {t.common.browseFeats}
+              </Button>
+            </Link>
           </Box>
         </Paper>
 

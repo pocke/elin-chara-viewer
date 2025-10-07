@@ -68,6 +68,7 @@ const resources = {
       bugReportSuffix:
         ' もしくは Elin コミュニティの Discord で pocke までお願いします。',
       browseCharacters: 'キャラクター一覧',
+      browseFeats: 'フィート一覧',
       searchCharacters: '名前',
       filters: 'フィルター',
       clearFilters: 'フィルターをクリア',
@@ -165,6 +166,7 @@ const resources = {
       bugReportGitHub: 'GitHub repository',
       bugReportSuffix: ' or contact pocke on the Elin community Discord.',
       browseCharacters: 'Browse Characters',
+      browseFeats: 'Browse Feats',
       searchCharacters: 'Name',
       filters: 'Filters',
       clearFilters: 'Clear Filters',
