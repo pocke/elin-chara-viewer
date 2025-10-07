@@ -2,6 +2,31 @@ import { all } from '@/lib/db';
 import { Chara, CharaSchema } from '@/lib/models/chara';
 import { ElementAttacks } from '@/lib/models/element';
 import CharaDetailClient from './CharaDetailClient';
+import { Metadata } from 'next';
+import { resources, Language } from '@/lib/i18n-resources';
+
+export const generateMetadata = async (props: {
+  params: Promise<{ id: string; lang: string }>;
+}): Promise<Metadata> => {
+  const params = await props.params;
+  const decodedId = decodeURIComponent(params.id);
+  const [baseId, variantElement] = decodedId.split('---');
+
+  const charaRows = all('charas', CharaSchema);
+  const charaRow = charaRows.find((chara) => chara.id === baseId);
+
+  if (!charaRow) {
+    throw new Error(`Chara with ID ${baseId} not found`);
+  }
+
+  const chara = new Chara(charaRow, variantElement as ElementAttacks | null);
+  const charaName = chara.normalizedName(params.lang);
+  const appTitle = resources[params.lang as Language].common.title;
+
+  return {
+    title: `${charaName} - ${appTitle}`,
+  };
+};
 
 export const generateStaticParams = () => {
   const charaRows = all('charas', CharaSchema);
