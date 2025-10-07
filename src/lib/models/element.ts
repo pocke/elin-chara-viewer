@@ -220,6 +220,10 @@ export class Element {
     return locale === 'ja' ? this.row.textExtra_JP : this.row.textExtra;
   }
 
+  isFeat() {
+    return this.row.type === 'Feat';
+  }
+
   getColor() {
     const elementColors: Record<string, string> = {
       eleFire: '#ff4500',
