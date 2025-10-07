@@ -60,13 +60,19 @@ export default async function FeatPage(props: {
 
   // Find characters with this feat
   const charaRows = all('charas', CharaSchema);
-  const charactersWithFeat = charaRows
+  const baseCharasWithFeat = charaRows
     .filter((row) => !Chara.isIgnoredCharaId(row.id))
     .map((row) => new Chara(row))
     .filter((chara) => {
       const feats = chara.feats();
       return feats.some((f) => f.element.alias === decodedAlias);
     });
+
+  // Expand variants: if a chara has variants, include the variants instead of the parent
+  const charactersWithFeat = baseCharasWithFeat.flatMap((chara) => {
+    const variants = chara.variants();
+    return variants.length > 0 ? variants : [chara];
+  });
 
   return (
     <FeatDetailClient
