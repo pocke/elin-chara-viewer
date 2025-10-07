@@ -163,7 +163,7 @@ export function attackElements(): Element[] {
 }
 
 export class Element {
-  constructor(private row: ElementRow) {}
+  constructor(public row: ElementRow) {}
 
   get id() {
     return this.row.id;
@@ -220,6 +220,10 @@ export class Element {
     return locale === 'ja' ? this.row.textExtra_JP : this.row.textExtra;
   }
 
+  isFeat() {
+    return this.row.type === 'Feat' && this.row.categorySub !== 'god';
+  }
+
   getColor() {
     const elementColors: Record<string, string> = {
       eleFire: '#ff4500',
@@ -259,6 +263,10 @@ export class Element {
     };
 
     return elementColors[this.row.alias] || '#666666';
+  }
+
+  tags() {
+    return this.row.tag?.split(',') ?? [];
   }
 
   subElements() {

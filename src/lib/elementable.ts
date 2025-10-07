@@ -43,7 +43,7 @@ export class Elementable {
 
   feats() {
     return this.elements().filter((elementWithPower) =>
-      elementWithPower.element.alias.startsWith('feat')
+      elementWithPower.element.isFeat()
     );
   }
 

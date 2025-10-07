@@ -82,6 +82,30 @@ export default function CharaDetailClient({
     return elements.map((elementWithPower, index) => {
       const element = elementWithPower.element;
       const featName = element.name(language);
+      const isFeat = element.isFeat();
+
+      const chipElement = (
+        <Chip
+          label={`${featName}${elementWithPower.power !== 1 ? ` (${elementWithPower.power})` : ''}`}
+          variant="outlined"
+          size="small"
+          clickable={isFeat}
+          sx={{
+            cursor: isFeat ? 'pointer' : 'default',
+            borderColor: element.getColor(),
+            color: element.getColor(),
+            '&:hover': isFeat
+              ? {
+                  backgroundColor: element.getColor() + '20',
+                  borderColor: element.getColor(),
+                  '& .MuiChip-label': {
+                    color: element.getColor(),
+                  },
+                }
+              : {},
+          }}
+        />
+      );
 
       return (
         <Tooltip
@@ -108,27 +132,16 @@ export default function CharaDetailClient({
             },
           }}
         >
-          <Chip
-            label={`${featName}${elementWithPower.power !== 1 ? ` (${elementWithPower.power})` : ''}`}
-            variant="outlined"
-            size="small"
-            clickable
-            onClick={() => {
-              console.log(`Navigate to element detail: ${element.id}`);
-            }}
-            sx={{
-              cursor: 'pointer',
-              borderColor: element.getColor(),
-              color: element.getColor(),
-              '&:hover': {
-                backgroundColor: element.getColor() + '20',
-                borderColor: element.getColor(),
-                '& .MuiChip-label': {
-                  color: element.getColor(),
-                },
-              },
-            }}
-          />
+          {isFeat ? (
+            <Link
+              href={`/${lang}/${version}/feats/${element.alias}`}
+              style={{ textDecoration: 'none' }}
+            >
+              {chipElement}
+            </Link>
+          ) : (
+            chipElement
+          )}
         </Tooltip>
       );
     });
