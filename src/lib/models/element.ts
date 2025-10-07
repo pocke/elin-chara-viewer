@@ -221,7 +221,7 @@ export class Element {
   }
 
   isFeat() {
-    return this.row.type === 'Feat';
+    return this.row.type === 'Feat' && this.row.categorySub !== 'god';
   }
 
   getColor() {
@@ -263,6 +263,10 @@ export class Element {
     };
 
     return elementColors[this.row.alias] || '#666666';
+  }
+
+  tags() {
+    return this.row.tag?.split(',') ?? [];
   }
 
   subElements() {
