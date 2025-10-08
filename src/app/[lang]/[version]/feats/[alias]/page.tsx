@@ -4,6 +4,57 @@ import { CharaSchema, Chara } from '@/lib/models/chara';
 import { racesByFeat } from '@/lib/models/race';
 import { jobsByFeat } from '@/lib/models/job';
 import FeatDetailClient from './FeatDetailClient';
+import { Metadata } from 'next';
+import { resources, Language } from '@/lib/i18n-resources';
+
+export const generateMetadata = async (props: {
+  params: Promise<{ alias: string; lang: string }>;
+}): Promise<Metadata> => {
+  const params = await props.params;
+  const decodedAlias = decodeURIComponent(params.alias);
+
+  const element = elementByAlias(decodedAlias);
+
+  if (!element) {
+    throw new Error(`Feat with alias ${decodedAlias} not found`);
+  }
+
+  const featName = element.name(params.lang);
+  const appTitle = resources[params.lang as Language].common.title;
+
+  const textPhase = element.textPhase(params.lang) || '';
+  const textExtra = element.textExtra(params.lang) || '';
+  const subElements = element.subElements();
+  const subElementText =
+    subElements.length > 0
+      ? subElements
+          .map(
+            (sub) =>
+              `${sub.element.name(params.lang)} ${sub.coefficient > 0 ? '+' : ''}${sub.coefficient}`
+          )
+          .join(', ')
+      : '';
+
+  const descriptionParts = [textPhase, textExtra, subElementText].filter(
+    (part) => part
+  );
+  const description = descriptionParts.join('\n');
+
+  return {
+    title: `${featName} - ${appTitle}`,
+    description: description || undefined,
+    openGraph: {
+      title: `${featName} - ${appTitle}`,
+      description: description || undefined,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary',
+      title: `${featName} - ${appTitle}`,
+      description: description || undefined,
+    },
+  };
+};
 
 export const generateStaticParams = () => {
   const elementRows = all('elements', ElementSchema);
