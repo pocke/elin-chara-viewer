@@ -197,7 +197,10 @@ export default function FeatDetailClient({
               <Box
                 sx={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                  gridTemplateColumns: {
+                    xs: 'repeat(2, 1fr)',
+                    sm: 'repeat(4, 1fr)',
+                  },
                   gap: 2,
                 }}
               >
@@ -214,6 +217,12 @@ export default function FeatDetailClient({
                     {t.feat.max}
                   </Typography>
                   <Typography variant="body1">{element.row.max}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.feat.cost}
+                  </Typography>
+                  <Typography variant="body1">{feat.cost()}</Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">

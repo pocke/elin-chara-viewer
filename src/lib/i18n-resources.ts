@@ -89,6 +89,7 @@ export const resources = {
     feat: {
       geneSlot: '使用スロット数',
       max: '重ね合わせ上限',
+      cost: 'コスト',
       textExtra: '説明',
       canDropAsGene: '遺伝子化',
       yes: 'true',
@@ -193,6 +194,7 @@ export const resources = {
     feat: {
       geneSlot: 'Slot Count',
       max: 'Stack Limit',
+      cost: 'Cost',
       textExtra: 'Description',
       canDropAsGene: 'Can Drop as Gene',
       yes: 'true',
