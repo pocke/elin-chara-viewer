@@ -2,8 +2,21 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
+import { useState } from 'react';
 import theme from '../theme';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import Footer from '../../components/Footer';
@@ -20,6 +33,22 @@ interface ClientLayoutProps {
 
 function ClientLayoutInner({ children }: { children: React.ReactNode }) {
   const { t, language } = useTranslation();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = (open: boolean) => () => {
+    setDrawerOpen(open);
+  };
+
+  const menuItems = [
+    {
+      text: t.common.browseCharacters,
+      href: `/${language}/EA/charas`,
+    },
+    {
+      text: t.common.browseFeats,
+      href: `/${language}/EA/feats`,
+    },
+  ];
 
   return (
     <Box
@@ -31,6 +60,15 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
     >
       <AppBar position="static" elevation={1}>
         <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={toggleDrawer(true)}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link
               href={`/${language}`}
@@ -45,6 +83,24 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
           <LanguageSwitcher />
         </Toolbar>
       </AppBar>
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+        <Box
+          sx={{ width: 250 }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+        >
+          <List>
+            {menuItems.map((item) => (
+              <ListItem key={item.text} disablePadding>
+                <ListItemButton component={Link} href={item.href}>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
       <Box component="main" sx={{ flexGrow: 1 }}>
         {children}
       </Box>
