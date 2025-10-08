@@ -82,7 +82,8 @@ export class Chara {
   }
 
   static isIgnoredCharaId(id: string): boolean {
-    return id === 'sorin' || id === 'azzrasizzle';
+    // Add id if the csv data is invalid.
+    return false;
   }
 
   constructor(
