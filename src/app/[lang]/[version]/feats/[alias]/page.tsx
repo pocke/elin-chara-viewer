@@ -25,15 +25,12 @@ export const generateMetadata = async (props: {
   const textPhase = element.textPhase(params.lang) || '';
   const textExtra = element.textExtra(params.lang) || '';
   const subElements = element.subElements();
-  const subElementText =
-    subElements.length > 0
-      ? subElements
-          .map(
-            (sub) =>
-              `${sub.element.name(params.lang)} ${sub.coefficient > 0 ? '+' : ''}${sub.coefficient}`
-          )
-          .join(', ')
-      : '';
+  const subElementText = subElements
+    .map(
+      (sub) =>
+        `${sub.element.name(params.lang)} ${sub.coefficient > 0 ? '+' : ''}${sub.coefficient}`
+    )
+    .join(', ');
 
   const descriptionParts = [textPhase, textExtra, subElementText].filter(
     (part) => part
