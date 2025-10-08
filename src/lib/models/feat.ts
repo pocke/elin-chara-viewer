@@ -41,6 +41,12 @@ export class Feat {
     return this.row.cost.split(',').map((c) => parseInt(c.trim(), 10));
   }
 
+  cost(): number {
+    const costs = this.costs();
+    if (costs.length === 0) return 0;
+    return costs[0] * 5;
+  }
+
   // https://github.com/Elin-Modding-Resources/Elin-Decompiled/blob/862d04aa6ed431f8a78f8c33b8fa49d85e4e57bb/Elin/ElementContainer.cs#L628-L631
   canDropAsGene(): boolean {
     const costs = this.costs();

@@ -57,6 +57,7 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         jobsForSort: jobs.length > 0 ? jobs[0].name(language) : '',
         geneSlot: feat.getGeneSlot(),
         max: feat.getMax(),
+        cost: feat.cost(),
         canDropAsGene: feat.canDropAsGene(),
         textExtra: feat.textExtra(language) || '',
       };
@@ -90,6 +91,12 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
       {
         field: 'max',
         headerName: t.feat.max,
+        type: 'number',
+        width: 100,
+      },
+      {
+        field: 'cost',
+        headerName: t.feat.cost,
         type: 'number',
         width: 100,
       },
