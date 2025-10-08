@@ -1,6 +1,6 @@
 import { all } from '@/lib/db';
 import { Chara, CharaSchema } from '@/lib/models/chara';
-import { ElementAttacks } from '@/lib/models/element';
+import { ElementAttacks, elementByAlias } from '@/lib/models/element';
 import CharaDetailClient from './CharaDetailClient';
 import { Metadata } from 'next';
 import { resources, Language } from '@/lib/i18n-resources';
@@ -34,7 +34,18 @@ export const generateMetadata = async (props: {
   const vigor = chara.vigor();
 
   const t = resources[lang].common;
-  const description = `${raceName}/${jobName}\n${t.life}${life}/${t.mana}${mana}/${t.speed}${speed}/${t.vigor}${vigor}`;
+
+  // Get primary attributes
+  const primaryAttributes = chara.primaryAttributes();
+  const primaryAttrsText = primaryAttributes
+    .map((attr) => {
+      const element = elementByAlias(attr.alias)!;
+      const displayName = element.name(lang);
+      return `${displayName}${attr.value}`;
+    })
+    .join('/');
+
+  const description = `${raceName}/${jobName}\n${primaryAttrsText}\n${t.life}${life}/${t.mana}${mana}/${t.speed}${speed}/${t.vigor}${vigor}`;
 
   return {
     title: `${charaName} - ${appTitle}`,
