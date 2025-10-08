@@ -510,4 +510,24 @@ export class Chara {
       return this.tactics().moveFrequency;
     });
   }
+
+  primaryAttributes(): { alias: string; value: number }[] {
+    return this.memoize('primaryAttributes', () => {
+      const attributeAliases: Array<
+        'STR' | 'END' | 'DEX' | 'PER' | 'LER' | 'WIL' | 'MAG' | 'CHA'
+      > = ['STR', 'END', 'DEX', 'PER', 'LER', 'WIL', 'MAG', 'CHA'];
+
+      return attributeAliases.map((alias) => {
+        const raceValue = this.race.row[alias];
+        const jobValue = this.job().row[alias];
+
+        const value = raceValue + jobValue;
+
+        return {
+          alias,
+          value,
+        };
+      });
+    });
+  }
 }

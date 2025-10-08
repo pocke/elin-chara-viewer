@@ -339,6 +339,35 @@ export default function CharaDetailClient({
 
             <Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
+                {t.common.primaryAttributes}
+              </Typography>
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: {
+                    xs: 'repeat(2, 1fr)',
+                    sm: 'repeat(4, 1fr)',
+                  },
+                  gap: 2,
+                }}
+              >
+                {chara.primaryAttributes().map((attr) => {
+                  const element = elementByAlias(attr.alias)!;
+                  const displayName = element.name(language);
+                  return (
+                    <Box key={attr.alias}>
+                      <Typography variant="body2" color="text.secondary">
+                        {displayName}
+                      </Typography>
+                      <Typography variant="h6">{attr.value}</Typography>
+                    </Box>
+                  );
+                })}
+              </Box>
+            </Box>
+
+            <Box>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
                 {t.common.stats}
               </Typography>
               <Box

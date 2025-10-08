@@ -287,6 +287,12 @@ export default function DataGridCharaTable({
       row.vigor = chara.vigor();
       row.dv = chara.dv();
       row.pv = chara.pv();
+
+      // Add primary attributes
+      chara.primaryAttributes().forEach((attr) => {
+        row[attr.alias] = attr.value;
+      });
+
       row.pdr = chara.pdr();
       row.edr = chara.edr();
       row.ep = chara.ep();
@@ -395,7 +401,26 @@ export default function DataGridCharaTable({
         headerName: t.common.pv,
         type: 'number',
         width: 60,
-      },
+      }
+    );
+
+    // Add primary attribute columns
+    // Get attribute list from first chara's primaryAttributes method
+    if (filteredCharas.length > 0) {
+      const primaryAttrs = filteredCharas[0].primaryAttributes();
+      primaryAttrs.forEach((attr) => {
+        const element = elementByAlias(attr.alias);
+        const displayName = element ? element.name(language) : attr.alias;
+        baseColumns.push({
+          field: attr.alias,
+          headerName: displayName,
+          type: 'number',
+          width: 70,
+        });
+      });
+    }
+
+    baseColumns.push(
       {
         field: 'pdr',
         headerName: t.common.pdr,
@@ -439,6 +464,7 @@ export default function DataGridCharaTable({
     resistanceElementsList,
     raceOptions,
     jobOptions,
+    filteredCharas,
   ]);
 
   // Search bar callback functions
