@@ -344,7 +344,10 @@ export default function CharaDetailClient({
               <Box
                 sx={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                  gridTemplateColumns: {
+                    xs: 'repeat(2, 1fr)',
+                    sm: 'repeat(4, 1fr)',
+                  },
                   gap: 2,
                 }}
               >
