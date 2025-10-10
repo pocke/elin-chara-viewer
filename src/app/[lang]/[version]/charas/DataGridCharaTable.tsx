@@ -267,6 +267,7 @@ export default function DataGridCharaTable({
         race: chara.race.name(language),
         job: chara.job().name(language),
         level: Math.round(chara.level() * 100) / 100,
+        geneSlotValue: actualGeneSlot,
         geneSlot:
           actualGeneSlot !== originalGeneSlot
             ? `${actualGeneSlot} (${originalGeneSlot})`
@@ -349,7 +350,10 @@ export default function DataGridCharaTable({
       {
         field: 'geneSlot',
         headerName: t.common.geneSlotShort,
+        type: 'number',
         width: 100,
+        valueGetter: (_value, row) => row.geneSlotValue,
+        renderCell: (params) => params.row.geneSlot,
       },
       {
         field: 'bodyParts',
