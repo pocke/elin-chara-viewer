@@ -20,6 +20,7 @@ import { useState } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { attackElements } from '@/lib/models/element';
 import type { AttackElement } from '@/lib/resistSimUtils';
+import { getContrastColor } from '@/lib/colorUtils';
 
 interface AttackElementSelectorProps {
   selectedElements: AttackElement[];
@@ -138,7 +139,7 @@ export default function AttackElementSelector({
                       label={element.name(language)}
                       sx={{
                         backgroundColor: element.getColor(),
-                        color: '#fff',
+                        color: getContrastColor(element.getColor()),
                         fontWeight: 'bold',
                       }}
                     />
