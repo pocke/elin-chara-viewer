@@ -109,6 +109,28 @@ export const resources = {
       lastUpdated: '最終更新',
       github: 'GitHub',
     },
+    resistSim: {
+      title: '耐性シミュレーション',
+      description:
+        'パーティの攻撃属性を設定して、それらに耐性を持つ敵を確認できます。',
+      attackElements: '攻撃属性',
+      addElement: '属性を追加',
+      selectElement: '属性を選択',
+      isSword: '剣魔法',
+      isFeatElder: '古代種フィート',
+      isFeatZodiac: '星座フィート',
+      remove: '削除',
+      noElements: '攻撃属性が選択されていません',
+      filterDescription:
+        'すべての攻撃属性に対して1段階以上の耐性を持つキャラのみ表示されます',
+      resistanceCalculation: '耐性計算ルール',
+      resistanceRule1: '耐性は5を1つの単位とします（5で1段階、10で2段階）',
+      resistanceRule2: '剣魔法は耐性を2段階下げます',
+      resistanceRule3: '古代種フィート、星座フィートは耐性を1段階下げます',
+      allCharactersShown: 'すべてのキャラクターが表示されています',
+      charactersWithResistance:
+        '選択した攻撃属性すべてに耐性を持つキャラクター',
+    },
   },
   en: {
     common: {
@@ -218,6 +240,30 @@ export const resources = {
     footer: {
       lastUpdated: 'Last Updated',
       github: 'GitHub',
+    },
+    resistSim: {
+      title: 'Resistance Simulation',
+      description:
+        'Configure your party attack elements to see which enemies have resistance against them.',
+      attackElements: 'Attack Elements',
+      addElement: 'Add Element',
+      selectElement: 'Select Element',
+      isSword: 'Sword Magic',
+      isFeatElder: 'Elder Feat',
+      isFeatZodiac: 'Zodiac Feat',
+      remove: 'Remove',
+      noElements: 'No attack elements selected',
+      filterDescription:
+        'Only characters with 1+ resistance level against ALL attack elements are shown',
+      resistanceCalculation: 'Resistance Calculation Rules',
+      resistanceRule1:
+        'Resistance is measured in units of 5 (5 = 1 level, 10 = 2 levels)',
+      resistanceRule2: 'Sword magic reduces resistance by 2 levels',
+      resistanceRule3:
+        'Elder Feat and Zodiac Feat reduce resistance by 1 level',
+      allCharactersShown: 'All characters are shown',
+      charactersWithResistance:
+        'Characters with resistance against all selected attack elements',
     },
   },
 };
