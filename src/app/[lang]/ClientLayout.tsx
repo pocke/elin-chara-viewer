@@ -48,6 +48,10 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
       text: t.common.browseFeats,
       href: `/${language}/EA/feats`,
     },
+    {
+      text: t.common.browseResistSim,
+      href: `/${language}/EA/sim/resist`,
+    },
   ];
 
   return (
