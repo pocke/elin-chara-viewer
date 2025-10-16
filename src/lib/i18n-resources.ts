@@ -118,17 +118,14 @@ export const resources = {
       attackElements: '攻撃属性',
       addElement: '属性を追加',
       selectElement: '属性を選択',
-      isSword: '剣魔法',
-      isFeatElder: '古代種フィート',
-      isFeatZodiac: '星座フィート',
+      penetrationLevel: '貫通レベル',
       remove: '削除',
       noElements: '攻撃属性が選択されていません',
       filterDescription:
         'すべての攻撃属性に対して1段階以上の耐性を持つキャラのみ表示されます',
       resistanceCalculation: '耐性計算ルール',
       resistanceRule1: '耐性は5を1つの単位とします（5で1段階、10で2段階）',
-      resistanceRule2: '剣魔法は耐性を2段階下げます',
-      resistanceRule3: '古代種フィート、星座フィートは耐性を1段階下げます',
+      resistanceRule2: '貫通レベルを設定すると、その分だけ耐性が減少します',
       allCharactersShown: 'すべてのキャラクターが表示されています',
       charactersWithResistance:
         '選択した攻撃属性すべてに耐性を持つキャラクター',
@@ -252,9 +249,7 @@ export const resources = {
       attackElements: 'Attack Elements',
       addElement: 'Add Element',
       selectElement: 'Select Element',
-      isSword: 'Sword Magic',
-      isFeatElder: 'Elder Feat',
-      isFeatZodiac: 'Zodiac Feat',
+      penetrationLevel: 'Penetration Level',
       remove: 'Remove',
       noElements: 'No attack elements selected',
       filterDescription:
@@ -262,9 +257,8 @@ export const resources = {
       resistanceCalculation: 'Resistance Calculation Rules',
       resistanceRule1:
         'Resistance is measured in units of 5 (5 = 1 level, 10 = 2 levels)',
-      resistanceRule2: 'Sword magic reduces resistance by 2 levels',
-      resistanceRule3:
-        'Elder Feat and Zodiac Feat reduce resistance by 1 level',
+      resistanceRule2:
+        'Setting a penetration level reduces resistance by that amount',
       allCharactersShown: 'All characters are shown',
       charactersWithResistance:
         'Characters with resistance against all selected attack elements',
