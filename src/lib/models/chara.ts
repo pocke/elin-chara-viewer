@@ -81,6 +81,7 @@ export class Chara {
     return this._memoCache.get(key) as T;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static isIgnoredCharaId(id: string): boolean {
     // Add id if the csv data is invalid.
     return false;
@@ -530,5 +531,9 @@ export class Chara {
         };
       });
     });
+  }
+
+  isUnique(): boolean {
+    return this.row.quality === 4;
   }
 }

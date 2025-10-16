@@ -1,5 +1,13 @@
 'use client';
-import { Container, Typography, Box, Paper, alpha } from '@mui/material';
+import {
+  Container,
+  Typography,
+  Box,
+  Paper,
+  alpha,
+  FormControlLabel,
+  Checkbox,
+} from '@mui/material';
 import { Shield as ShieldIcon } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useMemo, useState, useEffect, Suspense } from 'react';
@@ -55,6 +63,7 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
   const searchParams = useSearchParams();
 
   const [selectedElements, setSelectedElements] = useState<AttackElement[]>([]);
+  const [showUniqueCharas, setShowUniqueCharas] = useState(false);
 
   // Initialize from URL parameters
   useEffect(() => {
@@ -67,6 +76,8 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
         // Invalid JSON, ignore
       }
     }
+    const unique = searchParams.get('unique') === 'true';
+    setShowUniqueCharas(unique);
   }, [searchParams]);
 
   // Update URL when elements change
@@ -75,13 +86,16 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
     if (selectedElements.length > 0) {
       params.set('attackElements', JSON.stringify(selectedElements));
     }
+    if (showUniqueCharas) {
+      params.set('unique', 'true');
+    }
 
     const newUrl = params.toString()
       ? `/${lang}/${version}/sim/resist?${params.toString()}`
       : `/${lang}/${version}/sim/resist`;
 
     router.replace(newUrl, { scroll: false });
-  }, [selectedElements, lang, version, router]);
+  }, [selectedElements, showUniqueCharas, lang, version, router]);
 
   // Expand characters with variants (memoized for performance)
   const allCharas = useMemo(() => {
@@ -95,11 +109,19 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
 
   // Filter charas based on selected attack elements
   const filteredCharas = useMemo(() => {
-    if (selectedElements.length === 0) {
-      return allCharas;
+    let filtered = allCharas;
+
+    // Filter by unique characters
+    if (!showUniqueCharas) {
+      filtered = filtered.filter((chara) => !chara.isUnique());
     }
 
-    return allCharas.filter((chara) => {
+    // Filter by resistance
+    if (selectedElements.length === 0) {
+      return filtered;
+    }
+
+    return filtered.filter((chara) => {
       // Check if chara has 1+ resistance level against ALL attack elements
       return selectedElements.every((attackElem) => {
         const resAlias = getResistanceAlias(attackElem.element);
@@ -111,7 +133,7 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
         return effectiveResistance >= 1;
       });
     });
-  }, [allCharas, selectedElements]);
+  }, [allCharas, selectedElements, showUniqueCharas]);
 
   // Convert filtered charas to DataGrid rows
   const rows: GridRowsProp = useMemo(() => {
@@ -210,6 +232,17 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
           <Typography variant="body2" color="text.secondary">
             {filteredCharas.length} / {allCharas.length}
           </Typography>
+          <Box sx={{ mt: 2 }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showUniqueCharas}
+                  onChange={(e) => setShowUniqueCharas(e.target.checked)}
+                />
+              }
+              label={t.common.showUniqueCharacters}
+            />
+          </Box>
         </Paper>
 
         <Suspense fallback={<div>{t.common.loading}...</div>}>
