@@ -7,7 +7,6 @@ import {
   MenuItem,
   Checkbox,
   FormControlLabel,
-  Button,
   IconButton,
   Chip,
   Stack,
@@ -15,7 +14,7 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
-import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import { Delete as DeleteIcon } from '@mui/icons-material';
 import { useState } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { attackElements } from '@/lib/models/element';
@@ -36,16 +35,16 @@ export default function AttackElementSelector({
 
   const availableElements = attackElements();
 
-  const handleAddElement = () => {
-    if (!newElementAlias) return;
+  const handleAddElement = (elementAlias: string) => {
+    if (!elementAlias) return;
 
     // Check if element is already selected
-    if (selectedElements.some((e) => e.element === newElementAlias)) {
+    if (selectedElements.some((e) => e.element === elementAlias)) {
       return;
     }
 
     const newElement: AttackElement = {
-      element: newElementAlias,
+      element: elementAlias,
       isSword: false,
       isFeatElder: false,
       isFeatZodiac: false,
@@ -83,12 +82,16 @@ export default function AttackElementSelector({
       </Typography>
 
       {/* Add element form */}
-      <Box sx={{ display: 'flex', gap: 2, mb: 3, alignItems: 'center' }}>
+      <Box sx={{ mb: 3 }}>
         <FormControl sx={{ minWidth: 200 }}>
           <InputLabel>{t.resistSim.selectElement}</InputLabel>
           <Select
             value={newElementAlias}
-            onChange={(e) => setNewElementAlias(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setNewElementAlias(value);
+              handleAddElement(value);
+            }}
             label={t.resistSim.selectElement}
           >
             {availableElements.map((elem) => (
@@ -104,14 +107,6 @@ export default function AttackElementSelector({
             ))}
           </Select>
         </FormControl>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleAddElement}
-          disabled={!newElementAlias}
-        >
-          {t.resistSim.addElement}
-        </Button>
       </Box>
 
       {/* Selected elements list */}
