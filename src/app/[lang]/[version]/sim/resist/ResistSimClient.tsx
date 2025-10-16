@@ -1,5 +1,5 @@
 'use client';
-import { Container, Typography, Box, Paper } from '@mui/material';
+import { Container, Typography, Box, Paper, alpha } from '@mui/material';
 import { Shield as ShieldIcon } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useMemo, useState, useEffect, Suspense } from 'react';
@@ -133,6 +133,13 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
     });
   }, [filteredCharas, language, resistanceElementsList]);
 
+  // Get selected attack element aliases for highlighting
+  const selectedAttackAliases = useMemo(() => {
+    return new Set(
+      selectedElements.map((elem) => getResistanceAlias(elem.element))
+    );
+  }, [selectedElements]);
+
   // Define columns
   const columns: GridColDef[] = useMemo(() => {
     const baseColumns: GridColDef[] = [
@@ -154,6 +161,7 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
 
     // Add resistance columns
     resistanceElementsList.forEach((resElement) => {
+      const isSelected = selectedAttackAliases.has(resElement.alias);
       baseColumns.push({
         field: resElement.alias,
         headerName: resElement.name(language),
@@ -163,11 +171,20 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
           const displayValue = params.row[`${resElement.alias}_display`];
           return displayValue;
         },
+        cellClassName: isSelected ? 'highlighted-cell' : undefined,
+        headerClassName: isSelected ? 'highlighted-header' : undefined,
       });
     });
 
     return baseColumns;
-  }, [t, lang, version, language, resistanceElementsList]);
+  }, [
+    t,
+    lang,
+    version,
+    language,
+    resistanceElementsList,
+    selectedAttackAliases,
+  ]);
 
   return (
     <Container maxWidth="xl">
@@ -198,6 +215,7 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
         <Suspense fallback={<div>{t.common.loading}...</div>}>
           <Paper elevation={1} sx={{ height: '70vh', width: '100%' }}>
             <DataGrid
+              key={JSON.stringify(selectedElements)}
               rows={rows}
               columns={columns}
               slots={{
@@ -219,6 +237,19 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
               sx={{
                 '& .MuiDataGrid-toolbarContainer': {
                   padding: 2,
+                },
+                '& .highlighted-cell': {
+                  backgroundColor: (theme) =>
+                    alpha(theme.palette.primary.main, 0.08),
+                  '&:hover': {
+                    backgroundColor: (theme) =>
+                      alpha(theme.palette.primary.main, 0.15),
+                  },
+                },
+                '& .highlighted-header': {
+                  backgroundColor: (theme) =>
+                    alpha(theme.palette.primary.main, 0.12),
+                  fontWeight: 'bold',
                 },
               }}
             />
