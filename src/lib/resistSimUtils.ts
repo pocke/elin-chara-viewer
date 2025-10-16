@@ -2,13 +2,11 @@
 
 export interface AttackElement {
   element: string; // Element alias (e.g., "eleFire")
-  isSword: boolean;
-  isFeatElder: boolean;
-  isFeatZodiac: boolean;
+  penetrationLevel: number; // Penetration level (0-4)
 }
 
 /**
- * Calculate the effective resistance level after applying attack modifiers
+ * Calculate the effective resistance level after applying penetration
  *
  * @param baseResistance - The base resistance value (numeric)
  * @param attackElement - The attack element configuration
@@ -22,25 +20,13 @@ export function calculateEffectiveResistance(
   const cappedResistance = Math.min(baseResistance, 20);
   const resistanceLevel = Math.floor(cappedResistance / 5);
 
-  // Apply penetration from modifiers
-  let penetration = 0;
-  if (attackElement.isSword) {
-    penetration += 2;
-  }
-  if (attackElement.isFeatElder) {
-    penetration += 1;
-  }
-  if (attackElement.isFeatZodiac) {
-    penetration += 1;
-  }
-
   // Apply penetration
   // If base resistance was negative, keep it negative
   // Otherwise, reduce by penetration but don't go below 0
   if (baseResistance < 0) {
     return resistanceLevel;
   } else {
-    return Math.max(0, resistanceLevel - penetration);
+    return Math.max(0, resistanceLevel - attackElement.penetrationLevel);
   }
 }
 

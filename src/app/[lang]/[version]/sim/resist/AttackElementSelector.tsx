@@ -5,8 +5,6 @@ import {
   Typography,
   Select,
   MenuItem,
-  Checkbox,
-  FormControlLabel,
   IconButton,
   Chip,
   Stack,
@@ -45,9 +43,7 @@ export default function AttackElementSelector({
 
     const newElement: AttackElement = {
       element: elementAlias,
-      isSword: false,
-      isFeatElder: false,
-      isFeatZodiac: false,
+      penetrationLevel: 0,
     };
 
     onElementsChange([...selectedElements, newElement]);
@@ -60,14 +56,11 @@ export default function AttackElementSelector({
     onElementsChange(newElements);
   };
 
-  const handleToggleModifier = (
-    index: number,
-    modifier: 'isSword' | 'isFeatElder' | 'isFeatZodiac'
-  ) => {
+  const handlePenetrationLevelChange = (index: number, level: number) => {
     const newElements = [...selectedElements];
     newElements[index] = {
       ...newElements[index],
-      [modifier]: !newElements[index][modifier],
+      penetrationLevel: level,
     };
     onElementsChange(newElements);
   };
@@ -138,40 +131,27 @@ export default function AttackElementSelector({
                         fontWeight: 'bold',
                       }}
                     />
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={attackElem.isSword}
-                            onChange={() =>
-                              handleToggleModifier(index, 'isSword')
-                            }
-                          />
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="body2">
+                        {t.resistSim.penetrationLevel}:
+                      </Typography>
+                      <Select
+                        value={attackElem.penetrationLevel}
+                        onChange={(e) =>
+                          handlePenetrationLevelChange(
+                            index,
+                            Number(e.target.value)
+                          )
                         }
-                        label={t.resistSim.isSword}
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={attackElem.isFeatElder}
-                            onChange={() =>
-                              handleToggleModifier(index, 'isFeatElder')
-                            }
-                          />
-                        }
-                        label={t.resistSim.isFeatElder}
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={attackElem.isFeatZodiac}
-                            onChange={() =>
-                              handleToggleModifier(index, 'isFeatZodiac')
-                            }
-                          />
-                        }
-                        label={t.resistSim.isFeatZodiac}
-                      />
+                        size="small"
+                        sx={{ minWidth: 80 }}
+                      >
+                        <MenuItem value={0}>0</MenuItem>
+                        <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                        <MenuItem value={3}>3</MenuItem>
+                        <MenuItem value={4}>4</MenuItem>
+                      </Select>
                     </Box>
                   </Box>
                   <IconButton
