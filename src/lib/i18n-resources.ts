@@ -66,6 +66,7 @@ export const resources = {
         ' もしくは Elin コミュニティの Discord で pocke までお願いします。',
       browseCharacters: 'キャラクター一覧',
       browseFeats: 'フィート一覧',
+      browseResistSim: '耐性シミュレーション',
       searchCharacters: '名前',
       filters: 'フィルター',
       clearFilters: 'フィルターをクリア',
@@ -75,6 +76,7 @@ export const resources = {
       tacticsMoveFrequency: '移動頻度',
       loading: '読み込み中',
       showHiddenCharacters: '通常ゲームでは登場しないキャラを表示',
+      showUniqueCharacters: 'ユニークキャラを表示',
       rawData: '生データ',
       charaRawData: 'キャラクター生データ',
       raceRawData: '種族生データ',
@@ -103,6 +105,25 @@ export const resources = {
     footer: {
       lastUpdated: '最終更新',
       github: 'GitHub',
+    },
+    resistSim: {
+      title: '耐性シミュレーション',
+      description:
+        'パーティの攻撃属性を設定して、それらに耐性を持つ敵を確認できます。',
+      attackElements: '攻撃属性',
+      addElement: '属性を追加',
+      selectElement: '属性を選択',
+      penetrationLevel: '貫通レベル',
+      remove: '削除',
+      noElements: '攻撃属性が選択されていません',
+      filterDescription:
+        'すべての攻撃属性に対して1段階以上の耐性を持つキャラのみ表示されます',
+      resistanceCalculation: '耐性計算ルール',
+      resistanceRule1: '耐性は5を1つの単位とします（5で1段階、10で2段階）',
+      resistanceRule2: '貫通レベルを設定すると、その分だけ耐性が減少します',
+      allCharactersShown: 'すべてのキャラクターが表示されています',
+      charactersWithResistance:
+        '選択した攻撃属性すべてに耐性を持つキャラクター',
     },
   },
   en: {
@@ -171,6 +192,7 @@ export const resources = {
       bugReportSuffix: ' or contact pocke on the Elin community Discord.',
       browseCharacters: 'Characters',
       browseFeats: 'Feats',
+      browseResistSim: 'Resistance Simulation',
       searchCharacters: 'Name',
       filters: 'Filters',
       clearFilters: 'Clear Filters',
@@ -180,6 +202,7 @@ export const resources = {
       tacticsMoveFrequency: 'Move Frequency',
       loading: 'Loading',
       showHiddenCharacters: 'Show characters not appearing in regular gameplay',
+      showUniqueCharacters: 'Show unique characters',
       rawData: 'Raw Data',
       charaRawData: 'Character Raw Data',
       raceRawData: 'Race Raw Data',
@@ -208,6 +231,27 @@ export const resources = {
     footer: {
       lastUpdated: 'Last Updated',
       github: 'GitHub',
+    },
+    resistSim: {
+      title: 'Resistance Simulation',
+      description:
+        'Configure your party attack elements to see which enemies have resistance against them.',
+      attackElements: 'Attack Elements',
+      addElement: 'Add Element',
+      selectElement: 'Select Element',
+      penetrationLevel: 'Penetration Level',
+      remove: 'Remove',
+      noElements: 'No attack elements selected',
+      filterDescription:
+        'Only characters with 1+ resistance level against ALL attack elements are shown',
+      resistanceCalculation: 'Resistance Calculation Rules',
+      resistanceRule1:
+        'Resistance is measured in units of 5 (5 = 1 level, 10 = 2 levels)',
+      resistanceRule2:
+        'Setting a penetration level reduces resistance by that amount',
+      allCharactersShown: 'All characters are shown',
+      charactersWithResistance:
+        'Characters with resistance against all selected attack elements',
     },
   },
 };
