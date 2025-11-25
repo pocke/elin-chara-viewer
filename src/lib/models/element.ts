@@ -159,6 +159,7 @@ export function resistanceElements(): Element[] {
 export function attackElements(): Element[] {
   return all('elements', ElementSchema)
     .filter((row) => row.alias.startsWith('ele'))
+    .filter((row) => row.chance > 0)
     .map((row) => new Element(row));
 }
 
