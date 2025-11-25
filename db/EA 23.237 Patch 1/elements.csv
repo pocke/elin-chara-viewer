@@ -175,7 +175,7 @@ id,alias,name_JP,name,altname_JP,altname,aliasParent,aliasRef,aliasMtp,parentFac
 428,allNeckHunt,収穫する者,Life Harvester,,,,,,0,0,100,"head,neck",1,1,0,50,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それはあらゆる攻撃で命を収穫する。,It harvests life with any attack.,,,,,,,,,,
 429,breathing,水中呼吸,Water Breathing,,,,,,0,0,0,all,1,1,200,50,0,1,0,,,Skill,ENC,enchant,,,flag,,50,0,10,5,0,,,0,,,,,,,,,それは水中での呼吸を可能にする。,It lets you breathe underwater.,,,,,,,,,,
 430,negateShockwave,衝撃波無効,Immunity to shockwave,,,,,,0,0,100,foot,1,75,50,100,0,1,0,,,Skill,ENC,enchant,,,flag,,50,0,10,5,0,,,0,,,,,,,,,それは衝撃波からあなたを守る。,It protects you from shockwave.,,,,,,,,,,
-431,negateSunburn,日焼け無効,Immunity to sunburn,,,,,,0,0,100,head,1,1,50,150,0,1,0,,,Skill,ENC,enchant,,,flag,,50,0,10,5,0,,,0,,,,,,,,,それは太陽の光からあなたを守る。,It protects you from sunlight.,,,,,,,,,,
+431,negateSunburn,日焼け無効,Immunity to sunburn,,,,,,0,0,100,head,1,25,30,150,0,1,0,,,Skill,ENC,enchant,,,flag,,50,0,10,5,0,,,0,,,,,,,,,それは太陽の光からあなたを守る。,It protects you from sunlight.,,,,,,,,,,
 435,defense_range,射撃防御,Ranged Defense,,,,,,0,0,100,shield,1,1,200,30,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それは射撃や投擲からあなたを守る。,It protects you from ranged and thrown attacks.,,,,,,,,,,
 436,guts,不屈,Guts,,,,,,0,0,100,shield,1,1,200,100,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それは体力が半分以上ある時に敵からの致死攻撃を防ぐ。,It prevents lethal attacks from enemies when your health is above half.,,,,,,,,,,
 437,parry,パリィ,Parry,,,,,,0,0,100,shield,1,1,200,40,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それは敵の近接攻撃を受け流し反撃を可能にする。,It enables you to deflect and counter the enemy’s melee attack.,,,,,,,,,,
