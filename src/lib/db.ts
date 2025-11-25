@@ -2,11 +2,11 @@ import { loadCsv } from './csvLoader';
 import { z } from 'zod';
 
 // Import only CSV files that are not ignored in .gitignore
-import charasContent from '../../db/EA 23.237/charas.csv';
-import elementsContent from '../../db/EA 23.237/elements.csv';
-import racesContent from '../../db/EA 23.237/races.csv';
-import jobsContent from '../../db/EA 23.237/jobs.csv';
-import tacticsContent from '../../db/EA 23.237/tactics.csv';
+import charasContent from '../../db/EA 23.237 Patch 1/charas.csv';
+import elementsContent from '../../db/EA 23.237 Patch 1/elements.csv';
+import racesContent from '../../db/EA 23.237 Patch 1/races.csv';
+import jobsContent from '../../db/EA 23.237 Patch 1/jobs.csv';
+import tacticsContent from '../../db/EA 23.237 Patch 1/tactics.csv';
 
 // Map table names to their CSV content
 const csvContentMap: Record<string, string> = {
