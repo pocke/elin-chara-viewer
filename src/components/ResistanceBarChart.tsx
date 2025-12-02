@@ -42,30 +42,22 @@ interface ResistanceBarChartProps {
   locale: string;
 }
 
-export default function ResistanceBarChart({
-  resistances,
-  locale,
-}: ResistanceBarChartProps) {
-  const { t } = useTranslation();
-  const [showZeroResistances, setShowZeroResistances] = useState(false);
-  const chartWidth = { xs: 280, sm: 400, md: 600 };
-  const rowHeight = 40;
+interface XAxisLabelsProps {
+  gridValues: number[];
+  minValue: number;
+  maxValue: number;
+  chartWidth: { xs: number; sm: number; md: number };
+  t: ReturnType<typeof useTranslation>['t'];
+}
 
-  // 耐性を0でないものと0のものに分ける
-  const nonZeroResistances = resistances.filter((r) => r.value !== 0);
-  const zeroResistances = resistances.filter((r) => r.value === 0);
-
-  const maxValue = 25;
-  const minValue = -15;
-
-  // グリッドラインとラベル用の値を生成
-  const gridValues: number[] = [];
-  for (let i = minValue; i <= maxValue; i += 5) {
-    gridValues.push(i);
-  }
-
-  // X軸ラベルのコンポーネント
-  const XAxisLabels = () => (
+function XAxisLabels({
+  gridValues,
+  minValue,
+  maxValue,
+  chartWidth,
+  t,
+}: XAxisLabelsProps) {
+  return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
       <Box sx={{ width: { xs: 80, sm: 100, md: 120 } }} />
       <Box
@@ -111,6 +103,38 @@ export default function ResistanceBarChart({
       </Box>
     </Box>
   );
+}
+
+export default function ResistanceBarChart({
+  resistances,
+  locale,
+}: ResistanceBarChartProps) {
+  const { t } = useTranslation();
+  const [showZeroResistances, setShowZeroResistances] = useState(false);
+  const chartWidth = { xs: 280, sm: 400, md: 600 };
+  const rowHeight = 40;
+
+  // 耐性を0でないものと0のものに分ける
+  const nonZeroResistances = resistances.filter((r) => r.value !== 0);
+  const zeroResistances = resistances.filter((r) => r.value === 0);
+
+  const maxValue = 25;
+  const minValue = -15;
+
+  // グリッドラインとラベル用の値を生成
+  const gridValues: number[] = [];
+  for (let i = minValue; i <= maxValue; i += 5) {
+    gridValues.push(i);
+  }
+
+  // XAxisLabels に渡す共通のprops
+  const xAxisProps = {
+    gridValues,
+    minValue,
+    maxValue,
+    chartWidth,
+    t,
+  };
 
   return (
     <Box>
@@ -119,7 +143,7 @@ export default function ResistanceBarChart({
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {/* X軸ラベル（上部） */}
-        {nonZeroResistances.length > 0 && <XAxisLabels />}
+        {nonZeroResistances.length > 0 && <XAxisLabels {...xAxisProps} />}
 
         {/* 0でない耐性のチャートエリア */}
         {nonZeroResistances.map((resistance) => {
@@ -244,7 +268,7 @@ export default function ResistanceBarChart({
               )}
             </Button>
             <Collapse in={showZeroResistances}>
-              <XAxisLabels />
+              <XAxisLabels {...xAxisProps} />
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 {zeroResistances.map((resistance) => (
                   <Box

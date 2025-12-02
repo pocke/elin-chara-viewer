@@ -101,6 +101,7 @@ export default function DataGridCharaTable({
   const [showHiddenCharas, setShowHiddenCharas] = useState(false);
 
   // Initialize state from URL parameters
+  // This effect synchronizes external state (URL params) with component state
   useEffect(() => {
     const query = searchParams.get('q') || '';
     const races = searchParams.get('races')?.split(',').filter(Boolean) || [];
@@ -110,6 +111,7 @@ export default function DataGridCharaTable({
       searchParams.get('abilities')?.split(',').filter(Boolean) || [];
     const hidden = searchParams.get('hidden') === 'true';
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Synchronizing with external URL state
     setSearchQuery(query);
     setSelectedRaces(races);
     setSelectedJobs(jobs);
