@@ -62,7 +62,9 @@ export default function CharaSearchBar({
   );
 
   // Update state when initial values change (for when URL changes)
+  // This effect synchronizes external state (URL params) with component state
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Synchronizing with external URL state
     setSearchQuery(initialSearchQuery);
     setSelectedRaces(initialSelectedRaces);
     setSelectedJobs(initialSelectedJobs);
