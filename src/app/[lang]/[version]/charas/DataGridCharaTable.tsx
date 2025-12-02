@@ -9,6 +9,7 @@ import {
   GridToolbarDensitySelector,
   GridToolbarExport,
   GridToolbarQuickFilter,
+  GridColumnVisibilityModel,
 } from '@mui/x-data-grid';
 import {
   Link as MuiLink,
@@ -17,6 +18,8 @@ import {
   Box,
   FormControlLabel,
   Checkbox,
+  ToggleButton,
+  ToggleButtonGroup,
 } from '@mui/material';
 import Link from 'next/link';
 import { useMemo, useState, useCallback, useEffect } from 'react';
@@ -61,6 +64,33 @@ export default function DataGridCharaTable({
   const lang = params.lang as string;
   const version = params.version as string;
   const resistanceElementsList = resistanceElements();
+
+  // Primary attribute aliases
+  const primaryAttributeAliases = useMemo(
+    () => ['STR', 'END', 'DEX', 'PER', 'LER', 'WIL', 'MAG', 'CHA'],
+    []
+  );
+
+  // Resistance element aliases
+  const resistanceAliases = useMemo(
+    () => resistanceElementsList.map((e) => e.alias),
+    [resistanceElementsList]
+  );
+
+  // Column presets
+  type PresetType = 'all' | 'primaryAttributes' | 'resistances';
+
+  // Column visibility state
+  const [selectedPreset, setSelectedPreset] = useState<PresetType>('all');
+  const [columnVisibilityModel, setColumnVisibilityModel] =
+    useState<GridColumnVisibilityModel>({});
+
+  const handleColumnVisibilityModelChange = useCallback(
+    (newModel: GridColumnVisibilityModel) => {
+      setColumnVisibilityModel(newModel);
+    },
+    []
+  );
 
   // Custom filter states
   const [searchQuery, setSearchQuery] = useState('');
@@ -477,6 +507,38 @@ export default function DataGridCharaTable({
     filteredCharas,
   ]);
 
+  // Create visibility model based on preset and columns
+  const createVisibilityModel = useCallback(
+    (preset: PresetType): GridColumnVisibilityModel => {
+      const model: GridColumnVisibilityModel = {};
+
+      columns.forEach((col) => {
+        if (col.field === 'name') {
+          model[col.field] = true;
+        } else if (preset === 'all') {
+          model[col.field] = true;
+        } else if (preset === 'primaryAttributes') {
+          model[col.field] = primaryAttributeAliases.includes(col.field);
+        } else if (preset === 'resistances') {
+          model[col.field] = resistanceAliases.includes(col.field);
+        }
+      });
+
+      return model;
+    },
+    [columns, primaryAttributeAliases, resistanceAliases]
+  );
+
+  const handlePresetChange = useCallback(
+    (_event: React.MouseEvent<HTMLElement>, newPreset: PresetType | null) => {
+      if (newPreset !== null) {
+        setSelectedPreset(newPreset);
+        setColumnVisibilityModel(createVisibilityModel(newPreset));
+      }
+    },
+    [createVisibilityModel]
+  );
+
   // Search bar callback functions
   const handleSearchChange = useCallback(
     (search: string) => {
@@ -618,10 +680,29 @@ export default function DataGridCharaTable({
         onAbilityChange={handleAbilityChange}
         onClearAllFilters={handleClearAllFilters}
       />
+      <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+        <span>{t.common.columnPreset}:</span>
+        <ToggleButtonGroup
+          value={selectedPreset}
+          exclusive
+          onChange={handlePresetChange}
+          size="small"
+        >
+          <ToggleButton value="all">{t.common.presetAll}</ToggleButton>
+          <ToggleButton value="primaryAttributes">
+            {t.common.presetPrimaryAttributes}
+          </ToggleButton>
+          <ToggleButton value="resistances">
+            {t.common.presetResistances}
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
       <Paper elevation={1} sx={{ height: '70vh', width: '100%' }}>
         <DataGrid
           rows={rows}
           columns={columns}
+          columnVisibilityModel={columnVisibilityModel}
+          onColumnVisibilityModelChange={handleColumnVisibilityModelChange}
           slots={{
             toolbar: CustomToolbar,
           }}
