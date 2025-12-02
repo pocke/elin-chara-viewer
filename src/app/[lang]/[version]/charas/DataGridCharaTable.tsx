@@ -266,6 +266,7 @@ export default function DataGridCharaTable({
         name: chara.normalizedName(language),
         race: chara.race.name(language),
         job: chara.job().name(language),
+        mainElement: chara.mainElement?.name(language) ?? '',
         level: Math.round(chara.level() * 100) / 100,
         geneSlotValue: actualGeneSlot,
         geneSlot:
@@ -340,6 +341,11 @@ export default function DataGridCharaTable({
         type: 'singleSelect',
         valueOptions: jobOptions.map(([, name]) => name),
         width: 120,
+      },
+      {
+        field: 'mainElement',
+        headerName: t.common.mainElement,
+        width: 80,
       },
       {
         field: 'level',
