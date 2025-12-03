@@ -199,7 +199,6 @@ export default function ResistanceMatrix({
                     align="center"
                     sx={{
                       minWidth: mode === 'resistance' ? 80 : 60,
-                      fontSize: '0.75rem',
                       whiteSpace: 'nowrap',
                       backgroundColor: element.getColor(),
                       color: getContrastColor(element.getColor()),
@@ -227,7 +226,6 @@ export default function ResistanceMatrix({
                       zIndex: 2,
                       backgroundColor: rowElement.getColor(),
                       color: getContrastColor(rowElement.getColor()),
-                      fontSize: '0.75rem',
                       whiteSpace: 'nowrap',
                       fontWeight: isRowHighlighted ? 'bold' : 'normal',
                       transition: 'font-weight 0.1s',
@@ -261,7 +259,6 @@ export default function ResistanceMatrix({
                           onCellClick?.(rowElement.alias, colElement.alias)
                         }
                         sx={{
-                          fontSize: '0.7rem',
                           whiteSpace: 'nowrap',
                           cursor: onCellClick ? 'pointer' : 'default',
                           backgroundColor:
