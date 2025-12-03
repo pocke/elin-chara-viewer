@@ -271,7 +271,6 @@ export default function ResistanceMatrix({
                       whiteSpace: 'nowrap',
                       backgroundColor: element.getColor(),
                       color: getContrastColor(element.getColor()),
-                      fontWeight: isHighlighted ? 'bold' : 'normal',
                       transition: 'font-weight 0.1s',
                     }}
                   >
@@ -296,7 +295,6 @@ export default function ResistanceMatrix({
                       backgroundColor: rowElement.getColor(),
                       color: getContrastColor(rowElement.getColor()),
                       whiteSpace: 'nowrap',
-                      fontWeight: isRowHighlighted ? 'bold' : 'normal',
                       transition: 'font-weight 0.1s',
                     }}
                   >
