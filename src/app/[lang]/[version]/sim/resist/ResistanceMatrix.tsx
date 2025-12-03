@@ -260,90 +260,78 @@ export default function ResistanceMatrix({
                   minWidth: 60,
                 }}
               />
-              {resistanceElementsList.map((element) => {
-                const isHighlighted = hoveredCell?.col === element.alias;
-                return (
-                  <TableCell
-                    key={element.alias}
-                    align="center"
-                    sx={{
-                      minWidth: 50,
-                      whiteSpace: 'nowrap',
-                      backgroundColor: element.getColor(),
-                      color: getContrastColor(element.getColor()),
-                      transition: 'font-weight 0.1s',
-                    }}
-                  >
-                    {getShortName(element)}
-                  </TableCell>
-                );
-              })}
+              {resistanceElementsList.map((element) => (
+                <TableCell
+                  key={element.alias}
+                  align="center"
+                  sx={{
+                    minWidth: 50,
+                    whiteSpace: 'nowrap',
+                    backgroundColor: element.getColor(),
+                    color: getContrastColor(element.getColor()),
+                  }}
+                >
+                  {getShortName(element)}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {resistanceElementsList.map((rowElement) => {
-              const isRowHighlighted = hoveredCell?.row === rowElement.alias;
-              return (
-                <TableRow key={rowElement.alias}>
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    sx={{
-                      position: 'sticky',
-                      left: 0,
-                      zIndex: 2,
-                      backgroundColor: rowElement.getColor(),
-                      color: getContrastColor(rowElement.getColor()),
-                      whiteSpace: 'nowrap',
-                      transition: 'font-weight 0.1s',
-                    }}
-                  >
-                    {getShortName(rowElement)}
-                  </TableCell>
-                  {resistanceElementsList.map((colElement) => {
-                    const buckets = matrixData
-                      .get(rowElement.alias)
-                      ?.get(colElement.alias);
-                    if (!buckets) return null;
+            {resistanceElementsList.map((rowElement) => (
+              <TableRow key={rowElement.alias}>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{
+                    position: 'sticky',
+                    left: 0,
+                    zIndex: 2,
+                    backgroundColor: rowElement.getColor(),
+                    color: getContrastColor(rowElement.getColor()),
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {getShortName(rowElement)}
+                </TableCell>
+                {resistanceElementsList.map((colElement) => {
+                  const buckets = matrixData
+                    .get(rowElement.alias)
+                    ?.get(colElement.alias);
+                  if (!buckets) return null;
 
-                    const formatted = formatBucketsForMode(buckets, mode);
-                    const isDiagonal = rowElement.alias === colElement.alias;
-                    const isHighlighted =
-                      hoveredCell?.row === rowElement.alias ||
-                      hoveredCell?.col === colElement.alias;
+                  const formatted = formatBucketsForMode(buckets, mode);
+                  const isDiagonal = rowElement.alias === colElement.alias;
+                  const isHighlighted =
+                    hoveredCell?.row === rowElement.alias ||
+                    hoveredCell?.col === colElement.alias;
 
-                    return (
-                      <TableCell
-                        key={colElement.alias}
-                        align="center"
-                        onMouseEnter={() =>
-                          handleCellMouseEnter(
-                            rowElement.alias,
-                            colElement.alias
-                          )
-                        }
-                        onClick={() =>
-                          onCellClick?.(rowElement.alias, colElement.alias)
-                        }
-                        sx={{
-                          cursor: onCellClick ? 'pointer' : 'default',
-                          backgroundColor:
-                            isDiagonal || isHighlighted
-                              ? (theme) =>
-                                  alpha(theme.palette.primary.main, 0.08)
-                              : 'inherit',
-                          transition: 'background-color 0.1s',
-                          lineHeight: 1.2,
-                          py: 0.5,
-                        }}
-                      >
-                        {formatted}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
+                  return (
+                    <TableCell
+                      key={colElement.alias}
+                      align="center"
+                      onMouseEnter={() =>
+                        handleCellMouseEnter(rowElement.alias, colElement.alias)
+                      }
+                      onClick={() =>
+                        onCellClick?.(rowElement.alias, colElement.alias)
+                      }
+                      sx={{
+                        cursor: onCellClick ? 'pointer' : 'default',
+                        backgroundColor:
+                          isDiagonal || isHighlighted
+                            ? (theme) => alpha(theme.palette.primary.main, 0.08)
+                            : 'inherit',
+                        transition: 'background-color 0.1s',
+                        lineHeight: 1.2,
+                        py: 0.5,
+                      }}
+                    >
+                      {formatted}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

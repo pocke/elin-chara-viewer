@@ -131,13 +131,13 @@ export const resources = {
         '選択した攻撃属性すべてに耐性を持つキャラクター',
       resistanceMatrix: '耐性マトリックス',
       resistanceMatrixDescription:
-        '行・列の2つの属性に対する耐性の低い方を基準に、キャラクター数をカウントしています。',
+        '行と列の2つの属性のどちらの攻撃に対しても耐性を持つキャラクター数を表示しています。',
       resistanceMatrixFormat: '形式: -5以下/-4〜4/5〜9/10〜14/15〜19/20以上',
       matrixModeResistance: '耐性',
       matrixModeResistanceDetail: '耐性(詳細)',
       matrixModeWeakness: '弱点',
       filterByAttribute: '対応主能力',
-      resistanceSumFormatDescription: '耐性以上のキャラ数',
+      resistanceSumFormatDescription: '耐性5以上のキャラ数',
       resistanceFormatDescription:
         '形式: 耐性/強い耐性（上段）、素晴らしい耐性/免疫（下段）',
       weaknessFormatDescription: '形式: 致命的な弱点/弱点',
@@ -276,7 +276,7 @@ export const resources = {
         'Characters with resistance against all selected attack elements',
       resistanceMatrix: 'Resistance Matrix',
       resistanceMatrixDescription:
-        'Characters are counted based on the lower resistance value between the two elements (row and column).',
+        'Shows the number of characters with resistance against both the row and column attack elements.',
       resistanceMatrixFormat: 'Format: ≤-5/-4~4/5~9/10~14/15~19/≥20',
       matrixModeResistance: 'Resistance',
       matrixModeResistanceDetail: 'Resistance (Detail)',
