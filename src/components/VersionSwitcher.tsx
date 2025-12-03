@@ -28,7 +28,10 @@ export default function VersionSwitcher() {
   const changeVersion = (newVersion: GameVersion) => {
     if (currentVersion) {
       // Replace version in path: /ja/EA/charas -> /ja/Nightly/charas
-      const newPath = pathname.replace(`/${currentVersion}/`, `/${newVersion}/`);
+      const newPath = pathname.replace(
+        `/${currentVersion}/`,
+        `/${newVersion}/`
+      );
       router.push(newPath);
     }
     handleClose();

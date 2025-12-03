@@ -202,8 +202,7 @@ export const resources = {
       importantInfo: 'Note',
       appDescription:
         'This application is an unofficial character viewer for Elin. It displays character information based on game data analysis.',
-      versionInfo:
-        'Version is EA {{eaVersion}}, Nightly {{nightlyVersion}}.',
+      versionInfo: 'Version is EA {{eaVersion}}, Nightly {{nightlyVersion}}.',
       internalDataNotice: 'The character list includes internal data.',
       bugReportPrefix: 'Please report bugs to the ',
       bugReportGitHub: 'GitHub repository',

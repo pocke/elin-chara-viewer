@@ -320,8 +320,7 @@ export class Element {
 
   subElements() {
     const featModifierJson = featModifierMap[this.version];
-    const modifiers =
-      featModifierJson[this.row.id as keyof FeatModifierJson];
+    const modifiers = featModifierJson[this.row.id as keyof FeatModifierJson];
     const result = [];
 
     if (modifiers) {
