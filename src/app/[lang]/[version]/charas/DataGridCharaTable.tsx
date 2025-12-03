@@ -65,7 +65,6 @@ export default function DataGridCharaTable({
   const router = useRouter();
   const searchParams = useSearchParams();
   const lang = params.lang as string;
-  const urlVersion = params.version as string;
   const resistanceElementsList = resistanceElements(version);
 
   // Primary attribute aliases
@@ -155,12 +154,12 @@ export default function DataGridCharaTable({
       }
 
       const newUrl = urlSearchParams.toString()
-        ? `/${lang}/${urlVersion}/charas?${urlSearchParams.toString()}`
-        : `/${lang}/${urlVersion}/charas`;
+        ? `/${lang}/${version}/charas?${urlSearchParams.toString()}`
+        : `/${lang}/${version}/charas`;
 
       router.replace(newUrl, { scroll: false });
     },
-    [lang, urlVersion, router]
+    [lang, version, router]
   );
 
   // Convert Chara objects to DataGrid rows
@@ -356,7 +355,7 @@ export default function DataGridCharaTable({
         renderCell: (params) => (
           <MuiLink
             component={Link}
-            href={`/${lang}/${urlVersion}/charas/${params.row.id}`}
+            href={`/${lang}/${version}/charas/${params.row.id}`}
             underline="hover"
           >
             {params.value}
@@ -504,7 +503,6 @@ export default function DataGridCharaTable({
   }, [
     t,
     lang,
-    urlVersion,
     version,
     language,
     resistanceElementsList,

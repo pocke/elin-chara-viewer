@@ -44,7 +44,6 @@ export default function DataGridFeatTable({
   const { t, language } = useTranslation();
   const params = useParams();
   const lang = params.lang as string;
-  const urlVersion = params.version as string;
 
   // Convert Feat objects to DataGrid rows
   const rows: GridRowsProp = useMemo(() => {
@@ -79,7 +78,7 @@ export default function DataGridFeatTable({
         renderCell: (params) => (
           <MuiLink
             component={Link}
-            href={`/${lang}/${urlVersion}/feats/${params.row.alias}`}
+            href={`/${lang}/${version}/feats/${params.row.alias}`}
             underline="hover"
           >
             {params.value}
@@ -159,7 +158,7 @@ export default function DataGridFeatTable({
         flex: 1,
       },
     ];
-  }, [t, lang, urlVersion, language]);
+  }, [t, lang, version, language]);
 
   return (
     <Box sx={{ width: '100%' }}>

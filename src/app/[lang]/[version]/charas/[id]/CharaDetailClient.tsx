@@ -53,7 +53,6 @@ export default function CharaDetailClient({
 
   const params = useParams();
   const lang = params.lang as string;
-  const urlVersion = params.version as string;
 
   const feats = chara.feats();
   const negations = chara.negations();
@@ -137,7 +136,7 @@ export default function CharaDetailClient({
         >
           {isFeat ? (
             <Link
-              href={`/${lang}/${urlVersion}/feats/${element.alias}`}
+              href={`/${lang}/${version}/feats/${element.alias}`}
               style={{ textDecoration: 'none' }}
             >
               {chipElement}
@@ -250,7 +249,7 @@ export default function CharaDetailClient({
       <Box sx={{ my: 4 }}>
         <Button
           component={Link}
-          href={`/${lang}/${urlVersion}/charas`}
+          href={`/${lang}/${version}/charas`}
           startIcon={<ArrowBackIcon />}
           sx={{ mb: 3 }}
           variant="outlined"

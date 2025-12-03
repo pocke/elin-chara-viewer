@@ -64,7 +64,6 @@ export default function FeatDetailClient({
 
   const params = useParams();
   const lang = params.lang as string;
-  const urlVersion = params.version as string;
 
   const subElements = element.subElements();
 
@@ -110,7 +109,7 @@ export default function FeatDetailClient({
       <Box sx={{ my: 4 }}>
         <Button
           component={Link}
-          href={`/${lang}/${urlVersion}/feats`}
+          href={`/${lang}/${version}/feats`}
           startIcon={<ArrowBackIcon />}
           sx={{ mb: 3 }}
           variant="outlined"
@@ -251,7 +250,7 @@ export default function FeatDetailClient({
                   {racesWithFeat.map((race) => (
                     <Link
                       key={race.id}
-                      href={`/${lang}/${urlVersion}/charas?races=${race.id}`}
+                      href={`/${lang}/${version}/charas?races=${race.id}`}
                       passHref
                       style={{ textDecoration: 'none' }}
                     >
@@ -280,7 +279,7 @@ export default function FeatDetailClient({
                   {jobsWithFeat.map((job) => (
                     <Link
                       key={job.id}
-                      href={`/${lang}/${urlVersion}/charas?jobs=${job.id}`}
+                      href={`/${lang}/${version}/charas?jobs=${job.id}`}
                       passHref
                       style={{ textDecoration: 'none' }}
                     >
@@ -312,7 +311,7 @@ export default function FeatDetailClient({
                     {charactersWithFeat.map((character) => (
                       <Link
                         key={character.id}
-                        href={`/${lang}/${urlVersion}/charas/${character.id}`}
+                        href={`/${lang}/${version}/charas/${character.id}`}
                         passHref
                         style={{ textDecoration: 'none' }}
                       >
@@ -327,7 +326,7 @@ export default function FeatDetailClient({
                   </Box>
                   <Button
                     component={Link}
-                    href={`/${lang}/${urlVersion}/charas?feats=${element.alias}`}
+                    href={`/${lang}/${version}/charas?feats=${element.alias}`}
                     variant="outlined"
                     size="small"
                   >
