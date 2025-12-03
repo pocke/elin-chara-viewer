@@ -69,23 +69,21 @@ export const generateMetadata = async (props: {
 };
 
 export const generateStaticParams = () => {
-  // Use EA version for generating static params (same data for now)
-  const gameVersion: GameVersion = 'EA';
-  const charaRows = all(gameVersion, 'charas', CharaSchema);
-  const baseCharas = charaRows
-    .filter((row) => !Chara.isIgnoredCharaId(row.id))
-    .map((row) => new Chara(gameVersion, row));
-
-  // Generate IDs for base characters and their variants
-  const ids = baseCharas.flatMap((chara) => {
-    const variants = chara.variants();
-    return variants.length > 0 ? variants.map((v) => v.id) : [chara.id];
-  });
-
-  // Generate combinations of lang, version, and id
   const params = [];
+
   for (const lang of ['ja', 'en']) {
     for (const version of GAME_VERSIONS) {
+      const charaRows = all(version, 'charas', CharaSchema);
+      const baseCharas = charaRows
+        .filter((row) => !Chara.isIgnoredCharaId(row.id))
+        .map((row) => new Chara(version, row));
+
+      // Generate IDs for base characters and their variants
+      const ids = baseCharas.flatMap((chara) => {
+        const variants = chara.variants();
+        return variants.length > 0 ? variants.map((v) => v.id) : [chara.id];
+      });
+
       for (const id of ids) {
         params.push({ lang, version, id });
       }

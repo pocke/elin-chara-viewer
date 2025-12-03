@@ -55,21 +55,19 @@ export const generateMetadata = async (props: {
 };
 
 export const generateStaticParams = () => {
-  // Use EA version for generating static params (same data for now)
-  const gameVersion: GameVersion = 'EA';
-  const elementRows = all(gameVersion, 'elements', ElementSchema);
-  const featRows = elementRows.filter((row) => {
-    const elm = new Element(gameVersion, row);
-    if (!elm.isFeat()) return false;
-    return !elm.tags().includes('hidden');
-  });
-
-  const aliases = featRows.map((row) => row.alias);
-
-  // Generate combinations of lang, version, and alias
   const params = [];
+
   for (const lang of ['ja', 'en']) {
     for (const version of GAME_VERSIONS) {
+      const elementRows = all(version, 'elements', ElementSchema);
+      const featRows = elementRows.filter((row) => {
+        const elm = new Element(version, row);
+        if (!elm.isFeat()) return false;
+        return !elm.tags().includes('hidden');
+      });
+
+      const aliases = featRows.map((row) => row.alias);
+
       for (const alias of aliases) {
         params.push({ lang, version, alias });
       }
