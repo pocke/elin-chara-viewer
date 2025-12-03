@@ -53,12 +53,18 @@ type MatrixMode = 'resistance' | 'weakness';
 function formatBucketsForMode(
   buckets: ResistanceBuckets,
   mode: MatrixMode
-): string {
+): React.ReactNode {
   if (mode === 'resistance') {
-    // 5以上10未満/10以上15未満/15以上20未満/20以上
-    return `${buckets.normal}/${buckets.strong}/${buckets.superb}/${buckets.immunity}`;
+    // 2行に分ける: 耐性/強い耐性 と 素晴らしい耐性/免疫
+    return (
+      <>
+        {buckets.normal}/{buckets.strong}
+        <br />
+        {buckets.superb}/{buckets.immunity}
+      </>
+    );
   } else {
-    // -10以下/-9以上-5以下
+    // 弱点モードは1行のまま
     return `${buckets.defect}/${buckets.weakness}`;
   }
 }
@@ -198,7 +204,7 @@ export default function ResistanceMatrix({
                     key={element.alias}
                     align="center"
                     sx={{
-                      minWidth: mode === 'resistance' ? 80 : 60,
+                      minWidth: 50,
                       whiteSpace: 'nowrap',
                       backgroundColor: element.getColor(),
                       color: getContrastColor(element.getColor()),
@@ -259,7 +265,6 @@ export default function ResistanceMatrix({
                           onCellClick?.(rowElement.alias, colElement.alias)
                         }
                         sx={{
-                          whiteSpace: 'nowrap',
                           cursor: onCellClick ? 'pointer' : 'default',
                           backgroundColor:
                             isDiagonal || isHighlighted
@@ -267,6 +272,8 @@ export default function ResistanceMatrix({
                                   alpha(theme.palette.primary.main, 0.08)
                               : 'inherit',
                           transition: 'background-color 0.1s',
+                          lineHeight: 1.2,
+                          py: 0.5,
                         }}
                       >
                         {formatted}
