@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { Shield as ShieldIcon } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
-import { useMemo, useState, useEffect, Suspense } from 'react';
+import { useMemo, useState, useEffect, Suspense, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { type CharaRow, Chara } from '@/lib/models/chara';
 import { resistanceElements } from '@/lib/models/element';
@@ -165,6 +165,34 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
     );
   }, [selectedElements]);
 
+  // Handle matrix cell click - convert resistance aliases to attack elements
+  const handleMatrixCellClick = useCallback(
+    (rowAlias: string, colAlias: string) => {
+      // Convert resistance aliases (res*) to attack element aliases (ele*)
+      const rowAttackAlias = rowAlias.replace(/^res/, 'ele');
+      const colAttackAlias = colAlias.replace(/^res/, 'ele');
+
+      const newElements: AttackElement[] = [];
+
+      // Add row element
+      newElements.push({
+        element: rowAttackAlias,
+        penetrationLevel: 0,
+      });
+
+      // Add column element if different from row (not diagonal)
+      if (rowAlias !== colAlias) {
+        newElements.push({
+          element: colAttackAlias,
+          penetrationLevel: 0,
+        });
+      }
+
+      setSelectedElements(newElements);
+    },
+    []
+  );
+
   // Define columns
   const columns: GridColDef[] = useMemo(() => {
     const baseColumns: GridColDef[] = [
@@ -221,7 +249,10 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
           </Typography>
         </Box>
 
-        <ResistanceMatrix charas={allCharas} />
+        <ResistanceMatrix
+          charas={allCharas}
+          onCellClick={handleMatrixCellClick}
+        />
 
         <AttackElementSelector
           selectedElements={selectedElements}

@@ -25,6 +25,7 @@ import { getContrastColor } from '@/lib/colorUtils';
 
 interface ResistanceMatrixProps {
   charas: Chara[];
+  onCellClick?: (rowAlias: string, colAlias: string) => void;
 }
 
 interface ResistanceBuckets {
@@ -62,7 +63,10 @@ function formatBucketsForMode(
   }
 }
 
-export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
+export default function ResistanceMatrix({
+  charas,
+  onCellClick,
+}: ResistanceMatrixProps) {
   const { t, language } = useTranslation();
   const resistanceElementsList = resistanceElements();
   const [mode, setMode] = useState<MatrixMode>('resistance');
@@ -253,9 +257,13 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
                             colElement.alias
                           )
                         }
+                        onClick={() =>
+                          onCellClick?.(rowElement.alias, colElement.alias)
+                        }
                         sx={{
                           fontSize: '0.7rem',
                           whiteSpace: 'nowrap',
+                          cursor: onCellClick ? 'pointer' : 'default',
                           backgroundColor:
                             isDiagonal || isHighlighted
                               ? (theme) =>
