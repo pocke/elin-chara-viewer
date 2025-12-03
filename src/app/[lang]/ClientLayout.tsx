@@ -19,6 +19,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import theme from '../theme';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
+import VersionSwitcher from '../../components/VersionSwitcher';
 import Footer from '../../components/Footer';
 import {
   LanguageProvider,
@@ -84,7 +85,10 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
               {t.common.title}
             </Link>
           </Typography>
-          <LanguageSwitcher />
+          <VersionSwitcher />
+          <Box sx={{ ml: 1 }}>
+            <LanguageSwitcher />
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
