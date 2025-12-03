@@ -10,7 +10,14 @@ import {
 } from '@mui/material';
 import { Shield as ShieldIcon } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
-import { useMemo, useState, useEffect, Suspense, useCallback } from 'react';
+import {
+  useMemo,
+  useState,
+  useEffect,
+  Suspense,
+  useCallback,
+  useRef,
+} from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { type CharaRow, Chara } from '@/lib/models/chara';
 import { resistanceElements } from '@/lib/models/element';
@@ -65,6 +72,7 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
 
   const [selectedElements, setSelectedElements] = useState<AttackElement[]>([]);
   const [showUniqueCharas, setShowUniqueCharas] = useState(false);
+  const attackElementSelectorRef = useRef<HTMLDivElement>(null);
 
   // Initialize from URL parameters
   // This effect synchronizes external state (URL params) with component state
@@ -189,6 +197,12 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
       }
 
       setSelectedElements(newElements);
+
+      // Scroll to attack element selector
+      attackElementSelectorRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     },
     []
   );
@@ -254,10 +268,12 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
           onCellClick={handleMatrixCellClick}
         />
 
-        <AttackElementSelector
-          selectedElements={selectedElements}
-          onElementsChange={setSelectedElements}
-        />
+        <Box ref={attackElementSelectorRef}>
+          <AttackElementSelector
+            selectedElements={selectedElements}
+            onElementsChange={setSelectedElements}
+          />
+        </Box>
 
         <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
           <Typography variant="h6" gutterBottom>
