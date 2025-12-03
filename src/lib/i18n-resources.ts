@@ -134,8 +134,10 @@ export const resources = {
         '行・列の2つの属性に対する耐性の低い方を基準に、キャラクター数をカウントしています。',
       resistanceMatrixFormat: '形式: -5以下/-4〜4/5〜9/10〜14/15〜19/20以上',
       matrixModeResistance: '耐性',
+      matrixModeResistanceDetail: '耐性(詳細)',
       matrixModeWeakness: '弱点',
       filterByAttribute: '対応主能力',
+      resistanceSumFormatDescription: '耐性以上のキャラ数',
       resistanceFormatDescription:
         '形式: 耐性/強い耐性（上段）、素晴らしい耐性/免疫（下段）',
       weaknessFormatDescription: '形式: 致命的な弱点/弱点',
@@ -277,8 +279,11 @@ export const resources = {
         'Characters are counted based on the lower resistance value between the two elements (row and column).',
       resistanceMatrixFormat: 'Format: ≤-5/-4~4/5~9/10~14/15~19/≥20',
       matrixModeResistance: 'Resistance',
+      matrixModeResistanceDetail: 'Resistance (Detail)',
       matrixModeWeakness: 'Weakness',
       filterByAttribute: 'Primary Attribute',
+      resistanceSumFormatDescription:
+        'Characters with Normal resistance or higher',
       resistanceFormatDescription:
         'Format: Normal/Strong (top), Superb/Immunity (bottom)',
       weaknessFormatDescription: 'Format: Defect/Weakness',

@@ -51,14 +51,17 @@ function getResistanceBucket(value: number): keyof ResistanceBuckets {
   return 'immunity';
 }
 
-type MatrixMode = 'resistance' | 'weakness';
+type MatrixMode = 'resistance' | 'resistanceDetail' | 'weakness';
 
 function formatBucketsForMode(
   buckets: ResistanceBuckets,
   mode: MatrixMode
 ): React.ReactNode {
   if (mode === 'resistance') {
-    // 2行に分ける: 耐性/強い耐性 と 素晴らしい耐性/免疫
+    // 耐性モード: normal以上の合計
+    return buckets.normal + buckets.strong + buckets.superb + buckets.immunity;
+  } else if (mode === 'resistanceDetail') {
+    // 耐性(詳細)モード: 2行に分ける: 耐性/強い耐性 と 素晴らしい耐性/免疫
     return (
       <>
         {buckets.normal}/{buckets.strong}
@@ -164,10 +167,16 @@ export default function ResistanceMatrix({
       : element.name(language);
   };
 
-  const formatDescription =
-    mode === 'resistance'
-      ? t.resistSim.resistanceFormatDescription
-      : t.resistSim.weaknessFormatDescription;
+  const formatDescription = (() => {
+    switch (mode) {
+      case 'resistance':
+        return t.resistSim.resistanceSumFormatDescription;
+      case 'resistanceDetail':
+        return t.resistSim.resistanceFormatDescription;
+      case 'weakness':
+        return t.resistSim.weaknessFormatDescription;
+    }
+  })();
 
   return (
     <Box sx={{ mb: 4 }}>
@@ -195,6 +204,9 @@ export default function ResistanceMatrix({
         >
           <ToggleButton value="resistance">
             {t.resistSim.matrixModeResistance}
+          </ToggleButton>
+          <ToggleButton value="resistanceDetail">
+            {t.resistSim.matrixModeResistanceDetail}
           </ToggleButton>
           <ToggleButton value="weakness">
             {t.resistSim.matrixModeWeakness}
