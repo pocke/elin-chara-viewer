@@ -15,6 +15,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { type CharaRow, Chara } from '@/lib/models/chara';
 import { resistanceElements } from '@/lib/models/element';
 import AttackElementSelector from './AttackElementSelector';
+import ResistanceMatrix from './ResistanceMatrix';
 import {
   type AttackElement,
   calculateEffectiveResistance,
@@ -66,11 +67,13 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
   const [showUniqueCharas, setShowUniqueCharas] = useState(false);
 
   // Initialize from URL parameters
+  // This effect synchronizes external state (URL params) with component state
   useEffect(() => {
     const attackElementsParam = searchParams.get('attackElements');
     if (attackElementsParam) {
       try {
         const parsed = JSON.parse(attackElementsParam) as AttackElement[];
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Synchronizing with external URL state
         setSelectedElements(parsed);
       } catch {
         // Invalid JSON, ignore
@@ -217,6 +220,8 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
             {t.resistSim.title}
           </Typography>
         </Box>
+
+        <ResistanceMatrix charas={allCharas} />
 
         <AttackElementSelector
           selectedElements={selectedElements}

@@ -129,6 +129,10 @@ export const resources = {
       allCharactersShown: 'すべてのキャラクターが表示されています',
       charactersWithResistance:
         '選択した攻撃属性すべてに耐性を持つキャラクター',
+      resistanceMatrix: '耐性マトリックス',
+      resistanceMatrixDescription:
+        '行・列の2つの属性に対する耐性の低い方を基準に、キャラクター数をカウントしています。',
+      resistanceMatrixFormat: '形式: -5以下/-4〜4/5〜9/10〜14/15〜19/20以上',
     },
   },
   en: {
@@ -262,6 +266,10 @@ export const resources = {
       allCharactersShown: 'All characters are shown',
       charactersWithResistance:
         'Characters with resistance against all selected attack elements',
+      resistanceMatrix: 'Resistance Matrix',
+      resistanceMatrixDescription:
+        'Characters are counted based on the lower resistance value between the two elements (row and column).',
+      resistanceMatrixFormat: 'Format: ≤-5/-4~4/5~9/10~14/15~19/≥20',
     },
   },
 };
