@@ -1,10 +1,14 @@
 import { redirect } from 'next/navigation';
+import { GAME_VERSIONS } from '@/lib/db';
 
 export function generateStaticParams() {
-  return [
-    { lang: 'ja', version: 'EA' },
-    { lang: 'en', version: 'EA' },
-  ];
+  const params = [];
+  for (const lang of ['ja', 'en']) {
+    for (const version of GAME_VERSIONS) {
+      params.push({ lang, version });
+    }
+  }
+  return params;
 }
 
 interface PageProps {
