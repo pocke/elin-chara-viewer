@@ -10,8 +10,10 @@ import {
   Typography,
   Box,
   Tooltip,
+  ToggleButton,
+  ToggleButtonGroup,
 } from '@mui/material';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { Chara } from '@/lib/models/chara';
 import {
@@ -25,30 +27,53 @@ interface ResistanceMatrixProps {
 }
 
 interface ResistanceBuckets {
-  veryWeak: number; // -5以下
-  weak: number; // -4以上5未満
-  normal: number; // 5以上10未満
-  strong: number; // 10以上15未満
-  veryStrong: number; // 15以上20未満
-  immune: number; // 20以上
+  defect: number; // -10以下
+  weakness: number; // -9以上-5以下
+  none: number; // -4以上4以下
+  normal: number; // 5以上9以下
+  strong: number; // 10以上14以下
+  superb: number; // 15以上19以下
+  immunity: number; // 20以上
 }
 
 function getResistanceBucket(value: number): keyof ResistanceBuckets {
-  if (value <= -5) return 'veryWeak';
-  if (value < 5) return 'weak';
+  if (value <= -10) return 'defect';
+  if (value <= -5) return 'weakness';
+  if (value < 5) return 'none';
   if (value < 10) return 'normal';
   if (value < 15) return 'strong';
-  if (value < 20) return 'veryStrong';
-  return 'immune';
+  if (value < 20) return 'superb';
+  return 'immunity';
 }
 
-function formatBuckets(buckets: ResistanceBuckets): string {
-  return `${buckets.veryWeak}/${buckets.weak}/${buckets.normal}/${buckets.strong}/${buckets.veryStrong}/${buckets.immune}`;
+type MatrixMode = 'resistance' | 'weakness';
+
+function formatBucketsForMode(
+  buckets: ResistanceBuckets,
+  mode: MatrixMode
+): string {
+  if (mode === 'resistance') {
+    // 5以上10未満/10以上15未満/15以上20未満/20以上
+    return `${buckets.normal}/${buckets.strong}/${buckets.superb}/${buckets.immunity}`;
+  } else {
+    // -10以下/-9以上-5以下
+    return `${buckets.defect}/${buckets.weakness}`;
+  }
 }
 
 export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
   const { t, language } = useTranslation();
   const resistanceElementsList = resistanceElements();
+  const [mode, setMode] = useState<MatrixMode>('resistance');
+
+  const handleModeChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newMode: MatrixMode | null
+  ) => {
+    if (newMode !== null) {
+      setMode(newMode);
+    }
+  };
 
   // Build the matrix data
   const matrixData = useMemo(() => {
@@ -60,12 +85,13 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
 
       resistanceElementsList.forEach((colElement) => {
         const buckets: ResistanceBuckets = {
-          veryWeak: 0,
-          weak: 0,
+          defect: 0,
+          weakness: 0,
+          none: 0,
           normal: 0,
           strong: 0,
-          veryStrong: 0,
-          immune: 0,
+          superb: 0,
+          immunity: 0,
         };
 
         charas.forEach((chara) => {
@@ -89,9 +115,16 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
   // Get short name for element by converting res* to ele* and getting that element's name
   const getShortName = (element: Element): string => {
     const attackAlias = element.alias.replace(/^res/, 'ele');
-    const attackElement = elementByAlias(attackAlias)!;
-    return attackElement.name(language);
+    const attackElement = elementByAlias(attackAlias);
+    return attackElement
+      ? attackElement.name(language)
+      : element.name(language);
   };
+
+  const formatDescription =
+    mode === 'resistance'
+      ? t.resistSim.resistanceFormatDescription
+      : t.resistSim.weaknessFormatDescription;
 
   return (
     <Box sx={{ mb: 4 }}>
@@ -101,13 +134,25 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         {t.resistSim.resistanceMatrixDescription}
       </Typography>
-      <Typography
-        variant="caption"
-        color="text.secondary"
-        sx={{ mb: 2, display: 'block' }}
-      >
-        {t.resistSim.resistanceMatrixFormat}
-      </Typography>
+
+      <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+        <ToggleButtonGroup
+          value={mode}
+          exclusive
+          onChange={handleModeChange}
+          size="small"
+        >
+          <ToggleButton value="resistance">
+            {t.resistSim.matrixModeResistance}
+          </ToggleButton>
+          <ToggleButton value="weakness">
+            {t.resistSim.matrixModeWeakness}
+          </ToggleButton>
+        </ToggleButtonGroup>
+        <Typography variant="caption" color="text.secondary">
+          {formatDescription}
+        </Typography>
+      </Box>
 
       <TableContainer
         component={Paper}
@@ -130,7 +175,7 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
                   key={element.alias}
                   align="center"
                   sx={{
-                    minWidth: 100,
+                    minWidth: mode === 'resistance' ? 80 : 60,
                     fontSize: '0.75rem',
                     whiteSpace: 'nowrap',
                     backgroundColor: element.getColor(),
@@ -166,38 +211,45 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
                     ?.get(colElement.alias);
                   if (!buckets) return null;
 
-                  const formatted = formatBuckets(buckets);
+                  const formatted = formatBucketsForMode(buckets, mode);
                   const total = charas.length;
+
                   const tooltipContent = (
                     <Box>
                       <Typography variant="caption" display="block">
-                        {rowElement.name(language)} ×{' '}
-                        {colElement.name(language)}
+                        {getShortName(rowElement)} × {getShortName(colElement)}
                       </Typography>
-                      <Typography variant="caption" display="block">
-                        -5以下: {buckets.veryWeak} (
-                        {((buckets.veryWeak / total) * 100).toFixed(1)}%)
-                      </Typography>
-                      <Typography variant="caption" display="block">
-                        -4〜4: {buckets.weak} (
-                        {((buckets.weak / total) * 100).toFixed(1)}%)
-                      </Typography>
-                      <Typography variant="caption" display="block">
-                        5〜9: {buckets.normal} (
-                        {((buckets.normal / total) * 100).toFixed(1)}%)
-                      </Typography>
-                      <Typography variant="caption" display="block">
-                        10〜14: {buckets.strong} (
-                        {((buckets.strong / total) * 100).toFixed(1)}%)
-                      </Typography>
-                      <Typography variant="caption" display="block">
-                        15〜19: {buckets.veryStrong} (
-                        {((buckets.veryStrong / total) * 100).toFixed(1)}%)
-                      </Typography>
-                      <Typography variant="caption" display="block">
-                        20以上: {buckets.immune} (
-                        {((buckets.immune / total) * 100).toFixed(1)}%)
-                      </Typography>
+                      {mode === 'resistance' ? (
+                        <>
+                          <Typography variant="caption" display="block">
+                            {t.common.resistanceNormal}: {buckets.normal} (
+                            {((buckets.normal / total) * 100).toFixed(1)}%)
+                          </Typography>
+                          <Typography variant="caption" display="block">
+                            {t.common.resistanceStrong}: {buckets.strong} (
+                            {((buckets.strong / total) * 100).toFixed(1)}%)
+                          </Typography>
+                          <Typography variant="caption" display="block">
+                            {t.common.resistanceSuperb}: {buckets.superb} (
+                            {((buckets.superb / total) * 100).toFixed(1)}%)
+                          </Typography>
+                          <Typography variant="caption" display="block">
+                            {t.common.resistanceImmunity}: {buckets.immunity} (
+                            {((buckets.immunity / total) * 100).toFixed(1)}%)
+                          </Typography>
+                        </>
+                      ) : (
+                        <>
+                          <Typography variant="caption" display="block">
+                            {t.common.resistanceDefect}: {buckets.defect} (
+                            {((buckets.defect / total) * 100).toFixed(1)}%)
+                          </Typography>
+                          <Typography variant="caption" display="block">
+                            {t.common.resistanceWeakness}: {buckets.weakness} (
+                            {((buckets.weakness / total) * 100).toFixed(1)}%)
+                          </Typography>
+                        </>
+                      )}
                     </Box>
                   );
 
@@ -210,7 +262,7 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
                       <TableCell
                         align="center"
                         sx={{
-                          fontSize: '0.65rem',
+                          fontSize: '0.7rem',
                           whiteSpace: 'nowrap',
                           cursor: 'help',
                           '&:hover': {
