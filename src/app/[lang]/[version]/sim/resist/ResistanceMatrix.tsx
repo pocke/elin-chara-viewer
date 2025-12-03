@@ -12,12 +12,15 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   alpha,
+  Autocomplete,
+  TextField,
 } from '@mui/material';
 import { useMemo, useState, useCallback } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { Chara } from '@/lib/models/chara';
 import {
   resistanceElements,
+  primaryAttributes,
   Element,
   elementByAlias,
 } from '@/lib/models/element';
@@ -74,12 +77,26 @@ export default function ResistanceMatrix({
   onCellClick,
 }: ResistanceMatrixProps) {
   const { t, language } = useTranslation();
-  const resistanceElementsList = resistanceElements();
+  const allResistanceElements = resistanceElements();
+  const parentElements = primaryAttributes();
   const [mode, setMode] = useState<MatrixMode>('resistance');
+  const [parentFilters, setParentFilters] = useState<string[]>([]);
   const [hoveredCell, setHoveredCell] = useState<{
     row: string;
     col: string;
   } | null>(null);
+
+  // Filter resistance elements by primary attributes (grandparent)
+  // Path: resistance -> attack element -> primary attribute
+  const resistanceElementsList = useMemo(() => {
+    if (parentFilters.length === 0) {
+      return allResistanceElements;
+    }
+    return allResistanceElements.filter((elem) => {
+      const primaryAttr = elem.parent()?.parent();
+      return primaryAttr && parentFilters.includes(primaryAttr.alias);
+    });
+  }, [allResistanceElements, parentFilters]);
 
   const handleModeChange = (
     _event: React.MouseEvent<HTMLElement>,
@@ -161,7 +178,15 @@ export default function ResistanceMatrix({
         {t.resistSim.resistanceMatrixDescription}
       </Typography>
 
-      <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+      <Box
+        sx={{
+          mb: 2,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 2,
+          flexWrap: 'wrap',
+        }}
+      >
         <ToggleButtonGroup
           value={mode}
           exclusive
@@ -175,6 +200,32 @@ export default function ResistanceMatrix({
             {t.resistSim.matrixModeWeakness}
           </ToggleButton>
         </ToggleButtonGroup>
+        <Autocomplete
+          multiple
+          size="small"
+          sx={{ minWidth: 200 }}
+          value={parentFilters}
+          onChange={(_, newValue) => setParentFilters(newValue)}
+          options={parentElements.map((elem) => elem.alias)}
+          getOptionLabel={(option) => {
+            const parent = parentElements.find((p) => p.alias === option);
+            return parent ? parent.name(language) : option;
+          }}
+          slotProps={{
+            chip: {
+              variant: 'outlined',
+              size: 'small',
+            },
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              placeholder={t.resistSim.filterByAttribute}
+              size="small"
+            />
+          )}
+        />
         <Typography variant="caption" color="text.secondary">
           {formatDescription}
         </Typography>

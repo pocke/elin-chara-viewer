@@ -135,6 +135,7 @@ export const resources = {
       resistanceMatrixFormat: '形式: -5以下/-4〜4/5〜9/10〜14/15〜19/20以上',
       matrixModeResistance: '耐性',
       matrixModeWeakness: '弱点',
+      filterByAttribute: '対応主能力',
       resistanceFormatDescription:
         '形式: 耐性/強い耐性（上段）、素晴らしい耐性/免疫（下段）',
       weaknessFormatDescription: '形式: 致命的な弱点/弱点',
@@ -277,6 +278,7 @@ export const resources = {
       resistanceMatrixFormat: 'Format: ≤-5/-4~4/5~9/10~14/15~19/≥20',
       matrixModeResistance: 'Resistance',
       matrixModeWeakness: 'Weakness',
+      filterByAttribute: 'Primary Attribute',
       resistanceFormatDescription:
         'Format: Normal/Strong (top), Superb/Immunity (bottom)',
       weaknessFormatDescription: 'Format: Defect/Weakness',

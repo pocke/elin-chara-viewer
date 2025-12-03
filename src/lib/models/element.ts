@@ -156,6 +156,18 @@ export function resistanceElements(): Element[] {
   });
 }
 
+/**
+ * Get primary attribute elements (type=AttbMain and tag contains 'primary')
+ */
+export function primaryAttributes(): Element[] {
+  return all('elements', ElementSchema)
+    .filter(
+      (row) =>
+        row.type === 'AttbMain' && row.tag?.split(',').includes('primary')
+    )
+    .map((row) => new Element(row));
+}
+
 export function attackElements(): Element[] {
   return all('elements', ElementSchema)
     .filter((row) => row.alias.startsWith('ele'))
@@ -180,6 +192,14 @@ export class Element {
 
   get elementPower() {
     return this.row.eleP ?? 100;
+  }
+
+  /**
+   * Get the parent element by aliasParent
+   */
+  parent(): Element | undefined {
+    if (!this.row.aliasParent) return undefined;
+    return elementByAlias(this.row.aliasParent);
   }
 
   name(locale: string) {
