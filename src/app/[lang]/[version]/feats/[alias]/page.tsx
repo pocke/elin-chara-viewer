@@ -1,4 +1,4 @@
-import { all } from '@/lib/db';
+import { all, GAME_VERSIONS, GameVersion } from '@/lib/db';
 import { ElementSchema, elementByAlias, Element } from '@/lib/models/element';
 import { CharaSchema, Chara } from '@/lib/models/chara';
 import { racesByFeat } from '@/lib/models/race';
@@ -8,12 +8,13 @@ import { Metadata } from 'next';
 import { resources, Language } from '@/lib/i18n-resources';
 
 export const generateMetadata = async (props: {
-  params: Promise<{ alias: string; lang: string }>;
+  params: Promise<{ alias: string; lang: string; version: string }>;
 }): Promise<Metadata> => {
   const params = await props.params;
   const decodedAlias = decodeURIComponent(params.alias);
+  const gameVersion = params.version as GameVersion;
 
-  const element = elementByAlias(decodedAlias);
+  const element = elementByAlias(gameVersion, decodedAlias);
 
   if (!element) {
     throw new Error(`Feat with alias ${decodedAlias} not found`);
@@ -54,9 +55,11 @@ export const generateMetadata = async (props: {
 };
 
 export const generateStaticParams = () => {
-  const elementRows = all('elements', ElementSchema);
+  // Use EA version for generating static params (same data for now)
+  const gameVersion: GameVersion = 'EA';
+  const elementRows = all(gameVersion, 'elements', ElementSchema);
   const featRows = elementRows.filter((row) => {
-    const elm = new Element(row);
+    const elm = new Element(gameVersion, row);
     if (!elm.isFeat()) return false;
     return !elm.tags().includes('hidden');
   });
@@ -66,7 +69,7 @@ export const generateStaticParams = () => {
   // Generate combinations of lang, version, and alias
   const params = [];
   for (const lang of ['ja', 'en']) {
-    for (const version of ['EA']) {
+    for (const version of GAME_VERSIONS) {
       for (const alias of aliases) {
         params.push({ lang, version, alias });
       }
@@ -77,28 +80,29 @@ export const generateStaticParams = () => {
 };
 
 export default async function FeatPage(props: {
-  params: Promise<{ alias: string }>;
+  params: Promise<{ alias: string; version: string }>;
 }) {
   const params = await props.params;
   const decodedAlias = decodeURIComponent(params.alias);
+  const gameVersion = params.version as GameVersion;
 
-  const element = elementByAlias(decodedAlias);
+  const element = elementByAlias(gameVersion, decodedAlias);
 
   if (!element) {
     throw new Error(`Feat with alias ${decodedAlias} not found`);
   }
 
   // Find races with this feat
-  const racesWithFeat = racesByFeat(decodedAlias);
+  const racesWithFeat = racesByFeat(gameVersion, decodedAlias);
 
   // Find jobs with this feat
-  const jobsWithFeat = jobsByFeat(decodedAlias);
+  const jobsWithFeat = jobsByFeat(gameVersion, decodedAlias);
 
   // Find characters with this feat
-  const charaRows = all('charas', CharaSchema);
+  const charaRows = all(gameVersion, 'charas', CharaSchema);
   const charactersWithFeat = charaRows
     .filter((row) => !Chara.isIgnoredCharaId(row.id))
-    .map((row) => new Chara(row))
+    .map((row) => new Chara(gameVersion, row))
     .filter((chara) => {
       const feats = chara.feats();
       return feats.some((f) => f.element.alias === decodedAlias);
@@ -110,6 +114,7 @@ export default async function FeatPage(props: {
       raceRows={racesWithFeat.map((r) => r.row)}
       jobRows={jobsWithFeat.map((j) => j.row)}
       charaRows={charactersWithFeat.map((c) => c.row)}
+      version={gameVersion}
     />
   );
 }

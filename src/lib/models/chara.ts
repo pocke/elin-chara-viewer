@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { GameVersion } from '../db';
 import { Elementable } from '../elementable';
 import {
   attackElements,
@@ -88,17 +89,18 @@ export class Chara {
   }
 
   constructor(
+    public version: GameVersion,
     public row: CharaRow,
     public variantElementAlias: ElementAttacks | null = null
   ) {
     const raceId = this.row.race ?? 'norland';
-    const race = raceById(raceId);
+    const race = raceById(version, raceId);
     if (!race)
       throw new Error(`Race "${raceId}" not found for chara "${this.row.id}"`);
     this.race = race;
 
     if (variantElementAlias) {
-      const element = elementByAlias(variantElementAlias);
+      const element = elementByAlias(version, variantElementAlias);
       if (!element)
         throw new Error(`Element not found: ${variantElementAlias}`);
       this.mainElement = element;
@@ -108,7 +110,7 @@ export class Chara {
       if (this.row.mainElement) {
         const mainElementAlias = this.row.mainElement.split('/')[0];
         if (mainElementAlias) {
-          const element = elementByAlias('ele' + mainElementAlias);
+          const element = elementByAlias(version, 'ele' + mainElementAlias);
           this.mainElement = element || null;
         }
       }
@@ -160,7 +162,7 @@ export class Chara {
 
   elements() {
     return this.memoize('elements', () => [
-      ...new Elementable(this.row, this.mainElement).elements(),
+      ...new Elementable(this.version, this.row, this.mainElement).elements(),
       ...this.race.elements(),
       ...this.job().elements(),
     ]);
@@ -168,7 +170,7 @@ export class Chara {
 
   feats() {
     return this.memoize('feats', () => [
-      ...new Elementable(this.row, this.mainElement).feats(),
+      ...new Elementable(this.version, this.row, this.mainElement).feats(),
       ...this.race.feats(),
       ...this.job().feats(),
     ]);
@@ -176,7 +178,7 @@ export class Chara {
 
   negations() {
     return this.memoize('negations', () => [
-      ...new Elementable(this.row, this.mainElement).negations(),
+      ...new Elementable(this.version, this.row, this.mainElement).negations(),
       ...this.race.negations(),
       ...this.job().negations(),
     ]);
@@ -184,7 +186,7 @@ export class Chara {
 
   others() {
     return this.memoize('others', () => [
-      ...new Elementable(this.row, this.mainElement).others(),
+      ...new Elementable(this.version, this.row, this.mainElement).others(),
       ...this.race.others(),
       ...this.job().others(),
     ]);
@@ -236,7 +238,7 @@ export class Chara {
       if (jobId === '*r') {
         jobId = 'none';
       }
-      const job = jobById(jobId);
+      const job = jobById(this.version, jobId);
       if (!job) throw new Error(`Job not found: ${jobId}`);
       return job;
     });
@@ -343,7 +345,7 @@ export class Chara {
             defaultSortKey: this.row.__meta.defaultSortKey + (index + 1) * 0.01,
           },
         };
-        return new Chara(variantRow, ('ele' + elm) as ElementAttacks);
+        return new Chara(this.version, variantRow, ('ele' + elm) as ElementAttacks);
       });
     });
   }
@@ -355,7 +357,7 @@ export class Chara {
       //
       // https://github.com/Elin-Modding-Resources/Elin-Decompiled/blob/7517ec09aaec867bffa504b0064b37675851a609/Elin/SourceElement.cs#L358-L383
       // https://github.com/Elin-Modding-Resources/Elin-Decompiled/blob/7517ec09aaec867bffa504b0064b37675851a609/Elin/CharaAbility.cs#L14-L53
-      return attackElements().map((e) => e.alias.substring(3));
+      return attackElements(this.version).map((e) => e.alias.substring(3));
     }
 
     const mainElements = this.row.mainElement?.split(',') ?? [];
@@ -451,24 +453,24 @@ export class Chara {
   tactics(): Tactics {
     return this.memoize('tactics', () => {
       if (this.row.tactics) {
-        const tactics = tacticsById(this.row.tactics);
+        const tactics = tacticsById(this.version, this.row.tactics);
         if (tactics) {
           return tactics;
         }
       }
 
-      const characterTactics = tacticsById(this.row.id);
+      const characterTactics = tacticsById(this.version, this.row.id);
       if (characterTactics) {
         return characterTactics;
       }
 
       const job = this.job();
-      const jobTactics = tacticsById(job.id);
+      const jobTactics = tacticsById(this.version, job.id);
       if (jobTactics) {
         return jobTactics;
       }
 
-      const predatorTactics = tacticsById('predator');
+      const predatorTactics = tacticsById(this.version, 'predator');
       if (predatorTactics) {
         return predatorTactics;
       }

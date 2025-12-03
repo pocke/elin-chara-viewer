@@ -26,12 +26,14 @@ import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Chara } from '@/lib/models/chara';
+import { GameVersion } from '@/lib/db';
 import { resistanceElements, elementByAlias } from '@/lib/models/element';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
 import CharaSearchBar from './CharaSearchBar';
 
 interface DataGridCharaTableProps {
   charas: Chara[];
+  version: GameVersion;
 }
 
 function CustomToolbar() {
@@ -56,14 +58,15 @@ const abilityToSearchKey = (ability: {
 
 export default function DataGridCharaTable({
   charas,
+  version,
 }: DataGridCharaTableProps) {
   const { t, language } = useTranslation();
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
   const lang = params.lang as string;
-  const version = params.version as string;
-  const resistanceElementsList = resistanceElements();
+  const urlVersion = params.version as string;
+  const resistanceElementsList = resistanceElements(version);
 
   // Primary attribute aliases
   const primaryAttributeAliases = useMemo(
@@ -152,12 +155,12 @@ export default function DataGridCharaTable({
       }
 
       const newUrl = urlSearchParams.toString()
-        ? `/${lang}/${version}/charas?${urlSearchParams.toString()}`
-        : `/${lang}/${version}/charas`;
+        ? `/${lang}/${urlVersion}/charas?${urlSearchParams.toString()}`
+        : `/${lang}/${urlVersion}/charas`;
 
       router.replace(newUrl, { scroll: false });
     },
-    [lang, version, router]
+    [lang, urlVersion, router]
   );
 
   // Convert Chara objects to DataGrid rows
@@ -180,9 +183,9 @@ export default function DataGridCharaTable({
 
         // Abilities
         chara.abilities().forEach((ability) => {
-          const baseElement = elementByAlias(ability.name);
+          const baseElement = elementByAlias(version, ability.name);
           const elementElement = ability.element
-            ? (elementByAlias(ability.element) ?? null)
+            ? (elementByAlias(version, ability.element) ?? null)
             : null;
 
           let baseAbilityName: string;
@@ -218,7 +221,7 @@ export default function DataGridCharaTable({
           a[1].localeCompare(b[1])
         ),
       };
-    }, [charas, language, t.common.range]);
+    }, [charas, language, t.common.range, version]);
 
   // Apply custom filters to charas
   const filteredCharas = useMemo(() => {
@@ -353,7 +356,7 @@ export default function DataGridCharaTable({
         renderCell: (params) => (
           <MuiLink
             component={Link}
-            href={`/${lang}/${version}/charas/${params.row.id}`}
+            href={`/${lang}/${urlVersion}/charas/${params.row.id}`}
             underline="hover"
           >
             {params.value}
@@ -451,7 +454,7 @@ export default function DataGridCharaTable({
     if (filteredCharas.length > 0) {
       const primaryAttrs = filteredCharas[0].primaryAttributes();
       primaryAttrs.forEach((attr) => {
-        const element = elementByAlias(attr.alias);
+        const element = elementByAlias(version, attr.alias);
         const displayName = element ? element.name(language) : attr.alias;
         baseColumns.push({
           field: attr.alias,
@@ -501,6 +504,7 @@ export default function DataGridCharaTable({
   }, [
     t,
     lang,
+    urlVersion,
     version,
     language,
     resistanceElementsList,

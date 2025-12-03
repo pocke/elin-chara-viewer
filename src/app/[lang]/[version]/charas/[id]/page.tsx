@@ -1,4 +1,4 @@
-import { all } from '@/lib/db';
+import { all, GAME_VERSIONS, GameVersion } from '@/lib/db';
 import { Chara, CharaSchema } from '@/lib/models/chara';
 import { ElementAttacks, elementByAlias } from '@/lib/models/element';
 import CharaDetailClient from './CharaDetailClient';
@@ -6,20 +6,25 @@ import { Metadata } from 'next';
 import { resources, Language } from '@/lib/i18n-resources';
 
 export const generateMetadata = async (props: {
-  params: Promise<{ id: string; lang: string }>;
+  params: Promise<{ id: string; lang: string; version: string }>;
 }): Promise<Metadata> => {
   const params = await props.params;
   const decodedId = decodeURIComponent(params.id);
   const [baseId, variantElement] = decodedId.split('---');
+  const gameVersion = params.version as GameVersion;
 
-  const charaRows = all('charas', CharaSchema);
+  const charaRows = all(gameVersion, 'charas', CharaSchema);
   const charaRow = charaRows.find((chara) => chara.id === baseId);
 
   if (!charaRow) {
     throw new Error(`Chara with ID ${baseId} not found`);
   }
 
-  const chara = new Chara(charaRow, variantElement as ElementAttacks | null);
+  const chara = new Chara(
+    gameVersion,
+    charaRow,
+    variantElement as ElementAttacks | null
+  );
   const lang = (
     params.lang === 'ja' || params.lang === 'en' ? params.lang : 'en'
   ) as Language;
@@ -39,7 +44,7 @@ export const generateMetadata = async (props: {
   const primaryAttributes = chara.primaryAttributes();
   const primaryAttrsText = primaryAttributes
     .map((attr) => {
-      const element = elementByAlias(attr.alias)!;
+      const element = elementByAlias(gameVersion, attr.alias)!;
       const displayName = element.name(lang);
       return `${displayName}${attr.value}`;
     })
@@ -64,10 +69,12 @@ export const generateMetadata = async (props: {
 };
 
 export const generateStaticParams = () => {
-  const charaRows = all('charas', CharaSchema);
+  // Use EA version for generating static params (same data for now)
+  const gameVersion: GameVersion = 'EA';
+  const charaRows = all(gameVersion, 'charas', CharaSchema);
   const baseCharas = charaRows
     .filter((row) => !Chara.isIgnoredCharaId(row.id))
-    .map((row) => new Chara(row));
+    .map((row) => new Chara(gameVersion, row));
 
   // Generate IDs for base characters and their variants
   const ids = baseCharas.flatMap((chara) => {
@@ -78,7 +85,7 @@ export const generateStaticParams = () => {
   // Generate combinations of lang, version, and id
   const params = [];
   for (const lang of ['ja', 'en']) {
-    for (const version of ['EA']) {
+    for (const version of GAME_VERSIONS) {
       for (const id of ids) {
         params.push({ lang, version, id });
       }
@@ -89,15 +96,16 @@ export const generateStaticParams = () => {
 };
 
 export default async function CharaPage(props: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; version: string }>;
 }) {
   const params = await props.params;
   const decodedId = decodeURIComponent(params.id);
+  const gameVersion = params.version as GameVersion;
 
   // Parse variant element from ID (format: baseId#variantElement)
   const [baseId, variantElement] = decodedId.split('---');
 
-  const charaRows = all('charas', CharaSchema);
+  const charaRows = all(gameVersion, 'charas', CharaSchema);
   const charaRow = charaRows.find((chara) => chara.id === baseId);
 
   if (!charaRow) {
@@ -108,6 +116,7 @@ export default async function CharaPage(props: {
     <CharaDetailClient
       charaRow={charaRow}
       variantElement={variantElement as ElementAttacks | null}
+      version={gameVersion}
     />
   );
 }

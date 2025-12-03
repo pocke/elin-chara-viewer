@@ -4,18 +4,26 @@ import { EmojiEvents as EmojiEventsIcon } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
 import { Suspense, useMemo, useState } from 'react';
 import { type FeatRow, Feat } from '@/lib/models/feat';
+import { GameVersion } from '@/lib/db';
 import DataGridFeatTable from './DataGridFeatTable';
 import FeatSearchBar from './FeatSearchBar';
 
 interface FeatPageClientProps {
   featRows: FeatRow[];
+  version: GameVersion;
 }
 
-export default function FeatPageClient({ featRows }: FeatPageClientProps) {
+export default function FeatPageClient({
+  featRows,
+  version,
+}: FeatPageClientProps) {
   const { t, language } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
 
-  const feats = useMemo(() => featRows.map((row) => new Feat(row)), [featRows]);
+  const feats = useMemo(
+    () => featRows.map((row) => new Feat(version, row)),
+    [featRows, version]
+  );
 
   const filteredFeats = useMemo(() => {
     if (!searchQuery) return feats;
@@ -43,7 +51,7 @@ export default function FeatPageClient({ featRows }: FeatPageClientProps) {
         />
 
         <Suspense fallback={<div>{t.common.loading}...</div>}>
-          <DataGridFeatTable feats={filteredFeats} />
+          <DataGridFeatTable feats={filteredFeats} version={version} />
         </Suspense>
       </Box>
     </Container>

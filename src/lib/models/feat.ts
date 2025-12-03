@@ -1,5 +1,5 @@
 import { Element, ElementRow, ElementSchema } from './element';
-import { all } from '../db';
+import { all, GameVersion } from '../db';
 
 export type FeatRow = ElementRow;
 
@@ -7,9 +7,12 @@ export class Feat {
   private element: Element;
   private row: FeatRow;
 
-  constructor(row: FeatRow) {
+  constructor(
+    public version: GameVersion,
+    row: FeatRow
+  ) {
     this.row = row;
-    this.element = new Element(row);
+    this.element = new Element(version, row);
   }
 
   get id() {
@@ -54,9 +57,9 @@ export class Feat {
   }
 }
 
-export function allFeats(): Feat[] {
-  const elements = all('elements', ElementSchema);
+export function allFeats(version: GameVersion): Feat[] {
+  const elements = all(version, 'elements', ElementSchema);
   return elements
     .filter((row) => row.type === 'Feat')
-    .map((row) => new Feat(row));
+    .map((row) => new Feat(version, row));
 }

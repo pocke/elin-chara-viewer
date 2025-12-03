@@ -1,12 +1,15 @@
-import { all } from '@/lib/db';
+import { all, GAME_VERSIONS, GameVersion } from '@/lib/db';
 import { Chara, CharaSchema } from '@/lib/models/chara';
 import ResistSimClient from './ResistSimClient';
 
 export function generateStaticParams() {
-  return [
-    { lang: 'ja', version: 'EA' },
-    { lang: 'en', version: 'EA' },
-  ];
+  const params = [];
+  for (const lang of ['ja', 'en']) {
+    for (const version of GAME_VERSIONS) {
+      params.push({ lang, version });
+    }
+  }
+  return params;
 }
 
 interface ResistSimPageProps {
@@ -18,12 +21,17 @@ interface ResistSimPageProps {
 
 export default async function ResistSimPage({ params }: ResistSimPageProps) {
   const { lang, version } = await params;
+  const gameVersion = version as GameVersion;
 
-  const charaRows = all('charas', CharaSchema).filter(
+  const charaRows = all(gameVersion, 'charas', CharaSchema).filter(
     (row) => !Chara.isIgnoredCharaId(row.id)
   );
 
   return (
-    <ResistSimClient charaRows={charaRows} lang={lang} version={version} />
+    <ResistSimClient
+      charaRows={charaRows}
+      lang={lang}
+      version={gameVersion}
+    />
   );
 }

@@ -1,22 +1,32 @@
-import { all } from '@/lib/db';
+import { all, GAME_VERSIONS, GameVersion } from '@/lib/db';
 import { ElementSchema, Element } from '@/lib/models/element';
 import FeatPageClient from './FeatPageClient';
 
 export function generateStaticParams() {
-  return [
-    { lang: 'ja', version: 'EA' },
-    { lang: 'en', version: 'EA' },
-  ];
+  const params = [];
+  for (const lang of ['ja', 'en']) {
+    for (const version of GAME_VERSIONS) {
+      params.push({ lang, version });
+    }
+  }
+  return params;
 }
 
-export default function FeatPage() {
-  const featRows = all('elements', ElementSchema).filter((row) => {
-    const element = new Element(row);
+interface PageProps {
+  params: Promise<{ version: string }>;
+}
+
+export default async function FeatPage({ params }: PageProps) {
+  const { version } = await params;
+  const gameVersion = version as GameVersion;
+
+  const featRows = all(gameVersion, 'elements', ElementSchema).filter((row) => {
+    const element = new Element(gameVersion, row);
     if (!element.isFeat()) return false;
 
     const tags = element.tags();
     return !tags.includes('hidden');
   });
 
-  return <FeatPageClient featRows={featRows} />;
+  return <FeatPageClient featRows={featRows} version={gameVersion} />;
 }

@@ -27,6 +27,7 @@ import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Chara, type CharaRow } from '@/lib/models/chara';
+import { GameVersion } from '@/lib/db';
 import {
   ElementAttacks,
   elementByAlias,
@@ -39,18 +40,20 @@ import { getContrastColor } from '@/lib/colorUtils';
 interface CharaDetailClientProps {
   charaRow: CharaRow;
   variantElement: ElementAttacks | null;
+  version: GameVersion;
 }
 
 export default function CharaDetailClient({
   charaRow,
   variantElement,
+  version,
 }: CharaDetailClientProps) {
-  const chara = new Chara(charaRow, variantElement);
+  const chara = new Chara(version, charaRow, variantElement);
   const { t, language } = useTranslation();
 
   const params = useParams();
   const lang = params.lang as string;
-  const version = params.version as string;
+  const urlVersion = params.version as string;
 
   const feats = chara.feats();
   const negations = chara.negations();
@@ -71,7 +74,7 @@ export default function CharaDetailClient({
   const abilities = chara.abilities();
   const [actualGeneSlot, origGeneSlot] = chara.geneSlot();
 
-  const resistances = resistanceElements().map((element) => ({
+  const resistances = resistanceElements(version).map((element) => ({
     value: chara.getElementPower(element.alias),
     element: element,
   }));
@@ -134,7 +137,7 @@ export default function CharaDetailClient({
         >
           {isFeat ? (
             <Link
-              href={`/${lang}/${version}/feats/${element.alias}`}
+              href={`/${lang}/${urlVersion}/feats/${element.alias}`}
               style={{ textDecoration: 'none' }}
             >
               {chipElement}
@@ -247,7 +250,7 @@ export default function CharaDetailClient({
       <Box sx={{ my: 4 }}>
         <Button
           component={Link}
-          href={`/${lang}/${version}/charas`}
+          href={`/${lang}/${urlVersion}/charas`}
           startIcon={<ArrowBackIcon />}
           sx={{ mb: 3 }}
           variant="outlined"
@@ -352,7 +355,7 @@ export default function CharaDetailClient({
                 }}
               >
                 {chara.primaryAttributes().map((attr) => {
-                  const element = elementByAlias(attr.alias)!;
+                  const element = elementByAlias(version, attr.alias)!;
                   const displayName = element.name(language);
                   return (
                     <Box key={attr.alias}>
@@ -539,9 +542,9 @@ export default function CharaDetailClient({
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {abilities.map((ability, index) => {
-                    const baseElement = elementByAlias(ability.name);
+                    const baseElement = elementByAlias(version, ability.name);
                     const elementElement = ability.element
-                      ? (elementByAlias(ability.element) ?? null)
+                      ? (elementByAlias(version, ability.element) ?? null)
                       : null;
 
                     let abilityName: string;

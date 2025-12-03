@@ -30,12 +30,14 @@ import { Feat } from '@/lib/models/feat';
 import { Race, type RaceRow } from '@/lib/models/race';
 import { Job, type JobRow } from '@/lib/models/job';
 import { Chara, type CharaRow } from '@/lib/models/chara';
+import { GameVersion } from '@/lib/db';
 
 interface FeatDetailClientProps {
   elementRow: ElementRow;
   raceRows: RaceRow[];
   jobRows: JobRow[];
   charaRows: CharaRow[];
+  version: GameVersion;
 }
 
 export default function FeatDetailClient({
@@ -43,17 +45,18 @@ export default function FeatDetailClient({
   raceRows,
   jobRows,
   charaRows,
+  version,
 }: FeatDetailClientProps) {
-  const element = new Element(elementRow);
-  const feat = new Feat(elementRow);
+  const element = new Element(version, elementRow);
+  const feat = new Feat(version, elementRow);
   const { t, language } = useTranslation();
 
-  const racesWithFeat = raceRows.map((row) => new Race(row));
-  const jobsWithFeat = jobRows.map((row) => new Job(row));
+  const racesWithFeat = raceRows.map((row) => new Race(version, row));
+  const jobsWithFeat = jobRows.map((row) => new Job(version, row));
 
   // Expand variants: if a chara has variants, include the variants instead of the parent
   const charactersWithFeat = charaRows
-    .map((row) => new Chara(row))
+    .map((row) => new Chara(version, row))
     .flatMap((chara) => {
       const variants = chara.variants();
       return variants.length > 0 ? variants : [chara];
@@ -61,7 +64,7 @@ export default function FeatDetailClient({
 
   const params = useParams();
   const lang = params.lang as string;
-  const version = params.version as string;
+  const urlVersion = params.version as string;
 
   const subElements = element.subElements();
 
@@ -107,7 +110,7 @@ export default function FeatDetailClient({
       <Box sx={{ my: 4 }}>
         <Button
           component={Link}
-          href={`/${lang}/${version}/feats`}
+          href={`/${lang}/${urlVersion}/feats`}
           startIcon={<ArrowBackIcon />}
           sx={{ mb: 3 }}
           variant="outlined"
@@ -248,7 +251,7 @@ export default function FeatDetailClient({
                   {racesWithFeat.map((race) => (
                     <Link
                       key={race.id}
-                      href={`/${lang}/${version}/charas?races=${race.id}`}
+                      href={`/${lang}/${urlVersion}/charas?races=${race.id}`}
                       passHref
                       style={{ textDecoration: 'none' }}
                     >
@@ -277,7 +280,7 @@ export default function FeatDetailClient({
                   {jobsWithFeat.map((job) => (
                     <Link
                       key={job.id}
-                      href={`/${lang}/${version}/charas?jobs=${job.id}`}
+                      href={`/${lang}/${urlVersion}/charas?jobs=${job.id}`}
                       passHref
                       style={{ textDecoration: 'none' }}
                     >
@@ -309,7 +312,7 @@ export default function FeatDetailClient({
                     {charactersWithFeat.map((character) => (
                       <Link
                         key={character.id}
-                        href={`/${lang}/${version}/charas/${character.id}`}
+                        href={`/${lang}/${urlVersion}/charas/${character.id}`}
                         passHref
                         style={{ textDecoration: 'none' }}
                       >
@@ -324,7 +327,7 @@ export default function FeatDetailClient({
                   </Box>
                   <Button
                     component={Link}
-                    href={`/${lang}/${version}/charas?feats=${element.alias}`}
+                    href={`/${lang}/${urlVersion}/charas?feats=${element.alias}`}
                     variant="outlined"
                     size="small"
                   >

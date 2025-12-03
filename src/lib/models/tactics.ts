@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { all } from '../db';
+import { all, GameVersion } from '../db';
 
 export const TacticsSchema = z.object({
   id: z.string(),
@@ -25,24 +25,35 @@ export const TacticsSchema = z.object({
 
 export type TacticsRow = z.infer<typeof TacticsSchema>;
 
-let _tacticsMap: Map<string, Tactics> | null = null;
+// Cache: version -> id -> Tactics
+const _tacticsMap: Map<GameVersion, Map<string, Tactics>> = new Map();
 
-function getTacticsMap(): Map<string, Tactics> {
-  if (!_tacticsMap) {
-    const tactics = all('tactics', TacticsSchema);
-    _tacticsMap = new Map(
-      tactics.map((tactic, index) => [tactic.id, new Tactics(tactic, index)])
+function getTacticsMap(version: GameVersion): Map<string, Tactics> {
+  if (!_tacticsMap.has(version)) {
+    const tactics = all(version, 'tactics', TacticsSchema);
+    _tacticsMap.set(
+      version,
+      new Map(
+        tactics.map((tactic, index) => [
+          tactic.id,
+          new Tactics(version, tactic, index),
+        ])
+      )
     );
   }
-  return _tacticsMap;
+  return _tacticsMap.get(version)!;
 }
 
-export function tacticsById(id: string): Tactics | undefined {
-  return getTacticsMap().get(id);
+export function tacticsById(
+  version: GameVersion,
+  id: string
+): Tactics | undefined {
+  return getTacticsMap(version).get(id);
 }
 
 export class Tactics {
   constructor(
+    public version: GameVersion,
     private row: TacticsRow,
     private index: number
   ) {}

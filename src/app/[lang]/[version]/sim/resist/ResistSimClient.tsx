@@ -21,6 +21,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import { type CharaRow, Chara } from '@/lib/models/chara';
 import { resistanceElements } from '@/lib/models/element';
+import { GameVersion } from '@/lib/db';
 import AttackElementSelector from './AttackElementSelector';
 import ResistanceMatrix from './ResistanceMatrix';
 import {
@@ -46,7 +47,7 @@ import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
 interface ResistSimClientProps {
   charaRows: CharaRow[];
   lang: string;
-  version: string;
+  version: GameVersion;
 }
 
 function CustomToolbar() {
@@ -63,8 +64,8 @@ function CustomToolbar() {
 
 function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
   const charas = useMemo(
-    () => charaRows.map((row) => new Chara(row)),
-    [charaRows]
+    () => charaRows.map((row) => new Chara(version, row)),
+    [charaRows, version]
   );
   const { t, language } = useTranslation();
   const router = useRouter();
@@ -116,7 +117,7 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
     });
   }, [charas]);
 
-  const resistanceElementsList = resistanceElements();
+  const resistanceElementsList = resistanceElements(version);
 
   // Filter charas based on selected attack elements
   const filteredCharas = useMemo(() => {
@@ -266,12 +267,14 @@ function ResistSimContent({ charaRows, lang, version }: ResistSimClientProps) {
         <ResistanceMatrix
           charas={allCharas}
           onCellClick={handleMatrixCellClick}
+          version={version}
         />
 
         <Box ref={attackElementSelectorRef}>
           <AttackElementSelector
             selectedElements={selectedElements}
             onElementsChange={setSelectedElements}
+            version={version}
           />
         </Box>
 
