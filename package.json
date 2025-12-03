@@ -2,6 +2,10 @@
   "name": "elin-chara-viewer",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "last 2 version",
+    "not dead"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
