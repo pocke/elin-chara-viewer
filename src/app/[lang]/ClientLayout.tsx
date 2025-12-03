@@ -17,7 +17,9 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import theme from '../theme';
+import { GAME_VERSIONS, GameVersion } from '../../lib/db';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import VersionSwitcher from '../../components/VersionSwitcher';
 import Footer from '../../components/Footer';
@@ -35,6 +37,14 @@ interface ClientLayoutProps {
 function ClientLayoutInner({ children }: { children: React.ReactNode }) {
   const { t, language } = useTranslation();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Extract current version from pathname (e.g., /ja/EA/charas -> EA)
+  const pathParts = pathname.split('/');
+  const currentVersion: GameVersion =
+    pathParts.length >= 3 && GAME_VERSIONS.includes(pathParts[2] as GameVersion)
+      ? (pathParts[2] as GameVersion)
+      : 'EA';
 
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
@@ -43,15 +53,15 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
   const menuItems = [
     {
       text: t.common.browseCharacters,
-      href: `/${language}/EA/charas`,
+      href: `/${language}/${currentVersion}/charas`,
     },
     {
       text: t.common.browseFeats,
-      href: `/${language}/EA/feats`,
+      href: `/${language}/${currentVersion}/feats`,
     },
     {
       text: t.common.browseResistSim,
-      href: `/${language}/EA/sim/resist`,
+      href: `/${language}/${currentVersion}/sim/resist`,
     },
   ];
 
