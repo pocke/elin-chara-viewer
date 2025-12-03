@@ -27,13 +27,13 @@ const nextConfig: NextConfig = {
     GIT_LAST_COMMIT_DATE: gitInfo.lastCommitDate,
     ELIN_EA_VERSION: 'EA 23.237 Patch 1',
   },
-  webpack: (config) => {
-    // Enable asset/source for CSV files
-    config.module.rules.push({
-      test: /\.csv$/,
-      type: 'asset/source',
-    });
-    return config;
+  turbopack: {
+    rules: {
+      '*.csv': {
+        loaders: ['raw-loader'],
+        as: '*.js',
+      },
+    },
   },
 };
 
