@@ -9,11 +9,11 @@ import {
   Paper,
   Typography,
   Box,
-  Tooltip,
   ToggleButton,
   ToggleButtonGroup,
+  alpha,
 } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { Chara } from '@/lib/models/chara';
 import {
@@ -65,6 +65,10 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
   const { t, language } = useTranslation();
   const resistanceElementsList = resistanceElements();
   const [mode, setMode] = useState<MatrixMode>('resistance');
+  const [hoveredCell, setHoveredCell] = useState<{
+    row: string;
+    col: string;
+  } | null>(null);
 
   const handleModeChange = (
     _event: React.MouseEvent<HTMLElement>,
@@ -74,6 +78,17 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
       setMode(newMode);
     }
   };
+
+  const handleCellMouseEnter = useCallback(
+    (rowAlias: string, colAlias: string) => {
+      setHoveredCell({ row: rowAlias, col: colAlias });
+    },
+    []
+  );
+
+  const handleCellMouseLeave = useCallback(() => {
+    setHoveredCell(null);
+  }, []);
 
   // Build the matrix data
   const matrixData = useMemo(() => {
@@ -157,6 +172,7 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
       <TableContainer
         component={Paper}
         sx={{ maxHeight: '80vh', overflow: 'auto' }}
+        onMouseLeave={handleCellMouseLeave}
       >
         <Table size="small" stickyHeader>
           <TableHead>
@@ -170,113 +186,90 @@ export default function ResistanceMatrix({ charas }: ResistanceMatrixProps) {
                   minWidth: 60,
                 }}
               />
-              {resistanceElementsList.map((element) => (
-                <TableCell
-                  key={element.alias}
-                  align="center"
-                  sx={{
-                    minWidth: mode === 'resistance' ? 80 : 60,
-                    fontSize: '0.75rem',
-                    whiteSpace: 'nowrap',
-                    backgroundColor: element.getColor(),
-                    color: getContrastColor(element.getColor()),
-                  }}
-                >
-                  {getShortName(element)}
-                </TableCell>
-              ))}
+              {resistanceElementsList.map((element) => {
+                const isHighlighted = hoveredCell?.col === element.alias;
+                return (
+                  <TableCell
+                    key={element.alias}
+                    align="center"
+                    sx={{
+                      minWidth: mode === 'resistance' ? 80 : 60,
+                      fontSize: '0.75rem',
+                      whiteSpace: 'nowrap',
+                      backgroundColor: element.getColor(),
+                      color: getContrastColor(element.getColor()),
+                      fontWeight: isHighlighted ? 'bold' : 'normal',
+                      transition: 'font-weight 0.1s',
+                    }}
+                  >
+                    {getShortName(element)}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           </TableHead>
           <TableBody>
-            {resistanceElementsList.map((rowElement) => (
-              <TableRow key={rowElement.alias}>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  sx={{
-                    position: 'sticky',
-                    left: 0,
-                    zIndex: 2,
-                    backgroundColor: rowElement.getColor(),
-                    color: getContrastColor(rowElement.getColor()),
-                    fontSize: '0.75rem',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {getShortName(rowElement)}
-                </TableCell>
-                {resistanceElementsList.map((colElement) => {
-                  const buckets = matrixData
-                    .get(rowElement.alias)
-                    ?.get(colElement.alias);
-                  if (!buckets) return null;
+            {resistanceElementsList.map((rowElement) => {
+              const isRowHighlighted = hoveredCell?.row === rowElement.alias;
+              return (
+                <TableRow key={rowElement.alias}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    sx={{
+                      position: 'sticky',
+                      left: 0,
+                      zIndex: 2,
+                      backgroundColor: rowElement.getColor(),
+                      color: getContrastColor(rowElement.getColor()),
+                      fontSize: '0.75rem',
+                      whiteSpace: 'nowrap',
+                      fontWeight: isRowHighlighted ? 'bold' : 'normal',
+                      transition: 'font-weight 0.1s',
+                    }}
+                  >
+                    {getShortName(rowElement)}
+                  </TableCell>
+                  {resistanceElementsList.map((colElement) => {
+                    const buckets = matrixData
+                      .get(rowElement.alias)
+                      ?.get(colElement.alias);
+                    if (!buckets) return null;
 
-                  const formatted = formatBucketsForMode(buckets, mode);
-                  const total = charas.length;
+                    const formatted = formatBucketsForMode(buckets, mode);
+                    const isDiagonal = rowElement.alias === colElement.alias;
+                    const isHighlighted =
+                      hoveredCell?.row === rowElement.alias ||
+                      hoveredCell?.col === colElement.alias;
 
-                  const tooltipContent = (
-                    <Box>
-                      <Typography variant="caption" display="block">
-                        {getShortName(rowElement)} × {getShortName(colElement)}
-                      </Typography>
-                      {mode === 'resistance' ? (
-                        <>
-                          <Typography variant="caption" display="block">
-                            {t.common.resistanceNormal}: {buckets.normal} (
-                            {((buckets.normal / total) * 100).toFixed(1)}%)
-                          </Typography>
-                          <Typography variant="caption" display="block">
-                            {t.common.resistanceStrong}: {buckets.strong} (
-                            {((buckets.strong / total) * 100).toFixed(1)}%)
-                          </Typography>
-                          <Typography variant="caption" display="block">
-                            {t.common.resistanceSuperb}: {buckets.superb} (
-                            {((buckets.superb / total) * 100).toFixed(1)}%)
-                          </Typography>
-                          <Typography variant="caption" display="block">
-                            {t.common.resistanceImmunity}: {buckets.immunity} (
-                            {((buckets.immunity / total) * 100).toFixed(1)}%)
-                          </Typography>
-                        </>
-                      ) : (
-                        <>
-                          <Typography variant="caption" display="block">
-                            {t.common.resistanceDefect}: {buckets.defect} (
-                            {((buckets.defect / total) * 100).toFixed(1)}%)
-                          </Typography>
-                          <Typography variant="caption" display="block">
-                            {t.common.resistanceWeakness}: {buckets.weakness} (
-                            {((buckets.weakness / total) * 100).toFixed(1)}%)
-                          </Typography>
-                        </>
-                      )}
-                    </Box>
-                  );
-
-                  return (
-                    <Tooltip
-                      key={colElement.alias}
-                      title={tooltipContent}
-                      arrow
-                    >
+                    return (
                       <TableCell
+                        key={colElement.alias}
                         align="center"
+                        onMouseEnter={() =>
+                          handleCellMouseEnter(
+                            rowElement.alias,
+                            colElement.alias
+                          )
+                        }
                         sx={{
                           fontSize: '0.7rem',
                           whiteSpace: 'nowrap',
-                          cursor: 'help',
-                          '&:hover': {
-                            backgroundColor: 'action.hover',
-                          },
+                          backgroundColor:
+                            isDiagonal || isHighlighted
+                              ? (theme) =>
+                                  alpha(theme.palette.primary.main, 0.08)
+                              : 'inherit',
+                          transition: 'background-color 0.1s',
                         }}
                       >
                         {formatted}
                       </TableCell>
-                    </Tooltip>
-                  );
-                })}
-              </TableRow>
-            ))}
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
