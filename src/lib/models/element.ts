@@ -1,6 +1,14 @@
 import { z } from 'zod';
-import featModifierJson from '../../generated/featModifier.json';
+import featModifierEaJson from '../../generated/featModifier.ea.json';
+import featModifierNightlyJson from '../../generated/featModifier.nightly.json';
 import { all, GameVersion } from '../db';
+
+type FeatModifierJson = typeof featModifierEaJson;
+
+const featModifierMap: Record<GameVersion, FeatModifierJson> = {
+  EA: featModifierEaJson,
+  Nightly: featModifierNightlyJson,
+};
 
 export const ElementSchema = z.object({
   __meta: z.object({
@@ -311,8 +319,9 @@ export class Element {
   }
 
   subElements() {
+    const featModifierJson = featModifierMap[this.version];
     const modifiers =
-      featModifierJson[this.row.id as keyof typeof featModifierJson];
+      featModifierJson[this.row.id as keyof FeatModifierJson];
     const result = [];
 
     if (modifiers) {
