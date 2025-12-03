@@ -97,7 +97,10 @@ function getElementsMap(version: GameVersion): Map<string, Element> {
     _elementsMap.set(
       version,
       new Map(
-        elements.map((element) => [element.alias, new Element(version, element)])
+        elements.map((element) => [
+          element.alias,
+          new Element(version, element),
+        ])
       )
     );
   }

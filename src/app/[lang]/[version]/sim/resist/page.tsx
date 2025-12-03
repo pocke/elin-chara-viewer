@@ -28,10 +28,6 @@ export default async function ResistSimPage({ params }: ResistSimPageProps) {
   );
 
   return (
-    <ResistSimClient
-      charaRows={charaRows}
-      lang={lang}
-      version={gameVersion}
-    />
+    <ResistSimClient charaRows={charaRows} lang={lang} version={gameVersion} />
   );
 }

@@ -345,7 +345,11 @@ export class Chara {
             defaultSortKey: this.row.__meta.defaultSortKey + (index + 1) * 0.01,
           },
         };
-        return new Chara(this.version, variantRow, ('ele' + elm) as ElementAttacks);
+        return new Chara(
+          this.version,
+          variantRow,
+          ('ele' + elm) as ElementAttacks
+        );
       });
     });
   }
