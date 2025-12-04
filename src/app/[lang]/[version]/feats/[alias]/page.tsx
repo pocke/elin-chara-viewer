@@ -5,6 +5,7 @@ import { racesByFeat } from '@/lib/models/race';
 import { jobsByFeat } from '@/lib/models/job';
 import FeatDetailClient from './FeatDetailClient';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { resources, Language } from '@/lib/i18n-resources';
 
 export const generateMetadata = async (props: {
@@ -87,7 +88,7 @@ export default async function FeatPage(props: {
   const element = elementByAlias(gameVersion, decodedAlias);
 
   if (!element) {
-    throw new Error(`Feat with alias ${decodedAlias} not found`);
+    notFound();
   }
 
   // Find races with this feat
