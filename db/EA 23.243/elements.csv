@@ -380,7 +380,7 @@ id,alias,name_JP,name,altname_JP,altname,aliasParent,aliasRef,aliasMtp,parentFac
 1270,featGoodKarma,善人,Good,,,,,,0,0,100,,1,1,1000,0,0,-1,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,1,,,0,,,,,,,旅の途中で身につけた特性。,A trait acquired during your journey,あなたは善人だ。,You are good.,"祠や神像の出現率上昇,特定モンスターの出現率上昇,特定モンスターの友好化","Increased spawn rate of shrines and statues,Increased spawn rate of certain monsters,Certain monsters become friendly",あなたは徳に満ちた人生を送っている。,You are living a virtuous life.,あなたは前ほど善人ではない。,You are not as good a person as you used to be.,,,,
 1271,featBadKarma,悪人,Evil,,,,,,0,0,100,,1,1,1000,0,0,-1,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,1,,,0,,,,,,,旅の途中で身につけた特性。,A trait acquired during your journey,あなたは悪人だ。,You are evil.,"レアモンスターの出現率上昇,特定モンスターの敵対化","Increased spawn rate of rare monsters,Certain monsters become hostile",あなたは業の深い人生を送っている。,You are living a life heavy with karma.,あなたは前ほど悪人ではない。,You are not as evil a person as you used to be.,,,,
 1272,featPeacemaker,仲裁者,Peacemaker,,,,,,0,0,100,,1,1,1000,0,4,3,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,3,,,0,,,,,,,旅の途中で身につけた特性。,A trait acquired during your journey,あなたは仲間の不仲を見過ごさない。,You step in when your companions fall out.,"パーティーメンバーの喧嘩許容量 +#1,主人公もしくは調和のエリン信仰時のみ有効","Party quarrel threshold +#1,Effective only for the player or under faith of Elin of Harmony",,,,,,,,
-1273,featBloom,絆の覚醒,Awakening of Bonds,,,,,,0,0,100,,1,1,1000,0,0,-1,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,1,,,0,,,,,,,旅の途中で身につけた特性。,A trait acquired during your journey,あなたは深い絆で繋がれている。,You are bound by a deep bond.,遺伝子枠の上限+#1,+#1 gene slot limit,,,,,,,,
+1273,featBloom,絆の覚醒,Awakening of Bonds,,,,,,0,0,100,,1,1,1000,0,0,-1,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,1,,,0,,,,,,,旅の途中で身につけた特性。,A trait acquired during your journey,あなたは深い絆で繋がれている。,You are bound by a deep bond.,"遺伝子枠の上限+#1,交換日記の効果増大,経験値ボーナス増大","+#1 gene slot limit,Enhanced Shared Diary effect,Boosted Exp Bonus",,,,,,,,
 1290,featGoddess,女神性,Goddesshood,,,,,,0,0,100,,1,1,1000,0,1000,1,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,5,,,0,,,,,,,種族により受け継がれた特性。,A trait inherited from race.,あなたは女神だ。,You are goddess.,"穢れた心からの保護,純潔がマイナスの時は無効","Protected from impurity,Ineffective if Innocence is negative",,,,,,,,
 1300,featGod_element1,元素の加護,Favor of the Element,,,,,,0,0,100,,1,1,1000,0,0,-1,0,,,Feat,FEAT,feat,god,,innate,,50,0,10,5,5,,,0,,,,,,,神から授かった恩恵。,A divine endowment.,あなたは神の加護を受けている。,You are blessed by God.,,,,,,,,,,
 1305,featGod_earth1,大地の加護,Favor of the Earth,,,,,,0,0,100,,1,1,1000,0,0,-1,0,,,Feat,FEAT,feat,god,,innate,,50,0,10,5,5,,,0,,,,,,,神から授かった恩恵。,A divine endowment.,あなたは神の加護を受けている。,You are blessed by God.,全てのダメージを軽減する,Reduce all damage,,,,,,,,
@@ -416,7 +416,7 @@ id,alias,name_JP,name,altname_JP,altname,aliasParent,aliasRef,aliasMtp,parentFac
 1419,featMilitant,前線指揮,Frontline Commander,,,,,,0,0,100,,1,1,1000,0,10,2,0,,,Feat,FEAT,feat,,,class,,50,0,10,5,1,,,0,,,,,,,専門の職業に従事し、長い年月を経て獲得した特性。,A trait acquired over many years of working in a specialized profession.,あなたは味方の士気を高める。,You boost the morale of your allies.,同階層の敵の数に応じて味方を強化,Strengthen allies per enemy count on the same level,,,,,,,,
 1420,featExecutioner,死の神髄,Heart of Death,,,,,,0,0,100,,1,1,1000,0,4,1,0,,,Feat,FEAT,feat,,,class,,50,0,10,5,5,,,0,,,,,,,専門の職業に従事し、長い年月を経て獲得した特性。,A trait acquired over many years of working in a specialized profession.,あなたは死を身近に感じている。,You feel death close to you.,体力が減るほど物理クリティカル率が上昇,Physical critical rate increases as health decreases,,,,,,,,
 1421,featManaMeat,マナの体,Mana Body,,,,,,0,0,100,,1,1,1000,0,6,1,0,,,Feat,FEAT,feat,,,class,,50,0,10,5,4,,,0,,,,,,,旅の途中で身につけた特性。,A trait acquired during your journey,あなたはマナと同化している。,You are merging with mana.,"マナを体力として利用できる,マナが尽きるまで死なない,首狩りを無効
-マナを体力として利用できる,マナが尽きるまで死なない,首狩りを無効,体力が少ない時にマナの消費が半減","Mana can be used as health,Cannot die until mana is depleted,Negates Neck Hunt
+マナを体力として利用できる,マナが尽きるまで死なない,首狩りを無効,体力が少ない時にマナの消費が半減","Mana can be used as health,Cannot die until mana is depleted,Immunity to Neck Hunt
 Mana can be used as health,Cannot die until mana is depleted,Negates Neck Hunt,Halves mana usage when health is low",,,,,,,,
 1422,featHealer,癒やし本能,Healing Instinct,,,,,,0,0,100,,1,1,1000,0,4,1,0,,,Feat,FEAT,feat,,,class,,50,0,10,5,3,,,0,,,,,,,専門の職業に従事し、長い年月を経て獲得した特性。,A trait acquired over many years of working in a specialized profession.,あなたは仲間を癒やしたい。,You want to heal your allies.,使用する回復魔法が一つ上位の回復魔法に変化,Upgrade the healing spell used to the next tier,,,,,,,,
 1510,mutationSkin,鉄の皮膚,Iron Skin,,,mutationSkinN,,,0,0,100,,1,1,1000,0,0,-1,0,,,Mutation,MUTATION,mutation,,,,,50,0,10,5,3,,,0,,,,,,,突然変異により生じた体の変化。,A physical alterations caused by a mutation.,"あなたの皮膚は硬い。
@@ -733,7 +733,7 @@ You are passionate about organizing supplies.
 You go crazy when supplies are not organized.",クラフト時に扱えるコンテナの範囲+#1,+#1 range for searching containers when crafting,,,,,,,,
 1644,featBodyParts,肉体の変容,Body Mutation,,,,,,0,0,100,,1,1,1000,0,1,-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,20,featGrowParts,,0,,,,,,,新たな体の部位を獲得する。,You grow a new body part.,あなたは不定形だ。,You are without a definite shape.,体の部位+#1,+#1 Body Parts,,,,,,,,
 1645,featParty,人気者,Party Animal,,,,,,0,0,100,,1,1,1000,0,"1,2,3",-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,3,,,0,,,,,,,パーティーに参加して人気者になる。,You attend parties to be popular.,あなたは人気者だ。,You are popular.,仲間の最大数+#1,+#1 Max Ally,,,,,,,,
-1646,featLonelySoul,孤独な魂,Lonely Soul,,,,,,0,0,100,,1,1,1000,0,"1,1,1,2,2",-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,5,"faith,10,10,20,20,30",,0,,,,,,,孤独を生きる力に変える思考を身につける。,You learn how to turn solitude into strength.,あなたは孤独が好きだ。,You like solitude.,仲間の最大数の空きに比例して能力強化,Boost attributes proportional to max ally vacancies,,,,,,,,
+1646,featLonelySoul,孤独な魂,Lonely Soul,,,,,,0,0,100,,1,1,1000,0,"1,1,1,2,2",-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,5,"traveling,5,5,10,10,15,15",,0,,,,,,,孤独を生きる力に変える思考を身につける。,You learn how to turn solitude into strength.,あなたは孤独が好きだ。,You like solitude.,仲間の最大数の空きに比例して能力強化,Boost attributes proportional to max ally vacancies,,,,,,,,
 1647,featSummoner,羊飼い,Shepherd,,,,,,0,0,100,,1,1,1000,0,"1,1,2,2",1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,10,"casting,15",,0,,,,,,,羊に囲まれて群れの導き方を学ぶ。,You learn how to lead a flock.,あなたは群れるのが好きだ。,You like to flock together.,召喚の最大数+#1,+#1 Max Summon,,,,,,,,
 1648,featRapidMagic,連続魔法,Rapid Cast,,,,,,0,0,100,,1,1,1000,0,5,1,0,,,Feat,FEAT,feat,,,,,50,0,10,5,5,,,0,,,,,,,,,あなたは早口で詠唱できる。,You can chant quickly.,魔法の発射数+#1,+#1 Spell Projectile,,,,,,,,
 1649,featDefender,ディフェンダー,Defender,,,,,,0,0,100,,1,1,1000,0,"1,1,1",1,0,,,Feat,FEAT,feat,special,,,,50,0,10,5,3,,,0,,,,,,,口汚く罵って敵の注意を惹く技術を学ぶ。,You learn how to use foul language to distract enemies.,あなたは煽るのが上手い。,You are good at provoking.,"「挑発」スタンス習得,挑発範囲+#1
@@ -757,7 +757,7 @@ Always dream of magic while sleeping,Further increased effect of magic dreams,Po
 中級重装詠唱
 上級重装詠唱","Basic Heavy Cast
 Advanced Heavy Cast
-Master Heavy Cast",,,,,,0,0,100,,1,1,1000,0,"1,1,2",1,0,,,Feat,FEAT,feat,special,,,,50,0,10,5,3,"armorHeavy,10,25,40",,0,,,,,,,身体に大きな負荷をかけながら詠唱する。,You learn how to cast spells under heavy physical strain.,"あなたの声帯は太い。
+Master Heavy Cast",,,,,,0,0,100,,1,1,1000,0,"1,1,2",1,0,,,Feat,FEAT,feat,special,,,,50,0,10,5,3,"armorHeavy,5,15,30",,0,,,,,,,身体に大きな負荷をかけながら詠唱する。,You learn how to cast spells under heavy physical strain.,"あなたの声帯は太い。
 あなたの声帯はとても太い。
 あなたの声帯はとてつもなく太い。","You have a deep voice.
 You have a very deep voice.
@@ -769,7 +769,7 @@ Maximally reduced heavy casting penalty when wearing heavy armor or a shield,Red
 1655,featModelBeliever,模範信者,Model Follower,,,,,,0,0,100,,1,1,1000,0,1,-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,2,"faith,5,10",,0,,,,,,,毎日感謝の祈りを捧げる。,You offer a prayer of gratitude every day.,あなたは祈りをかかさない。,You never miss your prayers.,"祈りが可能なら一日の終わりに祈る
 祈りが可能なら一日の終わりに祈る,連れている仲間も一緒に祈る","Automatically pray at the end of the day if possible
 Automatically pray at the end of the day if possible,Party members also pray with you",,,,,,,,
-1656,featScavenger,廃品回収,Scavenger,,,,,,0,0,100,,1,1,1000,0,1,-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,3,"disarmTrap,10,20,30",,0,,,,,,,ゴミの中から貴重品を見つけ出す技術を学ぶ。,You learn the technique of locating treasures in waste.,あなたは希少品を発見できる。,You can spot rare items.,"採取スポットでの採取品の品質微上昇,罠を解体時に低確率で素材を入手
+1656,featScavenger,廃品回収,Scavenger,,,,,,0,0,100,,1,1,1000,0,1,-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,3,"disarmTrap,5,15,30",,0,,,,,,,ゴミの中から貴重品を見つけ出す技術を学ぶ。,You learn the technique of locating treasures in waste.,あなたは希少品を発見できる。,You can spot rare items.,"採取スポットでの採取品の品質微上昇,罠を解体時に低確率で素材を入手
 採取スポットでの採取品の品質上昇,罠を解体時に高確率で素材を入手
 採取スポットでの採取品の品質上昇,罠を解体時に高確率で素材を入手,罠の解体失敗時に罠をトリガーしない","Slightly higher item quality at gathering spots,Low chance to obtain materials when dismantling traps
 Higher item quality at gathering spots,Moderate chance to obtain materials when dismantling traps
@@ -788,7 +788,7 @@ First 5 casts of the day have boosted high-grade fish chance,First cast of the d
 アイテム解体時にレシピが習得可能かわかる,アイテム解体時にレシピを閃く確率が倍増","See if a recipe can be learned when dismantling,Chance to discover recipes slightly increased
 See if a recipe can be learned when dismantling,Double the chance to discover recipes",,,,,,,,
 1662,featGoldenFinger,黄金の指,Golden Finger,,,,,,0,0,100,,1,1,1000,0,2,-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,1,"stealing,25",,0,,,,,,,窃盗の極意を学ぶ。,You learn the art of thievery.,あなたは窃盗の達人だ。,You excel at thievery.,窃盗無効の相手から盗めるようになる,You can steal from theft-immune targets.,,,,,,,,
-1750,featComat,戦技,Combat Art,,,,,,0,0,100,,1,1,1000,0,2,-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,3,"tactics,30,50,100",,0,,,,,,,木人を相手に戦いの技を磨く。,Train your fighting techniques on a practice dummy.,あなたは戦技を極めている。,You are a master of combat techniques.,"「斬撃無双」と「スウォーム」を強化,#1%の確率で敵の近接攻撃をパリー","Strengthen “Blade Storm” and “Swarm”,#1% chance to parry enemy melee attacks",,,,,,,,
+1750,featComat,戦技,Combat Art,,,,,,0,0,100,,1,1,1000,0,2,-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,3,"tactics,30,50,100",,0,,,,,,,木人を相手に戦いの技を磨く。,Train your fighting techniques on a practice dummy.,あなたは戦技を極めている。,You are a master of combat arts.,"「斬撃無双」と「スウォーム」を強化,#1%のパリー（盾持ちスタイル時効果2倍）","Strengthen “Bladestorm” and “Swarm”,#1% parry chance (Doubled with Shield Style)",,,,,,,,
 2003,fConstruction,建築,Construction,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Skill,FACTION,tech,,,,,50,0,10,5,0,,,0,,,"1,actBuildTerrain
 3,actBuildInspect
 5,actBuildCut
