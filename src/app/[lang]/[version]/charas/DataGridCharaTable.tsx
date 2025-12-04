@@ -36,6 +36,25 @@ interface DataGridCharaTableProps {
   version: GameVersion;
 }
 
+// Primary attribute aliases
+const PRIMARY_ATTRIBUTE_ALIASES = [
+  'STR',
+  'END',
+  'DEX',
+  'PER',
+  'LER',
+  'WIL',
+  'MAG',
+  'CHA',
+];
+
+// Tactics column fields
+const TACTICS_FIELDS = [
+  'tacticsName',
+  'tacticsDistance',
+  'tacticsMoveFrequency',
+];
+
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -67,12 +86,6 @@ export default function DataGridCharaTable({
   const lang = params.lang as string;
   const resistanceElementsList = resistanceElements(version);
 
-  // Primary attribute aliases
-  const primaryAttributeAliases = useMemo(
-    () => ['STR', 'END', 'DEX', 'PER', 'LER', 'WIL', 'MAG', 'CHA'],
-    []
-  );
-
   // Resistance element aliases
   const resistanceAliases = useMemo(
     () => resistanceElementsList.map((e) => e.alias),
@@ -80,7 +93,7 @@ export default function DataGridCharaTable({
   );
 
   // Column presets
-  type PresetType = 'all' | 'primaryAttributes' | 'resistances';
+  type PresetType = 'all' | 'primaryAttributes' | 'resistances' | 'tactics';
 
   // Column visibility state
   const [selectedPreset, setSelectedPreset] = useState<PresetType>('all');
@@ -333,6 +346,11 @@ export default function DataGridCharaTable({
       row.edr = chara.edr();
       row.ep = chara.ep();
 
+      // Add tactics columns
+      row.tacticsName = chara.tactics().name(language);
+      row.tacticsDistance = chara.tacticsDistance();
+      row.tacticsMoveFrequency = chara.tacticsMoveFrequency();
+
       // Add resistance columns
       resistanceElementsList.forEach((resElement) => {
         const resValue = chara.getElementPower(resElement.alias) || 0;
@@ -485,6 +503,27 @@ export default function DataGridCharaTable({
       }
     );
 
+    // Add tactics columns
+    baseColumns.push(
+      {
+        field: 'tacticsName',
+        headerName: t.common.tacticsName,
+        width: 120,
+      },
+      {
+        field: 'tacticsDistance',
+        headerName: t.common.tacticsDistance,
+        type: 'number',
+        width: 80,
+      },
+      {
+        field: 'tacticsMoveFrequency',
+        headerName: t.common.tacticsMoveFrequency,
+        type: 'number',
+        width: 100,
+      }
+    );
+
     // Add resistance columns
     resistanceElementsList.forEach((resElement) => {
       baseColumns.push({
@@ -522,15 +561,17 @@ export default function DataGridCharaTable({
         } else if (preset === 'all') {
           model[col.field] = true;
         } else if (preset === 'primaryAttributes') {
-          model[col.field] = primaryAttributeAliases.includes(col.field);
+          model[col.field] = PRIMARY_ATTRIBUTE_ALIASES.includes(col.field);
         } else if (preset === 'resistances') {
           model[col.field] = resistanceAliases.includes(col.field);
+        } else if (preset === 'tactics') {
+          model[col.field] = TACTICS_FIELDS.includes(col.field);
         }
       });
 
       return model;
     },
-    [columns, primaryAttributeAliases, resistanceAliases]
+    [columns, resistanceAliases]
   );
 
   const handlePresetChange = useCallback(
@@ -699,6 +740,7 @@ export default function DataGridCharaTable({
           <ToggleButton value="resistances">
             {t.common.presetResistances}
           </ToggleButton>
+          <ToggleButton value="tactics">{t.common.presetTactics}</ToggleButton>
         </ToggleButtonGroup>
       </Box>
       <Paper elevation={1} sx={{ height: '70vh', width: '100%' }}>
