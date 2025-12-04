@@ -1,6 +1,19 @@
 import { all, GAME_VERSIONS, GameVersion } from '@/lib/db';
 import { Chara, CharaSchema } from '@/lib/models/chara';
 import ResistSimClient from './ResistSimClient';
+import { Metadata } from 'next';
+import { generateAlternates } from '@/lib/metadata';
+
+export async function generateMetadata(props: {
+  params: Promise<{ lang: string; version: string }>;
+}): Promise<Metadata> {
+  const { lang, version } = await props.params;
+  const pathname = `/${lang}/${version}/sim/resist`;
+
+  return {
+    alternates: generateAlternates(lang, pathname),
+  };
+}
 
 export function generateStaticParams() {
   const params = [];

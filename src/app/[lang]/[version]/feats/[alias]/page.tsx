@@ -7,6 +7,7 @@ import FeatDetailClient from './FeatDetailClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { resources, Language } from '@/lib/i18n-resources';
+import { generateAlternates } from '@/lib/metadata';
 
 export const generateMetadata = async (props: {
   params: Promise<{ alias: string; lang: string; version: string }>;
@@ -39,9 +40,13 @@ export const generateMetadata = async (props: {
   );
   const description = descriptionParts.join('\n');
 
+  const lang = params.lang as Language;
+  const pathname = `/${lang}/${params.version}/feats/${params.alias}`;
+
   return {
     title: `${featName} - ${appTitle}`,
     description: description || undefined,
+    alternates: generateAlternates(lang, pathname),
     openGraph: {
       title: `${featName} - ${appTitle}`,
       description: description || undefined,

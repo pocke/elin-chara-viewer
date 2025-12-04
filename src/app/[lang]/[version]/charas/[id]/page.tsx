@@ -5,6 +5,7 @@ import CharaDetailClient from './CharaDetailClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { resources, Language } from '@/lib/i18n-resources';
+import { generateAlternates } from '@/lib/metadata';
 
 export const generateMetadata = async (props: {
   params: Promise<{ id: string; lang: string; version: string }>;
@@ -53,9 +54,12 @@ export const generateMetadata = async (props: {
 
   const description = `${raceName}/${jobName}\n${primaryAttrsText}\n${t.life}${life}/${t.mana}${mana}/${t.speed}${speed}/${t.vigor}${vigor}`;
 
+  const pathname = `/${lang}/${params.version}/charas/${params.id}`;
+
   return {
     title: `${charaName} - ${appTitle}`,
     description,
+    alternates: generateAlternates(lang, pathname),
     openGraph: {
       title: `${charaName} - ${appTitle}`,
       description,
