@@ -65,6 +65,7 @@ export const resources = {
       bugReportGitHub: 'GitHub レポジトリ',
       bugReportSuffix:
         ' もしくは Elin コミュニティの Discord で pocke までお願いします。',
+      home: 'トップ',
       browseCharacters: 'キャラクター一覧',
       browseFeats: 'フィート一覧',
       browseResistSim: '耐性シミュレーション',
@@ -207,6 +208,7 @@ export const resources = {
       bugReportPrefix: 'Please report bugs to the ',
       bugReportGitHub: 'GitHub repository',
       bugReportSuffix: ' or contact pocke on the Elin community Discord.',
+      home: 'Home',
       browseCharacters: 'Characters',
       browseFeats: 'Feats',
       browseResistSim: 'Resistance Simulation',
