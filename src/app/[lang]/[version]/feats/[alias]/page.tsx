@@ -18,7 +18,7 @@ export const generateMetadata = async (props: {
   const element = elementByAlias(gameVersion, decodedAlias);
 
   if (!element) {
-    throw new Error(`Feat with alias ${decodedAlias} not found`);
+    return {};
   }
 
   const featName = element.name(params.lang);

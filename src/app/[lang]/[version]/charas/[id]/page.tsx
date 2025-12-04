@@ -18,7 +18,7 @@ export const generateMetadata = async (props: {
   const charaRow = charaRows.find((chara) => chara.id === baseId);
 
   if (!charaRow) {
-    throw new Error(`Chara with ID ${baseId} not found`);
+    return {};
   }
 
   const chara = new Chara(
