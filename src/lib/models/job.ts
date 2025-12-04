@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
-import { all } from '../db';
+import { all, GameVersion } from '../db';
 
 export const JobSchema = z.object({
   __meta: z.object({
@@ -30,21 +30,26 @@ export const JobSchema = z.object({
 
 export type JobRow = z.infer<typeof JobSchema>;
 
-let _jobsMap: Map<string, Job> | null = null;
-let _jobsByFeatMap: Map<string, Job[]> | null = null;
+// Cache: version -> id -> Job
+const _jobsMap: Map<GameVersion, Map<string, Job>> = new Map();
+// Cache: version -> featAlias -> Job[]
+const _jobsByFeatMap: Map<GameVersion, Map<string, Job[]>> = new Map();
 
-function getJobsMap(): Map<string, Job> {
-  if (!_jobsMap) {
-    const jobs = all('jobs', JobSchema);
-    _jobsMap = new Map(jobs.map((job) => [job.id, new Job(job)]));
+function getJobsMap(version: GameVersion): Map<string, Job> {
+  if (!_jobsMap.has(version)) {
+    const jobs = all(version, 'jobs', JobSchema);
+    _jobsMap.set(
+      version,
+      new Map(jobs.map((job) => [job.id, new Job(version, job)]))
+    );
   }
-  return _jobsMap;
+  return _jobsMap.get(version)!;
 }
 
-function getJobsByFeatMap(): Map<string, Job[]> {
-  if (!_jobsByFeatMap) {
-    _jobsByFeatMap = new Map();
-    const jobs = Array.from(getJobsMap().values());
+function getJobsByFeatMap(version: GameVersion): Map<string, Job[]> {
+  if (!_jobsByFeatMap.has(version)) {
+    const featMap = new Map<string, Job[]>();
+    const jobs = Array.from(getJobsMap(version).values());
 
     for (const job of jobs) {
       const feats = job.feats();
@@ -55,26 +60,30 @@ function getJobsByFeatMap(): Map<string, Job[]> {
           continue;
         }
         seenAliases.add(alias);
-        if (!_jobsByFeatMap.has(alias)) {
-          _jobsByFeatMap.set(alias, []);
+        if (!featMap.has(alias)) {
+          featMap.set(alias, []);
         }
-        _jobsByFeatMap.get(alias)!.push(job);
+        featMap.get(alias)!.push(job);
       }
     }
+    _jobsByFeatMap.set(version, featMap);
   }
-  return _jobsByFeatMap;
+  return _jobsByFeatMap.get(version)!;
 }
 
-export function jobById(id: string): Job | undefined {
-  return getJobsMap().get(id);
+export function jobById(version: GameVersion, id: string): Job | undefined {
+  return getJobsMap(version).get(id);
 }
 
-export function jobsByFeat(featAlias: string): Job[] {
-  return getJobsByFeatMap().get(featAlias) ?? [];
+export function jobsByFeat(version: GameVersion, featAlias: string): Job[] {
+  return getJobsByFeatMap(version).get(featAlias) ?? [];
 }
 
 export class Job {
-  constructor(public row: JobRow) {}
+  constructor(
+    public version: GameVersion,
+    public row: JobRow
+  ) {}
 
   get id() {
     return this.row.id;
@@ -104,18 +113,18 @@ export class Job {
   }
 
   elements() {
-    return new Elementable(this.row).elements();
+    return new Elementable(this.version, this.row).elements();
   }
 
   feats() {
-    return new Elementable(this.row).feats();
+    return new Elementable(this.version, this.row).feats();
   }
 
   negations() {
-    return new Elementable(this.row).negations();
+    return new Elementable(this.version, this.row).negations();
   }
 
   others() {
-    return new Elementable(this.row).others();
+    return new Elementable(this.version, this.row).others();
   }
 }

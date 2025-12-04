@@ -30,12 +30,14 @@ import { Feat } from '@/lib/models/feat';
 import { Race, type RaceRow } from '@/lib/models/race';
 import { Job, type JobRow } from '@/lib/models/job';
 import { Chara, type CharaRow } from '@/lib/models/chara';
+import { GameVersion } from '@/lib/db';
 
 interface FeatDetailClientProps {
   elementRow: ElementRow;
   raceRows: RaceRow[];
   jobRows: JobRow[];
   charaRows: CharaRow[];
+  version: GameVersion;
 }
 
 export default function FeatDetailClient({
@@ -43,17 +45,18 @@ export default function FeatDetailClient({
   raceRows,
   jobRows,
   charaRows,
+  version,
 }: FeatDetailClientProps) {
-  const element = new Element(elementRow);
-  const feat = new Feat(elementRow);
+  const element = new Element(version, elementRow);
+  const feat = new Feat(version, elementRow);
   const { t, language } = useTranslation();
 
-  const racesWithFeat = raceRows.map((row) => new Race(row));
-  const jobsWithFeat = jobRows.map((row) => new Job(row));
+  const racesWithFeat = raceRows.map((row) => new Race(version, row));
+  const jobsWithFeat = jobRows.map((row) => new Job(version, row));
 
   // Expand variants: if a chara has variants, include the variants instead of the parent
   const charactersWithFeat = charaRows
-    .map((row) => new Chara(row))
+    .map((row) => new Chara(version, row))
     .flatMap((chara) => {
       const variants = chara.variants();
       return variants.length > 0 ? variants : [chara];
@@ -61,7 +64,6 @@ export default function FeatDetailClient({
 
   const params = useParams();
   const lang = params.lang as string;
-  const version = params.version as string;
 
   const subElements = element.subElements();
 

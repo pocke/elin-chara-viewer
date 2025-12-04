@@ -44,10 +44,9 @@ export default function Home() {
             <Typography variant="h6">{t.common.importantInfo}</Typography>
           </Box>
           <Typography paragraph>
-            {t.common.versionInfo.replace(
-              '{{version}}',
-              process.env.ELIN_EA_VERSION!
-            )}
+            {t.common.versionInfo
+              .replace('{{eaVersion}}', process.env.ELIN_EA_VERSION!)
+              .replace('{{nightlyVersion}}', process.env.ELIN_NIGHTLY_VERSION!)}
           </Typography>
           <Typography paragraph>{t.common.internalDataNotice}</Typography>
           <Typography paragraph>

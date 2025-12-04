@@ -1,20 +1,40 @@
 require 'strscan'
 require 'json'
 
-FEAT_CS_URL = 'https://raw.githubusercontent.com/Elin-Modding-Resources/Elin-Decompiled/refs/heads/main/Elin/FEAT.cs'
+GITHUB_REPO_URL = "https://github.com/Elin-Modding-Resources/Elin-Decompiled"
 
-$result = {}
+def prepare
+  if Dir.exist?("tmp/Elin-Decompiled")
+    sh! "git", "-C", "tmp/Elin-Decompiled", "fetch", "--filter=blob:none"
+  else
+    sh! "git", "clone", "--filter=blob:none", GITHUB_REPO_URL, "tmp/Elin-Decompiled"
+  end
+end
 
-def main
-  system("curl -o tmp/FEAT.cs #{FEAT_CS_URL}", exception: true)
+def checkout(version)
+  sh! 'git', '-C', 'tmp/Elin-Decompiled', 'checkout', 'origin/main'
 
-  content = File.read('tmp/FEAT.cs')
+  key = version == 'EA' ? 'Stable' : 'Nightly'
+  until `git -C tmp/Elin-Decompiled log --oneline | head -1`.include?(key)
+    sh! "git", "-C", "tmp/Elin-Decompiled", "checkout", "HEAD^"
+  end
+end
+
+def sh!(*cmd)
+  system(*cmd, exception: true)
+end
+
+def make_json(version)
+  checkout(version)
+
+  content = File.read('tmp/Elin-Decompiled/Elin/FEAT.cs')
   sc = StringScanner.new(content)
 
   sc.skip_until(/^\tpublic List<string> Apply\(/) or raise
 
   feat_ids = []
   sub_feats = {}
+  result = {}
 
   loop do
     if sc.scan(/^\s*case (?=\d+:)/)
@@ -24,7 +44,7 @@ def main
     end
 
     if sc.scan(/^\s*break;\n/)
-      flush feat_ids, sub_feats
+      flush result, feat_ids, sub_feats
       feat_ids = []
       sub_feats = {}
       next
@@ -62,24 +82,29 @@ def main
     end
 
     if sc.scan(/^\t}/)
-      flush feat_ids, sub_feats
+      flush result, feat_ids, sub_feats
       break
     end
 
     sc.skip(/^.+\n/)
   end
 
-  json = JSON.pretty_generate($result)
-  File.write("src/generated/featModifier.json", json)
-ensure
-  system("rm -f tmp/FEAT.cs")
+  json = JSON.pretty_generate(result)
+  File.write("src/generated/featModifier.#{version.downcase}.json", json)
 end
 
-def flush(feat_ids, sub_feats)
+def main
+  prepare
+
+  make_json('EA')
+  make_json('Nightly')
+end
+
+def flush(result, feat_ids, sub_feats)
   return if sub_feats.empty?
 
   feat_ids.each do |feat_id|
-    $result[feat_id] = sub_feats
+    result[feat_id] = sub_feats
   end
 end
 

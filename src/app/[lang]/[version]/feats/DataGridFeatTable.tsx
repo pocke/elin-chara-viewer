@@ -16,11 +16,13 @@ import { useMemo } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
 import { Feat } from '@/lib/models/feat';
+import { GameVersion } from '@/lib/db';
 import { racesByFeat } from '@/lib/models/race';
 import { jobsByFeat } from '@/lib/models/job';
 
 interface DataGridFeatTableProps {
   feats: Feat[];
+  version: GameVersion;
 }
 
 function CustomToolbar() {
@@ -35,17 +37,19 @@ function CustomToolbar() {
   );
 }
 
-export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
+export default function DataGridFeatTable({
+  feats,
+  version,
+}: DataGridFeatTableProps) {
   const { t, language } = useTranslation();
   const params = useParams();
   const lang = params.lang as string;
-  const version = params.version as string;
 
   // Convert Feat objects to DataGrid rows
   const rows: GridRowsProp = useMemo(() => {
     return feats.map((feat) => {
-      const races = racesByFeat(feat.alias);
-      const jobs = jobsByFeat(feat.alias);
+      const races = racesByFeat(version, feat.alias);
+      const jobs = jobsByFeat(version, feat.alias);
 
       return {
         id: feat.alias,
@@ -62,7 +66,7 @@ export default function DataGridFeatTable({ feats }: DataGridFeatTableProps) {
         textExtra: feat.textExtra(language) || '',
       };
     });
-  }, [feats, language]);
+  }, [feats, language, version]);
 
   // Define columns
   const columns: GridColDef[] = useMemo(() => {

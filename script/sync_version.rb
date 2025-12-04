@@ -2,22 +2,26 @@
 
 require 'pathname'
 
+root = Pathname(__dir__).join('..')
 db_paths = Pathname.glob(Pathname(__dir__).join('../db/*/'))
-versions = db_paths.map { |p|
-  ver_str = p.basename.to_s
-  [ver_str[/EA (\d+\.\d+)/, 1].to_f, ver_str[/Patch (\d+)/, 1].to_i, p, ver_str]
-}.sort_by{ |v, p| [v, p] }.reverse
 
-if 1 < versions.size
-  versions[1..].each do |_, _, path|
-    puts "Removing #{path}"
-    path.rmtree
-  end
+EA_VERSION = root.join('versions/EA').read
+NIGHTLY_VERSION = root.join('versions/nightly').read
+
+unnecessary_versions = db_paths.select { |p|
+  ver_str = p.basename.to_s
+  ver_str != EA_VERSION && ver_str != NIGHTLY_VERSION
+}
+
+unnecessary_versions.each do |path|
+  puts "Removing #{path}"
+  path.rmtree
 end
 
 db_ts = Pathname(__dir__).join('../src/lib/db.ts')
-_, _, _, ver_str = versions.first
-db_ts.write db_ts.read.gsub(%r!^(import \w+ from '\.\./\.\./db/)[^/]+!) { "#{$1}#{ver_str}" }
+db_ts.write db_ts.read.gsub(%r!^(import ea\w+ from '\.\./\.\./db/)[^/]+!) { "#{$1}#{EA_VERSION}" }
+db_ts.write db_ts.read.gsub(%r!^(import nightly\w+ from '\.\./\.\./db/)[^/]+!) { "#{$1}#{NIGHTLY_VERSION}" }
 
 next_config = Pathname(__dir__).join('../next.config.ts')
-next_config.write next_config.read.sub(/(ELIN_EA_VERSION: ')[^']+/) { |m| "#{$1}#{ver_str}" }
+next_config.write next_config.read.sub(/(ELIN_EA_VERSION: ')[^']+/) { |m| "#{$1}#{EA_VERSION}" }
+next_config.write next_config.read.sub(/(ELIN_NIGHTLY_VERSION: ')[^']+/) { |m| "#{$1}#{NIGHTLY_VERSION}" }

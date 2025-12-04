@@ -1,18 +1,28 @@
-import { all } from '@/lib/db';
+import { all, GAME_VERSIONS, GameVersion } from '@/lib/db';
 import { Chara, CharaSchema } from '@/lib/models/chara';
 import CharaPageClient from './CharaPageClient';
 
 export function generateStaticParams() {
-  return [
-    { lang: 'ja', version: 'EA' },
-    { lang: 'en', version: 'EA' },
-  ];
+  const params = [];
+  for (const lang of ['ja', 'en']) {
+    for (const version of GAME_VERSIONS) {
+      params.push({ lang, version });
+    }
+  }
+  return params;
 }
 
-export default function CharaPage() {
-  const charaRows = all('charas', CharaSchema).filter(
+interface PageProps {
+  params: Promise<{ version: string }>;
+}
+
+export default async function CharaPage({ params }: PageProps) {
+  const { version } = await params;
+  const gameVersion = version as GameVersion;
+
+  const charaRows = all(gameVersion, 'charas', CharaSchema).filter(
     (row) => !Chara.isIgnoredCharaId(row.id)
   );
 
-  return <CharaPageClient charaRows={charaRows} />;
+  return <CharaPageClient charaRows={charaRows} version={gameVersion} />;
 }

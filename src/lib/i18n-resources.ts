@@ -59,7 +59,7 @@ export const resources = {
       appDescription:
         'このアプリケーションは、Elinの非公式キャラクタービューワーです。ゲームの解析データを元にキャラクターの情報を表示します。',
       versionInfo:
-        'バージョンは {{version}} です。将来的にNightlyにも対応する予定です。',
+        'バージョンは EAは{{eaVersion}}、 Nightlyは{{nightlyVersion}} です。',
       internalDataNotice: 'キャラクターの一覧には内部データも含まれています。',
       bugReportPrefix: '不具合報告は ',
       bugReportGitHub: 'GitHub レポジトリ',
@@ -202,8 +202,7 @@ export const resources = {
       importantInfo: 'Note',
       appDescription:
         'This application is an unofficial character viewer for Elin. It displays character information based on game data analysis.',
-      versionInfo:
-        'Version is {{version}}. We plan to support Nightly builds in the future.',
+      versionInfo: 'Version is EA {{eaVersion}}, Nightly {{nightlyVersion}}.',
       internalDataNotice: 'The character list includes internal data.',
       bugReportPrefix: 'Please report bugs to the ',
       bugReportGitHub: 'GitHub repository',

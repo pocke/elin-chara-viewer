@@ -25,10 +25,12 @@ import {
   elementByAlias,
 } from '@/lib/models/element';
 import { getContrastColor } from '@/lib/colorUtils';
+import { GameVersion } from '@/lib/db';
 
 interface ResistanceMatrixProps {
   charas: Chara[];
   onCellClick?: (rowAlias: string, colAlias: string) => void;
+  version: GameVersion;
 }
 
 interface ResistanceBuckets {
@@ -78,10 +80,11 @@ function formatBucketsForMode(
 export default function ResistanceMatrix({
   charas,
   onCellClick,
+  version,
 }: ResistanceMatrixProps) {
   const { t, language } = useTranslation();
-  const allResistanceElements = resistanceElements();
-  const parentElements = primaryAttributes();
+  const allResistanceElements = resistanceElements(version);
+  const parentElements = primaryAttributes(version);
   const [mode, setMode] = useState<MatrixMode>('resistance');
   const [parentFilters, setParentFilters] = useState<string[]>([]);
   const [hoveredCell, setHoveredCell] = useState<{
@@ -161,7 +164,7 @@ export default function ResistanceMatrix({
   // Get short name for element by converting res* to ele* and getting that element's name
   const getShortName = (element: Element): string => {
     const attackAlias = element.alias.replace(/^res/, 'ele');
-    const attackElement = elementByAlias(attackAlias);
+    const attackElement = elementByAlias(version, attackAlias);
     return attackElement
       ? attackElement.name(language)
       : element.name(language);

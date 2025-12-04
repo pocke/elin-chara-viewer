@@ -1,6 +1,14 @@
 import { z } from 'zod';
-import featModifierJson from '../../generated/featModifier.json';
-import { all } from '../db';
+import featModifierEaJson from '../../generated/featModifier.ea.json';
+import featModifierNightlyJson from '../../generated/featModifier.nightly.json';
+import { all, GameVersion } from '../db';
+
+type FeatModifierJson = typeof featModifierEaJson;
+
+const featModifierMap: Record<GameVersion, FeatModifierJson> = {
+  EA: featModifierEaJson,
+  Nightly: featModifierNightlyJson,
+};
 
 export const ElementSchema = z.object({
   __meta: z.object({
@@ -86,27 +94,38 @@ export type ElementAttacks =
   | 'eleImpact'
   | 'eleVoid';
 
-let _elementsMap: Map<string, Element> | null = null;
-let _elementsIdMap: Map<string, Element> | null = null;
+// Cache: version -> alias -> Element
+const _elementsMap: Map<GameVersion, Map<string, Element>> = new Map();
+// Cache: version -> id -> Element
+const _elementsIdMap: Map<GameVersion, Map<string, Element>> = new Map();
 
-function getElementsMap(): Map<string, Element> {
-  if (!_elementsMap) {
-    const elements = all('elements', ElementSchema);
-    _elementsMap = new Map(
-      elements.map((element) => [element.alias, new Element(element)])
+function getElementsMap(version: GameVersion): Map<string, Element> {
+  if (!_elementsMap.has(version)) {
+    const elements = all(version, 'elements', ElementSchema);
+    _elementsMap.set(
+      version,
+      new Map(
+        elements.map((element) => [
+          element.alias,
+          new Element(version, element),
+        ])
+      )
     );
   }
-  return _elementsMap;
+  return _elementsMap.get(version)!;
 }
 
-function getElementsIdMap(): Map<string, Element> {
-  if (!_elementsIdMap) {
-    const elements = all('elements', ElementSchema);
-    _elementsIdMap = new Map(
-      elements.map((element) => [element.id, new Element(element)])
+function getElementsIdMap(version: GameVersion): Map<string, Element> {
+  if (!_elementsIdMap.has(version)) {
+    const elements = all(version, 'elements', ElementSchema);
+    _elementsIdMap.set(
+      version,
+      new Map(
+        elements.map((element) => [element.id, new Element(version, element)])
+      )
     );
   }
-  return _elementsIdMap;
+  return _elementsIdMap.get(version)!;
 }
 
 // https://github.com/Elin-Modding-Resources/Elin-Decompiled/blob/72332a1390e68a8de62bca4acbd6ebbaab92257b/Elin/Chara.cs#L2041-L2086
@@ -121,15 +140,21 @@ for (const [key, value] of Object.entries(oppositeElementTable)) {
   oppositeElementTable[value] = key;
 }
 
-export function elementByAlias(alias: string): Element | undefined {
-  return getElementsMap().get(alias);
+export function elementByAlias(
+  version: GameVersion,
+  alias: string
+): Element | undefined {
+  return getElementsMap(version).get(alias);
 }
 
-export function elementById(id: string): Element | undefined {
-  return getElementsIdMap().get(id);
+export function elementById(
+  version: GameVersion,
+  id: string
+): Element | undefined {
+  return getElementsIdMap(version).get(id);
 }
 
-export function resistanceElements(): Element[] {
+export function resistanceElements(version: GameVersion): Element[] {
   const resistanceAliases = [
     'resFire',
     'resCold',
@@ -150,7 +175,7 @@ export function resistanceElements(): Element[] {
   ];
 
   return resistanceAliases.map((alias) => {
-    const element = elementByAlias(alias);
+    const element = elementByAlias(version, alias);
     if (!element) throw new Error(`Element not found: ${alias}`);
     return element;
   });
@@ -159,24 +184,27 @@ export function resistanceElements(): Element[] {
 /**
  * Get primary attribute elements (type=AttbMain and tag contains 'primary')
  */
-export function primaryAttributes(): Element[] {
-  return all('elements', ElementSchema)
+export function primaryAttributes(version: GameVersion): Element[] {
+  return all(version, 'elements', ElementSchema)
     .filter(
       (row) =>
         row.type === 'AttbMain' && row.tag?.split(',').includes('primary')
     )
-    .map((row) => new Element(row));
+    .map((row) => new Element(version, row));
 }
 
-export function attackElements(): Element[] {
-  return all('elements', ElementSchema)
+export function attackElements(version: GameVersion): Element[] {
+  return all(version, 'elements', ElementSchema)
     .filter((row) => row.alias.startsWith('ele'))
     .filter((row) => row.chance > 0)
-    .map((row) => new Element(row));
+    .map((row) => new Element(version, row));
 }
 
 export class Element {
-  constructor(public row: ElementRow) {}
+  constructor(
+    public version: GameVersion,
+    public row: ElementRow
+  ) {}
 
   get id() {
     return this.row.id;
@@ -199,7 +227,7 @@ export class Element {
    */
   parent(): Element | undefined {
     if (!this.row.aliasParent) return undefined;
-    return elementByAlias(this.row.aliasParent);
+    return elementByAlias(this.version, this.row.aliasParent);
   }
 
   name(locale: string) {
@@ -291,14 +319,14 @@ export class Element {
   }
 
   subElements() {
-    const modifiers =
-      featModifierJson[this.row.id as keyof typeof featModifierJson];
+    const featModifierJson = featModifierMap[this.version];
+    const modifiers = featModifierJson[this.row.id as keyof FeatModifierJson];
     const result = [];
 
     if (modifiers) {
       result.push(
         ...Object.entries(modifiers).map(([childId, coefficient]) => {
-          const childElement = elementById(childId);
+          const childElement = elementById(this.version, childId);
           if (!childElement) {
             throw new Error(`Child element not found: ${childId}`);
           }
@@ -314,7 +342,7 @@ export class Element {
     // If this element's alias starts with 'ele', add aliasRef element and its opposite
     if (this.row.alias.startsWith('ele')) {
       if (this.row.aliasRef) {
-        const refElement = elementByAlias(this.row.aliasRef);
+        const refElement = elementByAlias(this.version, this.row.aliasRef);
         if (refElement) {
           result.push({
             element: refElement,
@@ -326,9 +354,10 @@ export class Element {
       // Add opposite element
       const oppositeAlias = oppositeElementTable[this.row.alias];
       if (oppositeAlias) {
-        const oppositeElement = elementByAlias(oppositeAlias);
+        const oppositeElement = elementByAlias(this.version, oppositeAlias);
         if (oppositeElement && oppositeElement.row.aliasRef) {
           const oppositeRefElement = elementByAlias(
+            this.version,
             oppositeElement.row.aliasRef
           );
           if (oppositeRefElement) {

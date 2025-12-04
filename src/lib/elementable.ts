@@ -1,7 +1,9 @@
+import { GameVersion } from './db';
 import { Element, elementByAlias } from './models/element';
 
 export class Elementable {
   constructor(
+    private version: GameVersion,
     private row: { elements?: string },
     private mainElement?: Element | null
   ) {}
@@ -14,7 +16,7 @@ export class Elementable {
       const elementsFromRow = eles.split(',').map((t) => {
         const [alias, power] = t.split('/');
         const powerInt = power ? parseInt(power, 10) : 1;
-        const element = elementByAlias(alias);
+        const element = elementByAlias(this.version, alias);
         if (!element) {
           throw new Error(`Element not found: ${alias}`);
         }

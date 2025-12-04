@@ -4,16 +4,21 @@ import { Person as PersonIcon } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useMemo, Suspense } from 'react';
 import { type CharaRow, Chara } from '@/lib/models/chara';
+import { GameVersion } from '@/lib/db';
 import DataGridCharaTable from './DataGridCharaTable';
 
 interface CharaPageClientProps {
   charaRows: CharaRow[];
+  version: GameVersion;
 }
 
-export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
+export default function CharaPageClient({
+  charaRows,
+  version,
+}: CharaPageClientProps) {
   const charas = useMemo(
-    () => charaRows.map((row) => new Chara(row)),
-    [charaRows]
+    () => charaRows.map((row) => new Chara(version, row)),
+    [charaRows, version]
   );
   const { t } = useTranslation();
 
@@ -36,7 +41,7 @@ export default function CharaPageClient({ charaRows }: CharaPageClientProps) {
         </Box>
 
         <Suspense fallback={<div>{t.common.loading}...</div>}>
-          <DataGridCharaTable charas={allCharas} />
+          <DataGridCharaTable charas={allCharas} version={version} />
         </Suspense>
       </Box>
     </Container>

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Elementable } from '../elementable';
-import { all } from '../db';
+import { all, GameVersion } from '../db';
 
 const figureMap = {
   手: 'hand',
@@ -67,21 +67,26 @@ export const RaceSchema = z.object({
 
 export type RaceRow = z.infer<typeof RaceSchema>;
 
-let _racesMap: Map<string, Race> | null = null;
-let _racesByFeatMap: Map<string, Race[]> | null = null;
+// Cache: version -> id -> Race
+const _racesMap: Map<GameVersion, Map<string, Race>> = new Map();
+// Cache: version -> featAlias -> Race[]
+const _racesByFeatMap: Map<GameVersion, Map<string, Race[]>> = new Map();
 
-function getRacesMap(): Map<string, Race> {
-  if (!_racesMap) {
-    const races = all('races', RaceSchema);
-    _racesMap = new Map(races.map((race) => [race.id, new Race(race)]));
+function getRacesMap(version: GameVersion): Map<string, Race> {
+  if (!_racesMap.has(version)) {
+    const races = all(version, 'races', RaceSchema);
+    _racesMap.set(
+      version,
+      new Map(races.map((race) => [race.id, new Race(version, race)]))
+    );
   }
-  return _racesMap;
+  return _racesMap.get(version)!;
 }
 
-function getRacesByFeatMap(): Map<string, Race[]> {
-  if (!_racesByFeatMap) {
-    _racesByFeatMap = new Map();
-    const races = Array.from(getRacesMap().values());
+function getRacesByFeatMap(version: GameVersion): Map<string, Race[]> {
+  if (!_racesByFeatMap.has(version)) {
+    const featMap = new Map<string, Race[]>();
+    const races = Array.from(getRacesMap(version).values());
 
     for (const race of races) {
       const feats = race.feats();
@@ -92,26 +97,30 @@ function getRacesByFeatMap(): Map<string, Race[]> {
           continue;
         }
         seenAliases.add(alias);
-        if (!_racesByFeatMap.has(alias)) {
-          _racesByFeatMap.set(alias, []);
+        if (!featMap.has(alias)) {
+          featMap.set(alias, []);
         }
-        _racesByFeatMap.get(alias)!.push(race);
+        featMap.get(alias)!.push(race);
       }
     }
+    _racesByFeatMap.set(version, featMap);
   }
-  return _racesByFeatMap;
+  return _racesByFeatMap.get(version)!;
 }
 
-export function raceById(id: string): Race | undefined {
-  return getRacesMap().get(id);
+export function raceById(version: GameVersion, id: string): Race | undefined {
+  return getRacesMap(version).get(id);
 }
 
-export function racesByFeat(featAlias: string): Race[] {
-  return getRacesByFeatMap().get(featAlias) ?? [];
+export function racesByFeat(version: GameVersion, featAlias: string): Race[] {
+  return getRacesByFeatMap(version).get(featAlias) ?? [];
 }
 
 export class Race {
-  constructor(public row: RaceRow) {}
+  constructor(
+    public version: GameVersion,
+    public row: RaceRow
+  ) {}
 
   get id() {
     return this.row.id;
@@ -133,19 +142,19 @@ export class Race {
   }
 
   elements() {
-    return new Elementable(this.row).elements();
+    return new Elementable(this.version, this.row).elements();
   }
 
   feats() {
-    return new Elementable(this.row).feats();
+    return new Elementable(this.version, this.row).feats();
   }
 
   negations() {
-    return new Elementable(this.row).negations();
+    return new Elementable(this.version, this.row).negations();
   }
 
   others() {
-    return new Elementable(this.row).others();
+    return new Elementable(this.version, this.row).others();
   }
 
   figures() {
