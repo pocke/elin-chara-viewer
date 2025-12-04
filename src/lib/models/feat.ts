@@ -5,7 +5,7 @@ export type FeatRow = ElementRow;
 
 export class Feat {
   private element: Element;
-  private row: FeatRow;
+  readonly row: FeatRow;
 
   constructor(
     public version: GameVersion,
@@ -57,9 +57,16 @@ export class Feat {
   }
 }
 
+/**
+ * Returns all visible feats (excluding hidden ones).
+ */
 export function allFeats(version: GameVersion): Feat[] {
   const elements = all(version, 'elements', ElementSchema);
   return elements
-    .filter((row) => row.type === 'Feat')
+    .filter((row) => {
+      const element = new Element(version, row);
+      if (!element.isFeat()) return false;
+      return !element.tags().includes('hidden');
+    })
     .map((row) => new Feat(version, row));
 }

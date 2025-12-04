@@ -9,9 +9,11 @@ export async function generateMetadata(props: {
 }): Promise<Metadata> {
   const { lang, version } = await props.params;
   const pathname = `/${lang}/${version}/sim/resist`;
+  const canonicalPathname =
+    version !== 'EA' ? `/${lang}/EA/sim/resist` : pathname;
 
   return {
-    alternates: generateAlternates(lang, pathname),
+    alternates: generateAlternates(lang, pathname, canonicalPathname),
   };
 }
 
