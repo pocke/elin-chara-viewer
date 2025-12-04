@@ -3,6 +3,7 @@ import { Chara, CharaSchema } from '@/lib/models/chara';
 import { ElementAttacks, elementByAlias } from '@/lib/models/element';
 import CharaDetailClient from './CharaDetailClient';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { resources, Language } from '@/lib/i18n-resources';
 
 export const generateMetadata = async (props: {
@@ -107,7 +108,7 @@ export default async function CharaPage(props: {
   const charaRow = charaRows.find((chara) => chara.id === baseId);
 
   if (!charaRow) {
-    throw new Error(`Chara with ID ${baseId} not found`);
+    notFound();
   }
 
   return (
