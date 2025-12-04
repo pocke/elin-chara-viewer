@@ -23,8 +23,8 @@
     "@mui/material-nextjs": "^7.3.3",
     "@mui/x-data-grid": "^8.13.1",
     "csv-parse": "^6.1.0",
-    "next": "^16.0.6",
-    "react": "19.2.0",
+    "next": "^16.0.7",
+    "react": "^19.2.1",
     "react-dom": "19.2.0",
     "zod": "^4.1.11"
   },
