@@ -21,8 +21,6 @@ const getGitInfo = () => {
 const gitInfo = getGitInfo();
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  trailingSlash: true,
   env: {
     GIT_LAST_COMMIT_DATE: gitInfo.lastCommitDate,
     ELIN_EA_VERSION: 'EA 23.237 Patch 1',
