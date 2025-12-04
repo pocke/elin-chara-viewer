@@ -52,6 +52,10 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
 
   const menuItems = [
     {
+      text: t.common.home,
+      href: `/${language}`,
+    },
+    {
       text: t.common.browseCharacters,
       href: `/${language}/${currentVersion}/charas`,
     },
@@ -84,7 +88,11 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
             <Link
               href={`/${language}`}
               style={{
@@ -95,6 +103,7 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
               {t.common.title}
             </Link>
           </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'block', sm: 'none' } }} />
           <VersionSwitcher />
           <Box sx={{ ml: 1 }}>
             <LanguageSwitcher />
