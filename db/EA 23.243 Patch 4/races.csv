@@ -64,7 +64,7 @@ ent,エント,ent,8,plant,180,10,100,0,0,0,0,0,9,12,4,6,2,3,6,2,70,,10,4,0,,"rsH
 rsCarpentry 4",手|指|指|腕|脚|足|,6,oak,"log,500",,2,,,,53,"10,500",1500,35,100,log/willow,,
 hound,猟犬,hound,8,"animal,ride",90,50,100,12,0,0,0,0,8,9,11,10,5,4,3,3,120,,6,3,0,,"rsDetection 4
 rsPerform 2",頭|首|体|背|脚|足|,5,meat,"_meat,20",tail_wolf/10,2,Bite,,,53,"1,15",160,540,100,,,
-ghost,幽霊,ghost,8,"undead,humanSpeak",30,130,20,16,0,75,75,30,4,7,6,14,7,6,11,11,90,,10,2,0,"featUndead/2,levitation/1,featLightEater/2,seeInvisible/1","rsMagicCapacity 4
+ghost,幽霊,ghost,8,"undead,humanSpeak",30,130,20,16,0,75,75,30,4,7,6,14,7,6,11,11,90,,10,2,0,"featUndead/2,levitation/1,featLightEater/2,seeInvisible/1,featAshborn/1","rsMagicCapacity 4
 rsMagicDevice 2",頭|首|体|背|手|手|指|指|,5,meat,"_meat,20",,5,Touch,,,53,"10,1500",180,30,100,,,
 spirit,精霊,spirit,8,,90,120,100,5,0,0,30,0,5,9,5,7,8,10,13,4,100,,11,2,0,"featFairyResist/2,levitation/1,featLightEater/3","rsCasting 3
 rsMagicControl 2",頭|首|体|背|手|手|指|指|,4,meat,"_meat,20",,5,,,,53,"10,1500",100,25,100,,,
