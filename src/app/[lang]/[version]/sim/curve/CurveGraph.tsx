@@ -1,6 +1,6 @@
 'use client';
 import { Box, Typography, useTheme, alpha } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback, useRef } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { curveWithParams } from '@/lib/curveUtils';
 import type { CurveConfigSet } from './curveSimConfig';
@@ -17,6 +17,16 @@ interface CurveGraphProps {
 /** グラフのマージン設定 */
 const MARGIN = { top: 20, right: 30, bottom: 50, left: 60 };
 
+/** ホバー情報の型 */
+interface HoveredPoint {
+  x: number;
+  y: number;
+  input: number;
+  output: number;
+  configName: string;
+  color: string;
+}
+
 export default function CurveGraph({
   configs,
   rangeStart,
@@ -24,14 +34,8 @@ export default function CurveGraph({
 }: CurveGraphProps) {
   const { t } = useTranslation();
   const theme = useTheme();
-  const [hoveredPoint, setHoveredPoint] = useState<{
-    x: number;
-    y: number;
-    input: number;
-    output: number;
-    configName: string;
-    color: string;
-  } | null>(null);
+  const [hoveredPoint, setHoveredPoint] = useState<HoveredPoint | null>(null);
+  const lastInputRef = useRef<number | null>(null);
 
   // グラフのサイズ
   const width = 600;
@@ -39,15 +43,17 @@ export default function CurveGraph({
   const innerWidth = width - MARGIN.left - MARGIN.right;
   const innerHeight = height - MARGIN.top - MARGIN.bottom;
 
-  // 各設定のデータポイントを計算
+  // 各設定のデータポイントを計算（Mapで高速検索可能に）
   const dataPoints = useMemo(() => {
     return configs.map((config) => {
       const points: Array<{ input: number; output: number }> = [];
+      const pointMap = new Map<number, number>();
       for (let i = rangeStart; i <= rangeEnd; i++) {
         const output = curveWithParams(i, config.params);
         points.push({ input: i, output });
+        pointMap.set(i, output);
       }
-      return { config, points };
+      return { config, points, pointMap };
     });
   }, [configs, rangeStart, rangeEnd]);
 
@@ -119,47 +125,85 @@ export default function CurveGraph({
     return ticks;
   }, [maxOutput]);
 
-  // マウスイベントハンドラ
-  const handleMouseMove = (
-    e: React.MouseEvent<SVGSVGElement>,
-    config: CurveConfigSet,
-    points: Array<{ input: number; output: number }>
-  ) => {
-    const svg = e.currentTarget;
-    const rect = svg.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left - MARGIN.left;
+  // SVG全体でのマウス移動ハンドラ（最適化版）
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<SVGSVGElement>) => {
+      if (dataPoints.length === 0) return;
 
-    // マウス位置から入力値を逆算
-    const inputValue = Math.round(
-      (mouseX / innerWidth) * (rangeEnd - rangeStart) + rangeStart
-    );
+      const svg = e.currentTarget;
+      const rect = svg.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left - MARGIN.left;
+      const mouseY = e.clientY - rect.top - MARGIN.top;
 
-    // 範囲内かチェック
-    if (inputValue >= rangeStart && inputValue <= rangeEnd) {
-      const point = points.find((p) => p.input === inputValue);
-      if (point) {
+      // グラフ領域外なら何もしない
+      if (
+        mouseX < 0 ||
+        mouseX > innerWidth ||
+        mouseY < 0 ||
+        mouseY > innerHeight
+      ) {
+        if (hoveredPoint !== null) {
+          setHoveredPoint(null);
+          lastInputRef.current = null;
+        }
+        return;
+      }
+
+      // マウス位置から入力値を逆算
+      const inputValue = Math.round(
+        (mouseX / innerWidth) * (rangeEnd - rangeStart) + rangeStart
+      );
+
+      // 同じ入力値なら更新しない
+      if (inputValue === lastInputRef.current) {
+        return;
+      }
+      lastInputRef.current = inputValue;
+
+      // 範囲内かチェック
+      if (inputValue < rangeStart || inputValue > rangeEnd) {
+        return;
+      }
+
+      // 最初の設定のデータを使用（複数設定の場合も最初のものを表示）
+      const { config, pointMap } = dataPoints[0];
+      const output = pointMap.get(inputValue);
+
+      if (output !== undefined) {
         setHoveredPoint({
-          x: xScale(point.input) + MARGIN.left,
-          y: yScale(point.output) + MARGIN.top,
-          input: point.input,
-          output: point.output,
+          x: xScale(inputValue) + MARGIN.left,
+          y: yScale(output) + MARGIN.top,
+          input: inputValue,
+          output,
           configName: config.name,
           color: config.color,
         });
       }
-    }
-  };
+    },
+    [
+      dataPoints,
+      innerWidth,
+      innerHeight,
+      rangeStart,
+      rangeEnd,
+      xScale,
+      yScale,
+      hoveredPoint,
+    ]
+  );
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setHoveredPoint(null);
-  };
+    lastInputRef.current = null;
+  }, []);
 
   return (
     <Box sx={{ width: '100%', overflowX: 'auto' }}>
       <svg
         width={width}
         height={height}
-        style={{ display: 'block', margin: '0 auto' }}
+        style={{ display: 'block', margin: '0 auto', cursor: 'crosshair' }}
+        onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
         {/* 背景 */}
@@ -278,85 +322,85 @@ export default function CurveGraph({
 
         {/* 各設定のライン */}
         {dataPoints.map(({ config, points }) => (
-          <g key={config.id}>
-            <path
-              d={generatePath(points)}
-              fill="none"
-              stroke={config.color}
-              strokeWidth={2.5}
-              transform={`translate(${MARGIN.left}, ${MARGIN.top})`}
-            />
-            {/* インタラクション用の透明な太い線 */}
-            <path
-              d={generatePath(points)}
-              fill="none"
-              stroke="transparent"
-              strokeWidth={20}
-              transform={`translate(${MARGIN.left}, ${MARGIN.top})`}
-              style={{ cursor: 'crosshair' }}
-              onMouseMove={(e) =>
-                handleMouseMove(
-                  e as unknown as React.MouseEvent<SVGSVGElement>,
-                  config,
-                  points
-                )
-              }
-            />
-          </g>
+          <path
+            key={config.id}
+            d={generatePath(points)}
+            fill="none"
+            stroke={config.color}
+            strokeWidth={2.5}
+            transform={`translate(${MARGIN.left}, ${MARGIN.top})`}
+            style={{ pointerEvents: 'none' }}
+          />
         ))}
 
         {/* ホバー時のポイント表示 */}
-        {hoveredPoint && (
-          <>
-            <circle
-              cx={hoveredPoint.x}
-              cy={hoveredPoint.y}
-              r={6}
-              fill={hoveredPoint.color}
-              stroke={theme.palette.background.paper}
-              strokeWidth={2}
-            />
-            {/* ツールチップ */}
-            <g
-              transform={`translate(${hoveredPoint.x + 10}, ${hoveredPoint.y - 10})`}
-            >
-              <rect
-                x={0}
-                y={-20}
-                width={120}
-                height={50}
-                fill={alpha(theme.palette.background.paper, 0.95)}
-                stroke={theme.palette.divider}
-                rx={4}
-              />
-              <text
-                x={8}
-                y={-4}
-                fill={hoveredPoint.color}
-                fontSize={12}
-                fontWeight="bold"
-              >
-                {hoveredPoint.configName}
-              </text>
-              <text
-                x={8}
-                y={14}
-                fill={theme.palette.text.primary}
-                fontSize={12}
-              >
-                {t.curveSim.input}: {hoveredPoint.input}
-              </text>
-              <text
-                x={8}
-                y={28}
-                fill={theme.palette.text.primary}
-                fontSize={12}
-              >
-                {t.curveSim.output}: {hoveredPoint.output}
-              </text>
-            </g>
-          </>
-        )}
+        {hoveredPoint &&
+          (() => {
+            const tooltipWidth = 120;
+            const tooltipHeight = 50;
+            const padding = 10;
+
+            // ツールチップの位置を計算（右端・下端に近い場合は反対側に表示）
+            const showOnLeft = hoveredPoint.x + padding + tooltipWidth > width;
+            const showAbove = hoveredPoint.y - padding - tooltipHeight < 0;
+
+            const tooltipX = showOnLeft
+              ? hoveredPoint.x - padding - tooltipWidth
+              : hoveredPoint.x + padding;
+            const tooltipY = showAbove
+              ? hoveredPoint.y + padding
+              : hoveredPoint.y - padding - tooltipHeight;
+
+            return (
+              <>
+                <circle
+                  cx={hoveredPoint.x}
+                  cy={hoveredPoint.y}
+                  r={6}
+                  fill={hoveredPoint.color}
+                  stroke={theme.palette.background.paper}
+                  strokeWidth={2}
+                />
+                {/* ツールチップ */}
+                <g transform={`translate(${tooltipX}, ${tooltipY})`}>
+                  <rect
+                    x={0}
+                    y={0}
+                    width={tooltipWidth}
+                    height={tooltipHeight}
+                    fill={alpha(theme.palette.background.paper, 0.95)}
+                    stroke={theme.palette.divider}
+                    rx={4}
+                  />
+                  <text
+                    x={8}
+                    y={16}
+                    fill={hoveredPoint.color}
+                    fontSize={12}
+                    fontWeight="bold"
+                  >
+                    {hoveredPoint.configName}
+                  </text>
+                  <text
+                    x={8}
+                    y={30}
+                    fill={theme.palette.text.primary}
+                    fontSize={12}
+                  >
+                    {t.curveSim.input}: {hoveredPoint.input}
+                  </text>
+                  <text
+                    x={8}
+                    y={44}
+                    fill={theme.palette.text.primary}
+                    fontSize={12}
+                  >
+                    {t.curveSim.output}: {hoveredPoint.output}
+                  </text>
+                </g>
+              </>
+            );
+          })()}
       </svg>
 
       {/* 凡例 */}
