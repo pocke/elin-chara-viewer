@@ -8,7 +8,8 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { useTranslation } from '@/lib/simple-i18n';
-import { DEFAULT_PRESETS, type CurveParams } from '@/lib/curveUtils';
+import type { CurveParams } from '@/lib/curveUtils';
+import { DEFAULT_PRESETS } from './curveSimConfig';
 
 interface CurvePresetsProps {
   /** プリセットが選択された時のコールバック */

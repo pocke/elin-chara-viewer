@@ -12,7 +12,8 @@ import {
 } from '@mui/material';
 import { useMemo } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
-import { type CurveConfigSet, calculateCurveRange } from '@/lib/curveUtils';
+import { calculateCurveRange } from '@/lib/curveUtils';
+import type { CurveConfigSet } from './curveSimConfig';
 
 interface CurveComparisonTableProps {
   /** 設定セット */

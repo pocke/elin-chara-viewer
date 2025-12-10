@@ -18,14 +18,14 @@ import {
 import { useTranslation } from '@/lib/simple-i18n';
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import type { CurveParams } from '@/lib/curveUtils';
 import {
   type CurveConfigSet,
-  type CurveParams,
   DEFAULT_CURVE_PARAMS,
   DEFAULT_RANGE,
   CONFIG_COLORS,
   createConfigSet,
-} from '@/lib/curveUtils';
+} from './curveSimConfig';
 import CurveGraph from './CurveGraph';
 import CurveParameterForm from './CurveParameterForm';
 import CurvePresets from './CurvePresets';

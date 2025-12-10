@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { Delete as DeleteIcon, HelpOutline } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
-import type { CurveConfigSet } from '@/lib/curveUtils';
+import type { CurveConfigSet } from './curveSimConfig';
 
 interface CurveParameterFormProps {
   /** 設定 */

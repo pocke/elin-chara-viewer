@@ -2,7 +2,8 @@
 import { Box, Typography, useTheme, alpha } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
-import { type CurveConfigSet, curveWithParams } from '@/lib/curveUtils';
+import { curveWithParams } from '@/lib/curveUtils';
+import type { CurveConfigSet } from './curveSimConfig';
 
 interface CurveGraphProps {
   /** 複数の設定セット */
