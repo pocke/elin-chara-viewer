@@ -135,12 +135,15 @@ export default function CurveGraph({
       const mouseX = e.clientX - rect.left - MARGIN.left;
       const mouseY = e.clientY - rect.top - MARGIN.top;
 
-      // グラフ領域外なら何もしない
+      // グラフ領域外への許容マージン（端の値を見やすくするため）
+      const edgeMargin = 30;
+
+      // 完全にグラフ領域外（許容マージン超え）なら何もしない
       if (
-        mouseX < 0 ||
-        mouseX > innerWidth ||
-        mouseY < 0 ||
-        mouseY > innerHeight
+        mouseX < -edgeMargin ||
+        mouseX > innerWidth + edgeMargin ||
+        mouseY < -edgeMargin ||
+        mouseY > innerHeight + edgeMargin
       ) {
         if (hoveredPoint !== null) {
           setHoveredPoint(null);
@@ -149,9 +152,10 @@ export default function CurveGraph({
         return;
       }
 
-      // マウス位置から入力値を逆算
+      // マウス位置をグラフ領域内にクランプしてから入力値を計算
+      const clampedMouseX = Math.max(0, Math.min(mouseX, innerWidth));
       const inputValue = Math.round(
-        (mouseX / innerWidth) * (rangeEnd - rangeStart) + rangeStart
+        (clampedMouseX / innerWidth) * (rangeEnd - rangeStart) + rangeStart
       );
 
       // 同じ入力値なら更新しない
@@ -159,11 +163,6 @@ export default function CurveGraph({
         return;
       }
       lastInputRef.current = inputValue;
-
-      // 範囲内かチェック
-      if (inputValue < rangeStart || inputValue > rangeEnd) {
-        return;
-      }
 
       // 最初の設定のデータを使用（複数設定の場合も最初のものを表示）
       const { config, pointMap } = dataPoints[0];
