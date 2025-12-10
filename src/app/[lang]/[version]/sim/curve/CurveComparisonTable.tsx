@@ -31,22 +31,49 @@ export default function CurveComparisonTable({
 }: CurveComparisonTableProps) {
   const { t } = useTranslation();
 
-  // テーブル用のステップ値を計算（10刻み、または範囲が小さい場合は1刻み）
+  // テーブルの最大行数
+  const MAX_ROWS = 100;
+
+  // テーブル用のステップ値を計算（範囲に応じてサンプリング）
   const stepSize = useMemo(() => {
     const range = rangeEnd - rangeStart;
     if (range <= 20) return 1;
     if (range <= 50) return 5;
-    return 10;
+    if (range <= 100) return 10;
+    // 大きな範囲の場合は最大行数に収まるようにサンプリング
+    return Math.ceil(range / MAX_ROWS);
   }, [rangeStart, rangeEnd]);
 
-  // テーブルの行データを生成
+  // テーブルの行データを生成（両端は必ず含める）
   const tableData = useMemo(() => {
     const rows: Array<{
       input: number;
       results: Array<{ output: number; reduction: number }>;
     }> = [];
 
-    for (let i = rangeStart; i <= rangeEnd; i += stepSize) {
+    // 開始値を追加
+    const startResults = configs.map((config) => {
+      const rangeData = calculateCurveRange(
+        config.params,
+        rangeStart,
+        rangeStart
+      );
+      return rangeData[0];
+    });
+    rows.push({
+      input: rangeStart,
+      results: startResults.map((r) => ({
+        output: r.output,
+        reduction: r.reduction,
+      })),
+    });
+
+    // 中間値をサンプリング（開始・終了を除く）
+    const firstStep = Math.ceil(rangeStart / stepSize) * stepSize;
+    const startValue =
+      firstStep <= rangeStart ? firstStep + stepSize : firstStep;
+
+    for (let i = startValue; i < rangeEnd; i += stepSize) {
       const results = configs.map((config) => {
         const rangeData = calculateCurveRange(config.params, i, i);
         return rangeData[0];
@@ -60,9 +87,9 @@ export default function CurveComparisonTable({
       });
     }
 
-    // 最後の値が含まれていない場合は追加
-    if (rows.length > 0 && rows[rows.length - 1].input !== rangeEnd) {
-      const results = configs.map((config) => {
+    // 終了値を追加（開始と同じでない場合）
+    if (rangeEnd !== rangeStart) {
+      const endResults = configs.map((config) => {
         const rangeData = calculateCurveRange(
           config.params,
           rangeEnd,
@@ -72,7 +99,7 @@ export default function CurveComparisonTable({
       });
       rows.push({
         input: rangeEnd,
-        results: results.map((r) => ({
+        results: endResults.map((r) => ({
           output: r.output,
           reduction: r.reduction,
         })),

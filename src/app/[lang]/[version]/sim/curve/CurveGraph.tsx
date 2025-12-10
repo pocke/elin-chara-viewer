@@ -43,19 +43,31 @@ export default function CurveGraph({
   const innerWidth = width - MARGIN.left - MARGIN.right;
   const innerHeight = height - MARGIN.top - MARGIN.bottom;
 
-  // 各設定のデータポイントを計算（Mapで高速検索可能に）
+  // 大きな範囲でもパフォーマンスを維持するための最大ポイント数
+  const MAX_POINTS = 1000;
+
+  // サンプリング間隔を計算
+  const sampleStep = useMemo(() => {
+    const range = rangeEnd - rangeStart;
+    return range > MAX_POINTS ? Math.ceil(range / MAX_POINTS) : 1;
+  }, [rangeStart, rangeEnd]);
+
+  // 各設定のデータポイントを計算（サンプリングで間引き）
   const dataPoints = useMemo(() => {
     return configs.map((config) => {
       const points: Array<{ input: number; output: number }> = [];
-      const pointMap = new Map<number, number>();
-      for (let i = rangeStart; i <= rangeEnd; i++) {
+      for (let i = rangeStart; i <= rangeEnd; i += sampleStep) {
         const output = curveWithParams(i, config.params);
         points.push({ input: i, output });
-        pointMap.set(i, output);
       }
-      return { config, points, pointMap };
+      // 最後の値を必ず含める
+      if ((rangeEnd - rangeStart) % sampleStep !== 0) {
+        const output = curveWithParams(rangeEnd, config.params);
+        points.push({ input: rangeEnd, output });
+      }
+      return { config, points };
     });
-  }, [configs, rangeStart, rangeEnd]);
+  }, [configs, rangeStart, rangeEnd, sampleStep]);
 
   // Y軸の最大値を計算（全設定の最大出力値）
   const maxOutput = useMemo(() => {
@@ -91,14 +103,18 @@ export default function CurveGraph({
     };
   }, [xScale, yScale]);
 
-  // 線形（減衰なし）のパス
+  // 線形（減衰なし）のパス（サンプリングで間引き）
   const linearPath = useMemo(() => {
     const points = [];
-    for (let i = rangeStart; i <= rangeEnd; i++) {
+    for (let i = rangeStart; i <= rangeEnd; i += sampleStep) {
       points.push({ input: i, output: i });
     }
+    // 最後の値を必ず含める
+    if ((rangeEnd - rangeStart) % sampleStep !== 0) {
+      points.push({ input: rangeEnd, output: rangeEnd });
+    }
     return generatePath(points);
-  }, [rangeStart, rangeEnd, generatePath]);
+  }, [rangeStart, rangeEnd, sampleStep, generatePath]);
 
   // グリッドラインの値を計算
   const xTicks = useMemo(() => {
@@ -165,19 +181,18 @@ export default function CurveGraph({
       lastInputRef.current = inputValue;
 
       // 最初の設定のデータを使用（複数設定の場合も最初のものを表示）
-      const { config, pointMap } = dataPoints[0];
-      const output = pointMap.get(inputValue);
+      const { config } = dataPoints[0];
+      // サンプリングで間引いているので、直接計算して正確な値を表示
+      const output = curveWithParams(inputValue, config.params);
 
-      if (output !== undefined) {
-        setHoveredPoint({
-          x: xScale(inputValue) + MARGIN.left,
-          y: yScale(output) + MARGIN.top,
-          input: inputValue,
-          output,
-          configName: config.name,
-          color: config.color,
-        });
-      }
+      setHoveredPoint({
+        x: xScale(inputValue) + MARGIN.left,
+        y: yScale(output) + MARGIN.top,
+        input: inputValue,
+        output,
+        configName: config.name,
+        color: config.color,
+      });
     },
     [
       dataPoints,
