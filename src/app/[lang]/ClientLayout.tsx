@@ -67,6 +67,10 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
       text: t.common.browseResistSim,
       href: `/${language}/${currentVersion}/sim/resist`,
     },
+    {
+      text: t.common.browseCurveSim,
+      href: `/${language}/${currentVersion}/sim/curve`,
+    },
   ];
 
   return (
