@@ -180,6 +180,8 @@ export const resources = {
       comparison: '設定比較',
       urlCopied: 'URLをコピーしました',
       copyUrl: 'URLをコピー',
+      largeValueWarning:
+        '※ 極端に大きな値に対しては正確に動作しない場合があります',
     },
   },
   en: {
@@ -364,6 +366,7 @@ export const resources = {
       comparison: 'Config Comparison',
       urlCopied: 'URL copied',
       copyUrl: 'Copy URL',
+      largeValueWarning: '* May not work correctly for extremely large values',
     },
   },
 };

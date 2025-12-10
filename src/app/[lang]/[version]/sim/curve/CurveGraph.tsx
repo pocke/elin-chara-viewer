@@ -453,6 +453,15 @@ export default function CurveGraph({
           </Box>
         ))}
       </Box>
+
+      {/* 注意書き */}
+      <Typography
+        variant="caption"
+        color="text.secondary"
+        sx={{ display: 'block', textAlign: 'center', mt: 1 }}
+      >
+        {t.curveSim.largeValueWarning}
+      </Typography>
     </Box>
   );
 }
