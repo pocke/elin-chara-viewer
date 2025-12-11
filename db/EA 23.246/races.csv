@@ -102,7 +102,7 @@ rsEvadePlus 2",首|体|指|指|,4,meat,"_meat,20",,2,Claw,,,53,"10,100",2000,30,
 cerberus,ケルベロス,cerberus,8,animal,180,70,100,0,0,10,0,0,11,9,10,11,6,8,7,4,110,,6,4,0,"featUnderground/1,featHeavyEater/3","rsDetection 3
 rsTailor 3",頭|頭|頭|首|体|腕|脚|足|脚|足|,4,meat,"_meat,20",tail_dog/10,2,Claw,,,53,"10,100",1200,70,150,,,
 spider,蜘蛛,spider,8,"ride,webfree,insect,filth",40,70,100,17,0,0,0,20,5,5,9,12,5,6,8,4,180,,3,2,0,"resPoison/20,antidote/-20","rsStealth 3
-rsAnatomy 5",指|指|,7,meat,"_meat,20",,2,Bite,castSpider,,53,"1,20",60,570,100,fiber/spidersilk,,
+rsAnatomy 5",指|指|,7,meat,"_meat,20",,6,Bite,castSpider,,53,"1,20",60,570,100,fiber/spidersilk,,
 rock,岩,rock,8,,80,50,100,0,20,25,0,0,8,22,3,8,2,3,4,10,80,,2,3,0,featGolem/1,"rsWeightLifting 3
 rsMining 3",頭|,9,granite,"rock,500",,8,,,,53,"10,600",500,130,100,,,
 crab,蟹,crab,8,"fish,sand",60,80,100,0,15,15,0,0,6,6,7,7,3,4,4,3,100,,1,2,0,swimming/4,"rsDisarmTrap 2
@@ -159,11 +159,11 @@ rsDisarmTrap 3",頭|体|背|手|手|腰|脚|足|脚|足|,5,meat,"_meat,20",,2,Bi
 animal,豚,pig,8,"animal,ride",100,80,100,0,0,0,0,0,9,8,7,7,8,7,7,7,100,,7,3,0,featHeavyEater/3,"rsWeightLifting 3
 rsPerform 2
 rsDetection 3",頭|首|体|背|手|脚|足|脚|足|,6,meat,"_meat,20",,2,Bite,,,53,"1,15",80,920,150,fiber/wool,,
-catgod,猫の神,catgod,9,"noRide,god,humanSpeak",120,80,100,25,0,0,0,0,12,13,21,28,8,13,12,25,800,,100,6,0,"featFluffyTail/1,food_cat/-1,seeInvisible/1","rsEvade 3
+catgod,猫の神,catgod,9,"noRide,god,humanSpeak",140,80,100,25,0,0,0,0,12,13,21,28,8,13,12,25,800,,100,6,0,"featFluffyTail/1,food_cat/-1,seeInvisible/1","rsEvade 3
 rsEvadePlus 3
 rsCritical 2",頭|首|体|手|指|腕|脚|足|,3,meat,"_meat,20",,2,Claw,,all,0,"10000,100000",120,5,100,,,
 machinegod,機械の神,machinegod,9,"machine,god,humanSpeak",200,80,100,0,15,0,0,0,15,14,11,24,12,15,8,10,100,,100,8,0,"featGolem/1,seeInvisible/1,swimming/5",rsGun 30,頭|体|背|手|手|腕|腰|脚|足|,3,steel,"ore,1000",,10,,,all,53,"10000,100000",3000,5,100,,,
-undeadgod,死霊の神,undeadgod,9,"undead,god,humanSpeak",150,500,100,0,0,0,0,0,10,13,14,18,16,18,28,7,160,,100,4,0,"featUndead/1,featLightEater/3,seeInvisible/1","rsMagicControl 3
+undeadgod,死霊の神,undeadgod,9,"undead,god,humanSpeak",80,500,100,0,0,0,0,0,10,13,14,18,16,18,28,7,180,,100,4,0,"featUndead/1,featLightEater/3,seeInvisible/1,featElder/1,featManaMeat/3,featAshborn/1","rsMagicControl 3
 rsMagicCapacity 5",首|体|背|手|手|指|指|,3,meat,"_meat,20",,3,,,all,53,"10000,100000",1500,5,100,,,
 catsister,妹猫,catsister,9,"noRide,human,mofu",25,100,100,0,0,0,30,60,7,5,13,15,8,10,13,22,280,,10,5,0,"featFluffyTail/1,food_cat/-1,featRoran/1","rsTwoHand 6
 rsTactics 4",頭|首|体|背|手|手|指|指|腕|腰|脚|足|,6,meat,"_meat,20",tail_cat/10,2,Claw,,all,0,"8,50",140,5,50,,,
