@@ -30,6 +30,7 @@ import { GameVersion } from '@/lib/db';
 import { resistanceElements, elementByAlias } from '@/lib/models/element';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
 import CharaSearchBar from './CharaSearchBar';
+import { normalizeForSearch } from '@/lib/searchUtils';
 
 interface DataGridCharaTableProps {
   charas: Chara[];
@@ -240,8 +241,10 @@ export default function DataGridCharaTable({
     return charas.filter((chara) => {
       // Search query filter
       if (searchQuery) {
-        const normalizedName = chara.normalizedName(language).toLowerCase();
-        if (!normalizedName.includes(searchQuery.toLowerCase())) {
+        const normalizedName = normalizeForSearch(
+          chara.normalizedName(language)
+        );
+        if (!normalizedName.includes(normalizeForSearch(searchQuery))) {
           return false;
         }
       }

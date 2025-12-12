@@ -7,6 +7,7 @@ import { type FeatRow, Feat } from '@/lib/models/feat';
 import { GameVersion } from '@/lib/db';
 import DataGridFeatTable from './DataGridFeatTable';
 import FeatSearchBar from './FeatSearchBar';
+import { normalizeForSearch } from '@/lib/searchUtils';
 
 interface FeatPageClientProps {
   featRows: FeatRow[];
@@ -28,10 +29,10 @@ export default function FeatPageClient({
   const filteredFeats = useMemo(() => {
     if (!searchQuery) return feats;
 
-    const lowerQuery = searchQuery.toLowerCase();
+    const normalizedQuery = normalizeForSearch(searchQuery);
     return feats.filter((feat) => {
-      const featName = feat.name(language).toLowerCase();
-      return featName.includes(lowerQuery);
+      const featName = normalizeForSearch(feat.name(language));
+      return featName.includes(normalizedQuery);
     });
   }, [feats, searchQuery, language]);
 
