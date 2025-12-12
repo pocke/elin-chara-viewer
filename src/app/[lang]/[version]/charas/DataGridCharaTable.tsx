@@ -239,12 +239,15 @@ export default function DataGridCharaTable({
   // Apply custom filters to charas
   const filteredCharas = useMemo(() => {
     return charas.filter((chara) => {
-      // Search query filter
+      // Search query filter (search both Japanese and English names)
       if (searchQuery) {
-        const normalizedName = normalizeForSearch(
-          chara.normalizedName(language)
-        );
-        if (!normalizedName.includes(normalizeForSearch(searchQuery))) {
+        const normalizedQuery = normalizeForSearch(searchQuery);
+        const nameJa = normalizeForSearch(chara.normalizedName('ja'));
+        const nameEn = normalizeForSearch(chara.normalizedName('en'));
+        if (
+          !nameJa.includes(normalizedQuery) &&
+          !nameEn.includes(normalizedQuery)
+        ) {
           return false;
         }
       }
@@ -301,7 +304,6 @@ export default function DataGridCharaTable({
     selectedJobs,
     selectedFeats,
     selectedAbilities,
-    language,
     showHiddenCharas,
   ]);
 

@@ -18,7 +18,7 @@ export default function FeatPageClient({
   featRows,
   version,
 }: FeatPageClientProps) {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
 
   const feats = useMemo(
@@ -31,10 +31,14 @@ export default function FeatPageClient({
 
     const normalizedQuery = normalizeForSearch(searchQuery);
     return feats.filter((feat) => {
-      const featName = normalizeForSearch(feat.name(language));
-      return featName.includes(normalizedQuery);
+      // Search both Japanese and English names
+      const nameJa = normalizeForSearch(feat.name('ja'));
+      const nameEn = normalizeForSearch(feat.name('en'));
+      return (
+        nameJa.includes(normalizedQuery) || nameEn.includes(normalizedQuery)
+      );
     });
-  }, [feats, searchQuery, language]);
+  }, [feats, searchQuery]);
 
   return (
     <Container maxWidth="xl">
