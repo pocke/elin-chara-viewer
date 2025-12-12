@@ -7,6 +7,7 @@ import { type FeatRow, Feat } from '@/lib/models/feat';
 import { GameVersion } from '@/lib/db';
 import DataGridFeatTable from './DataGridFeatTable';
 import FeatSearchBar from './FeatSearchBar';
+import { normalizeForSearch } from '@/lib/searchUtils';
 
 interface FeatPageClientProps {
   featRows: FeatRow[];
@@ -17,7 +18,7 @@ export default function FeatPageClient({
   featRows,
   version,
 }: FeatPageClientProps) {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
 
   const feats = useMemo(
@@ -28,12 +29,16 @@ export default function FeatPageClient({
   const filteredFeats = useMemo(() => {
     if (!searchQuery) return feats;
 
-    const lowerQuery = searchQuery.toLowerCase();
+    const normalizedQuery = normalizeForSearch(searchQuery);
     return feats.filter((feat) => {
-      const featName = feat.name(language).toLowerCase();
-      return featName.includes(lowerQuery);
+      // Search both Japanese and English names
+      const nameJa = normalizeForSearch(feat.name('ja'));
+      const nameEn = normalizeForSearch(feat.name('en'));
+      return (
+        nameJa.includes(normalizedQuery) || nameEn.includes(normalizedQuery)
+      );
     });
-  }, [feats, searchQuery, language]);
+  }, [feats, searchQuery]);
 
   return (
     <Container maxWidth="xl">
