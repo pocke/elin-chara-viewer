@@ -178,20 +178,45 @@ export default function DataGridCharaTable({
 
   // Convert Chara objects to DataGrid rows
   // Get unique race, job, feat, and ability options for select filters
+  // Each option has { key, displayName, nameJa, nameEn } for bilingual search
   const { raceOptions, jobOptions, featOptions, abilityOptions } =
     useMemo(() => {
-      const raceMap = new Map<string, string>();
-      const jobMap = new Map<string, string>();
-      const featMap = new Map<string, string>();
-      const abilityMap = new Map<string, string>();
+      const raceMap = new Map<
+        string,
+        { displayName: string; nameJa: string; nameEn: string }
+      >();
+      const jobMap = new Map<
+        string,
+        { displayName: string; nameJa: string; nameEn: string }
+      >();
+      const featMap = new Map<
+        string,
+        { displayName: string; nameJa: string; nameEn: string }
+      >();
+      const abilityMap = new Map<
+        string,
+        { displayName: string; nameJa: string; nameEn: string }
+      >();
 
       charas.forEach((chara) => {
-        raceMap.set(chara.race.id, chara.race.name(language));
-        jobMap.set(chara.job().id, chara.job().name(language));
+        raceMap.set(chara.race.id, {
+          displayName: chara.race.name(language),
+          nameJa: chara.race.name('ja'),
+          nameEn: chara.race.name('en'),
+        });
+        jobMap.set(chara.job().id, {
+          displayName: chara.job().name(language),
+          nameJa: chara.job().name('ja'),
+          nameEn: chara.job().name('en'),
+        });
 
         // Feats
         chara.feats().forEach((feat) => {
-          featMap.set(feat.element.alias, feat.element.name(language));
+          featMap.set(feat.element.alias, {
+            displayName: feat.element.name(language),
+            nameJa: feat.element.name('ja'),
+            nameEn: feat.element.name('en'),
+          });
         });
 
         // Abilities
@@ -201,38 +226,55 @@ export default function DataGridCharaTable({
             ? (elementByAlias(version, ability.element) ?? null)
             : null;
 
-          let baseAbilityName: string;
+          let baseAbilityNameDisplay: string;
+          let baseAbilityNameJa: string;
+          let baseAbilityNameEn: string;
           if (baseElement) {
-            baseAbilityName = baseElement.abilityName(elementElement, language);
+            baseAbilityNameDisplay = baseElement.abilityName(
+              elementElement,
+              language
+            );
+            baseAbilityNameJa = baseElement.abilityName(elementElement, 'ja');
+            baseAbilityNameEn = baseElement.abilityName(elementElement, 'en');
           } else {
-            baseAbilityName = ability.name;
+            baseAbilityNameDisplay = ability.name;
+            baseAbilityNameJa = ability.name;
+            baseAbilityNameEn = ability.name;
           }
 
           const key = abilityToSearchKey(ability);
 
           // Add party variant only if this ability actually has party: true
           if (ability.party) {
-            const partyAbilityName = `${baseAbilityName} (${t.common.range})`;
-            abilityMap.set(key, partyAbilityName);
+            abilityMap.set(key, {
+              displayName: `${baseAbilityNameDisplay} (${t.common.range})`,
+              nameJa: `${baseAbilityNameJa} (${t.common.range})`,
+              nameEn: `${baseAbilityNameEn} (${t.common.range})`,
+            });
           } else {
-            abilityMap.set(key, baseAbilityName);
+            abilityMap.set(key, {
+              displayName: baseAbilityNameDisplay,
+              nameJa: baseAbilityNameJa,
+              nameEn: baseAbilityNameEn,
+            });
           }
         });
       });
 
+      // Convert to { key, displayName, nameJa, nameEn } format
       return {
-        raceOptions: Array.from(raceMap.entries()).sort((a, b) =>
-          a[1].localeCompare(b[1])
-        ),
-        jobOptions: Array.from(jobMap.entries()).sort((a, b) =>
-          a[1].localeCompare(b[1])
-        ),
-        featOptions: Array.from(featMap.entries()).sort((a, b) =>
-          a[1].localeCompare(b[1])
-        ),
-        abilityOptions: Array.from(abilityMap.entries()).sort((a, b) =>
-          a[1].localeCompare(b[1])
-        ),
+        raceOptions: Array.from(raceMap.entries())
+          .map(([key, names]) => ({ key, ...names }))
+          .sort((a, b) => a.displayName.localeCompare(b.displayName)),
+        jobOptions: Array.from(jobMap.entries())
+          .map(([key, names]) => ({ key, ...names }))
+          .sort((a, b) => a.displayName.localeCompare(b.displayName)),
+        featOptions: Array.from(featMap.entries())
+          .map(([key, names]) => ({ key, ...names }))
+          .sort((a, b) => a.displayName.localeCompare(b.displayName)),
+        abilityOptions: Array.from(abilityMap.entries())
+          .map(([key, names]) => ({ key, ...names }))
+          .sort((a, b) => a.displayName.localeCompare(b.displayName)),
       };
     }, [charas, language, t.common.range, version]);
 
@@ -389,14 +431,14 @@ export default function DataGridCharaTable({
         field: 'race',
         headerName: t.common.race,
         type: 'singleSelect',
-        valueOptions: raceOptions.map(([, name]) => name),
+        valueOptions: raceOptions.map((opt) => opt.displayName),
         width: 120,
       },
       {
         field: 'job',
         headerName: t.common.job,
         type: 'singleSelect',
-        valueOptions: jobOptions.map(([, name]) => name),
+        valueOptions: jobOptions.map((opt) => opt.displayName),
         width: 120,
       },
       {
