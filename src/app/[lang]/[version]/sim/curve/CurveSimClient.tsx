@@ -115,9 +115,22 @@ function CurveSimContent({ lang, version }: CurveSimClientProps) {
     params.set('rangeStart', rangeStart.toString());
     params.set('rangeEnd', rangeEnd.toString());
 
+    // 現在のURLパラメータと比較して、同じなら更新をスキップ
+    const currentConfigs = searchParams.get('configs');
+    const currentRangeStart = searchParams.get('rangeStart');
+    const currentRangeEnd = searchParams.get('rangeEnd');
+
+    if (
+      currentConfigs === params.get('configs') &&
+      currentRangeStart === params.get('rangeStart') &&
+      currentRangeEnd === params.get('rangeEnd')
+    ) {
+      return;
+    }
+
     const newUrl = `/${lang}/${version}/sim/curve?${params.toString()}`;
     router.replace(newUrl, { scroll: false });
-  }, [configs, rangeStart, rangeEnd, lang, version, router]);
+  }, [configs, rangeStart, rangeEnd, lang, version, router, searchParams]);
 
   // 設定変更時にURLを更新
   useEffect(() => {
