@@ -8,7 +8,7 @@ import {
   filterOthers,
 } from '../elementable';
 import { all, GameVersion } from '../db';
-import { elementById } from './element';
+import { elementByAlias, elementById } from './element';
 
 // Common skill element IDs that all races have (from SourceRace.cs OnInit)
 // These are set to 1 for all races in the game
@@ -188,7 +188,15 @@ export class Race {
 
   elements(): ElementWithPower[] {
     const baseElements = parseElements(this.version, this.row);
-    return [...baseElements, ...this.commonSkillElements()];
+    const result = [...baseElements, ...this.commonSkillElements()];
+
+    // Add martial skill with power from row.martial column
+    if (this.row.martial > 0) {
+      const martialElement = elementByAlias(this.version, 'martial')!;
+      result.push({ element: martialElement, powers: [this.row.martial] });
+    }
+
+    return result;
   }
 
   feats(): ElementWithPower[] {
