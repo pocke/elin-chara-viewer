@@ -26,12 +26,11 @@ import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Chara } from '@/lib/models/chara';
-import { all, GameVersion } from '@/lib/db';
+import { GameVersion } from '@/lib/db';
 import {
   resistanceElements,
   elementByAlias,
-  Element,
-  ElementSchema,
+  skillElements,
 } from '@/lib/models/element';
 import { skillSortKey, calcBasePotential } from '@/lib/elementable';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
@@ -119,21 +118,6 @@ const abilityToSearchKey = (ability: {
   return `${ability.name}:${ability.element ?? ''}:${ability.party}`;
 };
 
-// Get sorted skill elements for a given version
-function getSkillElements(version: GameVersion): Element[] {
-  const allElements = all(version, 'elements', ElementSchema).map(
-    (row) => new Element(version, row)
-  );
-  const skillElements = allElements.filter((e) => e.row.category === 'skill');
-
-  // Sort using skillSortKey (same as CharaDetailClient)
-  return skillElements.sort((a, b) => {
-    const [aCatSub, aParent, aId] = skillSortKey(a);
-    const [bCatSub, bParent, bId] = skillSortKey(b);
-    return aCatSub - bCatSub || aParent - bParent || aId - bId;
-  });
-}
-
 export default function DataGridCharaTable({
   charas,
   version,
@@ -146,10 +130,18 @@ export default function DataGridCharaTable({
   const resistanceElementsList = resistanceElements(version);
 
   // Get skill elements with same sorting as CharaDetailClient
-  const skillElements = useMemo(() => getSkillElements(version), [version]);
+  const sortedSkillElements = useMemo(() => {
+    const elements = skillElements(version);
+    // Sort using skillSortKey (same as CharaDetailClient)
+    return elements.sort((a, b) => {
+      const [aCatSub, aParent, aId] = skillSortKey(a);
+      const [bCatSub, bParent, bId] = skillSortKey(b);
+      return aCatSub - bCatSub || aParent - bParent || aId - bId;
+    });
+  }, [version]);
   const skillAliases = useMemo(
-    () => skillElements.map((e) => e.alias),
-    [skillElements]
+    () => sortedSkillElements.map((e) => e.alias),
+    [sortedSkillElements]
   );
 
   // Resistance element aliases
@@ -463,7 +455,7 @@ export default function DataGridCharaTable({
 
       // Add skill columns (base potential values)
       const charaElements = chara.elements();
-      skillElements.forEach((skillElement) => {
+      sortedSkillElements.forEach((skillElement) => {
         const found = charaElements.find(
           (ewp) => ewp.element.alias === skillElement.alias
         );
@@ -507,7 +499,13 @@ export default function DataGridCharaTable({
 
       return row;
     });
-  }, [filteredCharas, language, t, resistanceElementsList, skillElements]);
+  }, [
+    filteredCharas,
+    language,
+    t,
+    resistanceElementsList,
+    sortedSkillElements,
+  ]);
 
   // Define columns
   const columns: GridColDef[] = useMemo(() => {
@@ -629,7 +627,7 @@ export default function DataGridCharaTable({
     }
 
     // Add skill columns (base potential values)
-    skillElements.forEach((skillElement) => {
+    sortedSkillElements.forEach((skillElement) => {
       baseColumns.push({
         field: skillElement.alias,
         headerName: skillElement.name(language),
@@ -763,7 +761,7 @@ export default function DataGridCharaTable({
     raceOptions,
     jobOptions,
     filteredCharas,
-    skillElements,
+    sortedSkillElements,
   ]);
 
   // Create visibility model based on selected presets
