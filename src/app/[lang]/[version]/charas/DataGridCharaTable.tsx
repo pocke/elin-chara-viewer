@@ -66,6 +66,33 @@ const TACTICS_FIELDS = [
   'tacticsPartyBuff',
 ];
 
+// Key info column fields
+const KEY_INFO_FIELDS = [
+  'race',
+  'job',
+  'mainElement',
+  'level',
+  'geneSlot',
+  'bodyParts',
+  'life',
+  'mana',
+  'speed',
+  'tacticsName',
+];
+
+// Other stats column fields
+const OTHER_STATS_FIELDS = [
+  'life',
+  'mana',
+  'speed',
+  'vigor',
+  'dv',
+  'pv',
+  'pdr',
+  'edr',
+  'ep',
+];
+
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -103,11 +130,18 @@ export default function DataGridCharaTable({
     [resistanceElementsList]
   );
 
-  // Column presets
-  type PresetType = 'all' | 'primaryAttributes' | 'resistances' | 'tactics';
+  // Column presets (excludes 'all' as it's handled separately)
+  type PresetType =
+    | 'keyInfo'
+    | 'otherStats'
+    | 'primaryAttributes'
+    | 'resistances'
+    | 'tactics';
 
-  // Column visibility state
-  const [selectedPreset, setSelectedPreset] = useState<PresetType>('all');
+  // Column visibility state (default to keyInfo preset)
+  const [selectedPresets, setSelectedPresets] = useState<PresetType[]>([
+    'keyInfo',
+  ]);
   const [columnVisibilityModel, setColumnVisibilityModel] =
     useState<GridColumnVisibilityModel>({});
 
@@ -137,7 +171,6 @@ export default function DataGridCharaTable({
       searchParams.get('abilities')?.split(',').filter(Boolean) || [];
     const hidden = searchParams.get('hidden') === 'true';
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Synchronizing with external URL state
     setSearchQuery(query);
     setSelectedRaces(races);
     setSelectedJobs(jobs);
@@ -679,22 +712,41 @@ export default function DataGridCharaTable({
     filteredCharas,
   ]);
 
-  // Create visibility model based on preset and columns
+  // Create visibility model based on selected presets
   const createVisibilityModel = useCallback(
-    (preset: PresetType): GridColumnVisibilityModel => {
+    (presets: PresetType[]): GridColumnVisibilityModel => {
       const model: GridColumnVisibilityModel = {};
+
+      // If no presets selected, show all columns
+      const showAll = presets.length === 0;
 
       columns.forEach((col) => {
         if (col.field === 'name') {
           model[col.field] = true;
-        } else if (preset === 'all') {
+        } else if (showAll) {
           model[col.field] = true;
-        } else if (preset === 'primaryAttributes') {
-          model[col.field] = PRIMARY_ATTRIBUTE_ALIASES.includes(col.field);
-        } else if (preset === 'resistances') {
-          model[col.field] = resistanceAliases.includes(col.field);
-        } else if (preset === 'tactics') {
-          model[col.field] = TACTICS_FIELDS.includes(col.field);
+        } else {
+          // Show column if it belongs to any of the selected presets
+          const inKeyInfo =
+            presets.includes('keyInfo') && KEY_INFO_FIELDS.includes(col.field);
+          const inOtherStats =
+            presets.includes('otherStats') &&
+            OTHER_STATS_FIELDS.includes(col.field);
+          const inPrimaryAttributes =
+            presets.includes('primaryAttributes') &&
+            PRIMARY_ATTRIBUTE_ALIASES.includes(col.field);
+          const inResistances =
+            presets.includes('resistances') &&
+            resistanceAliases.includes(col.field);
+          const inTactics =
+            presets.includes('tactics') && TACTICS_FIELDS.includes(col.field);
+
+          model[col.field] =
+            inKeyInfo ||
+            inOtherStats ||
+            inPrimaryAttributes ||
+            inResistances ||
+            inTactics;
         }
       });
 
@@ -703,15 +755,25 @@ export default function DataGridCharaTable({
     [columns, resistanceAliases]
   );
 
+  // Initialize column visibility model based on default preset
+  useEffect(() => {
+    setColumnVisibilityModel(createVisibilityModel(selectedPresets));
+    // Only run once when columns are available
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columns.length > 0]);
+
   const handlePresetChange = useCallback(
-    (_event: React.MouseEvent<HTMLElement>, newPreset: PresetType | null) => {
-      if (newPreset !== null) {
-        setSelectedPreset(newPreset);
-        setColumnVisibilityModel(createVisibilityModel(newPreset));
-      }
+    (_event: React.MouseEvent<HTMLElement>, newPresets: PresetType[]) => {
+      setSelectedPresets(newPresets);
+      setColumnVisibilityModel(createVisibilityModel(newPresets));
     },
     [createVisibilityModel]
   );
+
+  const handleShowAllColumns = useCallback(() => {
+    setSelectedPresets([]);
+    setColumnVisibilityModel(createVisibilityModel([]));
+  }, [createVisibilityModel]);
 
   // Search bar callback functions
   const handleSearchChange = useCallback(
@@ -856,15 +918,25 @@ export default function DataGridCharaTable({
       />
       <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
         <span>{t.common.columnPreset}:</span>
+        <ToggleButton
+          value="all"
+          selected={selectedPresets.length === 0}
+          onChange={handleShowAllColumns}
+          size="small"
+        >
+          {t.common.presetAll}
+        </ToggleButton>
         <ToggleButtonGroup
-          value={selectedPreset}
-          exclusive
+          value={selectedPresets}
           onChange={handlePresetChange}
           size="small"
         >
-          <ToggleButton value="all">{t.common.presetAll}</ToggleButton>
+          <ToggleButton value="keyInfo">{t.common.presetKeyInfo}</ToggleButton>
           <ToggleButton value="primaryAttributes">
             {t.common.presetPrimaryAttributes}
+          </ToggleButton>
+          <ToggleButton value="otherStats">
+            {t.common.presetOtherStats}
           </ToggleButton>
           <ToggleButton value="resistances">
             {t.common.presetResistances}
