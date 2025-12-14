@@ -919,11 +919,11 @@ export default function DataGridCharaTable({
           size="small"
         >
           <ToggleButton value="keyInfo">{t.common.presetKeyInfo}</ToggleButton>
-          <ToggleButton value="otherStats">
-            {t.common.presetOtherStats}
-          </ToggleButton>
           <ToggleButton value="primaryAttributes">
             {t.common.presetPrimaryAttributes}
+          </ToggleButton>
+          <ToggleButton value="otherStats">
+            {t.common.presetOtherStats}
           </ToggleButton>
           <ToggleButton value="resistances">
             {t.common.presetResistances}
