@@ -248,31 +248,19 @@ export class Chara {
   }
 
   life() {
-    return this.memoize(
-      'life',
-      () => this.race.life + this.getElementPower('life')
-    );
+    return this.memoize('life', () => this.getElementPower('life'));
   }
 
   mana() {
-    return this.memoize(
-      'mana',
-      () => this.race.mana + this.getElementPower('mana')
-    );
+    return this.memoize('mana', () => this.getElementPower('mana'));
   }
 
   speed() {
-    return this.memoize(
-      'speed',
-      () => this.race.speed + this.getElementPower('SPD') + this.job().speed
-    );
+    return this.memoize('speed', () => this.getElementPower('SPD'));
   }
 
   vigor() {
-    return this.memoize(
-      'vigor',
-      () => this.race.vigor + this.getElementPower('vigor')
-    );
+    return this.memoize('vigor', () => this.getElementPower('vigor'));
   }
 
   level() {
@@ -308,29 +296,23 @@ export class Chara {
   }
 
   dv() {
-    return this.memoize('dv', () => this.race.dv + this.getElementPower('DV'));
+    return this.memoize('dv', () => this.getElementPower('DV'));
   }
 
   pv() {
-    return this.memoize('pv', () => this.race.pv + this.getElementPower('PV'));
+    return this.memoize('pv', () => this.getElementPower('PV'));
   }
 
   pdr() {
-    return this.memoize(
-      'pdr',
-      () => this.race.pdr + this.getElementPower('PDR')
-    );
+    return this.memoize('pdr', () => this.getElementPower('PDR'));
   }
 
   edr() {
-    return this.memoize(
-      'edr',
-      () => this.race.edr + this.getElementPower('EDR')
-    );
+    return this.memoize('edr', () => this.getElementPower('EDR'));
   }
 
   ep() {
-    return this.memoize('ep', () => this.race.ep + this.getElementPower('EP'));
+    return this.memoize('ep', () => this.getElementPower('evasionPerfect'));
   }
 
   variants() {
@@ -451,10 +433,7 @@ export class Chara {
   }
 
   mag() {
-    return this.memoize(
-      'mag',
-      () => this.getElementPower('MAG') + this.job().mag
-    );
+    return this.memoize('mag', () => this.getElementPower('MAG'));
   }
 
   // https://github.com/Elin-Modding-Resources/Elin-Decompiled/blob/72332a1390e68a8de62bca4acbd6ebbaab92257b/Elin/Tactics.cs#L180-L181
@@ -529,17 +508,10 @@ export class Chara {
         'STR' | 'END' | 'DEX' | 'PER' | 'LER' | 'WIL' | 'MAG' | 'CHA'
       > = ['STR', 'END', 'DEX', 'PER', 'LER', 'WIL', 'MAG', 'CHA'];
 
-      return attributeAliases.map((alias) => {
-        const raceValue = this.race.row[alias];
-        const jobValue = this.job().row[alias];
-
-        const value = raceValue + jobValue;
-
-        return {
-          alias,
-          value,
-        };
-      });
+      return attributeAliases.map((alias) => ({
+        alias,
+        value: this.getElementPower(alias),
+      }));
     });
   }
 

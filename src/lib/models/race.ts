@@ -186,17 +186,64 @@ export class Race {
     return result;
   }
 
-  elements(): ElementWithPower[] {
-    const baseElements = parseElements(this.version, this.row);
-    const result = [...baseElements, ...this.commonSkillElements()];
-
-    // Add martial skill with power from row.martial column
-    if (this.row.martial > 0) {
-      const martialElement = elementByAlias(this.version, 'martial')!;
-      result.push({ element: martialElement, powers: [this.row.martial] });
+  private attributeElements(): ElementWithPower[] {
+    const attrs = [
+      'STR',
+      'END',
+      'DEX',
+      'PER',
+      'LER',
+      'WIL',
+      'MAG',
+      'CHA',
+      'SPD',
+    ] as const;
+    const result: ElementWithPower[] = [];
+    for (const attr of attrs) {
+      const value = this.row[attr];
+      if (value !== 0) {
+        const element = elementByAlias(this.version, attr);
+        if (!element) {
+          throw new Error(`Element not found: ${attr}`);
+        }
+        result.push({ element, powers: [value] });
+      }
     }
-
     return result;
+  }
+
+  private statElements(): ElementWithPower[] {
+    const stats = [
+      { alias: 'life', value: this.row.life },
+      { alias: 'mana', value: this.row.mana },
+      { alias: 'vigor', value: this.row.vigor },
+      { alias: 'DV', value: this.row.DV },
+      { alias: 'PV', value: this.row.PV },
+      { alias: 'PDR', value: this.row.PDR },
+      { alias: 'EDR', value: this.row.EDR },
+      { alias: 'evasionPerfect', value: this.row.EP },
+      { alias: 'martial', value: this.row.martial },
+    ];
+    const result: ElementWithPower[] = [];
+    for (const { alias, value } of stats) {
+      if (value !== 0) {
+        const element = elementByAlias(this.version, alias);
+        if (!element) {
+          throw new Error(`Element not found: ${alias}`);
+        }
+        result.push({ element, powers: [value] });
+      }
+    }
+    return result;
+  }
+
+  elements(): ElementWithPower[] {
+    return [
+      ...parseElements(this.version, this.row),
+      ...this.commonSkillElements(),
+      ...this.attributeElements(),
+      ...this.statElements(),
+    ];
   }
 
   feats(): ElementWithPower[] {
@@ -241,43 +288,7 @@ export class Race {
     return Object.values(this.figures()).reduce((sum, count) => sum + count, 0);
   }
 
-  get life() {
-    return this.row.life;
-  }
-
-  get mana() {
-    return this.row.mana;
-  }
-
-  get speed() {
-    return this.row.SPD;
-  }
-
-  get vigor() {
-    return this.row.vigor;
-  }
-
   get geneSlot() {
     return this.row.geneCap;
-  }
-
-  get dv() {
-    return this.row.DV;
-  }
-
-  get pv() {
-    return this.row.PV;
-  }
-
-  get pdr() {
-    return this.row.PDR;
-  }
-
-  get edr() {
-    return this.row.EDR;
-  }
-
-  get ep() {
-    return this.row.EP;
   }
 }

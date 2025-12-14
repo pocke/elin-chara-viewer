@@ -8,6 +8,7 @@ import {
   filterOthers,
 } from '../elementable';
 import { all, GameVersion } from '../db';
+import { elementByAlias } from './element';
 
 export const JobSchema = z.object({
   __meta: z.object({
@@ -111,16 +112,37 @@ export class Job {
     }
   }
 
-  get mag() {
-    return this.row.MAG;
-  }
-
-  get speed() {
-    return this.row.SPD;
+  private attributeElements(): ElementWithPower[] {
+    const attrs = [
+      'STR',
+      'END',
+      'DEX',
+      'PER',
+      'LER',
+      'WIL',
+      'MAG',
+      'CHA',
+      'SPD',
+    ] as const;
+    const result: ElementWithPower[] = [];
+    for (const attr of attrs) {
+      const value = this.row[attr];
+      if (value !== 0) {
+        const element = elementByAlias(this.version, attr);
+        if (!element) {
+          throw new Error(`Element not found: ${attr}`);
+        }
+        result.push({ element, powers: [value] });
+      }
+    }
+    return result;
   }
 
   elements(): ElementWithPower[] {
-    return parseElements(this.version, this.row);
+    return [
+      ...parseElements(this.version, this.row),
+      ...this.attributeElements(),
+    ];
   }
 
   feats(): ElementWithPower[] {
