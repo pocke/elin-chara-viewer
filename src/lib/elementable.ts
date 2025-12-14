@@ -21,7 +21,7 @@ export function parseElements(
   mainElement?: Element | null
 ): ElementWithPower[] {
   const eles = row.elements;
-  const mainElements: ElementWithPower[] = [];
+  const elms: ElementWithPower[] = [];
 
   if (eles) {
     const elementsFromRow = eles.split(',').map((t) => {
@@ -33,16 +33,16 @@ export function parseElements(
       }
       return { element, power: powerInt };
     });
-    mainElements.push(...elementsFromRow);
+    elms.push(...elementsFromRow);
   }
 
   if (mainElement) {
-    mainElements.push({ element: mainElement, power: 1 });
+    elms.push({ element: mainElement, power: 1 });
   }
 
-  const allElements = [...mainElements];
+  const allElements = [...elms];
 
-  for (const elementWithPower of mainElements) {
+  for (const elementWithPower of elms) {
     const subElements = elementWithPower.element.subElements();
     const subElementsWithPower = subElements.map((sub) => ({
       element: sub.element,
