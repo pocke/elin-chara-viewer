@@ -4,6 +4,14 @@ import { Element, elementByAlias } from './models/element';
 export type ElementWithPower = { element: Element; power: number };
 
 /**
+ * Calculate base potential for a skill element.
+ * Formula: 100 + (power > 1 ? power * 10 : 0)
+ */
+export function calcBasePotential(elementWithPower: ElementWithPower): number {
+  return 100 + (elementWithPower.power > 1 ? elementWithPower.power * 10 : 0);
+}
+
+/**
  * Parse elements column string and return array of ElementWithPower.
  * Also expands sub-elements from each element.
  */

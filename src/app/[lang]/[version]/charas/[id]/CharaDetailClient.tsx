@@ -41,6 +41,7 @@ import {
   filterCraftSkills,
   filterCombatSkills,
   filterWeaponSkills,
+  calcBasePotential,
 } from '@/lib/elementable';
 
 interface CharaDetailClientProps {
@@ -95,16 +96,27 @@ export default function CharaDetailClient({
   }));
 
   const renderElementChips = (
-    elements: Array<{ element: Element; power: number }>
+    elements: Array<{ element: Element; power: number }>,
+    options?: { isSkill?: boolean }
   ) => {
     return elements.map((elementWithPower, index) => {
       const element = elementWithPower.element;
       const featName = element.name(language);
       const isFeat = element.isFeat();
 
+      // スキルの場合はベース潜在を表示（100の場合は省略）、それ以外はパワー値を表示
+      let displayValue: string;
+      if (options?.isSkill) {
+        const basePotential = calcBasePotential(elementWithPower);
+        displayValue = basePotential !== 100 ? ` (${basePotential})` : '';
+      } else {
+        displayValue =
+          elementWithPower.power !== 1 ? ` (${elementWithPower.power})` : '';
+      }
+
       const chipElement = (
         <Chip
-          label={`${featName}${elementWithPower.power !== 1 ? ` (${elementWithPower.power})` : ''}`}
+          label={`${featName}${displayValue}`}
           variant="outlined"
           size="small"
           clickable={isFeat}
@@ -542,7 +554,7 @@ export default function CharaDetailClient({
             {hasAnySkills && (
               <Box>
                 <Typography variant="h6" color="text.secondary" gutterBottom>
-                  {t.common.skills}
+                  {t.common.skillsWithPotential}
                 </Typography>
                 <Box
                   sx={{
@@ -562,7 +574,7 @@ export default function CharaDetailClient({
                         {t.common.skillsGeneral}
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {renderElementChips(generalSkills)}
+                        {renderElementChips(generalSkills, { isSkill: true })}
                       </Box>
                     </Box>
                   )}
@@ -577,7 +589,7 @@ export default function CharaDetailClient({
                         {t.common.skillsCraft}
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {renderElementChips(craftSkills)}
+                        {renderElementChips(craftSkills, { isSkill: true })}
                       </Box>
                     </Box>
                   )}
@@ -592,7 +604,7 @@ export default function CharaDetailClient({
                         {t.common.skillsCombat}
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {renderElementChips(combatSkills)}
+                        {renderElementChips(combatSkills, { isSkill: true })}
                       </Box>
                     </Box>
                   )}
@@ -607,7 +619,7 @@ export default function CharaDetailClient({
                         {t.common.skillsWeapon}
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {renderElementChips(weaponSkills)}
+                        {renderElementChips(weaponSkills, { isSkill: true })}
                       </Box>
                     </Box>
                   )}
