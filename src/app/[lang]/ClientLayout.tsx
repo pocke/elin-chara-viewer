@@ -81,7 +81,16 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
         minHeight: '100vh',
       }}
     >
-      <AppBar position="static" elevation={1}>
+      <AppBar
+        position="static"
+        elevation={1}
+        sx={{
+          background:
+            currentVersion === 'EA'
+              ? 'linear-gradient(to bottom right, #0d47a1 30%, #1565c0 70%, #1565c0)'
+              : 'linear-gradient(to bottom right, #0d47a1 30%, #061a3d 70%, #061a3d)',
+        }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
