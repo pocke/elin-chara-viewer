@@ -770,6 +770,11 @@ export default function DataGridCharaTable({
     [createVisibilityModel]
   );
 
+  const handleShowAllColumns = useCallback(() => {
+    setSelectedPresets([]);
+    setColumnVisibilityModel(createVisibilityModel([]));
+  }, [createVisibilityModel]);
+
   // Search bar callback functions
   const handleSearchChange = useCallback(
     (search: string) => {
@@ -913,6 +918,14 @@ export default function DataGridCharaTable({
       />
       <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
         <span>{t.common.columnPreset}:</span>
+        <ToggleButton
+          value="all"
+          selected={selectedPresets.length === 0}
+          onChange={handleShowAllColumns}
+          size="small"
+        >
+          {t.common.presetAll}
+        </ToggleButton>
         <ToggleButtonGroup
           value={selectedPresets}
           onChange={handlePresetChange}
