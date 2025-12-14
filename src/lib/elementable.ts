@@ -12,11 +12,14 @@ export function totalPower(ewp: ElementWithPower): number {
 
 /**
  * Calculate base potential for a skill element.
- * Formula: 100 + (power > 1 ? power * 10 : 0)
+ * Formula: 100 + (sum of powers excluding 1s) * 10
+ * Powers of 1 indicate "existence only" and don't contribute to the bonus.
  */
 export function calcBasePotential(elementWithPower: ElementWithPower): number {
-  const power = totalPower(elementWithPower);
-  return 100 + (power > 1 ? power * 10 : 0);
+  const power = elementWithPower.powers
+    .filter((p) => p !== 1)
+    .reduce((sum, p) => sum + p, 0);
+  return 100 + power * 10;
 }
 
 /**
