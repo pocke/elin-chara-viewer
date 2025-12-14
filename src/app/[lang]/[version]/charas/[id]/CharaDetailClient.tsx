@@ -607,6 +607,70 @@ export default function CharaDetailClient({
                     {chara.tacticsMoveFrequency()}
                   </Typography>
                 </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsParty}
+                  </Typography>
+                  <Typography variant="h6">{chara.tactics().party}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsTaunt}
+                  </Typography>
+                  <Typography variant="h6">{chara.tactics().taunt}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsMelee}
+                  </Typography>
+                  <Typography variant="h6">{chara.tactics().melee}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsRange}
+                  </Typography>
+                  <Typography variant="h6">{chara.tactics().range}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsSpell}
+                  </Typography>
+                  <Typography variant="h6">{chara.tactics().spell}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsHeal}
+                  </Typography>
+                  <Typography variant="h6">{chara.tactics().heal}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsSummon}
+                  </Typography>
+                  <Typography variant="h6">{chara.tactics().summon}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsBuff}
+                  </Typography>
+                  <Typography variant="h6">{chara.tactics().buff}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsDebuff}
+                  </Typography>
+                  <Typography variant="h6">{chara.tactics().debuff}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {t.common.tacticsPartyBuff}
+                  </Typography>
+                  <Typography variant="h6">
+                    {chara.tactics().usesPartyBuff()
+                      ? t.common.yes
+                      : t.common.no}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
 
@@ -622,6 +686,10 @@ export default function CharaDetailClient({
                 {createRawDataTable(t.common.charaRawData, charaRow)}
                 {createRawDataTable(t.common.raceRawData, chara.race.row)}
                 {createRawDataTable(t.common.jobRawData, chara.job().row)}
+                {createRawDataTable(
+                  t.common.tacticsRawData,
+                  chara.tactics().row
+                )}
               </AccordionDetails>
             </Accordion>
           </Box>

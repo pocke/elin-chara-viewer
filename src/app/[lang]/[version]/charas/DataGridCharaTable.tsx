@@ -54,6 +54,16 @@ const TACTICS_FIELDS = [
   'tacticsName',
   'tacticsDistance',
   'tacticsMoveFrequency',
+  'tacticsParty',
+  'tacticsTaunt',
+  'tacticsMelee',
+  'tacticsRange',
+  'tacticsSpell',
+  'tacticsHeal',
+  'tacticsSummon',
+  'tacticsBuff',
+  'tacticsDebuff',
+  'tacticsPartyBuff',
 ];
 
 function CustomToolbar() {
@@ -394,9 +404,22 @@ export default function DataGridCharaTable({
       row.ep = chara.ep();
 
       // Add tactics columns
-      row.tacticsName = chara.tactics().name(language);
+      const tactics = chara.tactics();
+      row.tacticsName = tactics.name(language);
       row.tacticsDistance = chara.tacticsDistance();
       row.tacticsMoveFrequency = chara.tacticsMoveFrequency();
+      row.tacticsParty = tactics.party;
+      row.tacticsTaunt = tactics.taunt;
+      row.tacticsMelee = tactics.melee;
+      row.tacticsRange = tactics.range;
+      row.tacticsSpell = tactics.spell;
+      row.tacticsHeal = tactics.heal;
+      row.tacticsSummon = tactics.summon;
+      row.tacticsBuff = tactics.buff;
+      row.tacticsDebuff = tactics.debuff;
+      row.tacticsPartyBuff = tactics.usesPartyBuff()
+        ? t.common.yes
+        : t.common.no;
 
       // Add resistance columns
       resistanceElementsList.forEach((resElement) => {
@@ -567,6 +590,65 @@ export default function DataGridCharaTable({
         field: 'tacticsMoveFrequency',
         headerName: t.common.tacticsMoveFrequency,
         type: 'number',
+        width: 100,
+      },
+      {
+        field: 'tacticsParty',
+        headerName: t.common.tacticsParty,
+        type: 'number',
+        width: 80,
+      },
+      {
+        field: 'tacticsTaunt',
+        headerName: t.common.tacticsTaunt,
+        type: 'number',
+        width: 70,
+      },
+      {
+        field: 'tacticsMelee',
+        headerName: t.common.tacticsMelee,
+        type: 'number',
+        width: 70,
+      },
+      {
+        field: 'tacticsRange',
+        headerName: t.common.tacticsRange,
+        type: 'number',
+        width: 70,
+      },
+      {
+        field: 'tacticsSpell',
+        headerName: t.common.tacticsSpell,
+        type: 'number',
+        width: 70,
+      },
+      {
+        field: 'tacticsHeal',
+        headerName: t.common.tacticsHeal,
+        type: 'number',
+        width: 70,
+      },
+      {
+        field: 'tacticsSummon',
+        headerName: t.common.tacticsSummon,
+        type: 'number',
+        width: 70,
+      },
+      {
+        field: 'tacticsBuff',
+        headerName: t.common.tacticsBuff,
+        type: 'number',
+        width: 70,
+      },
+      {
+        field: 'tacticsDebuff',
+        headerName: t.common.tacticsDebuff,
+        type: 'number',
+        width: 70,
+      },
+      {
+        field: 'tacticsPartyBuff',
+        headerName: t.common.tacticsPartyBuff,
         width: 100,
       }
     );
