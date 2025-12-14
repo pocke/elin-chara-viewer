@@ -200,6 +200,18 @@ export function attackElements(version: GameVersion): Element[] {
     .map((row) => new Element(version, row));
 }
 
+/**
+ * Get all skill elements (category === 'skill' and tag does not contain 'unused')
+ */
+export function skillElements(version: GameVersion): Element[] {
+  return all(version, 'elements', ElementSchema)
+    .map((row) => new Element(version, row))
+    .filter(
+      (element) =>
+        element.row.category === 'skill' && !element.tags().includes('unused')
+    );
+}
+
 export class Element {
   constructor(
     public version: GameVersion,
