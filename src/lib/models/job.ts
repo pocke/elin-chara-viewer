@@ -4,6 +4,7 @@ import {
   parseElements,
   filterFeats,
   filterNegations,
+  filterSkills,
   filterOthers,
 } from '../elementable';
 import { all, GameVersion } from '../db';
@@ -128,6 +129,10 @@ export class Job {
 
   negations(): ElementWithPower[] {
     return filterNegations(this.elements());
+  }
+
+  skills(): ElementWithPower[] {
+    return filterSkills(this.elements());
   }
 
   others(): ElementWithPower[] {

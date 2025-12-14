@@ -67,7 +67,63 @@ export function filterNegations(
 }
 
 /**
- * Filter elements to get "others" (not feat, negation, ele*, res*)
+ * Filter elements to get only skills (category === 'skill')
+ */
+export function filterSkills(elements: ElementWithPower[]): ElementWithPower[] {
+  return elements.filter(
+    (elementWithPower) => elementWithPower.element.row.category === 'skill'
+  );
+}
+
+/**
+ * Filter elements to get general skills (category === 'skill' and categorySub is not craft/combat/weapon)
+ */
+export function filterGeneralSkills(
+  elements: ElementWithPower[]
+): ElementWithPower[] {
+  return filterSkills(elements).filter(
+    (elementWithPower) =>
+      !['craft', 'combat', 'weapon'].includes(
+        elementWithPower.element.row.categorySub ?? ''
+      )
+  );
+}
+
+/**
+ * Filter elements to get craft skills (category === 'skill' and categorySub === 'craft')
+ */
+export function filterCraftSkills(
+  elements: ElementWithPower[]
+): ElementWithPower[] {
+  return filterSkills(elements).filter(
+    (elementWithPower) => elementWithPower.element.row.categorySub === 'craft'
+  );
+}
+
+/**
+ * Filter elements to get combat skills (category === 'skill' and categorySub === 'combat')
+ */
+export function filterCombatSkills(
+  elements: ElementWithPower[]
+): ElementWithPower[] {
+  return filterSkills(elements).filter(
+    (elementWithPower) => elementWithPower.element.row.categorySub === 'combat'
+  );
+}
+
+/**
+ * Filter elements to get weapon skills (category === 'skill' and categorySub === 'weapon')
+ */
+export function filterWeaponSkills(
+  elements: ElementWithPower[]
+): ElementWithPower[] {
+  return filterSkills(elements).filter(
+    (elementWithPower) => elementWithPower.element.row.categorySub === 'weapon'
+  );
+}
+
+/**
+ * Filter elements to get "others" (not feat, negation, ele*, res*, skill)
  */
 export function filterOthers(elements: ElementWithPower[]): ElementWithPower[] {
   return elements.filter(
@@ -75,6 +131,7 @@ export function filterOthers(elements: ElementWithPower[]): ElementWithPower[] {
       !elementWithPower.element.alias.startsWith('feat') &&
       !elementWithPower.element.alias.startsWith('negate') &&
       !elementWithPower.element.alias.startsWith('ele') &&
-      !elementWithPower.element.alias.startsWith('res')
+      !elementWithPower.element.alias.startsWith('res') &&
+      elementWithPower.element.row.category !== 'skill'
   );
 }

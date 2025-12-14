@@ -36,6 +36,12 @@ import {
 } from '@/lib/models/element';
 import ResistanceBarChart from '@/components/ResistanceBarChart';
 import { getContrastColor } from '@/lib/colorUtils';
+import {
+  filterGeneralSkills,
+  filterCraftSkills,
+  filterCombatSkills,
+  filterWeaponSkills,
+} from '@/lib/elementable';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;
@@ -56,6 +62,16 @@ export default function CharaDetailClient({
 
   const feats = chara.feats();
   const negations = chara.negations();
+  const allElements = chara.elements();
+  const generalSkills = filterGeneralSkills(allElements);
+  const craftSkills = filterCraftSkills(allElements);
+  const combatSkills = filterCombatSkills(allElements);
+  const weaponSkills = filterWeaponSkills(allElements);
+  const hasAnySkills =
+    generalSkills.length > 0 ||
+    craftSkills.length > 0 ||
+    combatSkills.length > 0 ||
+    weaponSkills.length > 0;
   const others = chara.others();
   const figures = chara.race.figures();
   const bodyPartsOrder = [
@@ -519,6 +535,82 @@ export default function CharaDetailClient({
                       </Box>
                     );
                   })}
+                </Box>
+              </Box>
+            )}
+
+            {hasAnySkills && (
+              <Box>
+                <Typography variant="h6" color="text.secondary" gutterBottom>
+                  {t.common.skills}
+                </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    pl: 2,
+                  }}
+                >
+                  {generalSkills.length > 0 && (
+                    <Box>
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {t.common.skillsGeneral}
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {renderElementChips(generalSkills)}
+                      </Box>
+                    </Box>
+                  )}
+
+                  {craftSkills.length > 0 && (
+                    <Box>
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {t.common.skillsCraft}
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {renderElementChips(craftSkills)}
+                      </Box>
+                    </Box>
+                  )}
+
+                  {combatSkills.length > 0 && (
+                    <Box>
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {t.common.skillsCombat}
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {renderElementChips(combatSkills)}
+                      </Box>
+                    </Box>
+                  )}
+
+                  {weaponSkills.length > 0 && (
+                    <Box>
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {t.common.skillsWeapon}
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {renderElementChips(weaponSkills)}
+                      </Box>
+                    </Box>
+                  )}
                 </Box>
               </Box>
             )}

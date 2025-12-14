@@ -5,6 +5,7 @@ import {
   parseElements,
   filterFeats,
   filterNegations,
+  filterSkills,
   filterOthers,
 } from '../elementable';
 import {
@@ -180,6 +181,10 @@ export class Chara {
 
   negations(): ElementWithPower[] {
     return this.memoize('negations', () => filterNegations(this.elements()));
+  }
+
+  skills(): ElementWithPower[] {
+    return this.memoize('skills', () => filterSkills(this.elements()));
   }
 
   others(): ElementWithPower[] {
