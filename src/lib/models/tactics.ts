@@ -54,7 +54,7 @@ export function tacticsById(
 export class Tactics {
   constructor(
     public version: GameVersion,
-    private row: TacticsRow,
+    public row: TacticsRow,
     private index: number
   ) {}
 

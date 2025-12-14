@@ -686,6 +686,10 @@ export default function CharaDetailClient({
                 {createRawDataTable(t.common.charaRawData, charaRow)}
                 {createRawDataTable(t.common.raceRawData, chara.race.row)}
                 {createRawDataTable(t.common.jobRawData, chara.job().row)}
+                {createRawDataTable(
+                  t.common.tacticsRawData,
+                  chara.tactics().row
+                )}
               </AccordionDetails>
             </Accordion>
           </Box>
