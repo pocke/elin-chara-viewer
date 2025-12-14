@@ -1,14 +1,45 @@
 import { GameVersion } from './db';
 import { Element, elementByAlias } from './models/element';
 
-export type ElementWithPower = { element: Element; power: number };
+export type ElementWithPower = { element: Element; powers: number[] };
+
+/**
+ * Get total power from ElementWithPower.
+ */
+export function totalPower(ewp: ElementWithPower): number {
+  return ewp.powers.reduce((sum, p) => sum + p, 0);
+}
 
 /**
  * Calculate base potential for a skill element.
  * Formula: 100 + (power > 1 ? power * 10 : 0)
  */
 export function calcBasePotential(elementWithPower: ElementWithPower): number {
-  return 100 + (elementWithPower.power > 1 ? elementWithPower.power * 10 : 0);
+  const power = totalPower(elementWithPower);
+  return 100 + (power > 1 ? power * 10 : 0);
+}
+
+/**
+ * Merge multiple ElementWithPower arrays, combining powers for same Elements.
+ */
+export function mergeElements(
+  ...arrays: ElementWithPower[][]
+): ElementWithPower[] {
+  const map = new Map<string, ElementWithPower>();
+
+  for (const arr of arrays) {
+    for (const ewp of arr) {
+      const key = ewp.element.alias;
+      const existing = map.get(key);
+      if (existing) {
+        existing.powers.push(...ewp.powers);
+      } else {
+        map.set(key, { element: ewp.element, powers: [...ewp.powers] });
+      }
+    }
+  }
+
+  return Array.from(map.values());
 }
 
 /**
@@ -31,13 +62,13 @@ export function parseElements(
       if (!element) {
         throw new Error(`Element not found: ${alias}`);
       }
-      return { element, power: powerInt };
+      return { element, powers: [powerInt] };
     });
     elms.push(...elementsFromRow);
   }
 
   if (mainElement) {
-    elms.push({ element: mainElement, power: 1 });
+    elms.push({ element: mainElement, powers: [1] });
   }
 
   const allElements = [...elms];
@@ -46,7 +77,7 @@ export function parseElements(
     const subElements = elementWithPower.element.subElements();
     const subElementsWithPower = subElements.map((sub) => ({
       element: sub.element,
-      power: Math.floor(elementWithPower.power * sub.coefficient),
+      powers: [Math.floor(totalPower(elementWithPower) * sub.coefficient)],
     }));
     allElements.push(...subElementsWithPower);
   }

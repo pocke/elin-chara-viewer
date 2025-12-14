@@ -42,6 +42,8 @@ import {
   filterCombatSkills,
   filterWeaponSkills,
   calcBasePotential,
+  totalPower,
+  ElementWithPower,
 } from '@/lib/elementable';
 
 interface CharaDetailClientProps {
@@ -96,13 +98,14 @@ export default function CharaDetailClient({
   }));
 
   const renderElementChips = (
-    elements: Array<{ element: Element; power: number }>,
+    elements: ElementWithPower[],
     options?: { isSkill?: boolean }
   ) => {
     return elements.map((elementWithPower, index) => {
       const element = elementWithPower.element;
       const featName = element.name(language);
       const isFeat = element.isFeat();
+      const power = totalPower(elementWithPower);
 
       // スキルの場合はベース潜在を表示（100の場合は省略）、それ以外はパワー値を表示
       let displayValue: string;
@@ -110,8 +113,7 @@ export default function CharaDetailClient({
         const basePotential = calcBasePotential(elementWithPower);
         displayValue = basePotential !== 100 ? ` (${basePotential})` : '';
       } else {
-        displayValue =
-          elementWithPower.power !== 1 ? ` (${elementWithPower.power})` : '';
+        displayValue = power !== 1 ? ` (${power})` : '';
       }
 
       const chipElement = (
@@ -140,7 +142,7 @@ export default function CharaDetailClient({
       return (
         <Tooltip
           key={index}
-          title={createFeatTooltipContent(element, elementWithPower.power)}
+          title={createFeatTooltipContent(element, power)}
           arrow
           placement="top"
           slotProps={{
@@ -521,6 +523,7 @@ export default function CharaDetailClient({
                   {negations.map((negation, index) => {
                     const element = negation.element;
                     const negationName = element.name(language);
+                    const power = totalPower(negation);
 
                     return (
                       <Box
@@ -532,7 +535,7 @@ export default function CharaDetailClient({
                         }}
                       >
                         <Chip
-                          label={`${negationName}${negation.power > 1 ? ` (${negation.power})` : ''}`}
+                          label={`${negationName}${power > 1 ? ` (${power})` : ''}`}
                           variant="outlined"
                           size="small"
                           sx={{

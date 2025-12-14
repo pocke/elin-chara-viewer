@@ -3,6 +3,8 @@ import { GameVersion } from '../db';
 import {
   ElementWithPower,
   parseElements,
+  mergeElements,
+  totalPower,
   filterFeats,
   filterNegations,
   filterSkills,
@@ -168,11 +170,13 @@ export class Chara {
   }
 
   elements(): ElementWithPower[] {
-    return this.memoize('elements', () => [
-      ...parseElements(this.version, this.row, this.mainElement),
-      ...this.race.elements(),
-      ...this.job().elements(),
-    ]);
+    return this.memoize('elements', () =>
+      mergeElements(
+        parseElements(this.version, this.row, this.mainElement),
+        this.race.elements(),
+        this.job().elements()
+      )
+    );
   }
 
   feats(): ElementWithPower[] {
@@ -289,14 +293,14 @@ export class Chara {
 
       const ftRoran = feats.find((feat) => feat.element.alias === 'featRoran');
       if (ftRoran) {
-        actual -= 2 * ftRoran.power;
+        actual -= 2 * totalPower(ftRoran);
       }
 
       const ftGeneSlot = feats.find(
         (feat) => feat.element.alias === 'featGeneSlot'
       );
       if (ftGeneSlot) {
-        actual += ftGeneSlot.power;
+        actual += totalPower(ftGeneSlot);
       }
 
       return [actual, orig];
@@ -430,11 +434,12 @@ export class Chara {
   }
 
   getElementPower(alias: string): number {
-    return this.memoize(`getElementPower:${alias}`, () =>
-      this.elements()
-        .filter((elementWithPower) => elementWithPower.element.alias === alias)
-        .reduce((sum, elementWithPower) => sum + elementWithPower.power, 0)
-    );
+    return this.memoize(`getElementPower:${alias}`, () => {
+      const found = this.elements().find(
+        (elementWithPower) => elementWithPower.element.alias === alias
+      );
+      return found ? totalPower(found) : 0;
+    });
   }
 
   bodyParts() {

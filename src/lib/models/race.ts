@@ -180,7 +180,7 @@ export class Race {
     for (const id of COMMON_RACE_SKILL_IDS) {
       const element = elementById(this.version, id);
       if (element) {
-        result.push({ element, power: 1 });
+        result.push({ element, powers: [1] });
       }
     }
     return result;
