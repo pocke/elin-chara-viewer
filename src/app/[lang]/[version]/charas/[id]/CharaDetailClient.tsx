@@ -526,7 +526,7 @@ export default function CharaDetailClient({
             {others.length > 0 && (
               <Box>
                 <Typography variant="h6" color="text.secondary" gutterBottom>
-                  その他の属性
+                  {t.common.otherElements}
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {renderElementChips(others)}
