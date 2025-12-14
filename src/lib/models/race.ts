@@ -1,6 +1,40 @@
 import { z } from 'zod';
-import { Elementable } from '../elementable';
+import {
+  ElementWithPower,
+  parseElements,
+  filterFeats,
+  filterNegations,
+  filterSkills,
+  filterOthers,
+} from '../elementable';
 import { all, GameVersion } from '../db';
+import { elementByAlias, elementById } from './element';
+
+// Common skill element IDs that all races have (from SourceRace.cs OnInit)
+// These are set to 1 for all races in the game
+const COMMON_RACE_SKILL_IDS = [
+  '261',
+  '225',
+  '255',
+  '220',
+  '250',
+  '101',
+  '102',
+  '103',
+  '107',
+  '106',
+  '110',
+  '111',
+  '104',
+  '109',
+  '108',
+  '123',
+  '122',
+  '120',
+  '150',
+  '301',
+  '306',
+];
 
 const figureMap = {
   手: 'hand',
@@ -141,20 +175,44 @@ export class Race {
     }
   }
 
-  elements() {
-    return new Elementable(this.version, this.row).elements();
+  private commonSkillElements(): ElementWithPower[] {
+    const result: ElementWithPower[] = [];
+    for (const id of COMMON_RACE_SKILL_IDS) {
+      const element = elementById(this.version, id);
+      if (element) {
+        result.push({ element, powers: [1] });
+      }
+    }
+    return result;
   }
 
-  feats() {
-    return new Elementable(this.version, this.row).feats();
+  elements(): ElementWithPower[] {
+    const baseElements = parseElements(this.version, this.row);
+    const result = [...baseElements, ...this.commonSkillElements()];
+
+    // Add martial skill with power from row.martial column
+    if (this.row.martial > 0) {
+      const martialElement = elementByAlias(this.version, 'martial')!;
+      result.push({ element: martialElement, powers: [this.row.martial] });
+    }
+
+    return result;
   }
 
-  negations() {
-    return new Elementable(this.version, this.row).negations();
+  feats(): ElementWithPower[] {
+    return filterFeats(this.elements());
   }
 
-  others() {
-    return new Elementable(this.version, this.row).others();
+  negations(): ElementWithPower[] {
+    return filterNegations(this.elements());
+  }
+
+  skills(): ElementWithPower[] {
+    return filterSkills(this.elements());
+  }
+
+  others(): ElementWithPower[] {
+    return filterOthers(this.elements());
   }
 
   figures() {

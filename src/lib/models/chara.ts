@@ -1,6 +1,15 @@
 import { z } from 'zod';
 import { GameVersion } from '../db';
-import { Elementable } from '../elementable';
+import {
+  ElementWithPower,
+  parseElements,
+  mergeElements,
+  totalPower,
+  filterFeats,
+  filterNegations,
+  filterSkills,
+  filterOthers,
+} from '../elementable';
 import {
   attackElements,
   Element,
@@ -160,36 +169,30 @@ export class Chara {
     });
   }
 
-  elements() {
-    return this.memoize('elements', () => [
-      ...new Elementable(this.version, this.row, this.mainElement).elements(),
-      ...this.race.elements(),
-      ...this.job().elements(),
-    ]);
+  elements(): ElementWithPower[] {
+    return this.memoize('elements', () =>
+      mergeElements(
+        parseElements(this.version, this.row, this.mainElement),
+        this.race.elements(),
+        this.job().elements()
+      )
+    );
   }
 
-  feats() {
-    return this.memoize('feats', () => [
-      ...new Elementable(this.version, this.row, this.mainElement).feats(),
-      ...this.race.feats(),
-      ...this.job().feats(),
-    ]);
+  feats(): ElementWithPower[] {
+    return this.memoize('feats', () => filterFeats(this.elements()));
   }
 
-  negations() {
-    return this.memoize('negations', () => [
-      ...new Elementable(this.version, this.row, this.mainElement).negations(),
-      ...this.race.negations(),
-      ...this.job().negations(),
-    ]);
+  negations(): ElementWithPower[] {
+    return this.memoize('negations', () => filterNegations(this.elements()));
   }
 
-  others() {
-    return this.memoize('others', () => [
-      ...new Elementable(this.version, this.row, this.mainElement).others(),
-      ...this.race.others(),
-      ...this.job().others(),
-    ]);
+  skills(): ElementWithPower[] {
+    return this.memoize('skills', () => filterSkills(this.elements()));
+  }
+
+  others(): ElementWithPower[] {
+    return this.memoize('others', () => filterOthers(this.elements()));
   }
 
   abilities() {
@@ -290,14 +293,14 @@ export class Chara {
 
       const ftRoran = feats.find((feat) => feat.element.alias === 'featRoran');
       if (ftRoran) {
-        actual -= 2 * ftRoran.power;
+        actual -= 2 * totalPower(ftRoran);
       }
 
       const ftGeneSlot = feats.find(
         (feat) => feat.element.alias === 'featGeneSlot'
       );
       if (ftGeneSlot) {
-        actual += ftGeneSlot.power;
+        actual += totalPower(ftGeneSlot);
       }
 
       return [actual, orig];
@@ -431,11 +434,12 @@ export class Chara {
   }
 
   getElementPower(alias: string): number {
-    return this.memoize(`getElementPower:${alias}`, () =>
-      this.elements()
-        .filter((elementWithPower) => elementWithPower.element.alias === alias)
-        .reduce((sum, elementWithPower) => sum + elementWithPower.power, 0)
-    );
+    return this.memoize(`getElementPower:${alias}`, () => {
+      const found = this.elements().find(
+        (elementWithPower) => elementWithPower.element.alias === alias
+      );
+      return found ? totalPower(found) : 0;
+    });
   }
 
   bodyParts() {

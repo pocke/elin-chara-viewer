@@ -36,6 +36,16 @@ import {
 } from '@/lib/models/element';
 import ResistanceBarChart from '@/components/ResistanceBarChart';
 import { getContrastColor } from '@/lib/colorUtils';
+import {
+  filterGeneralSkills,
+  filterCraftSkills,
+  filterCombatSkills,
+  filterWeaponSkills,
+  sortSkills,
+  calcBasePotential,
+  totalPower,
+  ElementWithPower,
+} from '@/lib/elementable';
 
 interface CharaDetailClientProps {
   charaRow: CharaRow;
@@ -56,6 +66,16 @@ export default function CharaDetailClient({
 
   const feats = chara.feats();
   const negations = chara.negations();
+  const allElements = chara.elements();
+  const generalSkills = sortSkills(filterGeneralSkills(allElements));
+  const craftSkills = sortSkills(filterCraftSkills(allElements));
+  const combatSkills = sortSkills(filterCombatSkills(allElements));
+  const weaponSkills = sortSkills(filterWeaponSkills(allElements));
+  const hasAnySkills =
+    generalSkills.length > 0 ||
+    craftSkills.length > 0 ||
+    combatSkills.length > 0 ||
+    weaponSkills.length > 0;
   const others = chara.others();
   const figures = chara.race.figures();
   const bodyPartsOrder = [
@@ -79,16 +99,27 @@ export default function CharaDetailClient({
   }));
 
   const renderElementChips = (
-    elements: Array<{ element: Element; power: number }>
+    elements: ElementWithPower[],
+    options?: { isSkill?: boolean }
   ) => {
     return elements.map((elementWithPower, index) => {
       const element = elementWithPower.element;
       const featName = element.name(language);
       const isFeat = element.isFeat();
+      const power = totalPower(elementWithPower);
+
+      // スキルの場合はベース潜在を表示（100の場合は省略）、それ以外はパワー値を表示
+      let displayValue: string;
+      if (options?.isSkill) {
+        const basePotential = calcBasePotential(elementWithPower);
+        displayValue = basePotential !== 100 ? ` (${basePotential})` : '';
+      } else {
+        displayValue = power !== 1 ? ` (${power})` : '';
+      }
 
       const chipElement = (
         <Chip
-          label={`${featName}${elementWithPower.power !== 1 ? ` (${elementWithPower.power})` : ''}`}
+          label={`${featName}${displayValue}`}
           variant="outlined"
           size="small"
           clickable={isFeat}
@@ -112,7 +143,7 @@ export default function CharaDetailClient({
       return (
         <Tooltip
           key={index}
-          title={createFeatTooltipContent(element, elementWithPower.power)}
+          title={createFeatTooltipContent(element, power)}
           arrow
           placement="top"
           slotProps={{
@@ -493,6 +524,7 @@ export default function CharaDetailClient({
                   {negations.map((negation, index) => {
                     const element = negation.element;
                     const negationName = element.name(language);
+                    const power = totalPower(negation);
 
                     return (
                       <Box
@@ -504,7 +536,7 @@ export default function CharaDetailClient({
                         }}
                       >
                         <Chip
-                          label={`${negationName}${negation.power > 1 ? ` (${negation.power})` : ''}`}
+                          label={`${negationName}${power > 1 ? ` (${power})` : ''}`}
                           variant="outlined"
                           size="small"
                           sx={{
@@ -519,6 +551,82 @@ export default function CharaDetailClient({
                       </Box>
                     );
                   })}
+                </Box>
+              </Box>
+            )}
+
+            {hasAnySkills && (
+              <Box>
+                <Typography variant="h6" color="text.secondary" gutterBottom>
+                  {t.common.skillsWithPotential}
+                </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    pl: 2,
+                  }}
+                >
+                  {generalSkills.length > 0 && (
+                    <Box>
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {t.common.skillsGeneral}
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {renderElementChips(generalSkills, { isSkill: true })}
+                      </Box>
+                    </Box>
+                  )}
+
+                  {craftSkills.length > 0 && (
+                    <Box>
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {t.common.skillsCraft}
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {renderElementChips(craftSkills, { isSkill: true })}
+                      </Box>
+                    </Box>
+                  )}
+
+                  {combatSkills.length > 0 && (
+                    <Box>
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {t.common.skillsCombat}
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {renderElementChips(combatSkills, { isSkill: true })}
+                      </Box>
+                    </Box>
+                  )}
+
+                  {weaponSkills.length > 0 && (
+                    <Box>
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {t.common.skillsWeapon}
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {renderElementChips(weaponSkills, { isSkill: true })}
+                      </Box>
+                    </Box>
+                  )}
                 </Box>
               </Box>
             )}

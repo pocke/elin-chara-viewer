@@ -1,5 +1,12 @@
 import { z } from 'zod';
-import { Elementable } from '../elementable';
+import {
+  ElementWithPower,
+  parseElements,
+  filterFeats,
+  filterNegations,
+  filterSkills,
+  filterOthers,
+} from '../elementable';
 import { all, GameVersion } from '../db';
 
 export const JobSchema = z.object({
@@ -112,19 +119,23 @@ export class Job {
     return this.row.SPD;
   }
 
-  elements() {
-    return new Elementable(this.version, this.row).elements();
+  elements(): ElementWithPower[] {
+    return parseElements(this.version, this.row);
   }
 
-  feats() {
-    return new Elementable(this.version, this.row).feats();
+  feats(): ElementWithPower[] {
+    return filterFeats(this.elements());
   }
 
-  negations() {
-    return new Elementable(this.version, this.row).negations();
+  negations(): ElementWithPower[] {
+    return filterNegations(this.elements());
   }
 
-  others() {
-    return new Elementable(this.version, this.row).others();
+  skills(): ElementWithPower[] {
+    return filterSkills(this.elements());
+  }
+
+  others(): ElementWithPower[] {
+    return filterOthers(this.elements());
   }
 }
