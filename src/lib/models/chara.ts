@@ -1,6 +1,12 @@
 import { z } from 'zod';
 import { GameVersion } from '../db';
-import { Elementable } from '../elementable';
+import {
+  ElementWithPower,
+  parseElements,
+  filterFeats,
+  filterNegations,
+  filterOthers,
+} from '../elementable';
 import {
   attackElements,
   Element,
@@ -160,36 +166,24 @@ export class Chara {
     });
   }
 
-  elements() {
+  elements(): ElementWithPower[] {
     return this.memoize('elements', () => [
-      ...new Elementable(this.version, this.row, this.mainElement).elements(),
+      ...parseElements(this.version, this.row, this.mainElement),
       ...this.race.elements(),
       ...this.job().elements(),
     ]);
   }
 
-  feats() {
-    return this.memoize('feats', () => [
-      ...new Elementable(this.version, this.row, this.mainElement).feats(),
-      ...this.race.feats(),
-      ...this.job().feats(),
-    ]);
+  feats(): ElementWithPower[] {
+    return this.memoize('feats', () => filterFeats(this.elements()));
   }
 
-  negations() {
-    return this.memoize('negations', () => [
-      ...new Elementable(this.version, this.row, this.mainElement).negations(),
-      ...this.race.negations(),
-      ...this.job().negations(),
-    ]);
+  negations(): ElementWithPower[] {
+    return this.memoize('negations', () => filterNegations(this.elements()));
   }
 
-  others() {
-    return this.memoize('others', () => [
-      ...new Elementable(this.version, this.row, this.mainElement).others(),
-      ...this.race.others(),
-      ...this.job().others(),
-    ]);
+  others(): ElementWithPower[] {
+    return this.memoize('others', () => filterOthers(this.elements()));
   }
 
   abilities() {
