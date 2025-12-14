@@ -110,6 +110,7 @@ export const resources = {
       flavorText: 'フレーバーテキスト',
       effects: '効果',
       basicInfo: '基本情報',
+      otherElements: 'その他の属性',
     },
     feat: {
       geneSlot: '使用スロット数',
@@ -308,6 +309,7 @@ export const resources = {
       flavorText: 'Flavor Text',
       effects: 'Effects',
       basicInfo: 'Basic Info',
+      otherElements: 'Other Elements',
     },
     feat: {
       geneSlot: 'Slot Count',
