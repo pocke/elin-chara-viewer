@@ -117,24 +117,34 @@ export function filterSkills(elements: ElementWithPower[]): ElementWithPower[] {
   );
 }
 
+// Order of categorySub for skill sorting (matches CharaDetailClient display order)
+const CATEGORY_SUB_ORDER: Record<string, number> = {
+  '': 0, // General skills (no categorySub)
+  craft: 1,
+  combat: 2,
+  weapon: 3,
+};
+
 /**
  * Get sort key for a skill element.
- * Returns [parentSort, elementId] tuple for sorting.
+ * Returns [categorySubOrder, parentSort, elementId] tuple for sorting.
  */
-export function skillSortKey(element: Element): [number, number] {
+export function skillSortKey(element: Element): [number, number, number] {
+  const categorySub = element.row.categorySub ?? '';
+  const categorySubOrder = CATEGORY_SUB_ORDER[categorySub] ?? 0;
   const parentSort = element.parent()?.row.sort ?? 0;
   const id = parseInt(element.id, 10);
-  return [parentSort, id];
+  return [categorySubOrder, parentSort, id];
 }
 
 /**
- * Sort skills by parent's sort column, then by element's id.
+ * Sort skills by categorySub order, then by parent's sort column, then by element's id.
  */
 export function sortSkills(elements: ElementWithPower[]): ElementWithPower[] {
   return [...elements].sort((a, b) => {
-    const [aParent, aId] = skillSortKey(a.element);
-    const [bParent, bId] = skillSortKey(b.element);
-    return aParent - bParent || aId - bId;
+    const [aCatSub, aParent, aId] = skillSortKey(a.element);
+    const [bCatSub, bParent, bId] = skillSortKey(b.element);
+    return aCatSub - bCatSub || aParent - bParent || aId - bId;
   });
 }
 

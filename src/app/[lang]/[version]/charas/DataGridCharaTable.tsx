@@ -26,8 +26,14 @@ import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Chara } from '@/lib/models/chara';
-import { GameVersion } from '@/lib/db';
-import { resistanceElements, elementByAlias } from '@/lib/models/element';
+import { all, GameVersion } from '@/lib/db';
+import {
+  resistanceElements,
+  elementByAlias,
+  Element,
+  ElementSchema,
+} from '@/lib/models/element';
+import { skillSortKey, calcBasePotential } from '@/lib/elementable';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
 import CharaSearchBar from './CharaSearchBar';
 import { normalizeForSearch } from '@/lib/searchUtils';
@@ -113,6 +119,21 @@ const abilityToSearchKey = (ability: {
   return `${ability.name}:${ability.element ?? ''}:${ability.party}`;
 };
 
+// Get sorted skill elements for a given version
+function getSkillElements(version: GameVersion): Element[] {
+  const allElements = all(version, 'elements', ElementSchema).map(
+    (row) => new Element(version, row)
+  );
+  const skillElements = allElements.filter((e) => e.row.category === 'skill');
+
+  // Sort using skillSortKey (same as CharaDetailClient)
+  return skillElements.sort((a, b) => {
+    const [aCatSub, aParent, aId] = skillSortKey(a);
+    const [bCatSub, bParent, bId] = skillSortKey(b);
+    return aCatSub - bCatSub || aParent - bParent || aId - bId;
+  });
+}
+
 export default function DataGridCharaTable({
   charas,
   version,
@@ -123,6 +144,13 @@ export default function DataGridCharaTable({
   const searchParams = useSearchParams();
   const lang = params.lang as string;
   const resistanceElementsList = resistanceElements(version);
+
+  // Get skill elements with same sorting as CharaDetailClient
+  const skillElements = useMemo(() => getSkillElements(version), [version]);
+  const skillAliases = useMemo(
+    () => skillElements.map((e) => e.alias),
+    [skillElements]
+  );
 
   // Resistance element aliases
   const resistanceAliases = useMemo(
@@ -135,6 +163,7 @@ export default function DataGridCharaTable({
     | 'keyInfo'
     | 'otherStats'
     | 'primaryAttributes'
+    | 'skills'
     | 'resistances'
     | 'tactics';
 
@@ -432,6 +461,20 @@ export default function DataGridCharaTable({
         row[attr.alias] = attr.value;
       });
 
+      // Add skill columns (base potential values)
+      const charaElements = chara.elements();
+      skillElements.forEach((skillElement) => {
+        const found = charaElements.find(
+          (ewp) => ewp.element.alias === skillElement.alias
+        );
+        if (found) {
+          const basePotential = calcBasePotential(found);
+          row[skillElement.alias] = basePotential;
+        } else {
+          row[skillElement.alias] = null;
+        }
+      });
+
       row.pdr = chara.pdr();
       row.edr = chara.edr();
       row.ep = chara.ep();
@@ -464,7 +507,7 @@ export default function DataGridCharaTable({
 
       return row;
     });
-  }, [filteredCharas, language, t, resistanceElementsList]);
+  }, [filteredCharas, language, t, resistanceElementsList, skillElements]);
 
   // Define columns
   const columns: GridColDef[] = useMemo(() => {
@@ -584,6 +627,16 @@ export default function DataGridCharaTable({
         });
       });
     }
+
+    // Add skill columns (base potential values)
+    skillElements.forEach((skillElement) => {
+      baseColumns.push({
+        field: skillElement.alias,
+        headerName: skillElement.name(language),
+        type: 'number',
+        width: 70,
+      });
+    });
 
     baseColumns.push(
       {
@@ -710,6 +763,7 @@ export default function DataGridCharaTable({
     raceOptions,
     jobOptions,
     filteredCharas,
+    skillElements,
   ]);
 
   // Create visibility model based on selected presets
@@ -735,6 +789,8 @@ export default function DataGridCharaTable({
           const inPrimaryAttributes =
             presets.includes('primaryAttributes') &&
             PRIMARY_ATTRIBUTE_ALIASES.includes(col.field);
+          const inSkills =
+            presets.includes('skills') && skillAliases.includes(col.field);
           const inResistances =
             presets.includes('resistances') &&
             resistanceAliases.includes(col.field);
@@ -745,6 +801,7 @@ export default function DataGridCharaTable({
             inKeyInfo ||
             inOtherStats ||
             inPrimaryAttributes ||
+            inSkills ||
             inResistances ||
             inTactics;
         }
@@ -752,7 +809,7 @@ export default function DataGridCharaTable({
 
       return model;
     },
-    [columns, resistanceAliases]
+    [columns, resistanceAliases, skillAliases]
   );
 
   // Initialize column visibility model based on default preset
@@ -935,6 +992,7 @@ export default function DataGridCharaTable({
           <ToggleButton value="primaryAttributes">
             {t.common.presetPrimaryAttributes}
           </ToggleButton>
+          <ToggleButton value="skills">{t.common.presetSkills}</ToggleButton>
           <ToggleButton value="otherStats">
             {t.common.presetOtherStats}
           </ToggleButton>
