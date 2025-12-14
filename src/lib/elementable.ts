@@ -84,50 +84,79 @@ export function filterSkills(elements: ElementWithPower[]): ElementWithPower[] {
 }
 
 /**
+ * Get sort key for a skill element.
+ * Returns [parentSort, elementId] tuple for sorting.
+ */
+export function skillSortKey(element: Element): [number, number] {
+  const parentSort = element.parent()?.row.sort ?? 0;
+  const id = parseInt(element.id, 10);
+  return [parentSort, id];
+}
+
+/**
+ * Sort skills by parent's sort column, then by element's id.
+ */
+export function sortSkills(elements: ElementWithPower[]): ElementWithPower[] {
+  return [...elements].sort((a, b) => {
+    const [aParent, aId] = skillSortKey(a.element);
+    const [bParent, bId] = skillSortKey(b.element);
+    return aParent - bParent || aId - bId;
+  });
+}
+
+/**
  * Filter elements to get general skills (category === 'skill' and categorySub is not craft/combat/weapon)
+ * Results are sorted by parent's sort column, then by element's id.
  */
 export function filterGeneralSkills(
   elements: ElementWithPower[]
 ): ElementWithPower[] {
-  return filterSkills(elements).filter(
+  const filtered = filterSkills(elements).filter(
     (elementWithPower) =>
       !['craft', 'combat', 'weapon'].includes(
         elementWithPower.element.row.categorySub ?? ''
       )
   );
+  return sortSkills(filtered);
 }
 
 /**
  * Filter elements to get craft skills (category === 'skill' and categorySub === 'craft')
+ * Results are sorted by parent's sort column, then by element's id.
  */
 export function filterCraftSkills(
   elements: ElementWithPower[]
 ): ElementWithPower[] {
-  return filterSkills(elements).filter(
+  const filtered = filterSkills(elements).filter(
     (elementWithPower) => elementWithPower.element.row.categorySub === 'craft'
   );
+  return sortSkills(filtered);
 }
 
 /**
  * Filter elements to get combat skills (category === 'skill' and categorySub === 'combat')
+ * Results are sorted by parent's sort column, then by element's id.
  */
 export function filterCombatSkills(
   elements: ElementWithPower[]
 ): ElementWithPower[] {
-  return filterSkills(elements).filter(
+  const filtered = filterSkills(elements).filter(
     (elementWithPower) => elementWithPower.element.row.categorySub === 'combat'
   );
+  return sortSkills(filtered);
 }
 
 /**
  * Filter elements to get weapon skills (category === 'skill' and categorySub === 'weapon')
+ * Results are sorted by parent's sort column, then by element's id.
  */
 export function filterWeaponSkills(
   elements: ElementWithPower[]
 ): ElementWithPower[] {
-  return filterSkills(elements).filter(
+  const filtered = filterSkills(elements).filter(
     (elementWithPower) => elementWithPower.element.row.categorySub === 'weapon'
   );
+  return sortSkills(filtered);
 }
 
 /**
