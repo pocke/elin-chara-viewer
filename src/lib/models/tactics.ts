@@ -80,4 +80,50 @@ export class Tactics {
   get moveFrequency() {
     return this.row.move;
   }
+
+  get party() {
+    return this.row.party;
+  }
+
+  get taunt() {
+    return this.row.taunt;
+  }
+
+  get melee() {
+    return this.row.melee;
+  }
+
+  get range() {
+    return this.row.range;
+  }
+
+  get spell() {
+    return this.row.spell;
+  }
+
+  get heal() {
+    return this.row.heal;
+  }
+
+  get summon() {
+    return this.row.summon;
+  }
+
+  get buff() {
+    return this.row.buff;
+  }
+
+  get debuff() {
+    return this.row.debuff;
+  }
+
+  tags(): string[] {
+    if (!this.row.tag) return [];
+    return this.row.tag.split(',');
+  }
+
+  /** tag に "pt" が含まれていればパーティーメンバーにバフを使用する */
+  usesPartyBuff(): boolean {
+    return this.tags().includes('pt');
+  }
 }
