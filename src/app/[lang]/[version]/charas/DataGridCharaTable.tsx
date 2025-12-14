@@ -66,6 +66,33 @@ const TACTICS_FIELDS = [
   'tacticsPartyBuff',
 ];
 
+// Key info column fields
+const KEY_INFO_FIELDS = [
+  'race',
+  'job',
+  'mainElement',
+  'level',
+  'geneSlot',
+  'bodyParts',
+  'life',
+  'mana',
+  'speed',
+  'tacticsName',
+];
+
+// Other stats column fields
+const OTHER_STATS_FIELDS = [
+  'life',
+  'mana',
+  'speed',
+  'vigor',
+  'dv',
+  'pv',
+  'pdr',
+  'edr',
+  'ep',
+];
+
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -104,10 +131,17 @@ export default function DataGridCharaTable({
   );
 
   // Column presets (excludes 'all' as it's handled separately)
-  type PresetType = 'primaryAttributes' | 'resistances' | 'tactics';
+  type PresetType =
+    | 'keyInfo'
+    | 'otherStats'
+    | 'primaryAttributes'
+    | 'resistances'
+    | 'tactics';
 
-  // Column visibility state
-  const [selectedPresets, setSelectedPresets] = useState<PresetType[]>([]);
+  // Column visibility state (default to keyInfo preset)
+  const [selectedPresets, setSelectedPresets] = useState<PresetType[]>([
+    'keyInfo',
+  ]);
   const [columnVisibilityModel, setColumnVisibilityModel] =
     useState<GridColumnVisibilityModel>({});
 
@@ -137,7 +171,6 @@ export default function DataGridCharaTable({
       searchParams.get('abilities')?.split(',').filter(Boolean) || [];
     const hidden = searchParams.get('hidden') === 'true';
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Synchronizing with external URL state
     setSearchQuery(query);
     setSelectedRaces(races);
     setSelectedJobs(jobs);
@@ -694,6 +727,11 @@ export default function DataGridCharaTable({
           model[col.field] = true;
         } else {
           // Show column if it belongs to any of the selected presets
+          const inKeyInfo =
+            presets.includes('keyInfo') && KEY_INFO_FIELDS.includes(col.field);
+          const inOtherStats =
+            presets.includes('otherStats') &&
+            OTHER_STATS_FIELDS.includes(col.field);
           const inPrimaryAttributes =
             presets.includes('primaryAttributes') &&
             PRIMARY_ATTRIBUTE_ALIASES.includes(col.field);
@@ -703,7 +741,12 @@ export default function DataGridCharaTable({
           const inTactics =
             presets.includes('tactics') && TACTICS_FIELDS.includes(col.field);
 
-          model[col.field] = inPrimaryAttributes || inResistances || inTactics;
+          model[col.field] =
+            inKeyInfo ||
+            inOtherStats ||
+            inPrimaryAttributes ||
+            inResistances ||
+            inTactics;
         }
       });
 
@@ -711,6 +754,13 @@ export default function DataGridCharaTable({
     },
     [columns, resistanceAliases]
   );
+
+  // Initialize column visibility model based on default preset
+  useEffect(() => {
+    setColumnVisibilityModel(createVisibilityModel(selectedPresets));
+    // Only run once when columns are available
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columns.length > 0]);
 
   const handlePresetChange = useCallback(
     (_event: React.MouseEvent<HTMLElement>, newPresets: PresetType[]) => {
@@ -868,6 +918,10 @@ export default function DataGridCharaTable({
           onChange={handlePresetChange}
           size="small"
         >
+          <ToggleButton value="keyInfo">{t.common.presetKeyInfo}</ToggleButton>
+          <ToggleButton value="otherStats">
+            {t.common.presetOtherStats}
+          </ToggleButton>
           <ToggleButton value="primaryAttributes">
             {t.common.presetPrimaryAttributes}
           </ToggleButton>
