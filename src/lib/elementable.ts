@@ -205,6 +205,7 @@ export function filterOthers(elements: ElementWithPower[]): ElementWithPower[] {
       !elementWithPower.element.alias.startsWith('negate') &&
       !elementWithPower.element.alias.startsWith('ele') &&
       !elementWithPower.element.alias.startsWith('res') &&
-      elementWithPower.element.row.category !== 'skill'
+      elementWithPower.element.row.category !== 'skill' &&
+      elementWithPower.element.row.category !== 'attribute' // for primary attributes, DV, and so on
   );
 }

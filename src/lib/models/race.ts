@@ -221,7 +221,7 @@ export class Race {
       { alias: 'PV', value: this.row.PV },
       { alias: 'PDR', value: this.row.PDR },
       { alias: 'EDR', value: this.row.EDR },
-      { alias: 'EP', value: this.row.EP },
+      { alias: 'evasionPerfect', value: this.row.EP },
       { alias: 'martial', value: this.row.martial },
     ];
     const result: ElementWithPower[] = [];

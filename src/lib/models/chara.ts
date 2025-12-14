@@ -312,7 +312,7 @@ export class Chara {
   }
 
   ep() {
-    return this.memoize('ep', () => this.getElementPower('EP'));
+    return this.memoize('ep', () => this.getElementPower('evasionPerfect'));
   }
 
   variants() {
