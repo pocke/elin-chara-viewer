@@ -41,6 +41,7 @@ import {
   filterCraftSkills,
   filterCombatSkills,
   filterWeaponSkills,
+  sortSkills,
   calcBasePotential,
   totalPower,
   ElementWithPower,
@@ -66,10 +67,10 @@ export default function CharaDetailClient({
   const feats = chara.feats();
   const negations = chara.negations();
   const allElements = chara.elements();
-  const generalSkills = filterGeneralSkills(allElements);
-  const craftSkills = filterCraftSkills(allElements);
-  const combatSkills = filterCombatSkills(allElements);
-  const weaponSkills = filterWeaponSkills(allElements);
+  const generalSkills = sortSkills(filterGeneralSkills(allElements));
+  const craftSkills = sortSkills(filterCraftSkills(allElements));
+  const combatSkills = sortSkills(filterCombatSkills(allElements));
+  const weaponSkills = sortSkills(filterWeaponSkills(allElements));
   const hasAnySkills =
     generalSkills.length > 0 ||
     craftSkills.length > 0 ||
