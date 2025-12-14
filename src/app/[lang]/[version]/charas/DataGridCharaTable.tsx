@@ -103,11 +103,11 @@ export default function DataGridCharaTable({
     [resistanceElementsList]
   );
 
-  // Column presets
-  type PresetType = 'all' | 'primaryAttributes' | 'resistances' | 'tactics';
+  // Column presets (excludes 'all' as it's handled separately)
+  type PresetType = 'primaryAttributes' | 'resistances' | 'tactics';
 
   // Column visibility state
-  const [selectedPreset, setSelectedPreset] = useState<PresetType>('all');
+  const [selectedPresets, setSelectedPresets] = useState<PresetType[]>([]);
   const [columnVisibilityModel, setColumnVisibilityModel] =
     useState<GridColumnVisibilityModel>({});
 
@@ -679,22 +679,31 @@ export default function DataGridCharaTable({
     filteredCharas,
   ]);
 
-  // Create visibility model based on preset and columns
+  // Create visibility model based on selected presets
   const createVisibilityModel = useCallback(
-    (preset: PresetType): GridColumnVisibilityModel => {
+    (presets: PresetType[]): GridColumnVisibilityModel => {
       const model: GridColumnVisibilityModel = {};
+
+      // If no presets selected, show all columns
+      const showAll = presets.length === 0;
 
       columns.forEach((col) => {
         if (col.field === 'name') {
           model[col.field] = true;
-        } else if (preset === 'all') {
+        } else if (showAll) {
           model[col.field] = true;
-        } else if (preset === 'primaryAttributes') {
-          model[col.field] = PRIMARY_ATTRIBUTE_ALIASES.includes(col.field);
-        } else if (preset === 'resistances') {
-          model[col.field] = resistanceAliases.includes(col.field);
-        } else if (preset === 'tactics') {
-          model[col.field] = TACTICS_FIELDS.includes(col.field);
+        } else {
+          // Show column if it belongs to any of the selected presets
+          const inPrimaryAttributes =
+            presets.includes('primaryAttributes') &&
+            PRIMARY_ATTRIBUTE_ALIASES.includes(col.field);
+          const inResistances =
+            presets.includes('resistances') &&
+            resistanceAliases.includes(col.field);
+          const inTactics =
+            presets.includes('tactics') && TACTICS_FIELDS.includes(col.field);
+
+          model[col.field] = inPrimaryAttributes || inResistances || inTactics;
         }
       });
 
@@ -704,11 +713,9 @@ export default function DataGridCharaTable({
   );
 
   const handlePresetChange = useCallback(
-    (_event: React.MouseEvent<HTMLElement>, newPreset: PresetType | null) => {
-      if (newPreset !== null) {
-        setSelectedPreset(newPreset);
-        setColumnVisibilityModel(createVisibilityModel(newPreset));
-      }
+    (_event: React.MouseEvent<HTMLElement>, newPresets: PresetType[]) => {
+      setSelectedPresets(newPresets);
+      setColumnVisibilityModel(createVisibilityModel(newPresets));
     },
     [createVisibilityModel]
   );
@@ -857,12 +864,10 @@ export default function DataGridCharaTable({
       <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
         <span>{t.common.columnPreset}:</span>
         <ToggleButtonGroup
-          value={selectedPreset}
-          exclusive
+          value={selectedPresets}
           onChange={handlePresetChange}
           size="small"
         >
-          <ToggleButton value="all">{t.common.presetAll}</ToggleButton>
           <ToggleButton value="primaryAttributes">
             {t.common.presetPrimaryAttributes}
           </ToggleButton>
