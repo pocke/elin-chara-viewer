@@ -15,7 +15,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Link from 'next/link';
+import { HoverPrefetchLink as Link } from '../../components/HoverPrefetchLink';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import theme from '../theme';

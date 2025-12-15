@@ -25,7 +25,7 @@ import {
 } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import { HoverPrefetchLink as Link } from '../../../../../components/HoverPrefetchLink';
 import { Chara, type CharaRow } from '@/lib/models/chara';
 import { GameVersion } from '@/lib/db';
 import {

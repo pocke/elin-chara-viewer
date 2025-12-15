@@ -11,7 +11,7 @@ import {
   GridToolbarQuickFilter,
 } from '@mui/x-data-grid';
 import { Link as MuiLink, Paper, Box, Chip } from '@mui/material';
-import Link from 'next/link';
+import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
 import { useMemo } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
