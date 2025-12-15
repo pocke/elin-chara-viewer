@@ -28,6 +28,11 @@ This is an Elin character viewer application built with Next.js and TypeScript.
   - Example: `name(locale: string)` method that returns `name_JP` for Japanese or `name` for English
 - **Adding new translations**: Add both Japanese and English versions to the `resources` object in `simple-i18n.tsx`
 
+### Link Component
+- **Always use `HoverPrefetchLink` instead of Next.js `Link`** - to reduce Vercel Edge Requests
+- **Import**: `import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink'`
+- **Reason**: The default `next/link` prefetches on viewport entry, causing excessive Edge Requests. `HoverPrefetchLink` only prefetches on hover.
+
 ### Important Notes
 - Maintain type safety throughout the codebase
 - Follow existing code patterns and conventions

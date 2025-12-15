@@ -21,7 +21,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from '@mui/material';
-import Link from 'next/link';
+import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
 import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';

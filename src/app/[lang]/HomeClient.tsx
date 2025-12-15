@@ -3,7 +3,7 @@ import { Container, Typography, Box, Button, Paper } from '@mui/material';
 import { Home as HomeIcon, Menu as MenuIcon } from '@mui/icons-material';
 import { useTranslation } from '../../lib/simple-i18n';
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import { HoverPrefetchLink as Link } from '../../components/HoverPrefetchLink';
 
 export default function HomeClient() {
   const { t } = useTranslation();
