@@ -34,6 +34,23 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  experimental: {
+    staleTimes: {
+      dynamic: 180, // 動的ページを3分間キャッシュ
+      static: 180, // 静的ページを3分間キャッシュ
+    },
+  },
+  headers: async () => [
+    {
+      source: '/(.*)',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=3600, stale-while-revalidate=86400',
+        },
+      ],
+    },
+  ],
 };
 
 export default nextConfig;
