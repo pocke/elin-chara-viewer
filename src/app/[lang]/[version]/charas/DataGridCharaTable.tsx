@@ -32,7 +32,7 @@ import {
   elementByAlias,
   skillElements,
 } from '@/lib/models/element';
-import { skillSortKey, calcBasePotential } from '@/lib/elementable';
+import { skillSortKey, calcBasePotential, totalPower } from '@/lib/elementable';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
 import CharaSearchBar from './CharaSearchBar';
 import { normalizeForSearch } from '@/lib/searchUtils';
@@ -531,6 +531,20 @@ export default function DataGridCharaTable({
           getResistanceDisplayValueCompact(resValue); // Store display value
       });
 
+      // Add selected feat columns (dynamic)
+      const charaFeats = chara.feats();
+      selectedFeats.forEach((featAlias) => {
+        const feat = charaFeats.find((f) => f.element.alias === featAlias);
+        row[`filter_feat_${featAlias}`] = feat ? totalPower(feat) : null;
+      });
+
+      // Add selected other element columns (dynamic)
+      const charaOthers = chara.others();
+      selectedOthers.forEach((otherAlias) => {
+        const other = charaOthers.find((o) => o.element.alias === otherAlias);
+        row[`filter_other_${otherAlias}`] = other ? totalPower(other) : null;
+      });
+
       return row;
     });
   }, [
@@ -539,6 +553,8 @@ export default function DataGridCharaTable({
     t,
     resistanceElementsList,
     sortedSkillElements,
+    selectedFeats,
+    selectedOthers,
   ]);
 
   // Define columns
@@ -558,6 +574,32 @@ export default function DataGridCharaTable({
           </MuiLink>
         ),
       },
+    ];
+
+    // Add dynamic feat columns (right after name)
+    selectedFeats.forEach((featAlias) => {
+      const featOption = featOptions.find((opt) => opt.key === featAlias);
+      baseColumns.push({
+        field: `filter_feat_${featAlias}`,
+        headerName: featOption?.displayName ?? featAlias,
+        type: 'number',
+        width: 100,
+      });
+    });
+
+    // Add dynamic other element columns (right after feats)
+    selectedOthers.forEach((otherAlias) => {
+      const otherOption = otherOptions.find((opt) => opt.key === otherAlias);
+      baseColumns.push({
+        field: `filter_other_${otherAlias}`,
+        headerName: otherOption?.displayName ?? otherAlias,
+        type: 'number',
+        width: 100,
+      });
+    });
+
+    // Add remaining base info columns
+    baseColumns.push(
       {
         field: 'race',
         headerName: t.common.race,
@@ -601,8 +643,8 @@ export default function DataGridCharaTable({
             <span style={{ cursor: 'help' }}>{params.value}</span>
           </Tooltip>
         ),
-      },
-    ];
+      }
+    );
 
     // Add status columns
     baseColumns.push(
@@ -796,6 +838,10 @@ export default function DataGridCharaTable({
     jobOptions,
     filteredCharas,
     sortedSkillElements,
+    selectedFeats,
+    selectedOthers,
+    featOptions,
+    otherOptions,
   ]);
 
   // Create visibility model based on selected presets
@@ -807,7 +853,15 @@ export default function DataGridCharaTable({
       const showAll = presets.length === 0;
 
       columns.forEach((col) => {
+        // Always show name column
         if (col.field === 'name') {
+          model[col.field] = true;
+        }
+        // Always show dynamic filter columns (feats and other elements)
+        else if (
+          col.field.startsWith('filter_feat_') ||
+          col.field.startsWith('filter_other_')
+        ) {
           model[col.field] = true;
         } else if (showAll) {
           model[col.field] = true;
