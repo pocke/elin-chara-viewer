@@ -24,17 +24,20 @@ interface CharaSearchBarProps {
   jobOptions: SearchOption[];
   featOptions: SearchOption[];
   abilityOptions: SearchOption[];
+  otherOptions: SearchOption[];
   initialSearchQuery?: string;
   initialSelectedRaces?: string[];
   initialSelectedJobs?: string[];
   initialSelectedFeats?: string[];
   initialSelectedAbilities?: string[];
+  initialSelectedOthers?: string[];
   initialShowHiddenCharas?: boolean;
   onSearchChange: (search: string) => void;
   onRaceChange: (races: string[]) => void;
   onJobChange: (jobs: string[]) => void;
   onFeatChange: (feats: string[]) => void;
   onAbilityChange: (abilities: string[]) => void;
+  onOtherChange: (others: string[]) => void;
   onClearAllFilters: () => void;
 }
 
@@ -43,17 +46,20 @@ export default function CharaSearchBar({
   jobOptions,
   featOptions,
   abilityOptions,
+  otherOptions,
   initialSearchQuery = '',
   initialSelectedRaces = [],
   initialSelectedJobs = [],
   initialSelectedFeats = [],
   initialSelectedAbilities = [],
+  initialSelectedOthers = [],
   initialShowHiddenCharas = false,
   onSearchChange,
   onRaceChange,
   onJobChange,
   onFeatChange,
   onAbilityChange,
+  onOtherChange,
   onClearAllFilters,
 }: CharaSearchBarProps) {
   const { t } = useTranslation();
@@ -68,6 +74,9 @@ export default function CharaSearchBar({
   const [selectedAbilities, setSelectedAbilities] = useState<string[]>(
     initialSelectedAbilities
   );
+  const [selectedOthers, setSelectedOthers] = useState<string[]>(
+    initialSelectedOthers
+  );
 
   // Update state when initial values change (for when URL changes)
   // This effect synchronizes external state (URL params) with component state
@@ -78,12 +87,14 @@ export default function CharaSearchBar({
     setSelectedJobs(initialSelectedJobs);
     setSelectedFeats(initialSelectedFeats);
     setSelectedAbilities(initialSelectedAbilities);
+    setSelectedOthers(initialSelectedOthers);
   }, [
     initialSearchQuery,
     initialSelectedRaces,
     initialSelectedJobs,
     initialSelectedFeats,
     initialSelectedAbilities,
+    initialSelectedOthers,
     initialShowHiddenCharas,
   ]);
 
@@ -127,12 +138,21 @@ export default function CharaSearchBar({
     [onAbilityChange]
   );
 
+  const handleOtherChange = useCallback(
+    (newOthers: string[]) => {
+      setSelectedOthers(newOthers);
+      onOtherChange(newOthers);
+    },
+    [onOtherChange]
+  );
+
   const clearAllFilters = useCallback(() => {
     setSearchQuery('');
     setSelectedRaces([]);
     setSelectedJobs([]);
     setSelectedFeats([]);
     setSelectedAbilities([]);
+    setSelectedOthers([]);
     onClearAllFilters();
   }, [onClearAllFilters]);
 
@@ -175,6 +195,10 @@ export default function CharaSearchBar({
     () => createBilingualFilter(abilityOptions),
     [createBilingualFilter, abilityOptions]
   );
+  const otherFilter = useMemo(
+    () => createBilingualFilter(otherOptions),
+    [createBilingualFilter, otherOptions]
+  );
 
   const hasActiveFilters =
     searchQuery ||
@@ -182,6 +206,7 @@ export default function CharaSearchBar({
     selectedJobs.length > 0 ||
     selectedFeats.length > 0 ||
     selectedAbilities.length > 0 ||
+    selectedOthers.length > 0 ||
     initialShowHiddenCharas;
 
   return (
@@ -389,6 +414,48 @@ export default function CharaSearchBar({
                 {...params}
                 variant="outlined"
                 placeholder={t.common.abilities}
+                size="small"
+              />
+            )}
+          />
+        </Box>
+
+        {/* その他の属性選択 */}
+        <Box sx={{ flex: 1, minWidth: 200 }}>
+          <Autocomplete
+            multiple
+            value={selectedOthers}
+            onChange={(_, newValue) => handleOtherChange(newValue)}
+            options={otherOptions.map((opt) => opt.key)}
+            filterOptions={otherFilter}
+            getOptionLabel={(option) => {
+              const otherOption = otherOptions.find(
+                (opt) => opt.key === option
+              );
+              return otherOption ? otherOption.displayName : option;
+            }}
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => {
+                const otherOption = otherOptions.find(
+                  (opt) => opt.key === option
+                );
+                const label = otherOption ? otherOption.displayName : option;
+                return (
+                  <Chip
+                    variant="outlined"
+                    label={label}
+                    size="small"
+                    {...getTagProps({ index })}
+                    key={option}
+                  />
+                );
+              })
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                placeholder={t.common.otherElements}
                 size="small"
               />
             )}

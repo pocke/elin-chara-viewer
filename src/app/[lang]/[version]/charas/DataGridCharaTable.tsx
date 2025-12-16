@@ -179,6 +179,7 @@ export default function DataGridCharaTable({
   const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
   const [selectedFeats, setSelectedFeats] = useState<string[]>([]);
   const [selectedAbilities, setSelectedAbilities] = useState<string[]>([]);
+  const [selectedOthers, setSelectedOthers] = useState<string[]>([]);
   const [showHiddenCharas, setShowHiddenCharas] = useState(false);
 
   // Initialize state from URL parameters
@@ -190,6 +191,7 @@ export default function DataGridCharaTable({
     const feats = searchParams.get('feats')?.split(',').filter(Boolean) || [];
     const abilities =
       searchParams.get('abilities')?.split(',').filter(Boolean) || [];
+    const others = searchParams.get('others')?.split(',').filter(Boolean) || [];
     const hidden = searchParams.get('hidden') === 'true';
 
     setSearchQuery(query);
@@ -197,6 +199,7 @@ export default function DataGridCharaTable({
     setSelectedJobs(jobs);
     setSelectedFeats(feats);
     setSelectedAbilities(abilities);
+    setSelectedOthers(others);
     setShowHiddenCharas(hidden);
   }, [searchParams]);
 
@@ -208,6 +211,7 @@ export default function DataGridCharaTable({
       jobs: string[],
       feats: string[],
       abilities: string[],
+      others: string[],
       hidden: boolean
     ) => {
       const urlSearchParams = new URLSearchParams();
@@ -227,6 +231,9 @@ export default function DataGridCharaTable({
       if (abilities.length > 0) {
         urlSearchParams.set('abilities', abilities.join(','));
       }
+      if (others.length > 0) {
+        urlSearchParams.set('others', others.join(','));
+      }
       if (hidden) {
         urlSearchParams.set('hidden', 'true');
       }
@@ -241,9 +248,9 @@ export default function DataGridCharaTable({
   );
 
   // Convert Chara objects to DataGrid rows
-  // Get unique race, job, feat, and ability options for select filters
+  // Get unique race, job, feat, ability, and other options for select filters
   // Each option has { key, displayName, nameJa, nameEn } for bilingual search
-  const { raceOptions, jobOptions, featOptions, abilityOptions } =
+  const { raceOptions, jobOptions, featOptions, abilityOptions, otherOptions } =
     useMemo(() => {
       const raceMap = new Map<
         string,
@@ -258,6 +265,10 @@ export default function DataGridCharaTable({
         { displayName: string; nameJa: string; nameEn: string }
       >();
       const abilityMap = new Map<
+        string,
+        { displayName: string; nameJa: string; nameEn: string }
+      >();
+      const otherMap = new Map<
         string,
         { displayName: string; nameJa: string; nameEn: string }
       >();
@@ -323,6 +334,16 @@ export default function DataGridCharaTable({
             });
           }
         });
+
+        // Others (elements that are not feat, negation, ele*, res*, skill, attribute)
+        chara.others().forEach((other) => {
+          const element = other.element;
+          otherMap.set(element.alias, {
+            displayName: element.name(language),
+            nameJa: element.name('ja'),
+            nameEn: element.name('en'),
+          });
+        });
       });
 
       // Convert to { key, displayName, nameJa, nameEn } format
@@ -337,6 +358,9 @@ export default function DataGridCharaTable({
           .map(([key, names]) => ({ key, ...names }))
           .sort((a, b) => a.displayName.localeCompare(b.displayName)),
         abilityOptions: Array.from(abilityMap.entries())
+          .map(([key, names]) => ({ key, ...names }))
+          .sort((a, b) => a.displayName.localeCompare(b.displayName)),
+        otherOptions: Array.from(otherMap.entries())
           .map(([key, names]) => ({ key, ...names }))
           .sort((a, b) => a.displayName.localeCompare(b.displayName)),
       };
@@ -396,6 +420,15 @@ export default function DataGridCharaTable({
         if (!hasAllSelectedAbilities) return false;
       }
 
+      // Others filter
+      if (selectedOthers.length > 0) {
+        const charaOthers = chara.others().map((other) => other.element.alias);
+        const hasAllSelectedOthers = selectedOthers.every((other) =>
+          charaOthers.includes(other)
+        );
+        if (!hasAllSelectedOthers) return false;
+      }
+
       // Hidden characters filter
       if (!showHiddenCharas && chara.isHidden()) {
         return false;
@@ -410,6 +443,7 @@ export default function DataGridCharaTable({
     selectedJobs,
     selectedFeats,
     selectedAbilities,
+    selectedOthers,
     showHiddenCharas,
   ]);
 
@@ -840,6 +874,7 @@ export default function DataGridCharaTable({
         selectedJobs,
         selectedFeats,
         selectedAbilities,
+        selectedOthers,
         showHiddenCharas
       );
     },
@@ -849,6 +884,7 @@ export default function DataGridCharaTable({
       selectedJobs,
       selectedFeats,
       selectedAbilities,
+      selectedOthers,
       showHiddenCharas,
     ]
   );
@@ -862,6 +898,7 @@ export default function DataGridCharaTable({
         selectedJobs,
         selectedFeats,
         selectedAbilities,
+        selectedOthers,
         showHiddenCharas
       );
     },
@@ -871,6 +908,7 @@ export default function DataGridCharaTable({
       selectedJobs,
       selectedFeats,
       selectedAbilities,
+      selectedOthers,
       showHiddenCharas,
     ]
   );
@@ -884,6 +922,7 @@ export default function DataGridCharaTable({
         jobs,
         selectedFeats,
         selectedAbilities,
+        selectedOthers,
         showHiddenCharas
       );
     },
@@ -893,6 +932,7 @@ export default function DataGridCharaTable({
       selectedRaces,
       selectedFeats,
       selectedAbilities,
+      selectedOthers,
       showHiddenCharas,
     ]
   );
@@ -906,6 +946,7 @@ export default function DataGridCharaTable({
         selectedJobs,
         feats,
         selectedAbilities,
+        selectedOthers,
         showHiddenCharas
       );
     },
@@ -915,6 +956,7 @@ export default function DataGridCharaTable({
       selectedRaces,
       selectedJobs,
       selectedAbilities,
+      selectedOthers,
       showHiddenCharas,
     ]
   );
@@ -928,6 +970,7 @@ export default function DataGridCharaTable({
         selectedJobs,
         selectedFeats,
         abilities,
+        selectedOthers,
         showHiddenCharas
       );
     },
@@ -937,6 +980,31 @@ export default function DataGridCharaTable({
       selectedRaces,
       selectedJobs,
       selectedFeats,
+      selectedOthers,
+      showHiddenCharas,
+    ]
+  );
+
+  const handleOtherChange = useCallback(
+    (others: string[]) => {
+      setSelectedOthers(others);
+      updateURL(
+        searchQuery,
+        selectedRaces,
+        selectedJobs,
+        selectedFeats,
+        selectedAbilities,
+        others,
+        showHiddenCharas
+      );
+    },
+    [
+      updateURL,
+      searchQuery,
+      selectedRaces,
+      selectedJobs,
+      selectedFeats,
+      selectedAbilities,
       showHiddenCharas,
     ]
   );
@@ -947,8 +1015,9 @@ export default function DataGridCharaTable({
     setSelectedJobs([]);
     setSelectedFeats([]);
     setSelectedAbilities([]);
+    setSelectedOthers([]);
     setShowHiddenCharas(false);
-    updateURL('', [], [], [], [], false);
+    updateURL('', [], [], [], [], [], false);
   }, [updateURL]);
 
   return (
@@ -958,17 +1027,20 @@ export default function DataGridCharaTable({
         jobOptions={jobOptions}
         featOptions={featOptions}
         abilityOptions={abilityOptions}
+        otherOptions={otherOptions}
         initialSearchQuery={searchQuery}
         initialSelectedRaces={selectedRaces}
         initialSelectedJobs={selectedJobs}
         initialSelectedFeats={selectedFeats}
         initialSelectedAbilities={selectedAbilities}
+        initialSelectedOthers={selectedOthers}
         initialShowHiddenCharas={showHiddenCharas}
         onSearchChange={handleSearchChange}
         onRaceChange={handleRaceChange}
         onJobChange={handleJobChange}
         onFeatChange={handleFeatChange}
         onAbilityChange={handleAbilityChange}
+        onOtherChange={handleOtherChange}
         onClearAllFilters={handleClearAllFilters}
       />
       <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -1043,6 +1115,7 @@ export default function DataGridCharaTable({
                   selectedJobs,
                   selectedFeats,
                   selectedAbilities,
+                  selectedOthers,
                   newValue
                 );
               }}
