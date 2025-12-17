@@ -163,7 +163,7 @@ catgod,猫の神,catgod,9,"noRide,god,humanSpeak",140,80,100,25,0,0,0,0,12,13,21
 rsEvadePlus 3
 rsCritical 2",頭|首|体|手|指|腕|脚|足|,3,meat,"_meat,20",,2,Claw,,all,0,"10000,100000",120,5,100,,,
 machinegod,機械の神,machinegod,9,"machine,god,humanSpeak",200,80,100,0,15,0,0,0,15,14,11,24,12,15,8,10,100,,100,8,0,"featGolem/1,seeInvisible/1,swimming/5",rsGun 30,頭|体|背|手|手|腕|腰|脚|足|,3,steel,"ore,1000",,10,,,all,53,"10000,100000",3000,5,100,,,
-undeadgod,死霊の神,undeadgod,9,"undead,god,humanSpeak",80,500,100,0,0,0,0,0,10,13,14,18,16,18,28,7,180,,100,4,0,"featUndead/1,featLightEater/3,seeInvisible/1,featElder/1,featManaMeat/3,featAshborn/1","rsMagicControl 3
+undeadgod,死霊の神,undeadgod,9,"undead,god,humanSpeak",80,500,100,0,0,0,0,0,10,13,14,12,16,18,28,7,180,,100,4,0,"featUndead/1,featLightEater/3,seeInvisible/1,featElder/1,featManaMeat/3,featAshborn/1","rsMagicControl 3
 rsMagicCapacity 5",首|体|背|手|手|指|指|,3,meat,"_meat,20",,3,,,all,53,"10000,100000",1500,5,100,,,
 catsister,妹猫,catsister,9,"noRide,human,mofu",25,100,100,0,0,0,30,60,7,5,13,15,8,10,13,22,280,,10,5,0,"featFluffyTail/1,food_cat/-1,featRoran/1","rsTwoHand 6
 rsTactics 4",頭|首|体|背|手|手|指|指|腕|腰|脚|足|,6,meat,"_meat,20",tail_cat/10,2,Claw,,all,0,"8,50",140,5,50,,,

@@ -212,6 +212,7 @@ id,alias,name_JP,name,altname_JP,altname,aliasParent,aliasRef,aliasMtp,parentFac
 488,deathagony,断末魔の叫び,Death Agony,,,,,,0,0,25,,1,10,0,100,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それは断末魔の叫びを上げる。,It screams in its death throes.,,,,,,,,,,
 489,music_drunk,魂の旋律,Melody of the Soul,,,,,,0,0,0,,1,10,0,100,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それは聴衆を酔わせる。,It mesmerizes the audience.,,,,,,,,,,
 490,farsee,千里眼,farseer,,,,,,0,0,0,head,1,40,0,300,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それはより遠くを見ることを可能にする。,It allows you to see farther.,,,,,,,,,,
+491,negateGravity,重力無効,Immunity to Gravity,,,,,,0,0,100,,1,1,0,100,0,1,0,,,Skill,ENC,enchant,,,flag,,50,0,10,5,0,,,0,,,,,,,,,それは重力からあなたを守る。,It protects you from gravity.,,,,,,,,,,
 600,mod_ammo,弾倉追加,Extra Magazine,,,,,,0,0,100,,1,1,1000,20,0,1,0,,,Skill,ENC,enchant,,,"weaponEnc,modRanged",,50,0,10,5,0,,,0,,,,,,,,,それは矢弾の最大装填数を増加させる。,It increases the maximum ammunition capacity.,,,,,,,,,,
 601,mod_reload,リロード加速,Fast Reload,,,,,,0,0,100,,1,1,1000,30,0,1,0,,,Skill,ENC,enchant,,,"weaponEnc,modRanged",,50,0,10,5,0,,,0,,,,,,,,,それは矢弾のリロード時間を短縮する。,It reduces the reload time for the weapon.,,,,,,,,,,
 602,mod_rapid,速射,Rapid Fire,,,,,,0,0,100,,1,1,200,100,0,1,0,,,Skill,ENC,enchant,,,"weaponEnc,modRanged,modCane",,50,0,10,5,0,,,0,,,,,,,,,それは連続で射撃を可能にする。,It makes the weapon fire multiple times.,,,,,,,,,,
