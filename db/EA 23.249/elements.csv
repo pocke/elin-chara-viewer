@@ -82,7 +82,7 @@ id,alias,name_JP,name,altname_JP,altname,aliasParent,aliasRef,aliasMtp,parentFac
 120,armorLight,軽装備,Light Armor,,,DEX,,,20,100,100,all,1,1,200,20,0,1,0,,,Skill,SKILL,skill,combat,,,,50,0,10,5,0,,,0,,,,,,,軽い装備を扱う技術。,Skill to effectively act while wearing light armor.,,,,,,,,,,,,
 122,armorHeavy,重装備,Heavy Armor,,,END,,,20,100,100,all,1,1,200,20,0,1,0,,,Skill,SKILL,skill,combat,,,,50,0,10,5,0,,,0,,,,,,,重い装備を扱う技術。,Skill to effectively act while wearing heavy armor.,,,,,,,,,,,,
 123,shield,盾,Shield,,,END,,,20,100,100,all,1,1,200,20,0,1,0,,,Skill,SKILL,skill,combat,,,,50,0,10,5,0,,,0,,"5,盾スタイル時に物理軽減 +10%
-10,シールドバッシュ(自動)","5,Physical Damage Reduction +10% when using shield style
+10,シールドバッシュ(自動)","5,10% Reduced physical damage when using shield style
 10,Shield Bash (Passive)",,,,盾を扱う技術。,Increases the effectivness of using shields.,,,,,,,,,,,,
 130,twohand,両手持ち,Two Handed,,,STR,,,20,100,100,all,1,1,200,20,0,1,0,,,Skill,SKILL,skill,combat,,,,50,0,10,5,0,,,0,,"15,武器エンチャントの効果 +25%
 30,武器エンチャントの効果 +50%","15,Weapon enchantment effect +25%
