@@ -520,6 +520,8 @@ mirage,260,ミラージュ,Mirage,対魔道装甲,Anti Golem,,0,"2,2",chara_LL,1
 doga,506,ドーガ,Doga,工場長,Factory Chief,,0,"2,2",chara_LL,1,,0,,,42,0,4,,,boss,UniqueChara,machine,gunner,,,"4,20","SpSummonMachine/30,sword_Fire,flare_Fire/50,SpHOT,ActMissileBarrage,SpVanishHex",,"featElder/1,levitation/1",,,chara,,,,,,,,,,,,,,,
 swordkeeper,263,イノス＝トゥルス,"Innos Tur'as ",裏切りの公子,Prince of Betrayal,,0,"2,2",chara_LL,4,,0,,,2000,0,4,,,boss,UniqueChara,god,warrior,,,,ActSwarm,,,,,chara,,,,,,,m/0/1905/8405/friendly|我|お前,,,,,,,,
 swordkeeper2,528,イノス＝トゥルス2,"Innos Tur'as 2 ",裏切りの公子,Prince of Betrayal,,0,"2,2",innos2,4,,0,,,2500000,0,4,,,"boss,noRandomProduct",UniqueChara,god,warmage,,,,ActSwarm,,,,,chara,,,,,,,m/0/1905/8405/friendly|我|お前,,,,,,,,
+eyth,538,エイス,Eyth,無の,God of Infidel,"pcc,unique,mani",0,,pcc_L,0,,0,,,9999,0,4,Friend,,noRandomProduct,UniqueChara,god,gunner,,,,,,,,,chara,,resident,,,,,m/9999/183/61/friendly|私|お前,,,,,,,,
+horome,537,ホロメ,Horome,月影の,Goddess of Moonshadow,"pcc,unique,ehe",0,,pcc_L,0,,0,,,999,0,4,Friend,,noRandomProduct,UniqueChara,god,warmage,,,,,,,,,chara,,resident,,,,,f/9999/165/51/cat|私|貴方,,,,,,,,
 ehekatl,53,エヘカトル,Ehekatl,幸運の,Goddess of Luck,"pcc,unique,ehe",0,,pcc_L,0,,0,,,9999,0,4,Friend,,,UniqueChara,god,warmage,,,,,,,,,chara,,resident,,,,,f/99999/165/51/cat|私|貴方,,,,,,,,
 elin,55,エリン,Elin,調和の,Goddess of Harmony,"pcc,unique,elin1",0,,pcc_L,0,,0,,,9999,0,4,Friend,,,UniqueChara,god,none,,,,,,,,,chara,,resident,,,,,f/9999/139/28/polite|私|貴方,,,,,,,,
 itz,99,イツパロトル,Itzpaltol,元素の,God of Element,"pcc,unique,itz",0,,pcc_L,0,,0,,,9999,0,4,Friend,,,UniqueChara,god,defender,,,,,,,,,chara,,resident,,,,,m/99999/187/75/friendly|我|汝,,,,,,,,
