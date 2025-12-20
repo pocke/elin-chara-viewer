@@ -373,6 +373,8 @@ export class Chara {
       'lulwy',
       'mani',
       'opatos',
+      'eyth',
+      'horome',
     ];
     if (hiddenCharaIds.includes(this.row.id)) {
       return true;
