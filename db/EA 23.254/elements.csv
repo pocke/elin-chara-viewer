@@ -791,7 +791,7 @@ First 5 casts of the day have boosted high-grade fish chance,First cast of the d
 アイテム解体時にレシピが習得可能かわかる,アイテム解体時にレシピを閃く確率が倍増","See if a recipe can be learned when dismantling,Chance to discover recipes slightly increased
 See if a recipe can be learned when dismantling,Double the chance to discover recipes",,,,,,,,
 1662,featGoldenFinger,黄金の指,Golden Finger,,,,,,0,0,100,,1,1,1000,0,2,-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,1,"stealing,25",,0,,,,,,,窃盗の極意を学ぶ。,You learn the art of thievery.,あなたは窃盗の達人だ。,You excel at thievery.,窃盗無効の相手から盗めるようになる,You can steal from theft-immune targets.,,,,,,,,
-1750,featComat,戦技,Combat Art,,,,,,0,0,100,,1,1,1000,0,2,-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,3,"tactics,30,50,100",,0,,,,,,,木人を相手に戦いの技を磨く。,Train your fighting techniques on a practice dummy.,あなたは戦技を極めている。,You are a master of combat arts.,"「斬撃無双」と「スウォーム」を強化,#1%のパリー（盾持ちスタイル時効果2倍）","Strengthen “Bladestorm” and “Swarm”,#1% parry chance (Doubled with Shield Style)",,,,,,,,
+1750,featComat,戦技,Combat Art,,,,,,0,0,100,,1,1,1000,0,2,-1,0,,,Feat,FEAT,feat,special,,noPet,,50,0,10,5,3,"tactics,30,50,100",,0,,,,,,,木人を相手に戦いの技を磨く。,Train your fighting techniques on a practice dummy.,あなたは戦技を極めている。,You are a master of combat arts.,"「斬撃無双」と「スウォーム」を強化,#1%のパリィ（盾持ちスタイル時効果2倍）","Strengthen “Bladestorm” and “Swarm”,#1% parry chance (Doubled with Shield Style)",,,,,,,,
 2003,fConstruction,建築,Construction,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Skill,FACTION,tech,,,,,50,0,10,5,0,,,0,,,"1,actBuildTerrain
 3,actBuildInspect
 5,actBuildCut
