@@ -8,6 +8,7 @@ import {
   FieldOption,
   isConditionGroup,
   SearchOperator,
+  generateId,
 } from './advancedSearchTypes';
 import { Chara } from './models/chara';
 import { GameVersion } from './db';
@@ -467,12 +468,12 @@ function isConditionComplete(condition: SearchCondition): boolean {
   }
 
   // betweenの場合は両方の値が入力されているか確認
+  // 0は有効な値なので、初期値（両方0）の場合のみ未完成とみなす
   if (condition.operator === 'between') {
     return (
       Array.isArray(condition.value) &&
       condition.value.length === 2 &&
-      condition.value[0] !== 0 &&
-      condition.value[1] !== 0
+      !(condition.value[0] === 0 && condition.value[1] === 0)
     );
   }
 
@@ -698,7 +699,7 @@ function deserializeConditionOrGroup(
 ): SearchConditionOrGroup {
   if (data.t === 'g') {
     return {
-      id: Math.random().toString(36).substring(2, 11),
+      id: generateId(),
       type: 'group',
       logic: data.l as 'AND' | 'OR',
       conditions: (data.c as Array<Record<string, unknown>>).map(
@@ -707,7 +708,7 @@ function deserializeConditionOrGroup(
     };
   } else {
     return {
-      id: Math.random().toString(36).substring(2, 11),
+      id: generateId(),
       field: data.f as string,
       operator: data.o as SearchOperator,
       value: data.v as string | number | [number, number],

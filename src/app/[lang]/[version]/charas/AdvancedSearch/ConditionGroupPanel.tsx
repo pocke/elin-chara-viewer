@@ -132,7 +132,7 @@ export default function ConditionGroupPanel({
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {group.conditions.map((condition, index) => (
-          <Box key={isConditionGroup(condition) ? condition.id : condition.id}>
+          <Box key={condition.id}>
             {isConditionGroup(condition) ? (
               <ConditionGroupPanel
                 group={condition}
