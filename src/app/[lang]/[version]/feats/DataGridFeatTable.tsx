@@ -1,15 +1,5 @@
 'use client';
-import {
-  DataGrid,
-  GridColDef,
-  GridRowsProp,
-  GridToolbarContainer,
-  GridToolbarColumnsButton,
-  GridToolbarFilterButton,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridToolbarQuickFilter,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { Link as MuiLink, Paper, Box, Chip } from '@mui/material';
 import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
 import { useMemo } from 'react';
@@ -23,18 +13,6 @@ import { jobsByFeat } from '@/lib/models/job';
 interface DataGridFeatTableProps {
   feats: Feat[];
   version: GameVersion;
-}
-
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-      <GridToolbarQuickFilter debounceMs={500} />
-    </GridToolbarContainer>
-  );
 }
 
 export default function DataGridFeatTable({
@@ -166,9 +144,6 @@ export default function DataGridFeatTable({
         <DataGrid
           rows={rows}
           columns={columns}
-          slots={{
-            toolbar: CustomToolbar,
-          }}
           initialState={{
             sorting: {
               sortModel: [{ field: 'name', sort: 'asc' }],
@@ -182,11 +157,6 @@ export default function DataGridFeatTable({
           }}
           pageSizeOptions={[25, 50, 100]}
           disableRowSelectionOnClick
-          sx={{
-            '& .MuiDataGrid-toolbarContainer': {
-              padding: 2,
-            },
-          }}
         />
       </Paper>
     </Box>
