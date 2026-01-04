@@ -276,12 +276,20 @@ export default function DataGridCharaTable({
     const others = searchParams.get('others')?.split(',').filter(Boolean) || [];
     const hidden = searchParams.get('hidden') === 'true';
 
+    // URLパラメータから状態を初期化（外部状態との同期）
+
     setSearchQuery(query);
+
     setSelectedRaces(races);
+
     setSelectedJobs(jobs);
+
     setSelectedFeats(feats);
+
     setSelectedAbilities(abilities);
+
     setSelectedOthers(others);
+
     setShowHiddenCharas(hidden);
 
     // Skip advanced search URL reading if it was a local update
@@ -1024,9 +1032,18 @@ export default function DataGridCharaTable({
     [advancedSearchState]
   );
 
-  // Create visibility model based on selected presets
+  // Set<string>をソートした文字列キーに変換（依存配列での安定した比較用）
+  const advSearchFieldsKey = useMemo(
+    () => Array.from(advancedSearchSelectedFields).sort().join(','),
+    [advancedSearchSelectedFields]
+  );
+
+  // Create visibility model based on selected presets and advanced search fields
   const createVisibilityModel = useCallback(
-    (presets: PresetType[]): GridColumnVisibilityModel => {
+    (
+      presets: PresetType[],
+      advSearchFields: Set<string>
+    ): GridColumnVisibilityModel => {
       const model: GridColumnVisibilityModel = {};
 
       // If no presets selected, show all columns
@@ -1042,6 +1059,10 @@ export default function DataGridCharaTable({
           col.field.startsWith('filter_feat_') ||
           col.field.startsWith('filter_other_')
         ) {
+          model[col.field] = true;
+        }
+        // Show columns selected in advanced search
+        else if (advSearchFields.has(col.field)) {
           model[col.field] = true;
         } else if (showAll) {
           model[col.field] = true;
@@ -1085,39 +1106,36 @@ export default function DataGridCharaTable({
     [columns, resistanceAliases, skillAliases]
   );
 
-  // Initialize column visibility model based on default preset
+  // Update column visibility when presets or advanced search fields change
   useEffect(() => {
-    setColumnVisibilityModel(createVisibilityModel(selectedPresets));
-    // Only run once when columns are available
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columns.length > 0]);
+    if (columns.length > 0) {
+      // presets/advancedSearchFieldsの変更に応じてvisibility modelを同期
 
-  // Update column visibility when advanced search fields change
-  useEffect(() => {
-    if (advancedSearchSelectedFields.size > 0) {
-      setColumnVisibilityModel((prev) => {
-        const newModel = { ...prev };
-        // Show columns selected in advanced search
-        advancedSearchSelectedFields.forEach((field) => {
-          newModel[field] = true;
-        });
-        return newModel;
-      });
+      setColumnVisibilityModel(
+        createVisibilityModel(selectedPresets, advancedSearchSelectedFields)
+      );
     }
-  }, [advancedSearchSelectedFields]);
+    // createVisibilityModelはcolumnsに依存するが、columnsの変更でeffectを再実行する必要はない
+    // advSearchFieldsKeyは文字列なので安定した比較が可能
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columns.length, selectedPresets, advSearchFieldsKey]);
 
   const handlePresetChange = useCallback(
     (_event: React.MouseEvent<HTMLElement>, newPresets: PresetType[]) => {
       setSelectedPresets(newPresets);
-      setColumnVisibilityModel(createVisibilityModel(newPresets));
+      setColumnVisibilityModel(
+        createVisibilityModel(newPresets, advancedSearchSelectedFields)
+      );
     },
-    [createVisibilityModel]
+    [createVisibilityModel, advancedSearchSelectedFields]
   );
 
   const handleShowAllColumns = useCallback(() => {
     setSelectedPresets([]);
-    setColumnVisibilityModel(createVisibilityModel([]));
-  }, [createVisibilityModel]);
+    setColumnVisibilityModel(
+      createVisibilityModel([], advancedSearchSelectedFields)
+    );
+  }, [createVisibilityModel, advancedSearchSelectedFields]);
 
   // Search bar callback functions
   const handleSearchChange = useCallback(
