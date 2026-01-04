@@ -78,9 +78,6 @@ export default function SearchConditionRow({
         gap: 1,
         alignItems: 'center',
         flexWrap: 'wrap',
-        p: 1,
-        bgcolor: 'action.hover',
-        borderRadius: 1,
       }}
     >
       <FieldSelector
