@@ -27,15 +27,26 @@ export default function SearchConditionRow({
   const selectedField = fields.find((f) => f.key === condition.field) || null;
 
   const handleFieldChange = (fieldKey: string, field: FieldInfo | null) => {
-    // フィールドが変わったら演算子と値をリセット
-    const defaultOperator: SearchOperator =
-      field?.type === 'number' ? '>=' : 'contains';
-    onUpdate({
-      ...condition,
-      field: fieldKey,
-      operator: defaultOperator,
-      value: '',
-    });
+    const prevFieldType = selectedField?.type || null;
+    const newFieldType = field?.type || null;
+
+    // 同じ型のフィールドに変更した場合は演算子と値を保持
+    if (prevFieldType === newFieldType && prevFieldType !== null) {
+      onUpdate({
+        ...condition,
+        field: fieldKey,
+      });
+    } else {
+      // 異なる型の場合は演算子と値をリセット
+      const defaultOperator: SearchOperator =
+        newFieldType === 'number' ? '>=' : 'contains';
+      onUpdate({
+        ...condition,
+        field: fieldKey,
+        operator: defaultOperator,
+        value: '',
+      });
+    }
   };
 
   const handleOperatorChange = (operator: SearchOperator) => {
