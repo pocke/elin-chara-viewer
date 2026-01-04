@@ -84,7 +84,11 @@ export default function AdvancedSearchPanel({
   };
 
   const handleClear = () => {
-    onChange(createEmptyAdvancedSearchState());
+    // 条件をクリアするが、パネルは開いたままにする
+    onChange({
+      ...createEmptyAdvancedSearchState(),
+      enabled: true,
+    });
   };
 
   const hasConditions = state.conditions.length > 0;
