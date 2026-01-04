@@ -18,7 +18,7 @@ import {
 import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
 import { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 import { Chara, CharaSchema } from '@/lib/models/chara';
 import { RaceSchema } from '@/lib/models/race';
@@ -180,7 +180,6 @@ export default function DataGridCharaTable({
 }: DataGridCharaTableProps) {
   const { t, language } = useTranslation();
   const params = useParams();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const lang = params.lang as string;
   const resistanceElementsList = resistanceElements(version);
@@ -346,9 +345,10 @@ export default function DataGridCharaTable({
         ? `/${lang}/${version}/charas?${urlSearchParams.toString()}`
         : `/${lang}/${version}/charas`;
 
-      router.replace(newUrl, { scroll: false });
+      // Use history.replaceState instead of router.replace to avoid page reload
+      window.history.replaceState(null, '', newUrl);
     },
-    [lang, version, router]
+    [lang, version]
   );
 
   // Convert Chara objects to DataGrid rows
