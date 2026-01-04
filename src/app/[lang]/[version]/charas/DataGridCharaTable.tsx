@@ -25,7 +25,11 @@ import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
 import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { Chara } from '@/lib/models/chara';
+import { z } from 'zod';
+import { Chara, CharaSchema } from '@/lib/models/chara';
+import { RaceSchema } from '@/lib/models/race';
+import { JobSchema } from '@/lib/models/job';
+import { TacticsSchema } from '@/lib/models/tactics';
 import { GameVersion } from '@/lib/db';
 import {
   resistanceElements,
@@ -70,6 +74,63 @@ const TACTICS_FIELDS = [
   'tacticsDebuff',
   'tacticsPartyBuff',
 ];
+
+// Extract field names and numeric fields from Zod schema
+function extractSchemaInfo(schema: z.ZodObject<z.ZodRawShape>): {
+  fields: string[];
+  numericFields: Set<string>;
+} {
+  const shape = schema.shape;
+  const fields: string[] = [];
+  const numericFields = new Set<string>();
+
+  for (const [key, fieldSchema] of Object.entries(shape)) {
+    // Skip __meta field
+    if (key === '__meta') continue;
+    // Skip '***' field (separator in source data)
+    if (key === '***') continue;
+
+    fields.push(key);
+
+    // Check if field is numeric (handles z.coerce.number() and z.coerce.number().optional())
+    if (isNumericSchema(fieldSchema as z.ZodTypeAny)) {
+      numericFields.add(key);
+    }
+  }
+
+  return { fields, numericFields };
+}
+
+function isNumericSchema(schema: z.ZodTypeAny): boolean {
+  // Access internal Zod structure to determine type
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const def = (schema as any)._zpiType ?? (schema as any)._def;
+  if (!def) return false;
+
+  const typeName = def.type ?? def.typeName;
+
+  // Handle optional wrapper
+  if (typeName === 'optional' || typeName === 'ZodOptional') {
+    const inner = def.innerType ?? def.value;
+    if (inner) return isNumericSchema(inner);
+  }
+  // Handle effects (z.coerce creates effects)
+  if (typeName === 'effects' || typeName === 'ZodEffects') {
+    const inner = def.schema ?? def.value;
+    if (inner) return isNumericSchema(inner);
+  }
+  return typeName === 'number' || typeName === 'ZodNumber';
+}
+
+// Extract schema info for each model
+const { fields: CHARA_RAW_FIELDS, numericFields: CHARA_NUMERIC_FIELDS } =
+  extractSchemaInfo(CharaSchema);
+const { fields: RACE_RAW_FIELDS, numericFields: RACE_NUMERIC_FIELDS } =
+  extractSchemaInfo(RaceSchema);
+const { fields: JOB_RAW_FIELDS, numericFields: JOB_NUMERIC_FIELDS } =
+  extractSchemaInfo(JobSchema);
+const { fields: TACTICS_RAW_FIELDS, numericFields: TACTICS_NUMERIC_FIELDS } =
+  extractSchemaInfo(TacticsSchema);
 
 // Key info column fields
 const KEY_INFO_FIELDS = [
@@ -157,7 +218,8 @@ export default function DataGridCharaTable({
     | 'primaryAttributes'
     | 'skills'
     | 'resistances'
-    | 'tactics';
+    | 'tactics'
+    | 'rawData';
 
   // Column visibility state (default to keyInfo preset)
   const [selectedPresets, setSelectedPresets] = useState<PresetType[]>([
@@ -545,6 +607,27 @@ export default function DataGridCharaTable({
         row[`filter_other_${otherAlias}`] = other ? totalPower(other) : null;
       });
 
+      // Add raw data columns (excluding __meta)
+      const charaRow = chara.row as Record<string, unknown>;
+      CHARA_RAW_FIELDS.forEach((field) => {
+        row[`chara.${field}`] = charaRow[field] ?? '';
+      });
+
+      const raceRow = chara.race.row as Record<string, unknown>;
+      RACE_RAW_FIELDS.forEach((field) => {
+        row[`race.${field}`] = raceRow[field] ?? '';
+      });
+
+      const jobRow = chara.job().row as Record<string, unknown>;
+      JOB_RAW_FIELDS.forEach((field) => {
+        row[`job.${field}`] = jobRow[field] ?? '';
+      });
+
+      const tacticsRow = tactics.row as Record<string, unknown>;
+      TACTICS_RAW_FIELDS.forEach((field) => {
+        row[`tactics.${field}`] = tacticsRow[field] ?? '';
+      });
+
       return row;
     });
   }, [
@@ -827,6 +910,43 @@ export default function DataGridCharaTable({
       });
     });
 
+    // Add raw data columns for chara, race, job, tactics
+    CHARA_RAW_FIELDS.forEach((field) => {
+      baseColumns.push({
+        field: `chara.${field}`,
+        headerName: `chara.${field}`,
+        type: CHARA_NUMERIC_FIELDS.has(field) ? 'number' : undefined,
+        width: 120,
+      });
+    });
+
+    RACE_RAW_FIELDS.forEach((field) => {
+      baseColumns.push({
+        field: `race.${field}`,
+        headerName: `race.${field}`,
+        type: RACE_NUMERIC_FIELDS.has(field) ? 'number' : undefined,
+        width: 120,
+      });
+    });
+
+    JOB_RAW_FIELDS.forEach((field) => {
+      baseColumns.push({
+        field: `job.${field}`,
+        headerName: `job.${field}`,
+        type: JOB_NUMERIC_FIELDS.has(field) ? 'number' : undefined,
+        width: 120,
+      });
+    });
+
+    TACTICS_RAW_FIELDS.forEach((field) => {
+      baseColumns.push({
+        field: `tactics.${field}`,
+        headerName: `tactics.${field}`,
+        type: TACTICS_NUMERIC_FIELDS.has(field) ? 'number' : undefined,
+        width: 120,
+      });
+    });
+
     return baseColumns;
   }, [
     t,
@@ -882,6 +1002,12 @@ export default function DataGridCharaTable({
             resistanceAliases.includes(col.field);
           const inTactics =
             presets.includes('tactics') && TACTICS_FIELDS.includes(col.field);
+          const inRawData =
+            presets.includes('rawData') &&
+            (col.field.startsWith('chara.') ||
+              col.field.startsWith('race.') ||
+              col.field.startsWith('job.') ||
+              col.field.startsWith('tactics.'));
 
           model[col.field] =
             inKeyInfo ||
@@ -889,7 +1015,8 @@ export default function DataGridCharaTable({
             inPrimaryAttributes ||
             inSkills ||
             inResistances ||
-            inTactics;
+            inTactics ||
+            inRawData;
         }
       });
 
@@ -1124,6 +1251,7 @@ export default function DataGridCharaTable({
             {t.common.presetResistances}
           </ToggleButton>
           <ToggleButton value="tactics">{t.common.presetTactics}</ToggleButton>
+          <ToggleButton value="rawData">{t.common.presetRawData}</ToggleButton>
         </ToggleButtonGroup>
       </Box>
       <Paper elevation={1} sx={{ height: '70vh', width: '100%' }}>
