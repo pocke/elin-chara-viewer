@@ -3,12 +3,6 @@ import {
   DataGrid,
   GridColDef,
   GridRowsProp,
-  GridToolbarContainer,
-  GridToolbarColumnsButton,
-  GridToolbarFilterButton,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridToolbarQuickFilter,
   GridColumnVisibilityModel,
 } from '@mui/x-data-grid';
 import {
@@ -158,18 +152,6 @@ const OTHER_STATS_FIELDS = [
   'edr',
   'ep',
 ];
-
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
-      <GridToolbarExport />
-      <GridToolbarQuickFilter debounceMs={500} />
-    </GridToolbarContainer>
-  );
-}
 
 const abilityToSearchKey = (ability: {
   name: string;
@@ -1260,9 +1242,6 @@ export default function DataGridCharaTable({
           columns={columns}
           columnVisibilityModel={columnVisibilityModel}
           onColumnVisibilityModelChange={handleColumnVisibilityModelChange}
-          slots={{
-            toolbar: CustomToolbar,
-          }}
           initialState={{
             sorting: {
               sortModel: [],
@@ -1276,11 +1255,6 @@ export default function DataGridCharaTable({
           }}
           pageSizeOptions={[25, 50, 100]}
           disableRowSelectionOnClick
-          sx={{
-            '& .MuiDataGrid-toolbarContainer': {
-              padding: 2,
-            },
-          }}
         />
       </Paper>
       <Box sx={{ mt: 2 }}>
