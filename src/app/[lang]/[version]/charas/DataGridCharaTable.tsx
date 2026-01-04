@@ -1278,18 +1278,28 @@ export default function DataGridCharaTable({
 
   const handleAdvancedSearchChange = useCallback(
     (newState: AdvancedSearchState) => {
-      isLocalAdvancedSearchUpdate.current = true;
+      const prevHadConditions = advancedSearchState.conditions.length > 0;
+      const newHasConditions = newState.conditions.length > 0;
+
       setAdvancedSearchState(newState);
-      updateURL(
-        searchQuery,
-        selectedRaces,
-        selectedJobs,
-        selectedFeats,
-        selectedAbilities,
-        selectedOthers,
-        showHiddenCharas,
-        newState
-      );
+
+      // Update URL when:
+      // 1. New state has conditions (serialize them)
+      // 2. Previous state had conditions but new state doesn't (clear adv param)
+      // Skip URL update when just opening/closing accordion with no conditions
+      if (newHasConditions || prevHadConditions) {
+        isLocalAdvancedSearchUpdate.current = true;
+        updateURL(
+          searchQuery,
+          selectedRaces,
+          selectedJobs,
+          selectedFeats,
+          selectedAbilities,
+          selectedOthers,
+          showHiddenCharas,
+          newState
+        );
+      }
     },
     [
       updateURL,
@@ -1300,6 +1310,7 @@ export default function DataGridCharaTable({
       selectedAbilities,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState.conditions.length,
     ]
   );
 
