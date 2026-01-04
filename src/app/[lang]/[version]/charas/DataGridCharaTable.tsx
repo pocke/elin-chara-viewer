@@ -16,7 +16,7 @@ import {
   ToggleButtonGroup,
 } from '@mui/material';
 import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
-import { useMemo, useState, useCallback, useEffect } from 'react';
+import { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
@@ -34,6 +34,19 @@ import { skillSortKey, calcBasePotential, totalPower } from '@/lib/elementable';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
 import CharaSearchBar from './CharaSearchBar';
 import { normalizeForSearch } from '@/lib/searchUtils';
+import { AdvancedSearchPanel } from './AdvancedSearch';
+import {
+  AdvancedSearchState,
+  createEmptyAdvancedSearchState,
+  extractSelectedFields,
+} from '@/lib/advancedSearchTypes';
+import {
+  getFieldInfoList,
+  evaluateAdvancedSearch,
+  serializeAdvancedSearch,
+  deserializeAdvancedSearch,
+  RawFieldsInfo,
+} from '@/lib/advancedSearchUtils';
 
 interface DataGridCharaTableProps {
   charas: Chara[];
@@ -225,6 +238,32 @@ export default function DataGridCharaTable({
   const [selectedAbilities, setSelectedAbilities] = useState<string[]>([]);
   const [selectedOthers, setSelectedOthers] = useState<string[]>([]);
   const [showHiddenCharas, setShowHiddenCharas] = useState(false);
+  const [advancedSearchState, setAdvancedSearchState] =
+    useState<AdvancedSearchState>(createEmptyAdvancedSearchState());
+
+  // Flag to skip URL parameter reading after local state changes
+  const isLocalAdvancedSearchUpdate = useRef(false);
+
+  // Raw fields info for advanced search
+  const rawFieldsInfo: RawFieldsInfo = useMemo(
+    () => ({
+      charaFields: CHARA_RAW_FIELDS,
+      charaNumericFields: CHARA_NUMERIC_FIELDS,
+      raceFields: RACE_RAW_FIELDS,
+      raceNumericFields: RACE_NUMERIC_FIELDS,
+      jobFields: JOB_RAW_FIELDS,
+      jobNumericFields: JOB_NUMERIC_FIELDS,
+      tacticsFields: TACTICS_RAW_FIELDS,
+      tacticsNumericFields: TACTICS_NUMERIC_FIELDS,
+    }),
+    []
+  );
+
+  // Get field info for advanced search
+  const advancedSearchFields = useMemo(
+    () => getFieldInfoList(language, version, charas, t, rawFieldsInfo),
+    [language, version, charas, t, rawFieldsInfo]
+  );
 
   // Initialize state from URL parameters
   // This effect synchronizes external state (URL params) with component state
@@ -245,6 +284,20 @@ export default function DataGridCharaTable({
     setSelectedAbilities(abilities);
     setSelectedOthers(others);
     setShowHiddenCharas(hidden);
+
+    // Skip advanced search URL reading if it was a local update
+    if (isLocalAdvancedSearchUpdate.current) {
+      isLocalAdvancedSearchUpdate.current = false;
+      return;
+    }
+
+    const advParam = searchParams.get('adv') || '';
+    const advState = deserializeAdvancedSearch(advParam);
+    if (advState) {
+      setAdvancedSearchState(advState);
+    } else {
+      setAdvancedSearchState(createEmptyAdvancedSearchState());
+    }
   }, [searchParams]);
 
   // Update URL when filters change
@@ -256,7 +309,8 @@ export default function DataGridCharaTable({
       feats: string[],
       abilities: string[],
       others: string[],
-      hidden: boolean
+      hidden: boolean,
+      advSearch?: AdvancedSearchState
     ) => {
       const urlSearchParams = new URLSearchParams();
 
@@ -280,6 +334,12 @@ export default function DataGridCharaTable({
       }
       if (hidden) {
         urlSearchParams.set('hidden', 'true');
+      }
+      if (advSearch) {
+        const serialized = serializeAdvancedSearch(advSearch);
+        if (serialized) {
+          urlSearchParams.set('adv', serialized);
+        }
       }
 
       const newUrl = urlSearchParams.toString()
@@ -478,6 +538,16 @@ export default function DataGridCharaTable({
         return false;
       }
 
+      // Advanced search filter
+      if (
+        advancedSearchState.enabled &&
+        advancedSearchState.conditions.length > 0
+      ) {
+        if (!evaluateAdvancedSearch(chara, {}, advancedSearchState, language)) {
+          return false;
+        }
+      }
+
       return true;
     });
   }, [
@@ -489,6 +559,8 @@ export default function DataGridCharaTable({
     selectedAbilities,
     selectedOthers,
     showHiddenCharas,
+    advancedSearchState,
+    language,
   ]);
 
   const rows: GridRowsProp = useMemo(() => {
@@ -946,6 +1018,12 @@ export default function DataGridCharaTable({
     otherOptions,
   ]);
 
+  // Get fields selected in advanced search
+  const advancedSearchSelectedFields = useMemo(
+    () => extractSelectedFields(advancedSearchState),
+    [advancedSearchState]
+  );
+
   // Create visibility model based on selected presets
   const createVisibilityModel = useCallback(
     (presets: PresetType[]): GridColumnVisibilityModel => {
@@ -1013,6 +1091,20 @@ export default function DataGridCharaTable({
     // Only run once when columns are available
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns.length > 0]);
+
+  // Update column visibility when advanced search fields change
+  useEffect(() => {
+    if (advancedSearchSelectedFields.size > 0) {
+      setColumnVisibilityModel((prev) => {
+        const newModel = { ...prev };
+        // Show columns selected in advanced search
+        advancedSearchSelectedFields.forEach((field) => {
+          newModel[field] = true;
+        });
+        return newModel;
+      });
+    }
+  }, [advancedSearchSelectedFields]);
 
   const handlePresetChange = useCallback(
     (_event: React.MouseEvent<HTMLElement>, newPresets: PresetType[]) => {
@@ -1180,8 +1272,36 @@ export default function DataGridCharaTable({
     setSelectedAbilities([]);
     setSelectedOthers([]);
     setShowHiddenCharas(false);
+    setAdvancedSearchState(createEmptyAdvancedSearchState());
     updateURL('', [], [], [], [], [], false);
   }, [updateURL]);
+
+  const handleAdvancedSearchChange = useCallback(
+    (newState: AdvancedSearchState) => {
+      isLocalAdvancedSearchUpdate.current = true;
+      setAdvancedSearchState(newState);
+      updateURL(
+        searchQuery,
+        selectedRaces,
+        selectedJobs,
+        selectedFeats,
+        selectedAbilities,
+        selectedOthers,
+        showHiddenCharas,
+        newState
+      );
+    },
+    [
+      updateURL,
+      searchQuery,
+      selectedRaces,
+      selectedJobs,
+      selectedFeats,
+      selectedAbilities,
+      selectedOthers,
+      showHiddenCharas,
+    ]
+  );
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -1205,6 +1325,11 @@ export default function DataGridCharaTable({
         onAbilityChange={handleAbilityChange}
         onOtherChange={handleOtherChange}
         onClearAllFilters={handleClearAllFilters}
+      />
+      <AdvancedSearchPanel
+        state={advancedSearchState}
+        fields={advancedSearchFields}
+        onChange={handleAdvancedSearchChange}
       />
       <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
         <span>{t.common.columnPreset}:</span>
