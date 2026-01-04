@@ -142,12 +142,12 @@ export const STRING_OPERATORS: StringOperator[] = [
   'not_empty',
 ];
 
-// 空の高度検索状態を作成
+// 空の高度検索状態を作成（デフォルトで空の条件を1つ含む）
 export function createEmptyAdvancedSearchState(): AdvancedSearchState {
   return {
     enabled: false,
     logic: 'AND',
-    conditions: [],
+    conditions: [createNewCondition()],
   };
 }
 
@@ -170,13 +170,13 @@ export function createNewCondition(
   };
 }
 
-// 新しいグループを作成
+// 新しいグループを作成（デフォルトで空の条件を1つ含む）
 export function createNewGroup(logic: 'AND' | 'OR' = 'AND'): ConditionGroup {
   return {
     id: generateId(),
     type: 'group',
     logic,
-    conditions: [],
+    conditions: [createNewCondition()],
   };
 }
 

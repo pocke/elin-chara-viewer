@@ -611,13 +611,14 @@ export function evaluateConditionOrGroup(
 }
 
 // 高度検索全体を評価
+// enabledはアコーディオンの開閉状態を示すだけで、条件があれば常に適用される
 export function evaluateAdvancedSearch(
   chara: Chara,
   row: Record<string, unknown>,
   state: AdvancedSearchState,
   language: string
 ): boolean {
-  if (!state.enabled || state.conditions.length === 0) {
+  if (state.conditions.length === 0) {
     return true;
   }
 
@@ -633,8 +634,9 @@ export function evaluateAdvancedSearch(
 }
 
 // URLパラメータにシリアライズ
+// enabledはアコーディオンの開閉状態を示すだけで、条件があればシリアライズする
 export function serializeAdvancedSearch(state: AdvancedSearchState): string {
-  if (!state.enabled || state.conditions.length === 0) {
+  if (state.conditions.length === 0) {
     return '';
   }
 

@@ -547,10 +547,8 @@ export default function DataGridCharaTable({
       }
 
       // Advanced search filter
-      if (
-        advancedSearchState.enabled &&
-        advancedSearchState.conditions.length > 0
-      ) {
+      // enabledはアコーディオンの開閉状態を示すだけで、条件があれば常に適用される
+      if (advancedSearchState.conditions.length > 0) {
         if (!evaluateAdvancedSearch(chara, {}, advancedSearchState, language)) {
           return false;
         }
@@ -1148,7 +1146,8 @@ export default function DataGridCharaTable({
         selectedFeats,
         selectedAbilities,
         selectedOthers,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1159,6 +1158,7 @@ export default function DataGridCharaTable({
       selectedAbilities,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1172,7 +1172,8 @@ export default function DataGridCharaTable({
         selectedFeats,
         selectedAbilities,
         selectedOthers,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1183,6 +1184,7 @@ export default function DataGridCharaTable({
       selectedAbilities,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1196,7 +1198,8 @@ export default function DataGridCharaTable({
         selectedFeats,
         selectedAbilities,
         selectedOthers,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1207,6 +1210,7 @@ export default function DataGridCharaTable({
       selectedAbilities,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1220,7 +1224,8 @@ export default function DataGridCharaTable({
         feats,
         selectedAbilities,
         selectedOthers,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1231,6 +1236,7 @@ export default function DataGridCharaTable({
       selectedAbilities,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1244,7 +1250,8 @@ export default function DataGridCharaTable({
         selectedFeats,
         abilities,
         selectedOthers,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1255,6 +1262,7 @@ export default function DataGridCharaTable({
       selectedFeats,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1268,7 +1276,8 @@ export default function DataGridCharaTable({
         selectedFeats,
         selectedAbilities,
         others,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1279,6 +1288,7 @@ export default function DataGridCharaTable({
       selectedFeats,
       selectedAbilities,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1426,7 +1436,8 @@ export default function DataGridCharaTable({
                   selectedFeats,
                   selectedAbilities,
                   selectedOthers,
-                  newValue
+                  newValue,
+                  advancedSearchState
                 );
               }}
             />
