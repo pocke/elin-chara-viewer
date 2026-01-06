@@ -219,15 +219,9 @@ export default function DataGridCharaTable({
   const [selectedPresets, setSelectedPresets] = useState<PresetType[]>([
     'keyInfo',
   ]);
-  const [columnVisibilityModel, setColumnVisibilityModel] =
+  // DataGrid経由の手動列選択（ベースからの差分）のみを保存
+  const [manualVisibilityOverrides, setManualVisibilityOverrides] =
     useState<GridColumnVisibilityModel>({});
-
-  const handleColumnVisibilityModelChange = useCallback(
-    (newModel: GridColumnVisibilityModel) => {
-      setColumnVisibilityModel(newModel);
-    },
-    []
-  );
 
   // Custom filter states
   const [searchQuery, setSearchQuery] = useState('');
@@ -1104,36 +1098,48 @@ export default function DataGridCharaTable({
     [columns, resistanceAliases, skillAliases]
   );
 
-  // Update column visibility when presets or advanced search fields change
-  useEffect(() => {
-    if (columns.length > 0) {
-      // presets/advancedSearchFieldsの変更に応じてvisibility modelを同期
-
-      setColumnVisibilityModel(
-        createVisibilityModel(selectedPresets, advancedSearchSelectedFields)
-      );
-    }
-    // createVisibilityModelはcolumnsに依存するが、columnsの変更でeffectを再実行する必要はない
+  // プリセットと高度な検索から計算される基本の表示モデル
+  const baseVisibilityModel = useMemo(
+    () => createVisibilityModel(selectedPresets, advancedSearchSelectedFields),
     // advSearchFieldsKeyは文字列なので安定した比較が可能
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columns.length, selectedPresets, advSearchFieldsKey]);
+    [createVisibilityModel, selectedPresets, advSearchFieldsKey]
+  );
+
+  // 基本モデルに手動オーバーライドを適用した最終的な表示モデル
+  const effectiveVisibilityModel = useMemo(() => {
+    return { ...baseVisibilityModel, ...manualVisibilityOverrides };
+  }, [baseVisibilityModel, manualVisibilityOverrides]);
+
+  // DataGridからの列表示変更を処理（baseとの差分のみをoverridesとして保存）
+  const handleColumnVisibilityModelChange = useCallback(
+    (newModel: GridColumnVisibilityModel) => {
+      const overrides: GridColumnVisibilityModel = {};
+      for (const [field, visible] of Object.entries(newModel)) {
+        // baseモデルと異なる値のみをオーバーライドとして保存
+        if (baseVisibilityModel[field] !== visible) {
+          overrides[field] = visible;
+        }
+      }
+      setManualVisibilityOverrides(overrides);
+    },
+    [baseVisibilityModel]
+  );
 
   const handlePresetChange = useCallback(
     (_event: React.MouseEvent<HTMLElement>, newPresets: PresetType[]) => {
       setSelectedPresets(newPresets);
-      setColumnVisibilityModel(
-        createVisibilityModel(newPresets, advancedSearchSelectedFields)
-      );
+      // プリセット変更時は手動オーバーライドをリセット
+      setManualVisibilityOverrides({});
     },
-    [createVisibilityModel, advancedSearchSelectedFields]
+    []
   );
 
   const handleShowAllColumns = useCallback(() => {
     setSelectedPresets([]);
-    setColumnVisibilityModel(
-      createVisibilityModel([], advancedSearchSelectedFields)
-    );
-  }, [createVisibilityModel, advancedSearchSelectedFields]);
+    // 全表示時は手動オーバーライドをリセット
+    setManualVisibilityOverrides({});
+  }, []);
 
   // Search bar callback functions
   const handleSearchChange = useCallback(
@@ -1404,7 +1410,7 @@ export default function DataGridCharaTable({
         <DataGrid
           rows={rows}
           columns={columns}
-          columnVisibilityModel={columnVisibilityModel}
+          columnVisibilityModel={effectiveVisibilityModel}
           onColumnVisibilityModelChange={handleColumnVisibilityModelChange}
           initialState={{
             sorting: {
