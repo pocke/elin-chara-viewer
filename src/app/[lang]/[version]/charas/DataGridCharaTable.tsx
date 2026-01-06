@@ -2,7 +2,6 @@
 import {
   DataGrid,
   GridColDef,
-  GridRowsProp,
   GridColumnVisibilityModel,
 } from '@mui/x-data-grid';
 import {
@@ -433,99 +432,9 @@ export default function DataGridCharaTable({
       };
     }, [charas, language, t.common.range, version]);
 
-  // Apply custom filters to charas
-  const filteredCharas = useMemo(() => {
-    return charas.filter((chara) => {
-      // Search query filter (search both Japanese and English names)
-      if (searchQuery) {
-        const normalizedQuery = normalizeForSearch(searchQuery);
-        const nameJa = normalizeForSearch(chara.normalizedName('ja'));
-        const nameEn = normalizeForSearch(chara.normalizedName('en'));
-        if (
-          !nameJa.includes(normalizedQuery) &&
-          !nameEn.includes(normalizedQuery)
-        ) {
-          return false;
-        }
-      }
-
-      // Race filter
-      if (selectedRaces.length > 0) {
-        const charaRace = chara.race.id;
-        if (!selectedRaces.includes(charaRace)) {
-          return false;
-        }
-      }
-
-      // Job filter
-      if (selectedJobs.length > 0) {
-        const charaJob = chara.job().id;
-        if (!selectedJobs.includes(charaJob)) {
-          return false;
-        }
-      }
-
-      // Feats filter
-      if (selectedFeats.length > 0) {
-        const charaFeats = chara.feats().map((feat) => feat.element.alias);
-        const hasAllSelectedFeats = selectedFeats.every((feat) =>
-          charaFeats.includes(feat)
-        );
-        if (!hasAllSelectedFeats) return false;
-      }
-
-      // Abilities filter
-      if (selectedAbilities.length > 0) {
-        const charaAbilities = chara.abilities();
-        const hasAllSelectedAbilities = selectedAbilities.every(
-          (selectedAbility) => {
-            return charaAbilities.some((ability) => {
-              return abilityToSearchKey(ability) === selectedAbility;
-            });
-          }
-        );
-        if (!hasAllSelectedAbilities) return false;
-      }
-
-      // Others filter
-      if (selectedOthers.length > 0) {
-        const charaOthers = chara.others().map((other) => other.element.alias);
-        const hasAllSelectedOthers = selectedOthers.every((other) =>
-          charaOthers.includes(other)
-        );
-        if (!hasAllSelectedOthers) return false;
-      }
-
-      // Hidden characters filter
-      if (!showHiddenCharas && chara.isHidden()) {
-        return false;
-      }
-
-      // Advanced search filter
-      // enabledはアコーディオンの開閉状態を示すだけで、条件があれば常に適用される
-      if (advancedSearchState.conditions.length > 0) {
-        if (!evaluateAdvancedSearch(chara, {}, advancedSearchState, language)) {
-          return false;
-        }
-      }
-
-      return true;
-    });
-  }, [
-    charas,
-    searchQuery,
-    selectedRaces,
-    selectedJobs,
-    selectedFeats,
-    selectedAbilities,
-    selectedOthers,
-    showHiddenCharas,
-    advancedSearchState,
-    language,
-  ]);
-
-  const rows: GridRowsProp = useMemo(() => {
-    return filteredCharas.map((chara) => {
+  // Charaからrow（DataGrid用のデータ行）を生成する関数
+  const createCharaRow = useCallback(
+    (chara: Chara): Record<string, unknown> => {
       const [actualGeneSlot, originalGeneSlot] = chara.geneSlot();
       const bodyParts = chara.bodyParts();
       const totalParts = chara.totalBodyParts();
@@ -644,15 +553,116 @@ export default function DataGridCharaTable({
       });
 
       return row;
-    });
+    },
+    [
+      language,
+      t,
+      resistanceElementsList,
+      sortedSkillElements,
+      selectedFeats,
+      selectedOthers,
+    ]
+  );
+
+  // Apply custom filters to charas and generate rows
+  // rowを先に生成して高度検索でDataGridと同じ値を使う
+  const rows = useMemo(() => {
+    const rowList: Record<string, unknown>[] = [];
+
+    for (const chara of charas) {
+      // Search query filter (search both Japanese and English names)
+      if (searchQuery) {
+        const normalizedQuery = normalizeForSearch(searchQuery);
+        const nameJa = normalizeForSearch(chara.normalizedName('ja'));
+        const nameEn = normalizeForSearch(chara.normalizedName('en'));
+        if (
+          !nameJa.includes(normalizedQuery) &&
+          !nameEn.includes(normalizedQuery)
+        ) {
+          continue;
+        }
+      }
+
+      // Race filter
+      if (selectedRaces.length > 0) {
+        const charaRace = chara.race.id;
+        if (!selectedRaces.includes(charaRace)) {
+          continue;
+        }
+      }
+
+      // Job filter
+      if (selectedJobs.length > 0) {
+        const charaJob = chara.job().id;
+        if (!selectedJobs.includes(charaJob)) {
+          continue;
+        }
+      }
+
+      // Feats filter
+      if (selectedFeats.length > 0) {
+        const charaFeats = chara.feats().map((feat) => feat.element.alias);
+        const hasAllSelectedFeats = selectedFeats.every((feat) =>
+          charaFeats.includes(feat)
+        );
+        if (!hasAllSelectedFeats) continue;
+      }
+
+      // Abilities filter
+      if (selectedAbilities.length > 0) {
+        const charaAbilities = chara.abilities();
+        const hasAllSelectedAbilities = selectedAbilities.every(
+          (selectedAbility) => {
+            return charaAbilities.some((ability) => {
+              return abilityToSearchKey(ability) === selectedAbility;
+            });
+          }
+        );
+        if (!hasAllSelectedAbilities) continue;
+      }
+
+      // Others filter
+      if (selectedOthers.length > 0) {
+        const charaOthers = chara.others().map((other) => other.element.alias);
+        const hasAllSelectedOthers = selectedOthers.every((other) =>
+          charaOthers.includes(other)
+        );
+        if (!hasAllSelectedOthers) continue;
+      }
+
+      // Hidden characters filter
+      if (!showHiddenCharas && chara.isHidden()) {
+        continue;
+      }
+
+      // Advanced search filter
+      // enabledはアコーディオンの開閉状態を示すだけで、条件があれば常に適用される
+      if (advancedSearchState.conditions.length > 0) {
+        // rowを生成してevaluateAdvancedSearchに渡す（DataGridと同じ値で比較）
+        const row = createCharaRow(chara);
+        if (!evaluateAdvancedSearch(row, advancedSearchState)) {
+          continue;
+        }
+        // フィルタを通過したらrowを再利用
+        rowList.push(row);
+      } else {
+        // 高度検索がない場合はここでrowを生成
+        rowList.push(createCharaRow(chara));
+      }
+    }
+
+    return rowList;
   }, [
-    filteredCharas,
-    language,
-    t,
-    resistanceElementsList,
-    sortedSkillElements,
+    charas,
+    searchQuery,
+    selectedRaces,
+    selectedJobs,
     selectedFeats,
+    selectedAbilities,
     selectedOthers,
+    showHiddenCharas,
+    advancedSearchState,
+    createCharaRow,
   ]);
 
   // Define columns
@@ -785,20 +795,16 @@ export default function DataGridCharaTable({
     );
 
     // Add primary attribute columns
-    // Get attribute list from first chara's primaryAttributes method
-    if (filteredCharas.length > 0) {
-      const primaryAttrs = filteredCharas[0].primaryAttributes();
-      primaryAttrs.forEach((attr) => {
-        const element = elementByAlias(version, attr.alias);
-        const displayName = element ? element.name(language) : attr.alias;
-        baseColumns.push({
-          field: attr.alias,
-          headerName: displayName,
-          type: 'number',
-          width: 70,
-        });
+    PRIMARY_ATTRIBUTE_ALIASES.forEach((alias) => {
+      const element = elementByAlias(version, alias);
+      const displayName = element ? element.name(language) : alias;
+      baseColumns.push({
+        field: alias,
+        headerName: displayName,
+        type: 'number',
+        width: 70,
       });
-    }
+    });
 
     // Add skill columns (base potential values)
     sortedSkillElements.forEach((skillElement) => {
@@ -971,7 +977,6 @@ export default function DataGridCharaTable({
     resistanceElementsList,
     raceOptions,
     jobOptions,
-    filteredCharas,
     sortedSkillElements,
     selectedFeats,
     selectedOthers,

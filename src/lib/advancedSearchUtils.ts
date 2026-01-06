@@ -328,14 +328,11 @@ export function getCategoryName(
   return categoryNames[category];
 }
 
-// キャラクターからフィールドの値を取得
+// rowからフィールドの値を取得
 export function getFieldValue(
-  chara: Chara,
   row: Record<string, unknown>,
-  fieldKey: string,
-  language: string
+  fieldKey: string
 ): string | number | null {
-  // 直接rowに存在する場合
   if (fieldKey in row) {
     const value = row[fieldKey];
     if (value === null || value === undefined || value === '') {
@@ -343,106 +340,7 @@ export function getFieldValue(
     }
     return value as string | number;
   }
-
-  // 特殊なフィールドの処理
-  switch (fieldKey) {
-    case 'name':
-      return chara.normalizedName(language);
-    case 'race':
-      return chara.race.name(language);
-    case 'job':
-      return chara.job().name(language);
-    case 'mainElement':
-      return chara.mainElement?.name(language) ?? null;
-    case 'level':
-      return chara.level();
-    case 'geneSlot':
-      return chara.geneSlot()[0];
-    case 'bodyParts':
-      return chara.totalBodyParts();
-    case 'life':
-      return chara.life();
-    case 'mana':
-      return chara.mana();
-    case 'speed':
-      return chara.speed();
-    case 'vigor':
-      return chara.vigor();
-    case 'dv':
-      return chara.dv();
-    case 'pv':
-      return chara.pv();
-    case 'pdr':
-      return chara.pdr();
-    case 'edr':
-      return chara.edr();
-    case 'ep':
-      return chara.ep();
-    case 'tacticsName':
-      return chara.tactics().name(language);
-    case 'tacticsDistance':
-      return chara.tacticsDistance();
-    case 'tacticsMoveFrequency':
-      return chara.tacticsMoveFrequency();
-    case 'tacticsParty':
-      return chara.tactics().party;
-    case 'tacticsTaunt':
-      return chara.tactics().taunt;
-    case 'tacticsMelee':
-      return chara.tactics().melee;
-    case 'tacticsRange':
-      return chara.tactics().range;
-    case 'tacticsSpell':
-      return chara.tactics().spell;
-    case 'tacticsHeal':
-      return chara.tactics().heal;
-    case 'tacticsSummon':
-      return chara.tactics().summon;
-    case 'tacticsBuff':
-      return chara.tactics().buff;
-    case 'tacticsDebuff':
-      return chara.tactics().debuff;
-    default:
-      // Raw data fields (chara.*, race.*, job.*, tactics.*)
-      if (fieldKey.startsWith('chara.')) {
-        const rawKey = fieldKey.substring(6);
-        const charaRow = chara.row as Record<string, unknown>;
-        const value = charaRow[rawKey];
-        if (value === null || value === undefined || value === '') {
-          return null;
-        }
-        return value as string | number;
-      }
-      if (fieldKey.startsWith('race.')) {
-        const rawKey = fieldKey.substring(5);
-        const raceRow = chara.race.row as Record<string, unknown>;
-        const value = raceRow[rawKey];
-        if (value === null || value === undefined || value === '') {
-          return null;
-        }
-        return value as string | number;
-      }
-      if (fieldKey.startsWith('job.')) {
-        const rawKey = fieldKey.substring(4);
-        const jobRow = chara.job().row as Record<string, unknown>;
-        const value = jobRow[rawKey];
-        if (value === null || value === undefined || value === '') {
-          return null;
-        }
-        return value as string | number;
-      }
-      if (fieldKey.startsWith('tactics.')) {
-        const rawKey = fieldKey.substring(8);
-        const tacticsRow = chara.tactics().row as Record<string, unknown>;
-        const value = tacticsRow[rawKey];
-        if (value === null || value === undefined || value === '') {
-          return null;
-        }
-        return value as string | number;
-      }
-      // スキルや耐性などの要素値を取得
-      return chara.getElementPower(fieldKey);
-  }
+  return null;
 }
 
 // 条件が完成しているか（フィールドと値が入力されているか）を確認
@@ -477,17 +375,15 @@ function isConditionComplete(condition: SearchCondition): boolean {
 
 // 単一の条件を評価
 export function evaluateCondition(
-  chara: Chara,
   row: Record<string, unknown>,
-  condition: SearchCondition,
-  language: string
+  condition: SearchCondition
 ): boolean {
   // 未完成の条件は全てにマッチ
   if (!isConditionComplete(condition)) {
     return true;
   }
 
-  const value = getFieldValue(chara, row, condition.field, language);
+  const value = getFieldValue(row, condition.field);
   const { operator, value: targetValue } = condition;
 
   // empty/not_empty演算子の処理
@@ -566,17 +462,15 @@ export function evaluateCondition(
 
 // 条件グループを評価（再帰的）
 export function evaluateConditionGroup(
-  chara: Chara,
   row: Record<string, unknown>,
-  group: ConditionGroup,
-  language: string
+  group: ConditionGroup
 ): boolean {
   if (group.conditions.length === 0) {
     return true;
   }
 
   const results = group.conditions.map((condition) =>
-    evaluateConditionOrGroup(chara, row, condition, language)
+    evaluateConditionOrGroup(row, condition)
   );
 
   if (group.logic === 'AND') {
@@ -588,32 +482,28 @@ export function evaluateConditionGroup(
 
 // 条件またはグループを評価
 export function evaluateConditionOrGroup(
-  chara: Chara,
   row: Record<string, unknown>,
-  condition: SearchConditionOrGroup,
-  language: string
+  condition: SearchConditionOrGroup
 ): boolean {
   if (isConditionGroup(condition)) {
-    return evaluateConditionGroup(chara, row, condition, language);
+    return evaluateConditionGroup(row, condition);
   } else {
-    return evaluateCondition(chara, row, condition, language);
+    return evaluateCondition(row, condition);
   }
 }
 
 // 高度検索全体を評価
 // enabledはアコーディオンの開閉状態を示すだけで、条件があれば常に適用される
 export function evaluateAdvancedSearch(
-  chara: Chara,
   row: Record<string, unknown>,
-  state: AdvancedSearchState,
-  language: string
+  state: AdvancedSearchState
 ): boolean {
   if (state.conditions.length === 0) {
     return true;
   }
 
   const results = state.conditions.map((condition) =>
-    evaluateConditionOrGroup(chara, row, condition, language)
+    evaluateConditionOrGroup(row, condition)
   );
 
   if (state.logic === 'AND') {
