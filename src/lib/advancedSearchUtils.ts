@@ -16,8 +16,27 @@ import {
   resistanceElements,
   skillElements,
   elementByAlias,
+  PRIMARY_ATTRIBUTE_ALIASES,
+  STATS_ALIASES,
 } from './models/element';
 import { normalizeForSearch } from './searchUtils';
+
+// Tactics列フィールド
+export const TACTICS_FIELDS = [
+  'tacticsName',
+  'tacticsDistance',
+  'tacticsMoveFrequency',
+  'tacticsParty',
+  'tacticsTaunt',
+  'tacticsMelee',
+  'tacticsRange',
+  'tacticsSpell',
+  'tacticsHeal',
+  'tacticsSummon',
+  'tacticsBuff',
+  'tacticsDebuff',
+  'tacticsPartyBuff',
+] as const;
 
 // 生データフィールドの情報
 export interface RawFieldsInfo {
@@ -92,18 +111,7 @@ export function getFieldInfoList(
   });
 
   // Stats fields
-  const statsFields = [
-    'life',
-    'mana',
-    'speed',
-    'vigor',
-    'dv',
-    'pv',
-    'pdr',
-    'edr',
-    'ep',
-  ];
-  statsFields.forEach((key) => {
+  STATS_ALIASES.forEach((key) => {
     fields.push({
       key,
       displayName: t.common[key] || key,
@@ -115,17 +123,7 @@ export function getFieldInfoList(
   });
 
   // Primary attributes
-  const attributeAliases = [
-    'STR',
-    'END',
-    'DEX',
-    'PER',
-    'LER',
-    'WIL',
-    'MAG',
-    'CHA',
-  ];
-  attributeAliases.forEach((alias) => {
+  PRIMARY_ATTRIBUTE_ALIASES.forEach((alias) => {
     const element = elementByAlias(version, alias);
     fields.push({
       key: alias,
@@ -164,21 +162,13 @@ export function getFieldInfoList(
   });
 
   // Tactics fields
-  const tacticsFields: Array<{ key: string; type: 'number' | 'string' }> = [
-    { key: 'tacticsName', type: 'string' },
-    { key: 'tacticsDistance', type: 'number' },
-    { key: 'tacticsMoveFrequency', type: 'number' },
-    { key: 'tacticsParty', type: 'number' },
-    { key: 'tacticsTaunt', type: 'number' },
-    { key: 'tacticsMelee', type: 'number' },
-    { key: 'tacticsRange', type: 'number' },
-    { key: 'tacticsSpell', type: 'number' },
-    { key: 'tacticsHeal', type: 'number' },
-    { key: 'tacticsSummon', type: 'number' },
-    { key: 'tacticsBuff', type: 'number' },
-    { key: 'tacticsDebuff', type: 'number' },
+  // 文字列型のtacticsフィールド
+  const tacticsStringFields: ReadonlyArray<(typeof TACTICS_FIELDS)[number]> = [
+    'tacticsName',
+    'tacticsPartyBuff',
   ];
-  tacticsFields.forEach(({ key, type }) => {
+  TACTICS_FIELDS.forEach((key) => {
+    const type = tacticsStringFields.includes(key) ? 'string' : 'number';
     fields.push({
       key,
       displayName: t.common[key] || key,

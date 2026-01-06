@@ -29,6 +29,8 @@ import {
   resistanceElements,
   elementByAlias,
   skillElements,
+  PRIMARY_ATTRIBUTE_ALIASES,
+  STATS_ALIASES,
 } from '@/lib/models/element';
 import { skillSortKey, calcBasePotential, totalPower } from '@/lib/elementable';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
@@ -46,41 +48,13 @@ import {
   serializeAdvancedSearch,
   deserializeAdvancedSearch,
   RawFieldsInfo,
+  TACTICS_FIELDS,
 } from '@/lib/advancedSearchUtils';
 
 interface DataGridCharaTableProps {
   charas: Chara[];
   version: GameVersion;
 }
-
-// Primary attribute aliases
-const PRIMARY_ATTRIBUTE_ALIASES = [
-  'STR',
-  'END',
-  'DEX',
-  'PER',
-  'LER',
-  'WIL',
-  'MAG',
-  'CHA',
-];
-
-// Tactics column fields
-const TACTICS_FIELDS = [
-  'tacticsName',
-  'tacticsDistance',
-  'tacticsMoveFrequency',
-  'tacticsParty',
-  'tacticsTaunt',
-  'tacticsMelee',
-  'tacticsRange',
-  'tacticsSpell',
-  'tacticsHeal',
-  'tacticsSummon',
-  'tacticsBuff',
-  'tacticsDebuff',
-  'tacticsPartyBuff',
-];
 
 // Extract field names and numeric fields from Zod schema
 function extractSchemaInfo(schema: z.ZodObject<z.ZodRawShape>): {
@@ -151,19 +125,6 @@ const KEY_INFO_FIELDS = [
   'mana',
   'speed',
   'tacticsName',
-];
-
-// Other stats column fields
-const OTHER_STATS_FIELDS = [
-  'life',
-  'mana',
-  'speed',
-  'vigor',
-  'dv',
-  'pv',
-  'pdr',
-  'edr',
-  'ep',
 ];
 
 const abilityToSearchKey = (ability: {
@@ -1064,17 +1025,20 @@ export default function DataGridCharaTable({
             presets.includes('keyInfo') && KEY_INFO_FIELDS.includes(col.field);
           const inOtherStats =
             presets.includes('otherStats') &&
-            OTHER_STATS_FIELDS.includes(col.field);
+            (STATS_ALIASES as readonly string[]).includes(col.field);
           const inPrimaryAttributes =
             presets.includes('primaryAttributes') &&
-            PRIMARY_ATTRIBUTE_ALIASES.includes(col.field);
+            (PRIMARY_ATTRIBUTE_ALIASES as readonly string[]).includes(
+              col.field
+            );
           const inSkills =
             presets.includes('skills') && skillAliases.includes(col.field);
           const inResistances =
             presets.includes('resistances') &&
             resistanceAliases.includes(col.field);
           const inTactics =
-            presets.includes('tactics') && TACTICS_FIELDS.includes(col.field);
+            presets.includes('tactics') &&
+            (TACTICS_FIELDS as readonly string[]).includes(col.field);
           const inRawData =
             presets.includes('rawData') &&
             (col.field.startsWith('chara.') ||

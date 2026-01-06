@@ -385,3 +385,32 @@ export class Element {
     return result;
   }
 }
+
+// 主能力alias
+export const PRIMARY_ATTRIBUTE_ALIASES = [
+  'STR',
+  'END',
+  'DEX',
+  'PER',
+  'LER',
+  'WIL',
+  'MAG',
+  'CHA',
+] as const;
+
+export type PrimaryAttributeAlias = (typeof PRIMARY_ATTRIBUTE_ALIASES)[number];
+
+// ステータスalias
+export const STATS_ALIASES = [
+  'life',
+  'mana',
+  'speed',
+  'vigor',
+  'dv',
+  'pv',
+  'pdr',
+  'edr',
+  'ep',
+] as const;
+
+export type StatsAlias = (typeof STATS_ALIASES)[number];
