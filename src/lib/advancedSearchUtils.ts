@@ -386,21 +386,18 @@ export function evaluateCondition(
   const value = getFieldValue(row, condition.field);
   const { operator, value: targetValue } = condition;
 
-  // empty/not_empty演算子の処理
+  // empty/not_empty演算子の処理（0は空でないとして扱う）
   if (operator === 'empty') {
-    return value === null || value === '' || value === 0;
+    return value === null || value === '';
   }
   if (operator === 'not_empty') {
-    return value !== null && value !== '' && value !== 0;
+    return value !== null && value !== '';
   }
 
-  // 値がnullの場合は一致しない
-  if (value === null) {
-    return false;
-  }
-
-  // 数値演算子
-  if (typeof value === 'number') {
+  // 数値演算子の場合、nullは0として扱う
+  const numericOperators = ['>=', '<=', '=', '!=', '>', '<', 'between'];
+  if (numericOperators.includes(operator)) {
+    const numValue = value === null ? 0 : (value as number);
     const numTarget =
       typeof targetValue === 'number'
         ? targetValue
@@ -412,25 +409,30 @@ export function evaluateCondition(
 
     switch (operator) {
       case '>=':
-        return value >= numTarget;
+        return numValue >= numTarget;
       case '<=':
-        return value <= numTarget;
+        return numValue <= numTarget;
       case '=':
-        return value === numTarget;
+        return numValue === numTarget;
       case '!=':
-        return value !== numTarget;
+        return numValue !== numTarget;
       case '>':
-        return value > numTarget;
+        return numValue > numTarget;
       case '<':
-        return value < numTarget;
+        return numValue < numTarget;
       case 'between':
         if (Array.isArray(targetValue) && targetValue.length === 2) {
-          return value >= targetValue[0] && value <= targetValue[1];
+          return numValue >= targetValue[0] && numValue <= targetValue[1];
         }
         return false;
       default:
         return false;
     }
+  }
+
+  // 値がnullの場合は文字列演算子では一致しない
+  if (value === null) {
+    return false;
   }
 
   // 文字列演算子
