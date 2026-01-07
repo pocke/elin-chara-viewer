@@ -7,7 +7,6 @@ import {
   Button,
   ToggleButtonGroup,
   ToggleButton,
-  Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -117,9 +116,6 @@ export default function ConditionGroupPanel({
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="body2" color="text.secondary">
-            {t.advancedSearch.operator}:
-          </Typography>
           <ToggleButtonGroup
             value={group.logic}
             exclusive

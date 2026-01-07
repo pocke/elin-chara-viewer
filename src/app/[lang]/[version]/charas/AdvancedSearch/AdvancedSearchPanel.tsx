@@ -146,9 +146,6 @@ export default function AdvancedSearchPanel({
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="body2" color="text.secondary">
-            {t.advancedSearch.operator}:
-          </Typography>
           <ToggleButtonGroup
             value={state.logic}
             exclusive
