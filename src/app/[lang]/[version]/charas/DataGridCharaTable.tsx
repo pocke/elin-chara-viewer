@@ -435,9 +435,10 @@ export default function DataGridCharaTable({
   // Charaからrow（DataGrid用のデータ行）を生成する関数
   const createCharaRow = useCallback(
     (chara: Chara): Record<string, unknown> => {
-      const [actualGeneSlot, originalGeneSlot] = chara.geneSlot();
       const bodyParts = chara.bodyParts();
       const totalParts = chara.totalBodyParts();
+
+      const [actualGeneSlot, originalGeneSlot] = chara.geneSlot();
 
       const row: Record<string, unknown> = {
         id: chara.id,
@@ -446,11 +447,8 @@ export default function DataGridCharaTable({
         job: chara.job().name(language),
         mainElement: chara.mainElement?.name(language) ?? '',
         level: Math.round(chara.level() * 100) / 100,
-        geneSlotValue: actualGeneSlot,
-        geneSlot:
-          actualGeneSlot !== originalGeneSlot
-            ? `${actualGeneSlot} (${originalGeneSlot})`
-            : actualGeneSlot,
+        geneSlot: actualGeneSlot,
+        geneSlotOriginal: originalGeneSlot,
         bodyParts: totalParts,
         bodyPartsTooltip: Object.entries(bodyParts)
           .map(
@@ -738,8 +736,11 @@ export default function DataGridCharaTable({
         headerName: t.common.geneSlotShort,
         type: 'number',
         width: 100,
-        valueGetter: (_value, row) => row.geneSlotValue,
-        renderCell: (params) => params.row.geneSlot,
+        renderCell: (params) => {
+          const actual = params.row.geneSlot;
+          const original = params.row.geneSlotOriginal;
+          return actual !== original ? `${actual} (${original})` : actual;
+        },
       },
       {
         field: 'bodyParts',
