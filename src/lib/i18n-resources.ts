@@ -208,6 +208,7 @@ export const resources = {
       categoryResistances: '耐性',
       categoryTactics: '戦闘タイプ',
       categoryRaw: '生データ',
+      active: '適用中',
     },
     curveSim: {
       title: 'Curveシミュレーション',
@@ -458,6 +459,7 @@ export const resources = {
       categoryResistances: 'Resistances',
       categoryTactics: 'Tactics',
       categoryRaw: 'Raw Data',
+      active: 'Active',
     },
     curveSim: {
       title: 'Curve Simulation',

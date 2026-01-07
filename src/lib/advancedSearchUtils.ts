@@ -344,7 +344,7 @@ export function getFieldValue(
 }
 
 // 条件が完成しているか（フィールドと値が入力されているか）を確認
-function isConditionComplete(condition: SearchCondition): boolean {
+export function isConditionComplete(condition: SearchCondition): boolean {
   // フィールドが未選択の場合は未完成
   if (!condition.field) {
     return false;

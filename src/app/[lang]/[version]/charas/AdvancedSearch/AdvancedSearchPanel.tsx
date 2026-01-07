@@ -6,6 +6,7 @@ import {
   AccordionDetails,
   Box,
   Button,
+  Chip,
   ToggleButtonGroup,
   ToggleButton,
   Typography,
@@ -22,9 +23,21 @@ import {
   createNewGroup,
   createEmptyAdvancedSearchState,
 } from '@/lib/advancedSearchTypes';
+import { isConditionComplete } from '@/lib/advancedSearchUtils';
 import { useTranslation } from '@/lib/simple-i18n';
 import SearchConditionRow from './SearchConditionRow';
 import ConditionGroupPanel from './ConditionGroupPanel';
+
+// 条件の配列内に有効な条件があるかを再帰的に判定
+function hasActiveConditions(conditions: SearchConditionOrGroup[]): boolean {
+  return conditions.some((condition) => {
+    if (isConditionGroup(condition)) {
+      return hasActiveConditions(condition.conditions);
+    } else {
+      return isConditionComplete(condition);
+    }
+  });
+}
 
 interface AdvancedSearchPanelProps {
   state: AdvancedSearchState;
@@ -92,6 +105,9 @@ export default function AdvancedSearchPanel({
   };
 
   const hasConditions = state.conditions.length > 0;
+  const isActive = hasActiveConditions(state.conditions);
+  // パネルが閉じていて、有効な条件がある場合に「適用中」を表示
+  const showActiveIndicator = !state.enabled && isActive;
 
   return (
     <Accordion
@@ -104,16 +120,19 @@ export default function AdvancedSearchPanel({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            gap: 1,
             width: '100%',
             pr: 2,
           }}
         >
           <Typography>{t.advancedSearch.title}</Typography>
-          {hasConditions && (
-            <Typography variant="caption" color="text.secondary">
-              ({state.conditions.length})
-            </Typography>
+          {showActiveIndicator && (
+            <Chip
+              label={t.advancedSearch.active}
+              size="small"
+              color="primary"
+              variant="outlined"
+            />
           )}
         </Box>
       </AccordionSummary>
