@@ -105,9 +105,18 @@ export default function ConditionGroupPanel({
           justifyContent: 'space-between',
           alignItems: 'center',
           mb: 1,
+          flexWrap: 'wrap',
+          gap: 1,
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            flexWrap: 'wrap',
+          }}
+        >
           <Typography variant="body2" color="text.secondary">
             {t.advancedSearch.operator}:
           </Typography>
@@ -153,7 +162,7 @@ export default function ConditionGroupPanel({
         ))}
       </Box>
 
-      <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+      <Box sx={{ display: 'flex', gap: 1, mt: 1, flexWrap: 'wrap' }}>
         <Button
           size="small"
           startIcon={<AddIcon />}

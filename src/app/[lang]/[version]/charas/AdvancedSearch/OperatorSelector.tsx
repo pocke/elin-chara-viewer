@@ -52,7 +52,10 @@ export default function OperatorSelector({
   // フィールドが選択されていない場合
   if (!fieldType || operators.length === 0) {
     return (
-      <FormControl size="small" sx={{ minWidth: 120 }}>
+      <FormControl
+        size="small"
+        sx={{ minWidth: { xs: 100, sm: 120 }, flex: { xs: 1, sm: 'none' } }}
+      >
         <Select value="" disabled>
           <MenuItem value="">{t.advancedSearch.selectOperator}</MenuItem>
         </Select>
@@ -61,7 +64,10 @@ export default function OperatorSelector({
   }
 
   return (
-    <FormControl size="small" sx={{ minWidth: 140 }}>
+    <FormControl
+      size="small"
+      sx={{ minWidth: { xs: 100, sm: 140 }, flex: { xs: 1, sm: 'none' } }}
+    >
       <Select
         value={value}
         onChange={(e) => onChange(e.target.value as SearchOperator)}

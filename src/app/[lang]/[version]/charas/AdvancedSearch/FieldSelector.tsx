@@ -73,7 +73,7 @@ export default function FieldSelector({
       renderInput={(params) => (
         <TextField {...params} placeholder={t.advancedSearch.selectField} />
       )}
-      sx={{ minWidth: 180 }}
+      sx={{ minWidth: { xs: 120, sm: 180 }, flex: { xs: 1, sm: 'none' } }}
     />
   );
 }

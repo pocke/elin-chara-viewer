@@ -29,7 +29,9 @@ export default function ValueInput({
   if (operator === 'between') {
     const rangeValue = Array.isArray(value) ? value : [0, 0];
     return (
-      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+      <Box
+        sx={{ display: 'flex', gap: 1, alignItems: 'center', width: '100%' }}
+      >
         <TextField
           type="number"
           size="small"
@@ -39,7 +41,7 @@ export default function ValueInput({
             const min = parseFloat(e.target.value) || 0;
             onChange([min, rangeValue[1]]);
           }}
-          sx={{ width: 80 }}
+          sx={{ flex: 1, minWidth: 60 }}
         />
         <span>〜</span>
         <TextField
@@ -51,7 +53,7 @@ export default function ValueInput({
             const max = parseFloat(e.target.value) || 0;
             onChange([rangeValue[0], max]);
           }}
-          sx={{ width: 80 }}
+          sx={{ flex: 1, minWidth: 60 }}
         />
       </Box>
     );
@@ -90,7 +92,7 @@ export default function ValueInput({
         renderInput={(params) => (
           <TextField {...params} placeholder={t.advancedSearch.enterValue} />
         )}
-        sx={{ minWidth: 150 }}
+        sx={{ minWidth: { xs: 100, sm: 150 }, width: '100%' }}
       />
     );
   }
@@ -107,7 +109,7 @@ export default function ValueInput({
           const numValue = parseFloat(e.target.value);
           onChange(isNaN(numValue) ? '' : numValue);
         }}
-        sx={{ width: 100 }}
+        sx={{ minWidth: 60, width: '100%' }}
       />
     );
   }
@@ -119,7 +121,7 @@ export default function ValueInput({
       placeholder={t.advancedSearch.enterValue}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      sx={{ minWidth: 150 }}
+      sx={{ minWidth: { xs: 100, sm: 150 }, width: '100%' }}
     />
   );
 }

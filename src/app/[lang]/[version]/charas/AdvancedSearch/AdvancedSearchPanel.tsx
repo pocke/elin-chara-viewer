@@ -137,7 +137,15 @@ export default function AdvancedSearchPanel({
         </Box>
       </AccordionSummary>
       <AccordionDetails>
-        <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box
+          sx={{
+            mb: 2,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            flexWrap: 'wrap',
+          }}
+        >
           <Typography variant="body2" color="text.secondary">
             {t.advancedSearch.operator}:
           </Typography>
@@ -185,7 +193,7 @@ export default function AdvancedSearchPanel({
           ))}
         </Box>
 
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
           <Button
             size="small"
             startIcon={<AddIcon />}

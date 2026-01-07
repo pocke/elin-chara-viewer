@@ -76,29 +76,51 @@ export default function SearchConditionRow({
       sx={{
         display: 'flex',
         gap: 1,
-        alignItems: 'center',
+        alignItems: { xs: 'stretch', sm: 'center' },
+        flexDirection: { xs: 'column', sm: 'row' },
         flexWrap: 'wrap',
       }}
     >
-      <FieldSelector
-        fields={fields}
-        value={condition.field}
-        onChange={handleFieldChange}
-      />
-      <OperatorSelector
-        fieldType={selectedField?.type || null}
-        value={condition.operator}
-        onChange={handleOperatorChange}
-      />
-      <ValueInput
-        field={selectedField}
-        operator={condition.operator}
-        value={condition.value}
-        onChange={handleValueChange}
-      />
-      <IconButton size="small" onClick={onRemove} color="error">
-        <DeleteIcon fontSize="small" />
-      </IconButton>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 1,
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          flex: { xs: '1 1 auto', sm: '0 0 auto' },
+        }}
+      >
+        <FieldSelector
+          fields={fields}
+          value={condition.field}
+          onChange={handleFieldChange}
+        />
+        <OperatorSelector
+          fieldType={selectedField?.type || null}
+          value={condition.operator}
+          onChange={handleOperatorChange}
+        />
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 1,
+          alignItems: 'center',
+          flex: { xs: '1 1 auto', sm: '0 0 auto' },
+        }}
+      >
+        <Box sx={{ flex: 1 }}>
+          <ValueInput
+            field={selectedField}
+            operator={condition.operator}
+            value={condition.value}
+            onChange={handleValueChange}
+          />
+        </Box>
+        <IconButton size="small" onClick={onRemove} color="error">
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      </Box>
     </Box>
   );
 }
