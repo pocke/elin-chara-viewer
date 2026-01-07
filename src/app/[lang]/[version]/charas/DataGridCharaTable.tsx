@@ -2,7 +2,6 @@
 import {
   DataGrid,
   GridColDef,
-  GridRowsProp,
   GridColumnVisibilityModel,
 } from '@mui/x-data-grid';
 import {
@@ -16,9 +15,9 @@ import {
   ToggleButtonGroup,
 } from '@mui/material';
 import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
-import { useMemo, useState, useCallback, useEffect } from 'react';
+import { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 import { Chara, CharaSchema } from '@/lib/models/chara';
 import { RaceSchema } from '@/lib/models/race';
@@ -29,45 +28,32 @@ import {
   resistanceElements,
   elementByAlias,
   skillElements,
+  PRIMARY_ATTRIBUTE_ALIASES,
+  STATS_ALIASES,
 } from '@/lib/models/element';
 import { skillSortKey, calcBasePotential, totalPower } from '@/lib/elementable';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
 import CharaSearchBar from './CharaSearchBar';
 import { normalizeForSearch } from '@/lib/searchUtils';
+import { AdvancedSearchPanel } from './AdvancedSearch';
+import {
+  AdvancedSearchState,
+  createEmptyAdvancedSearchState,
+  extractSelectedFields,
+} from '@/lib/advancedSearchTypes';
+import {
+  getFieldInfoList,
+  evaluateAdvancedSearch,
+  serializeAdvancedSearch,
+  deserializeAdvancedSearch,
+  RawFieldsInfo,
+  TACTICS_FIELDS,
+} from '@/lib/advancedSearchUtils';
 
 interface DataGridCharaTableProps {
   charas: Chara[];
   version: GameVersion;
 }
-
-// Primary attribute aliases
-const PRIMARY_ATTRIBUTE_ALIASES = [
-  'STR',
-  'END',
-  'DEX',
-  'PER',
-  'LER',
-  'WIL',
-  'MAG',
-  'CHA',
-];
-
-// Tactics column fields
-const TACTICS_FIELDS = [
-  'tacticsName',
-  'tacticsDistance',
-  'tacticsMoveFrequency',
-  'tacticsParty',
-  'tacticsTaunt',
-  'tacticsMelee',
-  'tacticsRange',
-  'tacticsSpell',
-  'tacticsHeal',
-  'tacticsSummon',
-  'tacticsBuff',
-  'tacticsDebuff',
-  'tacticsPartyBuff',
-];
 
 // Extract field names and numeric fields from Zod schema
 function extractSchemaInfo(schema: z.ZodObject<z.ZodRawShape>): {
@@ -140,19 +126,6 @@ const KEY_INFO_FIELDS = [
   'tacticsName',
 ];
 
-// Other stats column fields
-const OTHER_STATS_FIELDS = [
-  'life',
-  'mana',
-  'speed',
-  'vigor',
-  'dv',
-  'pv',
-  'pdr',
-  'edr',
-  'ep',
-];
-
 const abilityToSearchKey = (ability: {
   name: string;
   element: string | null;
@@ -167,7 +140,6 @@ export default function DataGridCharaTable({
 }: DataGridCharaTableProps) {
   const { t, language } = useTranslation();
   const params = useParams();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const lang = params.lang as string;
   const resistanceElementsList = resistanceElements(version);
@@ -207,15 +179,9 @@ export default function DataGridCharaTable({
   const [selectedPresets, setSelectedPresets] = useState<PresetType[]>([
     'keyInfo',
   ]);
-  const [columnVisibilityModel, setColumnVisibilityModel] =
+  // DataGrid経由の手動列選択（ベースからの差分）のみを保存
+  const [manualVisibilityOverrides, setManualVisibilityOverrides] =
     useState<GridColumnVisibilityModel>({});
-
-  const handleColumnVisibilityModelChange = useCallback(
-    (newModel: GridColumnVisibilityModel) => {
-      setColumnVisibilityModel(newModel);
-    },
-    []
-  );
 
   // Custom filter states
   const [searchQuery, setSearchQuery] = useState('');
@@ -225,6 +191,32 @@ export default function DataGridCharaTable({
   const [selectedAbilities, setSelectedAbilities] = useState<string[]>([]);
   const [selectedOthers, setSelectedOthers] = useState<string[]>([]);
   const [showHiddenCharas, setShowHiddenCharas] = useState(false);
+  const [advancedSearchState, setAdvancedSearchState] =
+    useState<AdvancedSearchState>(createEmptyAdvancedSearchState());
+
+  // Flag to skip URL parameter reading after local state changes
+  const isLocalAdvancedSearchUpdate = useRef(false);
+
+  // Raw fields info for advanced search
+  const rawFieldsInfo: RawFieldsInfo = useMemo(
+    () => ({
+      charaFields: CHARA_RAW_FIELDS,
+      charaNumericFields: CHARA_NUMERIC_FIELDS,
+      raceFields: RACE_RAW_FIELDS,
+      raceNumericFields: RACE_NUMERIC_FIELDS,
+      jobFields: JOB_RAW_FIELDS,
+      jobNumericFields: JOB_NUMERIC_FIELDS,
+      tacticsFields: TACTICS_RAW_FIELDS,
+      tacticsNumericFields: TACTICS_NUMERIC_FIELDS,
+    }),
+    []
+  );
+
+  // Get field info for advanced search
+  const advancedSearchFields = useMemo(
+    () => getFieldInfoList(language, version, charas, t, rawFieldsInfo),
+    [language, version, charas, t, rawFieldsInfo]
+  );
 
   // Initialize state from URL parameters
   // This effect synchronizes external state (URL params) with component state
@@ -238,13 +230,35 @@ export default function DataGridCharaTable({
     const others = searchParams.get('others')?.split(',').filter(Boolean) || [];
     const hidden = searchParams.get('hidden') === 'true';
 
+    // URLパラメータから状態を初期化（外部状態との同期）
+
     setSearchQuery(query);
+
     setSelectedRaces(races);
+
     setSelectedJobs(jobs);
+
     setSelectedFeats(feats);
+
     setSelectedAbilities(abilities);
+
     setSelectedOthers(others);
+
     setShowHiddenCharas(hidden);
+
+    // Skip advanced search URL reading if it was a local update
+    if (isLocalAdvancedSearchUpdate.current) {
+      isLocalAdvancedSearchUpdate.current = false;
+      return;
+    }
+
+    const advParam = searchParams.get('adv') || '';
+    const advState = deserializeAdvancedSearch(advParam);
+    if (advState) {
+      setAdvancedSearchState(advState);
+    } else {
+      setAdvancedSearchState(createEmptyAdvancedSearchState());
+    }
   }, [searchParams]);
 
   // Update URL when filters change
@@ -256,7 +270,8 @@ export default function DataGridCharaTable({
       feats: string[],
       abilities: string[],
       others: string[],
-      hidden: boolean
+      hidden: boolean,
+      advSearch?: AdvancedSearchState
     ) => {
       const urlSearchParams = new URLSearchParams();
 
@@ -281,14 +296,21 @@ export default function DataGridCharaTable({
       if (hidden) {
         urlSearchParams.set('hidden', 'true');
       }
+      if (advSearch) {
+        const serialized = serializeAdvancedSearch(advSearch);
+        if (serialized) {
+          urlSearchParams.set('adv', serialized);
+        }
+      }
 
       const newUrl = urlSearchParams.toString()
         ? `/${lang}/${version}/charas?${urlSearchParams.toString()}`
         : `/${lang}/${version}/charas`;
 
-      router.replace(newUrl, { scroll: false });
+      // Use history.replaceState instead of router.replace to avoid page reload
+      window.history.replaceState(null, '', newUrl);
     },
-    [lang, version, router]
+    [lang, version]
   );
 
   // Convert Chara objects to DataGrid rows
@@ -410,92 +432,13 @@ export default function DataGridCharaTable({
       };
     }, [charas, language, t.common.range, version]);
 
-  // Apply custom filters to charas
-  const filteredCharas = useMemo(() => {
-    return charas.filter((chara) => {
-      // Search query filter (search both Japanese and English names)
-      if (searchQuery) {
-        const normalizedQuery = normalizeForSearch(searchQuery);
-        const nameJa = normalizeForSearch(chara.normalizedName('ja'));
-        const nameEn = normalizeForSearch(chara.normalizedName('en'));
-        if (
-          !nameJa.includes(normalizedQuery) &&
-          !nameEn.includes(normalizedQuery)
-        ) {
-          return false;
-        }
-      }
-
-      // Race filter
-      if (selectedRaces.length > 0) {
-        const charaRace = chara.race.id;
-        if (!selectedRaces.includes(charaRace)) {
-          return false;
-        }
-      }
-
-      // Job filter
-      if (selectedJobs.length > 0) {
-        const charaJob = chara.job().id;
-        if (!selectedJobs.includes(charaJob)) {
-          return false;
-        }
-      }
-
-      // Feats filter
-      if (selectedFeats.length > 0) {
-        const charaFeats = chara.feats().map((feat) => feat.element.alias);
-        const hasAllSelectedFeats = selectedFeats.every((feat) =>
-          charaFeats.includes(feat)
-        );
-        if (!hasAllSelectedFeats) return false;
-      }
-
-      // Abilities filter
-      if (selectedAbilities.length > 0) {
-        const charaAbilities = chara.abilities();
-        const hasAllSelectedAbilities = selectedAbilities.every(
-          (selectedAbility) => {
-            return charaAbilities.some((ability) => {
-              return abilityToSearchKey(ability) === selectedAbility;
-            });
-          }
-        );
-        if (!hasAllSelectedAbilities) return false;
-      }
-
-      // Others filter
-      if (selectedOthers.length > 0) {
-        const charaOthers = chara.others().map((other) => other.element.alias);
-        const hasAllSelectedOthers = selectedOthers.every((other) =>
-          charaOthers.includes(other)
-        );
-        if (!hasAllSelectedOthers) return false;
-      }
-
-      // Hidden characters filter
-      if (!showHiddenCharas && chara.isHidden()) {
-        return false;
-      }
-
-      return true;
-    });
-  }, [
-    charas,
-    searchQuery,
-    selectedRaces,
-    selectedJobs,
-    selectedFeats,
-    selectedAbilities,
-    selectedOthers,
-    showHiddenCharas,
-  ]);
-
-  const rows: GridRowsProp = useMemo(() => {
-    return filteredCharas.map((chara) => {
-      const [actualGeneSlot, originalGeneSlot] = chara.geneSlot();
+  // Charaからrow（DataGrid用のデータ行）を生成する関数
+  const createCharaRow = useCallback(
+    (chara: Chara): Record<string, unknown> => {
       const bodyParts = chara.bodyParts();
       const totalParts = chara.totalBodyParts();
+
+      const [actualGeneSlot, originalGeneSlot] = chara.geneSlot();
 
       const row: Record<string, unknown> = {
         id: chara.id,
@@ -504,11 +447,8 @@ export default function DataGridCharaTable({
         job: chara.job().name(language),
         mainElement: chara.mainElement?.name(language) ?? '',
         level: Math.round(chara.level() * 100) / 100,
-        geneSlotValue: actualGeneSlot,
-        geneSlot:
-          actualGeneSlot !== originalGeneSlot
-            ? `${actualGeneSlot} (${originalGeneSlot})`
-            : actualGeneSlot,
+        geneSlot: actualGeneSlot,
+        geneSlotOriginal: originalGeneSlot,
         bodyParts: totalParts,
         bodyPartsTooltip: Object.entries(bodyParts)
           .map(
@@ -611,15 +551,116 @@ export default function DataGridCharaTable({
       });
 
       return row;
-    });
+    },
+    [
+      language,
+      t,
+      resistanceElementsList,
+      sortedSkillElements,
+      selectedFeats,
+      selectedOthers,
+    ]
+  );
+
+  // Apply custom filters to charas and generate rows
+  // rowを先に生成して高度検索でDataGridと同じ値を使う
+  const rows = useMemo(() => {
+    const rowList: Record<string, unknown>[] = [];
+
+    for (const chara of charas) {
+      // Search query filter (search both Japanese and English names)
+      if (searchQuery) {
+        const normalizedQuery = normalizeForSearch(searchQuery);
+        const nameJa = normalizeForSearch(chara.normalizedName('ja'));
+        const nameEn = normalizeForSearch(chara.normalizedName('en'));
+        if (
+          !nameJa.includes(normalizedQuery) &&
+          !nameEn.includes(normalizedQuery)
+        ) {
+          continue;
+        }
+      }
+
+      // Race filter
+      if (selectedRaces.length > 0) {
+        const charaRace = chara.race.id;
+        if (!selectedRaces.includes(charaRace)) {
+          continue;
+        }
+      }
+
+      // Job filter
+      if (selectedJobs.length > 0) {
+        const charaJob = chara.job().id;
+        if (!selectedJobs.includes(charaJob)) {
+          continue;
+        }
+      }
+
+      // Feats filter
+      if (selectedFeats.length > 0) {
+        const charaFeats = chara.feats().map((feat) => feat.element.alias);
+        const hasAllSelectedFeats = selectedFeats.every((feat) =>
+          charaFeats.includes(feat)
+        );
+        if (!hasAllSelectedFeats) continue;
+      }
+
+      // Abilities filter
+      if (selectedAbilities.length > 0) {
+        const charaAbilities = chara.abilities();
+        const hasAllSelectedAbilities = selectedAbilities.every(
+          (selectedAbility) => {
+            return charaAbilities.some((ability) => {
+              return abilityToSearchKey(ability) === selectedAbility;
+            });
+          }
+        );
+        if (!hasAllSelectedAbilities) continue;
+      }
+
+      // Others filter
+      if (selectedOthers.length > 0) {
+        const charaOthers = chara.others().map((other) => other.element.alias);
+        const hasAllSelectedOthers = selectedOthers.every((other) =>
+          charaOthers.includes(other)
+        );
+        if (!hasAllSelectedOthers) continue;
+      }
+
+      // Hidden characters filter
+      if (!showHiddenCharas && chara.isHidden()) {
+        continue;
+      }
+
+      // Advanced search filter
+      // enabledはアコーディオンの開閉状態を示すだけで、条件があれば常に適用される
+      if (advancedSearchState.conditions.length > 0) {
+        // rowを生成してevaluateAdvancedSearchに渡す（DataGridと同じ値で比較）
+        const row = createCharaRow(chara);
+        if (!evaluateAdvancedSearch(row, advancedSearchState)) {
+          continue;
+        }
+        // フィルタを通過したらrowを再利用
+        rowList.push(row);
+      } else {
+        // 高度検索がない場合はここでrowを生成
+        rowList.push(createCharaRow(chara));
+      }
+    }
+
+    return rowList;
   }, [
-    filteredCharas,
-    language,
-    t,
-    resistanceElementsList,
-    sortedSkillElements,
+    charas,
+    searchQuery,
+    selectedRaces,
+    selectedJobs,
     selectedFeats,
+    selectedAbilities,
     selectedOthers,
+    showHiddenCharas,
+    advancedSearchState,
+    createCharaRow,
   ]);
 
   // Define columns
@@ -695,8 +736,11 @@ export default function DataGridCharaTable({
         headerName: t.common.geneSlotShort,
         type: 'number',
         width: 100,
-        valueGetter: (_value, row) => row.geneSlotValue,
-        renderCell: (params) => params.row.geneSlot,
+        renderCell: (params) => {
+          const actual = params.row.geneSlot;
+          const original = params.row.geneSlotOriginal;
+          return actual !== original ? `${actual} (${original})` : actual;
+        },
       },
       {
         field: 'bodyParts',
@@ -752,20 +796,16 @@ export default function DataGridCharaTable({
     );
 
     // Add primary attribute columns
-    // Get attribute list from first chara's primaryAttributes method
-    if (filteredCharas.length > 0) {
-      const primaryAttrs = filteredCharas[0].primaryAttributes();
-      primaryAttrs.forEach((attr) => {
-        const element = elementByAlias(version, attr.alias);
-        const displayName = element ? element.name(language) : attr.alias;
-        baseColumns.push({
-          field: attr.alias,
-          headerName: displayName,
-          type: 'number',
-          width: 70,
-        });
+    PRIMARY_ATTRIBUTE_ALIASES.forEach((alias) => {
+      const element = elementByAlias(version, alias);
+      const displayName = element ? element.name(language) : alias;
+      baseColumns.push({
+        field: alias,
+        headerName: displayName,
+        type: 'number',
+        width: 70,
       });
-    }
+    });
 
     // Add skill columns (base potential values)
     sortedSkillElements.forEach((skillElement) => {
@@ -938,7 +978,6 @@ export default function DataGridCharaTable({
     resistanceElementsList,
     raceOptions,
     jobOptions,
-    filteredCharas,
     sortedSkillElements,
     selectedFeats,
     selectedOthers,
@@ -946,9 +985,24 @@ export default function DataGridCharaTable({
     otherOptions,
   ]);
 
-  // Create visibility model based on selected presets
+  // Get fields selected in advanced search
+  const advancedSearchSelectedFields = useMemo(
+    () => extractSelectedFields(advancedSearchState),
+    [advancedSearchState]
+  );
+
+  // Set<string>をソートした文字列キーに変換（依存配列での安定した比較用）
+  const advSearchFieldsKey = useMemo(
+    () => Array.from(advancedSearchSelectedFields).sort().join(','),
+    [advancedSearchSelectedFields]
+  );
+
+  // Create visibility model based on selected presets and advanced search fields
   const createVisibilityModel = useCallback(
-    (presets: PresetType[]): GridColumnVisibilityModel => {
+    (
+      presets: PresetType[],
+      advSearchFields: Set<string>
+    ): GridColumnVisibilityModel => {
       const model: GridColumnVisibilityModel = {};
 
       // If no presets selected, show all columns
@@ -965,6 +1019,10 @@ export default function DataGridCharaTable({
           col.field.startsWith('filter_other_')
         ) {
           model[col.field] = true;
+        }
+        // Show columns selected in advanced search
+        else if (advSearchFields.has(col.field)) {
+          model[col.field] = true;
         } else if (showAll) {
           model[col.field] = true;
         } else {
@@ -973,17 +1031,20 @@ export default function DataGridCharaTable({
             presets.includes('keyInfo') && KEY_INFO_FIELDS.includes(col.field);
           const inOtherStats =
             presets.includes('otherStats') &&
-            OTHER_STATS_FIELDS.includes(col.field);
+            (STATS_ALIASES as readonly string[]).includes(col.field);
           const inPrimaryAttributes =
             presets.includes('primaryAttributes') &&
-            PRIMARY_ATTRIBUTE_ALIASES.includes(col.field);
+            (PRIMARY_ATTRIBUTE_ALIASES as readonly string[]).includes(
+              col.field
+            );
           const inSkills =
             presets.includes('skills') && skillAliases.includes(col.field);
           const inResistances =
             presets.includes('resistances') &&
             resistanceAliases.includes(col.field);
           const inTactics =
-            presets.includes('tactics') && TACTICS_FIELDS.includes(col.field);
+            presets.includes('tactics') &&
+            (TACTICS_FIELDS as readonly string[]).includes(col.field);
           const inRawData =
             presets.includes('rawData') &&
             (col.field.startsWith('chara.') ||
@@ -1007,25 +1068,48 @@ export default function DataGridCharaTable({
     [columns, resistanceAliases, skillAliases]
   );
 
-  // Initialize column visibility model based on default preset
-  useEffect(() => {
-    setColumnVisibilityModel(createVisibilityModel(selectedPresets));
-    // Only run once when columns are available
+  // プリセットと高度な検索から計算される基本の表示モデル
+  const baseVisibilityModel = useMemo(
+    () => createVisibilityModel(selectedPresets, advancedSearchSelectedFields),
+    // advSearchFieldsKeyは文字列なので安定した比較が可能
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columns.length > 0]);
+    [createVisibilityModel, selectedPresets, advSearchFieldsKey]
+  );
+
+  // 基本モデルに手動オーバーライドを適用した最終的な表示モデル
+  const effectiveVisibilityModel = useMemo(() => {
+    return { ...baseVisibilityModel, ...manualVisibilityOverrides };
+  }, [baseVisibilityModel, manualVisibilityOverrides]);
+
+  // DataGridからの列表示変更を処理（baseとの差分のみをoverridesとして保存）
+  const handleColumnVisibilityModelChange = useCallback(
+    (newModel: GridColumnVisibilityModel) => {
+      const overrides: GridColumnVisibilityModel = {};
+      for (const [field, visible] of Object.entries(newModel)) {
+        // baseモデルと異なる値のみをオーバーライドとして保存
+        if (baseVisibilityModel[field] !== visible) {
+          overrides[field] = visible;
+        }
+      }
+      setManualVisibilityOverrides(overrides);
+    },
+    [baseVisibilityModel]
+  );
 
   const handlePresetChange = useCallback(
     (_event: React.MouseEvent<HTMLElement>, newPresets: PresetType[]) => {
       setSelectedPresets(newPresets);
-      setColumnVisibilityModel(createVisibilityModel(newPresets));
+      // プリセット変更時は手動オーバーライドをリセット
+      setManualVisibilityOverrides({});
     },
-    [createVisibilityModel]
+    []
   );
 
   const handleShowAllColumns = useCallback(() => {
     setSelectedPresets([]);
-    setColumnVisibilityModel(createVisibilityModel([]));
-  }, [createVisibilityModel]);
+    // 全表示時は手動オーバーライドをリセット
+    setManualVisibilityOverrides({});
+  }, []);
 
   // Search bar callback functions
   const handleSearchChange = useCallback(
@@ -1038,7 +1122,8 @@ export default function DataGridCharaTable({
         selectedFeats,
         selectedAbilities,
         selectedOthers,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1049,6 +1134,7 @@ export default function DataGridCharaTable({
       selectedAbilities,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1062,7 +1148,8 @@ export default function DataGridCharaTable({
         selectedFeats,
         selectedAbilities,
         selectedOthers,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1073,6 +1160,7 @@ export default function DataGridCharaTable({
       selectedAbilities,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1086,7 +1174,8 @@ export default function DataGridCharaTable({
         selectedFeats,
         selectedAbilities,
         selectedOthers,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1097,6 +1186,7 @@ export default function DataGridCharaTable({
       selectedAbilities,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1110,7 +1200,8 @@ export default function DataGridCharaTable({
         feats,
         selectedAbilities,
         selectedOthers,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1121,6 +1212,7 @@ export default function DataGridCharaTable({
       selectedAbilities,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1134,7 +1226,8 @@ export default function DataGridCharaTable({
         selectedFeats,
         abilities,
         selectedOthers,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1145,6 +1238,7 @@ export default function DataGridCharaTable({
       selectedFeats,
       selectedOthers,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1158,7 +1252,8 @@ export default function DataGridCharaTable({
         selectedFeats,
         selectedAbilities,
         others,
-        showHiddenCharas
+        showHiddenCharas,
+        advancedSearchState
       );
     },
     [
@@ -1169,6 +1264,7 @@ export default function DataGridCharaTable({
       selectedFeats,
       selectedAbilities,
       showHiddenCharas,
+      advancedSearchState,
     ]
   );
 
@@ -1180,8 +1276,47 @@ export default function DataGridCharaTable({
     setSelectedAbilities([]);
     setSelectedOthers([]);
     setShowHiddenCharas(false);
+    setAdvancedSearchState(createEmptyAdvancedSearchState());
     updateURL('', [], [], [], [], [], false);
   }, [updateURL]);
+
+  const handleAdvancedSearchChange = useCallback(
+    (newState: AdvancedSearchState) => {
+      const prevHadConditions = advancedSearchState.conditions.length > 0;
+      const newHasConditions = newState.conditions.length > 0;
+
+      setAdvancedSearchState(newState);
+
+      // Update URL when:
+      // 1. New state has conditions (serialize them)
+      // 2. Previous state had conditions but new state doesn't (clear adv param)
+      // Skip URL update when just opening/closing accordion with no conditions
+      if (newHasConditions || prevHadConditions) {
+        isLocalAdvancedSearchUpdate.current = true;
+        updateURL(
+          searchQuery,
+          selectedRaces,
+          selectedJobs,
+          selectedFeats,
+          selectedAbilities,
+          selectedOthers,
+          showHiddenCharas,
+          newState
+        );
+      }
+    },
+    [
+      updateURL,
+      searchQuery,
+      selectedRaces,
+      selectedJobs,
+      selectedFeats,
+      selectedAbilities,
+      selectedOthers,
+      showHiddenCharas,
+      advancedSearchState.conditions.length,
+    ]
+  );
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -1205,6 +1340,11 @@ export default function DataGridCharaTable({
         onAbilityChange={handleAbilityChange}
         onOtherChange={handleOtherChange}
         onClearAllFilters={handleClearAllFilters}
+      />
+      <AdvancedSearchPanel
+        state={advancedSearchState}
+        fields={advancedSearchFields}
+        onChange={handleAdvancedSearchChange}
       />
       <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
         <span>{t.common.columnPreset}:</span>
@@ -1240,7 +1380,7 @@ export default function DataGridCharaTable({
         <DataGrid
           rows={rows}
           columns={columns}
-          columnVisibilityModel={columnVisibilityModel}
+          columnVisibilityModel={effectiveVisibilityModel}
           onColumnVisibilityModelChange={handleColumnVisibilityModelChange}
           initialState={{
             sorting: {
@@ -1272,7 +1412,8 @@ export default function DataGridCharaTable({
                   selectedFeats,
                   selectedAbilities,
                   selectedOthers,
-                  newValue
+                  newValue,
+                  advancedSearchState
                 );
               }}
             />
