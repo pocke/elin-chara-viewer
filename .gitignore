@@ -49,3 +49,6 @@ next-env.d.ts
 
 /tmp/
 .claude/settings.local.json
+
+# Generated CSV files for source search
+/public/csv/
