@@ -5,13 +5,19 @@ import {
   createRoomShellSlice,
   RoomShell,
   RoomShellSliceState,
+  TablesListPanel,
 } from '@sqlrooms/room-shell';
-import { createRoomStore } from '@sqlrooms/room-store';
+import { createRoomStore, StateCreator } from '@sqlrooms/room-store';
 import { ThemeProvider as SqlRoomsThemeProvider } from '@sqlrooms/ui';
+import {
+  createSqlEditorSlice,
+  SqlEditorSliceState,
+  QueryEditorPanel,
+  QueryResultPanel,
+} from '@sqlrooms/sql-editor';
+import { Database, Code, Table } from 'lucide-react';
 import { GameVersion } from '@/lib/db';
 import type { UrlDataSource } from '@sqlrooms/room-config';
-
-import './sqlrooms.css';
 
 interface SqlRoomContainerProps {
   version: GameVersion;
@@ -19,7 +25,7 @@ interface SqlRoomContainerProps {
   csvBasePath: string;
 }
 
-type RoomState = RoomShellSliceState;
+type RoomState = RoomShellSliceState & SqlEditorSliceState;
 
 export default function SqlRoomContainer({
   version,
@@ -35,14 +41,48 @@ export default function SqlRoomContainer({
   }, [tableNames, csvBasePath]);
 
   const roomStore = useMemo(() => {
-    const { roomStore } = createRoomStore<RoomState>((set, get, store) => ({
+    const stateCreator: StateCreator<RoomState> = (set, get, store) => ({
       ...createRoomShellSlice({
         config: {
           title: `Elin Source Search (${version})`,
           dataSources,
         },
+        layout: {
+          panels: {
+            'tables-list': {
+              title: 'Tables',
+              icon: Database,
+              component: TablesListPanel,
+              placement: 'sidebar',
+            },
+            'sql-editor': {
+              title: 'SQL Editor',
+              icon: Code,
+              component: QueryEditorPanel,
+              placement: 'main',
+            },
+            'query-result': {
+              title: 'Query Result',
+              icon: Table,
+              component: QueryResultPanel,
+              placement: 'main',
+            },
+          },
+          config: {
+            type: 'mosaic',
+            nodes: {
+              direction: 'column',
+              first: 'sql-editor',
+              second: 'query-result',
+              splitPercentage: 40,
+            },
+            pinned: ['tables-list'],
+          },
+        },
       })(set, get, store),
-    }));
+      ...createSqlEditorSlice()(set, get, store),
+    });
+    const { roomStore } = createRoomStore<RoomState>(stateCreator);
     return roomStore;
   }, [version, dataSources]);
 
@@ -51,7 +91,7 @@ export default function SqlRoomContainer({
       defaultTheme="light"
       storageKey="elin-sqlrooms-theme"
     >
-      <RoomShell className="tw-h-full" roomStore={roomStore}>
+      <RoomShell className="h-full" roomStore={roomStore}>
         <RoomShell.Sidebar />
         <RoomShell.LayoutComposer />
         <RoomShell.LoadingProgress />
