@@ -1,21 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import {
   createRoomShellSlice,
   RoomShell,
   RoomShellSliceState,
-  TablesListPanel,
+  RoomPanel,
 } from '@sqlrooms/room-shell';
 import { createRoomStore, StateCreator } from '@sqlrooms/room-store';
-import { ThemeProvider as SqlRoomsThemeProvider } from '@sqlrooms/ui';
+import {
+  ThemeProvider as SqlRoomsThemeProvider,
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '@sqlrooms/ui';
 import {
   createSqlEditorSlice,
   SqlEditorSliceState,
   QueryEditorPanel,
   QueryResultPanel,
+  TableStructurePanel,
 } from '@sqlrooms/sql-editor';
-import { Database, Code, Table } from 'lucide-react';
+import { LayoutTypes } from '@sqlrooms/layout-config';
+import { Database } from 'lucide-react';
 import { GameVersion } from '@/lib/db';
 import type { UrlDataSource } from '@sqlrooms/room-config';
 
@@ -26,6 +33,30 @@ interface SqlRoomContainerProps {
 }
 
 type RoomState = RoomShellSliceState & SqlEditorSliceState;
+
+const MainView: FC = () => {
+  return (
+    <div className="bg-muted flex h-full flex-col">
+      <ResizablePanelGroup direction="vertical">
+        <ResizablePanel defaultSize={50}>
+          <QueryEditorPanel />
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={50}>
+          <QueryResultPanel />
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </div>
+  );
+};
+
+const DataPanel: FC = () => {
+  return (
+    <RoomPanel type="data">
+      <TableStructurePanel />
+    </RoomPanel>
+  );
+};
 
 function createStore(
   version: GameVersion,
@@ -45,35 +76,26 @@ function createStore(
         dataSources,
       },
       layout: {
-        panels: {
-          'tables-list': {
-            title: 'Tables',
-            icon: Database,
-            component: TablesListPanel,
-            placement: 'sidebar',
-          },
-          'sql-editor': {
-            title: 'SQL Editor',
-            icon: Code,
-            component: QueryEditorPanel,
-            placement: 'main',
-          },
-          'query-result': {
-            title: 'Query Result',
-            icon: Table,
-            component: QueryResultPanel,
-            placement: 'main',
+        config: {
+          type: LayoutTypes.enum.mosaic,
+          nodes: {
+            first: 'data',
+            second: 'main',
+            direction: 'row',
+            splitPercentage: 30,
           },
         },
-        config: {
-          type: 'mosaic',
-          nodes: {
-            direction: 'column',
-            first: 'sql-editor',
-            second: 'query-result',
-            splitPercentage: 40,
+        panels: {
+          main: {
+            component: MainView,
+            placement: 'main',
           },
-          pinned: ['tables-list'],
+          data: {
+            title: 'Data',
+            component: DataPanel,
+            icon: Database,
+            placement: 'sidebar',
+          },
         },
       },
     })(set, get, store),
@@ -99,7 +121,6 @@ export default function SqlRoomContainer({
       storageKey="elin-sqlrooms-theme"
     >
       <RoomShell className="h-full" roomStore={roomStore}>
-        <RoomShell.Sidebar />
         <RoomShell.LayoutComposer />
         <RoomShell.LoadingProgress />
       </RoomShell>

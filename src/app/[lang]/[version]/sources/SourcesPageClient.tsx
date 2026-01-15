@@ -47,6 +47,7 @@ export default function SourcesPageClient({
 
         <Paper elevation={1} sx={{ p: 2, height: '70vh' }}>
           <SqlRoomContainer
+            key={`${version}-${csvBasePath}`}
             version={version}
             tableNames={tableNames}
             csvBasePath={csvBasePath}
