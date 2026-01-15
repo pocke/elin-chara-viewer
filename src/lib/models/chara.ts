@@ -340,8 +340,8 @@ export class Chara {
   }
 
   private variantElements() {
-    if (this.row.id === 'bit') {
-      // Random adventurer may have all elements funnel spells.
+    if (this.row.id === 'bit' || this.row.id === 'bit2') {
+      // Random adventurer may have all elements funnel and bit spells.
       // Note that maybe the Void funnel is not available because the chanse is zero.
       //
       // https://github.com/Elin-Modding-Resources/Elin-Decompiled/blob/7517ec09aaec867bffa504b0064b37675851a609/Elin/SourceElement.cs#L358-L383
