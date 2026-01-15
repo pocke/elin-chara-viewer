@@ -1115,6 +1115,7 @@ export default function DataGridCharaTable({
   const handleSearchChange = useCallback(
     (search: string) => {
       setSearchQuery(search);
+      isLocalAdvancedSearchUpdate.current = true;
       updateURL(
         search,
         selectedRaces,
@@ -1141,6 +1142,7 @@ export default function DataGridCharaTable({
   const handleRaceChange = useCallback(
     (races: string[]) => {
       setSelectedRaces(races);
+      isLocalAdvancedSearchUpdate.current = true;
       updateURL(
         searchQuery,
         races,
@@ -1167,6 +1169,7 @@ export default function DataGridCharaTable({
   const handleJobChange = useCallback(
     (jobs: string[]) => {
       setSelectedJobs(jobs);
+      isLocalAdvancedSearchUpdate.current = true;
       updateURL(
         searchQuery,
         selectedRaces,
@@ -1193,6 +1196,7 @@ export default function DataGridCharaTable({
   const handleFeatChange = useCallback(
     (feats: string[]) => {
       setSelectedFeats(feats);
+      isLocalAdvancedSearchUpdate.current = true;
       updateURL(
         searchQuery,
         selectedRaces,
@@ -1219,6 +1223,7 @@ export default function DataGridCharaTable({
   const handleAbilityChange = useCallback(
     (abilities: string[]) => {
       setSelectedAbilities(abilities);
+      isLocalAdvancedSearchUpdate.current = true;
       updateURL(
         searchQuery,
         selectedRaces,
@@ -1245,6 +1250,7 @@ export default function DataGridCharaTable({
   const handleOtherChange = useCallback(
     (others: string[]) => {
       setSelectedOthers(others);
+      isLocalAdvancedSearchUpdate.current = true;
       updateURL(
         searchQuery,
         selectedRaces,
@@ -1405,6 +1411,7 @@ export default function DataGridCharaTable({
               onChange={(e) => {
                 const newValue = e.target.checked;
                 setShowHiddenCharas(newValue);
+                isLocalAdvancedSearchUpdate.current = true;
                 updateURL(
                   searchQuery,
                   selectedRaces,
