@@ -6,8 +6,8 @@ import fs from 'fs';
 import path from 'path';
 
 const VERSION_TO_FOLDER: Record<GameVersion, string> = {
-  EA: 'EA 23.252 Patch 2',
-  Nightly: 'EA 23.258',
+  EA: process.env.ELIN_EA_VERSION!,
+  Nightly: process.env.ELIN_NIGHTLY_VERSION!,
 };
 
 export async function generateMetadata(props: {
