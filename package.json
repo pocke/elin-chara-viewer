@@ -7,9 +7,9 @@
     "not dead"
   ],
   "scripts": {
-    "predev": "node scripts/copy-csv.cjs",
+    "predev": "node script/copy-csv.cjs",
     "dev": "next dev",
-    "prebuild": "node scripts/copy-csv.cjs",
+    "prebuild": "node script/copy-csv.cjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
