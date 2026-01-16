@@ -76,6 +76,7 @@ export const resources = {
       browseFeats: 'フィート一覧',
       browseResistSim: '耐性シミュレーション',
       browseCurveSim: 'Curveシミュレーション',
+      browseSources: 'ソース検索',
       searchCharacters: '名前',
       filters: 'フィルター',
       clearFilters: 'フィルターをクリア',
@@ -247,6 +248,11 @@ export const resources = {
       largeValueWarning:
         '※ 極端に大きな値に対しては正確に動作しない場合があります',
     },
+    sources: {
+      title: 'ソース検索',
+      description:
+        'SQLを使用してゲームデータを検索できます。すべてのCSVファイルがテーブルとして読み込まれています。',
+    },
   },
   en: {
     common: {
@@ -323,6 +329,7 @@ export const resources = {
       browseFeats: 'Feats',
       browseResistSim: 'Resistance Simulation',
       browseCurveSim: 'Curve Simulation',
+      browseSources: 'Source Search',
       searchCharacters: 'Name',
       filters: 'Filters',
       clearFilters: 'Clear Filters',
@@ -495,6 +502,11 @@ export const resources = {
       urlCopied: 'URL copied',
       copyUrl: 'Copy URL',
       largeValueWarning: '* May not work correctly for extremely large values',
+    },
+    sources: {
+      title: 'Source Search',
+      description:
+        'Search game data using SQL. All CSV files are loaded as tables.',
     },
   },
 };
