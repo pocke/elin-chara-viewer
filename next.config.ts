@@ -42,6 +42,16 @@ const nextConfig: NextConfig = {
   },
   headers: async () => [
     {
+      // CSVファイルは変更されない想定のため、1年間の長期キャッシュを設定
+      source: '/csv/:path*',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=31536000, immutable',
+        },
+      ],
+    },
+    {
       source: '/(.*)',
       headers: [
         {
