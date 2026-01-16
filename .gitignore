@@ -40,13 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/db/*/*.csv
-!/db/*/charas.csv
-!/db/*/races.csv
-!/db/*/elements.csv
-!/db/*/tactics.csv
-!/db/*/jobs.csv
-
 /tmp/
 .claude/settings.local.json
 
