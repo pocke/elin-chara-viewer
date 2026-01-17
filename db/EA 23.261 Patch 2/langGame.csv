@@ -812,6 +812,7 @@ abort_enemyDead,,,,,,,戦闘を中断した。,You cease combat.
 abort_damage,,,,,,,致命傷を受けたので戦闘を中断した。,You cease combat as you sustain a fatal injury.
 abort_damgeAlly,,,,,,,仲間が致命傷を受けたので戦闘を中断した。,You cease combat as your ally sustains a fatal injury.
 abort_itemLoss,,,,,,,アイテムが破壊されたので戦闘を中断した。,You cease combat as an item was destroyed.
+abort_sentense,,,,,,,死が迫っているので戦闘を中断した。,You cease combat as your death is approaching.
 abort_idle,,,,,,,戦闘を中断した。,You cease combat.
 callHelp,,,,,,,#1は助けを呼んだ！,#1 call(s) help!
 takeAmmo,,,,,,,#1をバックパックから取り出した。,You pull #1 from your backpack.
@@ -1151,3 +1152,4 @@ transform_seen,,,negative,,,,誰かが#1の正体に気づいた！,Someone figu
 egghatch,,,negative,,,,コクーンの殻を破り何かが這い出した。,A cocoon splits open as something crawls out.
 egglay,,,negative,,,,#1は腹を震わせ粘りつく卵塊を産み落とした。,#1 tremble(s) its abdomen and release(s) a sticky cocoon.
 negateCondition,,,,,,,#1は#2から保護されている。,#1 are/is protected.from #2.
+death_sentense,,,special,,,,死は#1を抱きしめた。,Death embraces #1.
