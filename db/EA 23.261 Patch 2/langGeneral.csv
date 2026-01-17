@@ -849,7 +849,7 @@ daChangeDomain,drama,専門領域を変えたい,I want to change domain special
 daCopyItem,drama,複製するアイテムを登録したい(最大#1個),I want to register items to copy. (Max #1)
 daCopySpellbook,drama,魔法書を予約したい(最大#1冊),I want to reserve spellbooks. (Max #1)
 daBanish,drama,追放する,I'm going to banish you.
-daBlessing,drama,祝福を受けたい,Give me blessings.
+daBlessing,drama,加護を受けたい,Give me blessings.
 daBorrowBook,drama,本を借りたい,I want to borrow some books.
 daBout,drama,手合わせを願いたい,I want to challenge you.
 daExchangeChip,drama,景品を見たい,Show me the prizes.
@@ -2241,7 +2241,7 @@ statsInv2,,#1/#2個  #3,Qty.#1/#2  #3
 statsInvPassive,,#1個   #3,#1 Items  #3
 statsTotal,,#1種類  #2個のアイテム,#1 Item types   Total #2
 status,,状態,Status
-status2,,状態と祝福、呪い,"Conditions, buffs and debuffs"
+status2,,状態と加護、呪い,"Conditions, blessings and hexes"
 status3,,ステータス,Status
 status4,,評判と影響力,Reputations
 status5,,その他の情報,Other Information
@@ -2923,3 +2923,12 @@ daystogether_bonus,,<size=12>(#1% 全成長)</size>,<size=12>(#1% All Growth)</s
 raid_till,," 襲撃Lv.#1"," Raid Level: #1"
 raid_ongoing,," *襲撃中*"," *Raid*"
 azaz,talk,ル＝ヴァ…シェ＝ヌル…アザルゥ＝ル…,LU-VHA... SHE-NUR... AZHARU-LU...
+contype_Stats,,状態,Condition
+contype_Neutral,,状態,Condition
+contype_Bad,,状態異常,Negative Condition
+contype_Debuff,,呪い,Hex
+contype_Disease,,病気,Disease
+contype_Wrath,,怒り,Wrath
+contype_Buff,,加護,Blessing
+contype_Stance,,スタンス,Stance
+contype_Sentense,,宣告,Sentense
