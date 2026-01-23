@@ -13,6 +13,7 @@ hand_,,1+p/100+e/10,3+p/50,
 arrow_,,1+p/160+e/30,8+p/12,p/25
 miasma_,,2+p/150,5+p/80,
 sword_,,2+p/200+e/50,5+p/5,
+SpTelekinesis,,1+p/200+e/50,8+p/100,
 SpMoonArrow,,1+e/140+e/20,8+e/10,p/25
 SpMoonSpear,,1+e/80+e/10,6+e/8,p/25
 SpMeteor,,1+p/150,4+e*3,
