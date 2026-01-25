@@ -62,6 +62,7 @@ id,alias,name_JP,name,type,group,curse,duration,hexPower,negate,defenseAttb,resi
 99,ConVampire,吸血症,Vampirism,,Neutral,,p/10,10,,,,0,,,,"0,1,2,3,4,5,6,7,8,9",debuff,,,#,#,,,,,,,condition,False,,
 101,ConPeaky,ピーキー,Peaky,,Neutral,,p/10,10,,,,0,,,,"0,1,2,3,4,5,6,7,8,9",buff,,,ピーキー,Peaky,,,,,,,condition,False,,
 103,ConAmbush,不意打ち,Ambush,,Neutral,,4,10,,,,0,,,,"0,1,2,3,4,5,6,7,8,9",stance,StTaunt,,不意打ち,Ambush,,,,,,,condition,False,攻撃が必ずクリティカルヒットになる状態。,A condition where critical hits are guaranteed on all attacks.
+104,ConATField,心の壁,Mental Barrier,,Neutral,,p/5,10,,,,0,,,,"0,1,2,3,4,5,6,7,8,9",buff,,,心の壁,Mental Barrier,,,,,,,condition,False,テレキネシスの影響を受けにくくなる状態。,A condition where telekinesis has reduced effect.
 50,ConMiasma,瘴気,Miasma,,Debuff,,p/100+5,50,,,,0,,,,"0,1,2,3,4,5,6,7,8,9",debuff,ActMiasma,debuff,瘴気,Miasma,#1は#2の瘴気に包まれた。,#1 are/is enveloped in the miasma of #2.,,,,,condition,False,継続的に体力を奪う呪い。,Hex that gradually damages the target.
 44,ConGravity,重力,Gravity,,Debuff,,p/20+10,20,negateGravity,,,0,,ConLevitate,random,"0,1,2,3,4,5,6,7,8,9",debuff,SpGravity,"debuff,gravity",重力,Gravity,#1は重力を感じた。,#1 feel(s) the gravity.,#1の体は元通り軽くなった。,#1 no longer feel(s) the gravity.,,,condition,False,重力を付与する呪い。テレポートやノックバックを阻害する。,Hex that applies gravity. It blocks teleportation and knockback effects.
 47,ConSilence,沈黙,Silence,,Debuff,,p/80+5,8,,WIL,,500,,,random,"0,1,2,3,4,5,6,7,8,9",debuff,SpSilence,debuff,沈黙,Silence,#1は分厚い霧に覆われた。,#1 are/is surrounded by hazy mist.,,,,,condition,False,詠唱を阻害する呪い。,Hex that impedes incantations.
