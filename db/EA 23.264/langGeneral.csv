@@ -824,8 +824,8 @@ warn_crime,dialog,本当に法を破る？,Really commit a crime?
 warn_mana,dialog,本当にマナの限界を超えて詠唱する？,Really cast a spell over your limit?
 warn_disassemble,dialog,本当にそれを破壊する？,Really disassemble it?
 warn_slaughter,dialog,"ユニークではない家畜は永久に失われる。
-本当に屠殺する？","Non-unique livestock will be lost.
-Really slaughter?"
+本当に#1を屠殺する？","Non-unique livestock will be lost.
+Really slaughter #1?"
 yes_dontask,dialog,ああ、確認は必要ない,Yes and don't ask again.
 no_dontask,dialog,いや （以降確認をスキップ）,No. (Skip further confirmation)
 yesAndSkip,dialog,ああ （以降確認をスキップ）,Yes. (Skip further confirmation)
