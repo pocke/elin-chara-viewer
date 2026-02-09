@@ -102,7 +102,7 @@ negotiation_darkness1,,,,,,,,0,0,0,|追放者の村に辿り着いた。追放�
 negotiation_darkness2,,,,,,,,0,0,0,|ルーリエ海底神殿からデュポンヌを連れ帰るよう、追放者の長ビチェリンに依頼された。,"|Bicerin, the elder of the exiles, entrusted you with the mission to return Duponne from the Sunken Temple of Lurie.",,,,
 negotiation_darkness3,,,,,,,,0,0,0,|ルーリエ海底神殿の最奥でドラゴンへと成長したデュポンヌを見つけた。このままでは連れ帰ることは難しそうだが、何か手があるだろうか？,"|You found Duponne, now grown into a dragon, deep within the Sunken Temple of Lurie. To bring her back seems beyond reach now, unless there is another way.",,,,
 negotiation_darkness4,,,,,,,,0,0,0,|ビチェリンの依頼を達成した。贖罪の村に戻り、ビチェリンに報告しなければならない。,|The mission given by Bicerin has been fulfilled. Time to return to the Village of Atonement and inform him.,,,,
-negotiation_darkness5,,,,,,,,0,0,0,|贖罪の村での用事を終えた。ケトルの帰りを待とう。（続く）,|You have finished your business in the Village of Atonement. Let's wait for Kettle to return. (To be continued),,,,
+negotiation_darkness5,,,,,,,,0,0,0,|贖罪の村での用事を終えた。ケトルの帰りを待とう。,|You have finished your business in the Village of Atonement. Let's wait for Kettle to return.,,,,
 demitas_spellwriter,魔法書作家,Spellwriter,QuestDialog,demitas,,,,0,0,0,汝に魔術のたしなみはあるか？,Dost thou possess knowledge of the arcane?,,,,
 mokyu2,テスト,test,QuestDialog,corgon,,,debug,0,0,0,もきゅ。,Mokyu.,,,,
 mokyu3,テスト,test,QuestDialog,corgon,,,debug,0,0,0,もきゅ。,Mokyu.,,,,
