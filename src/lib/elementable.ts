@@ -1,5 +1,10 @@
 import { GameVersion } from './db';
-import { Element, elementByAlias } from './models/element';
+import {
+  Element,
+  elementByAlias,
+  PRIMARY_ATTRIBUTE_ALIASES,
+  STATS_ALIASES,
+} from './models/element';
 
 export type ElementWithPower = { element: Element; powers: number[] };
 
@@ -206,8 +211,12 @@ export function filterOthers(elements: ElementWithPower[]): ElementWithPower[] {
       !elementWithPower.element.alias.startsWith('ele') &&
       !elementWithPower.element.alias.startsWith('res') &&
       elementWithPower.element.row.category !== 'skill' &&
-      // FPVはcategory=attributeだが防御ステータスセクションに含まれないため、除外しない
-      (elementWithPower.element.row.category !== 'attribute' ||
-        elementWithPower.element.alias === 'FPV')
+      // 主能力・ステータスは専用セクションで表示するため除外
+      !(PRIMARY_ATTRIBUTE_ALIASES as readonly string[]).includes(
+        elementWithPower.element.alias
+      ) &&
+      !(STATS_ALIASES as readonly string[]).includes(
+        elementWithPower.element.alias
+      )
   );
 }
