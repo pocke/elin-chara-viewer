@@ -33,6 +33,7 @@ _the,_sys,,the
 _recipe,_sys,#1の#2,"#2 of ""#1"""
 _unit,_sys,#1#3の#2,#3 of #2
 _unit2,_sys,#1#2,#1 unit#(s)
+_sealed,_sys,(未開封),(Sealed)
 _factionWide,_sys,(ファクション),(Faction)
 _partyWide,_sys,(パーティー),(Party)
 "_deciphered ",_sys,解読済みの#1,deciphered #1
@@ -352,6 +353,7 @@ _hardness,,硬度: #1,Hardness #1
 HIT,chara,命中,Hit
 hobby,chara,趣味,Hobby
 homeZone,chara,ホーム,Home
+genes,chara,遺伝子,Genes
 innateFeats,chara,先天,Innate Feat
 inventory,chara,所持品,Inventory
 job,chara,クラス,Class
