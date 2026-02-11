@@ -820,7 +820,7 @@ noRide,,,,,,,騎乗していない。,You have no ride.
 shakeHead,,,negative,,,,#1は頭を振った。,#1 shake(s) #his head.
 stagger,,,negative,,,,#1はふらふらした。,#1 stagger(s).
 allyDead,,,ono,,,,あなたは悲しくなった。,You feel sad for a moment.
-reflect_thorne,,,negative,,,,棘が#2に刺さった！,#2 are/is stuck by several thorns.
+reflect_thorne,,,negative,,,,棘が#1に刺さった！,#1 are/is stuck by several thorns.
 reflect_acid,,,negative,,,,酸が#2に飛び散った！,Acid splatter(s) onto #2!
 blanketGround_eleFire,,,,,,,#1が炎から地面のアイテムを守った。,#1 protect(s) an item on the ground from fire.
 blanketInv_eleFire,,,,,,,#1が#2の持ち物を炎から守った。,#1 protect(s) #your2 item from fire.
@@ -1153,3 +1153,6 @@ egghatch,,,negative,,,,コクーンの殻を破り何かが這い出した。,A 
 egglay,,,negative,,,,#1は腹を震わせ粘りつく卵塊を産み落とした。,#1 tremble(s) its abdomen and release(s) a sticky cocoon.
 negateCondition,,,,,,,#1は#2から保護されている。,#1 are/is protected.from #2.
 death_sentense,,,special,,,,死は#1を抱きしめた。,Death embraces #1.
+unseal,,,,,,,#1は#2を開封した。,#1 unseal(s) #2.
+empty,,,,,,,何も入っていなかった…,It is empty...
+dna_loss,,,negative,,,,#1から#2は失われた。,#1 has lost #2.
