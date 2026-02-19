@@ -71,10 +71,12 @@ disassemble_start,act,,,,,,#2で#3の解体を始めた。,#1 start(s) to disass
 harvest_start,act,,,,,,#2で#3の採取を始めた。,#1 start(s) to harvest #3 with #2.
 harvestHand_start,act,,,,,,#1は素手で#2の採取を始めた。,#1 start(s) to harvest #2 with #his hand.
 harvestHand_start_pc,act,,,,,,素手で#2の採取を始めた。,#1 start(s) to harvest #2 with #his hand.
+not_hungry,,,,,,,まだ腹が減っていない。,You are not hungry yet.
 eat_start,act,,,,,,#1は#2を口に運んだ。,#1 start(s) to eat #2.
 eat_end,act,,,,,,#1は#2を食べ終えた。,#1 finish(es) eating #2.
 eat_full,act,,,,,,満腹でもうこれ以上食べられない！,You are too full to eat any more!
 eat_poison,,,negative,,,,これは毒されている！#1はもがき苦しみのたうちまわった！,It's poisoned! #1 writhe(s) in agony!
+slime_start,act,,,,,,#1は#2を体内に取り込んだ。,#1 engulf(s) #2.
 suck_start,act,,,,,,#1は#2の首筋に噛みついた。,#1 seize(s) #your2 neck with a sharp bite.
 fuck_start,act,,,,,,#1は服を脱ぎ始めた。,#1 start(s) to take #his clothes off.
 tame_start,act,,,,,,#1は#2をブラシでこすり始めた。,#1 start(s) to brush #2.
