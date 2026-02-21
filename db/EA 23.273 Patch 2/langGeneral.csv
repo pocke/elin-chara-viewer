@@ -840,6 +840,7 @@ daAccept,drama,承諾する,I accept.
 daMakeHome,drama,この土地に移住して欲しい,Migrate to this land.
 daShutup,drama,黙らせる,Shut up.
 daShutup2,drama,喋らせる,You can speak now.
+daMarry,drama,結婚してくれ！  <size=14>(#1)</size>,Marry me!  <size=14>(#1)</size>
 daSleepBeside,drama,添い寝して欲しい,I want you to sleep beside me.
 daSleepBeside2,drama,添い寝をやめたい,I don't want you to sleep beside me.
 daDisableLoyal,drama,仲間をかばわないで欲しい,I don’t want you to protect your comrades.
@@ -1211,6 +1212,7 @@ isDecoSeed,info,それは品種改良できない。,It cannot be improved throu
 isDangerLv,info,それは危険度#1階のネフィアを明らかにする（上限 #2)。,It reveals level #1 Nefia. (Max #2)
 isDyed,info,それは#1で染色されている。,It is dyed with #1 dye.
 isNPCProperty,info,それはあなたのものではない。,It is not your property.
+isAttuned,info,それは#1に帰属する。,It is attuned to #1.
 isGifted,info,それはあなたの贈り物だ。,It is your gift.
 isThrowWeapon,info,それは投擲に適している。,It is suitable for throwing.
 isEleAttack,info,それは#1属性の追加ダメージを与える。,It deals additional #1 damage.
@@ -2434,8 +2436,8 @@ sys_uploadUploading,system,まだアップロード中・・・,Still uploading.
 sys_uploadSuccess,system,アップロードに成功した！,Uploaded successfully.
 sys_uploadFail,system,アップロードに失敗した・・・,Upload failed...
 sys_acv,system,"新しい実績が解除された。
-「#1」","Unlocked a new achievement.
-""#1"""
+<i>#1</i>","Unlocked a new achievement.
+<i>#1</i>"
 news_vote,news,世論調査,Public Opinion
 news_weather,news,天気予報,Weather
 news_fortune,news,今日の幸運の女神,Today's Goddess of Luck
@@ -2541,7 +2543,8 @@ altEnc,info,【#2】#3,【#2】#3
 ingOption,,(任意),(Extra)
 ingColor,,(色),(Color)
 hintLearnAbility,,「#1」習得,"Learn ""#1"""
-textBenefit,,信仰を深めることで、#1へのボーナス修正を受ける。," Deepening your faith grants you bonus modifiers to the following attributes: #1"
+textBenefit,,信仰を深めることで、#1へのボーナス修正を受ける。,"Deepening your faith grants you the following bonus:
+#1"
 seed_rot,,#1は#2から#3を取り出した。,#1 extract(s) #3 from #2.
 work_produce,,#1を生成 (#2%),Produce #1 (#2%)
 infoWork,,仕事場: #1,Workplace: #1
@@ -2935,3 +2938,7 @@ contype_Wrath,,怒り,Wrath
 contype_Buff,,加護,Blessing
 contype_Stance,,スタンス,Stance
 contype_Sentense,,宣告,Sentence
+net_marriage,net,#1は#2で#3に永遠の愛を誓った。,#1 vowed eternal love to #3 in #2.
+history_marriage,,婚歴,Marriage History
+item_marriage,,"#1 (#2年#3月 #4) ",#1 (#2/#3 in #4)
+already_wed,,挙式済み,Already Wed
