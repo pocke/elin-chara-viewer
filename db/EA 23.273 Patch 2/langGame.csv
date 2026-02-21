@@ -1158,3 +1158,4 @@ death_sentense,,,special,,,,死は#1を抱きしめた。,Death embraces #1.
 unseal,,,,,,,#1は#2を開封した。,#1 unseal(s) #2.
 empty,,,,,,,何も入っていなかった…,It is empty...
 dna_loss,,,negative,,,,#1から#2は失われた。,#1 has lost #2.
+attuned,,,special,,,,#1は#2に属化された。,#1 are/is now attuned to #2.
