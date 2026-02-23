@@ -841,6 +841,7 @@ daMakeHome,drama,この土地に移住して欲しい,Migrate to this land.
 daShutup,drama,黙らせる,Shut up.
 daShutup2,drama,喋らせる,You can speak now.
 daMarry,drama,結婚してくれ！  <size=14>(#1)</size>,Marry me!  <size=14>(#1)</size>
+daWed,drama,そろそろ式をあげようか？,Shall we have our weddin?
 daSleepBeside,drama,添い寝して欲しい,I want you to sleep beside me.
 daSleepBeside2,drama,添い寝をやめたい,I don't want you to sleep beside me.
 daDisableLoyal,drama,仲間をかばわないで欲しい,I don’t want you to protect your comrades.
@@ -2341,7 +2342,7 @@ loadWidget,,ウィジェットを読み込む,Load Widgets
 width,,幅,Width
 quickInvest,,金ならいくらでも出そう（連続投資）,Just take my money. (Quick Invest)
 yes,,ああ,Yes.
-yes2,,はじめよう,Let's do it.
+yes2,,はじめよう,Let us begin.
 youAndCompanion,,あなたとその仲間,you and your companions
 zoneLevel,,#1階,#1F
 zoneLevelB,,地下#1階,B#1F
