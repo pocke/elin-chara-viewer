@@ -567,9 +567,9 @@ enc_curse,,,bad,,,,#1は輝きを失った。,#1 become(s) dull.
 faith,,,nice,,,,#1は#2の暖かい眼差しを感じた。,#1 feel(s) as if #2 is watching #him.
 faith_bless,,,positive,,,,空から三つ葉のクローバーがふってきた。,A three-leaved falls from the sky.
 faith_curse,,,negative,,,,#1は#2の怒りを感じた。,#1 feel(s) the anger of #2.
-lighten,,,nice,,,,#2は羽が生えたように軽くなった。,#2 becomes light as a feather.
-reconstruct,,,nice,,,,#2は再構築された。,#2 are/is reconstructed.
-lighten_curse,,,bad,,,,#2はずしりと重くなった。,#2 becomes heavy.
+lighten,,,nice,,,,#1は羽が生えたように軽くなった。,#1 become(s) light as a feather.
+reconstruct,,,nice,,,,#1は再構築された。,#1 are/is reconstructed.
+lighten_curse,,,bad,,,,#1はずしりと重くなった。,#1 become(s) heavy.
 levitating,,,ono,,,,*ふわ*,*float*
 gainAlly,,,save,,,,援軍がやってきた！,Your reinforcement is on the way!
 use_mahjong,,,ono,,,,#1は牌を切った。,#1 discard(s) a tile.
@@ -1159,3 +1159,4 @@ unseal,,,,,,,#1は#2を開封した。,#1 unseal(s) #2.
 empty,,,,,,,何も入っていなかった…,It is empty...
 dna_loss,,,negative,,,,#1から#2は失われた。,#1 has lost #2.
 attuned,,,special,,,,#1は#2に属化された。,#1 are/is now attuned to #2.
+tender_hug,,,ono,,,,#1はそっと#2を抱きしめた。,"#1 hold(s) #2 close, ever so gently."

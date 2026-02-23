@@ -384,6 +384,7 @@ casino_clerk,323,*r,*r,カジノの受付嬢,casino clerk,,0,,chara,1911,,0,,,22
 guild_clerk_mage,240,*r,*r,魔術師ギルドの受付嬢,Mages guild clerk,,0,,chara,1913,,0,,,22,0,4,Friend,,,Clerk_Mage,norland,predator,,,,"ActInsult,SpInvisibility,SpGravity,SpTeleport",,,,,chara,,,,"readBook,buffMage",,,f,,,,,,,,
 citizen_casino,291,*r,*r,バニー,bunny,,0,,chara,"2104,2105,2106,2107",,0,,,22,100,0,Friend,,neutral,Citizen,yerles,gunner,,,,,,,,,chara,,resident,,,,,,,,,bunny,,,,
 priest,558,*r,*r,プリースト,priest,,0,,chara,"700,701",,0,,,28,20,0,Friend,,neutral,Healer,norland,warmage,,,,"SpHealHeavy/60/pt,SpHolyVeil/60/pt,bolt_Magic",,,,,chara,,resident,,buffHealer,,,,,Nurse,,healer,,,,
+priest2,561,*r,*r,プリースト,priest,,0,,chara,700,,0,,,35,0,0,Friend,,neutral,UniqueMonster,norland,warmage,,,,"SpHealHeavy/60/pt,SpHolyVeil/60/pt,bolt_Magic",,,,,chara,,resident,,buffHealer,,,m,,Nurse,,healer,,,,
 healer,88,*r,*r,癒し手,healer,,0,,chara,"926,927",,0,,,22,100,0,Friend,,neutral,Healer,norland,priest,,,,"SpHealHeavy/60,SpHolyVeil/60/pt",,featHealer/1,,,chara,,resident,,buffHealer,,,,,Nurse,,healer,,,,
 asura,7,阿修羅,asura,,,,0,,chara_L,14,,0,,,22,100,0,,,,,asura,warrior,,,,,,,,,chara,,,,,,,,,,,,,,,
 mitra,430,ミトラ,mitra,,,,0,,chara_L,19,,0,,,32,100,0,,,,,asura,warrior,,,,,,,,,chara,,,,,,,,,,,,,,,

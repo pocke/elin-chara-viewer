@@ -327,3 +327,4 @@ Before it's too late",QuestEscort,,,random,"escort,needDestZone",200,100,0,"と�
 You know what I'm talking about, don't you? Yes, my dearest is soon to die of an illness. I want to take her to the memorable city of #3 one last time! Please take on this task for #1.
 Disaster! My father has been stricken with a severe poison! I beg you, hurry and take him to the famed doctor living in #3. I have prepared my entire fortune, #1, as a reward!",,,,
 track_craft,クラフトヘルパー,Craft Helper,QuestTrackCraft,,,,,0,0,0,クラフト素材のトラック。,Track craft ingredients.,,,,
+wedding,結婚式,Wedding Ceremony,QuestWedding,,,,,0,0,0,好き{だ}。素晴らしい式をあげる{のだ}。,I love you. Let’s cerebrate with an unforgettable wedding.,,,,
