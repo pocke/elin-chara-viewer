@@ -1002,6 +1002,7 @@ bounty,,,nice,,,,賞金首を倒して#2オレンの懸賞金を受け取った�
 subdue_complete,,,nice,,,,付近の魔物を一掃した！,You have wiped out the nearby monsters!
 party_end,,,,,,,パーティーが終了した。あなたの演奏は#1得点を記録した。,"The party has ended. Your performance scored #1 music points. "
 party_end2,,,,,,,合計で#1オレンを獲得した。,"You earn a total of #1 orens. "
+party_end3,,,,,,,祝宴は終わりを告げた。,The celebration came to an end.
 harvest_end,,,,,,,収穫が終わった。あなたは合計#1の重さの作物を納入した。,"The harvest has ended. You delivered crops weighing a total of #1. "
 farm_chest,,,nice,,,,重さ#2の#1を納入した。,You deliver #1 weighing #2.
 perfume,,,,,,,#1はいい匂いに包まれた。,#1 are/is wrapped in a nice fragrance.
@@ -1160,3 +1161,6 @@ empty,,,,,,,何も入っていなかった…,It is empty...
 dna_loss,,,negative,,,,#1から#2は失われた。,#1 has lost #2.
 attuned,,,special,,,,#1は#2に属化された。,#1 are/is now attuned to #2.
 tender_hug,,,ono,,,,#1はそっと#2を抱きしめた。,"#1 hold(s) #2 close, ever so gently."
+divorce,,,negative,,,,#1は#2と離婚した。,#1 divorce #2.
+married,,,special,,,,#1と#2は結婚した！,#1 and #2 are now married!
+chu,,,ono,,,,*チュッ*,*kiss*

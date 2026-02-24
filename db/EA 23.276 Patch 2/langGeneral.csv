@@ -102,6 +102,7 @@ actRotateWall,act,ブロックの向きを変更,Rotate block
 actSetLight,act,光の色を変える,Change light color
 actClearLight,act,光の色を元に戻す,Clear light color
 actDisarm,act,罠解除,Disarm trap
+actDivorce,act,離婚する,Divorce
 actWrench,act,改造する,Upgrade
 actEco,act,貼る,Stick
 actBuildMode,act,建設モード,Build Mode
@@ -772,6 +773,7 @@ dialogCancelAct,dialog,行動を中断する？,Cancel current action?
 dialogChangeLang,dialog,"言語の変更を適用するには
 ゲームを再起動してください。","Please restart the game
 to apply the language."
+dialogDivorce,dialog,本当に離婚する？,Really divorce?
 dialogDeleteGame,dialog,本当に世界を削除する？,Do you wish to delete the world?
 dialogDeleteRecruit,dialog,"本当にこの移住希望者の
 個人情報を消す？","Really remove the personal information
@@ -841,7 +843,7 @@ daMakeHome,drama,この土地に移住して欲しい,Migrate to this land.
 daShutup,drama,黙らせる,Shut up.
 daShutup2,drama,喋らせる,You can speak now.
 daMarry,drama,結婚してくれ！  <size=14>(#1)</size>,Marry me!  <size=14>(#1)</size>
-daWed,drama,そろそろ式をあげようか？,Shall we have our weddin?
+daWed,drama,そろそろ式をあげようか？,Shall we have our wedding?
 daSleepBeside,drama,添い寝して欲しい,I want you to sleep beside me.
 daSleepBeside2,drama,添い寝をやめたい,I don't want you to sleep beside me.
 daDisableLoyal,drama,仲間をかばわないで欲しい,I don’t want you to protect your comrades.
@@ -1214,6 +1216,7 @@ isDangerLv,info,それは危険度#1階のネフィアを明らかにする（�
 isDyed,info,それは#1で染色されている。,It is dyed with #1 dye.
 isNPCProperty,info,それはあなたのものではない。,It is not your property.
 isAttuned,info,それは#1に帰属する。,It is attuned to #1.
+isPartyFood,info,それはパーティー料理だ。,It is party food.
 isGifted,info,それはあなたの贈り物だ。,It is your gift.
 isThrowWeapon,info,それは投擲に適している。,It is suitable for throwing.
 isEleAttack,info,それは#1属性の追加ダメージを与える。,It deals additional #1 damage.
@@ -1561,6 +1564,7 @@ progressSupply,quest,"#1の納入
 progressDefenseGame,quest,撤退可能になるまで生存,Survive
 progressHarvest,quest,作物の納入: #1 / #2,Deliver Crops: #1 of #2
 progressMusic,quest,演奏スコア: #1 / #2,Music Score: #1 of #2
+progressWedding,quest,この幸運なる日を祝おう！,Let’s celebrate this lucky day!
 rank_contribution,ranking,貢献度ランキング,Contribution Ranking
 rank_disease,ranking,ｴｰﾃﾙ病＆突然変異ランキング,Degenerate Ranking
 rank_food,ranking,大食いランキング,Gluttony Ranking
@@ -2625,6 +2629,7 @@ defenseWave,widgetDate,"  <color=#FFFF88>敵陣第#1波 危険度#3</color> (#2�
 defenseRetreat,widgetDate," <color=#88FF88>撤退可能！</color>"," <color=#88FF88>Retreat Possible!</color>"
 defenseRetreating,widgetDate," <color=#AAFFFF>撤退中！</color>"," <color=#FFFF88>Retreating!</color>"
 defenseAlly,widgetDate," <color=#AACCFF>援軍要請可能</color>"," <color=#AAAAFF>Reinforcement Available</color>"
+eventWedding,widgetDate,"  <color=#A5FFEF>参列者: #2　#1</color>","  <color=#A5FFEF>Attendees: #2　#1</color>"
 eventMusic,widgetDate,"  <color=#A5FFEF>得点: #2 / #3　#1</color>","  <color=#A5FFEF>Score: #2 / #3　#1</color>"
 eventHarvest,widgetDate,"  <color=#A5FFEF>納入した作物: #2 / #3　#1</color>","  <color=#A5FFEF>Delivered: #2 / #3　#1</color>"
 end_soon,widgetDate,*終了間近*,*Ending Soon*
