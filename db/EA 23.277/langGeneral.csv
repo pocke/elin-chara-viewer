@@ -528,6 +528,7 @@ focusOnCombat,config,交戦開始時にフォーカスする,Focus on combat
 focusPause,config,ﾌｫｰｶｽ & ﾎﾟｰｽﾞ,Focus & Pause
 fogBounds,config,マップの境界を塗りつぶす,Fog map bounds
 font,config,フォント,Font
+fontSize,config,フォントサイズ,Font Size
 fontBalloon,config,吹き出し,Balloon
 fontChatbox,config,チャットボックス,ChatBox
 fontDialog,config,会話ダイアログ,Conversation
@@ -2242,6 +2243,7 @@ slopeMod,,傾斜Mod(デフォルト50),Slope Mod(Default 50)
 SnapFreepos,,フリー配置スナップ,Snap
 snowed,,積雪,Snowed
 space,,スペース,Space
+spacing,,余白,Spacing
 spell,,魔法,Spell
 Spot,,スポット,Spot
 stable,,精神的安定,Mental Stability
