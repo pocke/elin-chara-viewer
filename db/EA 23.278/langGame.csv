@@ -57,6 +57,8 @@ You look up at the sky.
 Someone must have cast an invisibility spell on the bait.
 Fish are good at hide and seek!
 Oh, the line broke!"
+fish_ehe,,,ono,,,,…と思ったが、魚はどこかに消えてしまったようだ。,Or so it seems. The fish somehow vanishes without a trace.
+fish_ehe2,,,save,,,,"みゅ… ","Mew... "
 fish_get,,,nice,,,,#1は#2を釣り上げた！,#1 catch(es) #2!
 fish_start,act,,,,,,#2で釣りを始めた。,#1 start(s) to fish with #2.
 fish_start2,act,,,,,,#1は釣りを始めた。,#1 start(s) to fish.
