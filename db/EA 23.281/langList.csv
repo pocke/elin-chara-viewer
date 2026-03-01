@@ -1,8 +1,8 @@
 id,filter,text_JP,text
 _articlesToRemove,,,"a ,an "
 monthEng,,"January, February, March, April, May, June, July, August, September, October, November, December","January, February, March, April, May, June, July, August, September, October, November, December"
-month,,"春,夏,秋,冬","Spring,Summer,Autumn,Winter"
-monthShort,,"春,夏,秋,冬","Spr,Sum,Aut,Win"
+name_month,,"1月,2月,3月,4月,5月,6月,7月,8月,9月,10月,11月,12月","January,February,March,April,May,June,July,August,September,October,November,December"
+name_season,,"春,夏,秋,冬","Spring,Summer,Autumn,Winter"
 genders,,"???,女性,男性","???,Female,Male"
 genders_animal,,"中性,雌,雄","N.,F.,M."
 gendersDrama,,"女,女,男","girl,girl,boy"

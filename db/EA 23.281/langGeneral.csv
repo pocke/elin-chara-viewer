@@ -10,6 +10,7 @@ _aka3,_sys,#1#2,#1 #2
 _and,_sys,#1と#2,#1 and #2
 _book,_sys,「#2」という題名の#1,"#1 titled ""#2"""
 _comma,_sys,、,","
+_fakeblock,_sys,#1*,#1*
 _lostproperty,_sys,落とし物の#1,lost #1
 _jammed,_sys,故障した#1,jammed #1
 _cast_confuse,,混乱しながら," in confusion"
@@ -28,11 +29,12 @@ _of4,_sys,#1#2,#2 #1
 _parchment,_sys,「#2」と書かれた#1,"#1 titled ""#2"""
 _period,_sys,。,.
 _shared,_sys,共有#1,shared #1
-_tape,_sys,#2 No.#1,#2 No.#1
+_tape,_sys,"#2 No.#1 ""#3""","#2 No.#1 ""#3"""
 _the,_sys,,the
 _recipe,_sys,#1の#2,"#2 of ""#1"""
 _unit,_sys,#1#3の#2,#3 of #2
 _unit2,_sys,#1#2,#1 unit#(s)
+_sealed,_sys,(未開封),(Sealed)
 _factionWide,_sys,(ファクション),(Faction)
 _partyWide,_sys,(パーティー),(Party)
 "_deciphered ",_sys,解読済みの#1,deciphered #1
@@ -100,6 +102,7 @@ actRotateWall,act,ブロックの向きを変更,Rotate block
 actSetLight,act,光の色を変える,Change light color
 actClearLight,act,光の色を元に戻す,Clear light color
 actDisarm,act,罠解除,Disarm trap
+actDivorce,act,離婚する,Divorce
 actWrench,act,改造する,Upgrade
 actEco,act,貼る,Stick
 actBuildMode,act,建設モード,Build Mode
@@ -352,6 +355,7 @@ _hardness,,硬度: #1,Hardness #1
 HIT,chara,命中,Hit
 hobby,chara,趣味,Hobby
 homeZone,chara,ホーム,Home
+genes,chara,遺伝子,Genes
 innateFeats,chara,先天,Innate Feat
 inventory,chara,所持品,Inventory
 job,chara,クラス,Class
@@ -524,6 +528,7 @@ focusOnCombat,config,交戦開始時にフォーカスする,Focus on combat
 focusPause,config,ﾌｫｰｶｽ & ﾎﾟｰｽﾞ,Focus & Pause
 fogBounds,config,マップの境界を塗りつぶす,Fog map bounds
 font,config,フォント,Font
+fontSize,config,フォントサイズ,Font Size
 fontBalloon,config,吹き出し,Balloon
 fontChatbox,config,チャットボックス,ChatBox
 fontDialog,config,会話ダイアログ,Conversation
@@ -769,6 +774,7 @@ dialogCancelAct,dialog,行動を中断する？,Cancel current action?
 dialogChangeLang,dialog,"言語の変更を適用するには
 ゲームを再起動してください。","Please restart the game
 to apply the language."
+dialogDivorce,dialog,本当に離婚する？,Really divorce?
 dialogDeleteGame,dialog,本当に世界を削除する？,Do you wish to delete the world?
 dialogDeleteRecruit,dialog,"本当にこの移住希望者の
 個人情報を消す？","Really remove the personal information
@@ -837,6 +843,8 @@ daAccept,drama,承諾する,I accept.
 daMakeHome,drama,この土地に移住して欲しい,Migrate to this land.
 daShutup,drama,黙らせる,Shut up.
 daShutup2,drama,喋らせる,You can speak now.
+daMarry,drama,結婚してくれ！  <size=14>(#1)</size>,Marry me!  <size=14>(#1)</size>
+daWed,drama,そろそろ式をあげようか？,Shall we have our wedding?
 daSleepBeside,drama,添い寝して欲しい,I want you to sleep beside me.
 daSleepBeside2,drama,添い寝をやめたい,I don't want you to sleep beside me.
 daDisableLoyal,drama,仲間をかばわないで欲しい,I don’t want you to protect your comrades.
@@ -1208,6 +1216,8 @@ isDecoSeed,info,それは品種改良できない。,It cannot be improved throu
 isDangerLv,info,それは危険度#1階のネフィアを明らかにする（上限 #2)。,It reveals level #1 Nefia. (Max #2)
 isDyed,info,それは#1で染色されている。,It is dyed with #1 dye.
 isNPCProperty,info,それはあなたのものではない。,It is not your property.
+isAttuned,info,それは#1に帰属する。,It is attuned to #1.
+isPartyFood,info,それはパーティー料理だ。,It is party food.
 isGifted,info,それはあなたの贈り物だ。,It is your gift.
 isThrowWeapon,info,それは投擲に適している。,It is suitable for throwing.
 isEleAttack,info,それは#1属性の追加ダメージを与える。,It deals additional #1 damage.
@@ -1248,6 +1258,7 @@ isUnidentified2,info,(上位の鑑定が必要だ),(Higher identification is req
 isPreventDeathPanalty,info,それは稀にあなたを死の懲罰から守る。,It sometimes defends you from death penalty.
 isGraveSkin,info,それは稀にあなたの墓を変化させる。,It somtimes changes your grave.
 isCraftedAt,info,それは#1で製作できる。,It can be crafted at #1.
+isCollected,info,それは既に収集済みだ。,It is already collected.
 mentalOk,info,精神に特に異常はない。,Mental seems ok.
 rotten,info,腐った,"rotten "
 rotting,info,腐りかけた,"stale "
@@ -1554,6 +1565,7 @@ progressSupply,quest,"#1の納入
 progressDefenseGame,quest,撤退可能になるまで生存,Survive
 progressHarvest,quest,作物の納入: #1 / #2,Deliver Crops: #1 of #2
 progressMusic,quest,演奏スコア: #1 / #2,Music Score: #1 of #2
+progressWedding,quest,この幸運なる日を祝おう！,Let’s celebrate this lucky day!
 rank_contribution,ranking,貢献度ランキング,Contribution Ranking
 rank_disease,ranking,ｴｰﾃﾙ病＆突然変異ランキング,Degenerate Ranking
 rank_food,ranking,大食いランキング,Gluttony Ranking
@@ -2231,6 +2243,7 @@ slopeMod,,傾斜Mod(デフォルト50),Slope Mod(Default 50)
 SnapFreepos,,フリー配置スナップ,Snap
 snowed,,積雪,Snowed
 space,,スペース,Space
+spacing,,余白,Spacing
 spell,,魔法,Spell
 Spot,,スポット,Spot
 stable,,精神的安定,Mental Stability
@@ -2335,7 +2348,7 @@ loadWidget,,ウィジェットを読み込む,Load Widgets
 width,,幅,Width
 quickInvest,,金ならいくらでも出そう（連続投資）,Just take my money. (Quick Invest)
 yes,,ああ,Yes.
-yes2,,はじめよう,Let's do it.
+yes2,,はじめよう,Let us begin.
 youAndCompanion,,あなたとその仲間,you and your companions
 zoneLevel,,#1階,#1F
 zoneLevelB,,地下#1階,B#1F
@@ -2429,11 +2442,9 @@ sys_uploadStart,system,アップロードを開始・・・,Started uploading...
 sys_uploadUploading,system,まだアップロード中・・・,Still uploading...
 sys_uploadSuccess,system,アップロードに成功した！,Uploaded successfully.
 sys_uploadFail,system,アップロードに失敗した・・・,Upload failed...
-sys_acv,system,"新しい実績を解除した。
-「#1」","Unlocked a new achievement.
-""#1"""
-acv_test,,テストだよ！,It’s a test!
-acv_mew,,うみみゃぁ,Mew mew mew!
+sys_acv,system,"新しい実績が解除された。
+<i>#1</i>","Unlocked a new achievement.
+<i>#1</i>"
 news_vote,news,世論調査,Public Opinion
 news_weather,news,天気予報,Weather
 news_fortune,news,今日の幸運の女神,Today's Goddess of Luck
@@ -2539,7 +2550,8 @@ altEnc,info,【#2】#3,【#2】#3
 ingOption,,(任意),(Extra)
 ingColor,,(色),(Color)
 hintLearnAbility,,「#1」習得,"Learn ""#1"""
-textBenefit,,信仰を深めることで、#1へのボーナス修正を受ける。," Deepening your faith grants you bonus modifiers to the following attributes: #1"
+textBenefit,,信仰を深めることで、#1へのボーナス修正を受ける。,"Deepening your faith grants you the following bonus:
+#1"
 seed_rot,,#1は#2から#3を取り出した。,#1 extract(s) #3 from #2.
 work_produce,,#1を生成 (#2%),Produce #1 (#2%)
 infoWork,,仕事場: #1,Workplace: #1
@@ -2608,6 +2620,7 @@ socket,,(改造: #1 Lv.#2),(Mod: #1 Lv.#2)
 zako,,"ざこ,ざぁこざぁこ♪,ざ～こ,ざこざこざこざこ,ざこっ♪,ざっこ","Weakling.,Weaaakling.,Weaklingling♪,Weaakling♪,Weakliling!"
 mokyu,,"もきゅっ♪,もきゅ,マ…マァ…,ママァ…,モキュ,もきゅ！","Mokyu.,Mokyuu.,Ma...maa...,Mamaa...,Mokyu!"
 babu,,"バブー！,ばぶばぶ,ばぶ…,ばぶー,バブバブッ,ばぶ？","Baa-boo!,Ba-ba-baa,Ba-boo...,Baa-boo,Babu,Ba-ba-boo!,Babu?"
+mimu,,"ぴ…,……ぴ,…ピ……,ぴぴ………,……ぴぽ","Pi…,……pi,…Pi……,pipi………,……pipo"
 gameWait,config,ウエイト設定,Game Wait
 gameWait_duration,config,ウエイト時間,Wait Time
 waitOnMelee,config,近接攻撃時にウエイト,Wait On Melee Attack
@@ -2618,6 +2631,7 @@ defenseWave,widgetDate,"  <color=#FFFF88>敵陣第#1波 危険度#3</color> (#2�
 defenseRetreat,widgetDate," <color=#88FF88>撤退可能！</color>"," <color=#88FF88>Retreat Possible!</color>"
 defenseRetreating,widgetDate," <color=#AAFFFF>撤退中！</color>"," <color=#FFFF88>Retreating!</color>"
 defenseAlly,widgetDate," <color=#AACCFF>援軍要請可能</color>"," <color=#AAAAFF>Reinforcement Available</color>"
+eventWedding,widgetDate,"  <color=#A5FFEF>参列者: #2　#1</color>","  <color=#A5FFEF>Attendees: #2　#1</color>"
 eventMusic,widgetDate,"  <color=#A5FFEF>得点: #2 / #3　#1</color>","  <color=#A5FFEF>Score: #2 / #3　#1</color>"
 eventHarvest,widgetDate,"  <color=#A5FFEF>納入した作物: #2 / #3　#1</color>","  <color=#A5FFEF>Delivered: #2 / #3　#1</color>"
 end_soon,widgetDate,*終了間近*,*Ending Soon*
@@ -2932,3 +2946,7 @@ contype_Wrath,,怒り,Wrath
 contype_Buff,,加護,Blessing
 contype_Stance,,スタンス,Stance
 contype_Sentense,,宣告,Sentence
+net_marriage,net,#1は#2で#3に永遠の愛を誓った。,#1 vowed eternal love to #3 in #2.
+history_marriage,,婚歴,Marriage History
+item_marriage,,"#1 (#2年#3月 #4) ",#1 (#2/#3 in #4)
+already_wed,,挙式済み,Already Wed

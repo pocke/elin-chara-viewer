@@ -102,7 +102,7 @@ negotiation_darkness1,,,,,,,,0,0,0,|追放者の村に辿り着いた。追放�
 negotiation_darkness2,,,,,,,,0,0,0,|ルーリエ海底神殿からデュポンヌを連れ帰るよう、追放者の長ビチェリンに依頼された。,"|Bicerin, the elder of the exiles, entrusted you with the mission to return Duponne from the Sunken Temple of Lurie.",,,,
 negotiation_darkness3,,,,,,,,0,0,0,|ルーリエ海底神殿の最奥でドラゴンへと成長したデュポンヌを見つけた。このままでは連れ帰ることは難しそうだが、何か手があるだろうか？,"|You found Duponne, now grown into a dragon, deep within the Sunken Temple of Lurie. To bring her back seems beyond reach now, unless there is another way.",,,,
 negotiation_darkness4,,,,,,,,0,0,0,|ビチェリンの依頼を達成した。贖罪の村に戻り、ビチェリンに報告しなければならない。,|The mission given by Bicerin has been fulfilled. Time to return to the Village of Atonement and inform him.,,,,
-negotiation_darkness5,,,,,,,,0,0,0,|贖罪の村での用事を終えた。ケトルの帰りを待とう。（続く）,|You have finished your business in the Village of Atonement. Let's wait for Kettle to return. (To be continued),,,,
+negotiation_darkness5,,,,,,,,0,0,0,|贖罪の村での用事を終えた。ケトルの帰りを待とう。,|You have finished your business in the Village of Atonement. Let's wait for Kettle to return.,,,,
 demitas_spellwriter,魔法書作家,Spellwriter,QuestDialog,demitas,,,,0,0,0,汝に魔術のたしなみはあるか？,Dost thou possess knowledge of the arcane?,,,,
 mokyu2,テスト,test,QuestDialog,corgon,,,debug,0,0,0,もきゅ。,Mokyu.,,,,
 mokyu3,テスト,test,QuestDialog,corgon,,,debug,0,0,0,もきゅ。,Mokyu.,,,,
@@ -327,3 +327,4 @@ Before it's too late",QuestEscort,,,random,"escort,needDestZone",200,100,0,"と�
 You know what I'm talking about, don't you? Yes, my dearest is soon to die of an illness. I want to take her to the memorable city of #3 one last time! Please take on this task for #1.
 Disaster! My father has been stricken with a severe poison! I beg you, hurry and take him to the famed doctor living in #3. I have prepared my entire fortune, #1, as a reward!",,,,
 track_craft,クラフトヘルパー,Craft Helper,QuestTrackCraft,,,,,0,0,0,クラフト素材のトラック。,Track craft ingredients.,,,,
+wedding,結婚式,Wedding Ceremony,QuestWedding,,,,,0,0,0,好き{だ}。素晴らしい式をあげる{のだ}。,I love you. Let’s cerebrate with an unforgettable wedding.,,,,
