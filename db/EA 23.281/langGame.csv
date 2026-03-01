@@ -57,6 +57,9 @@ You look up at the sky.
 Someone must have cast an invisibility spell on the bait.
 Fish are good at hide and seek!
 Oh, the line broke!"
+fish_ehe,,,ono,,,,…と思ったが、魚はどこかに消えてしまったようだ。,Or so it seems. The fish somehow vanishes without a trace.
+fish_ehe2,,,save,,,,"みゅ… ","Mew... "
+fish_ehe3,,,nice,,,,あなたは小さな幸運の気配を感じ取った。,You sense a faint sign of good fortune.
 fish_get,,,nice,,,,#1は#2を釣り上げた！,#1 catch(es) #2!
 fish_start,act,,,,,,#2で釣りを始めた。,#1 start(s) to fish with #2.
 fish_start2,act,,,,,,#1は釣りを始めた。,#1 start(s) to fish.
@@ -71,10 +74,12 @@ disassemble_start,act,,,,,,#2で#3の解体を始めた。,#1 start(s) to disass
 harvest_start,act,,,,,,#2で#3の採取を始めた。,#1 start(s) to harvest #3 with #2.
 harvestHand_start,act,,,,,,#1は素手で#2の採取を始めた。,#1 start(s) to harvest #2 with #his hand.
 harvestHand_start_pc,act,,,,,,素手で#2の採取を始めた。,#1 start(s) to harvest #2 with #his hand.
+not_hungry,,,,,,,まだ腹が減っていない。,You are not hungry yet.
 eat_start,act,,,,,,#1は#2を口に運んだ。,#1 start(s) to eat #2.
 eat_end,act,,,,,,#1は#2を食べ終えた。,#1 finish(es) eating #2.
 eat_full,act,,,,,,満腹でもうこれ以上食べられない！,You are too full to eat any more!
 eat_poison,,,negative,,,,これは毒されている！#1はもがき苦しみのたうちまわった！,It's poisoned! #1 writhe(s) in agony!
+slime_start,act,,,,,,#1は#2を体内に取り込んだ。,#1 engulf(s) #2.
 suck_start,act,,,,,,#1は#2の首筋に噛みついた。,#1 seize(s) #your2 neck with a sharp bite.
 fuck_start,act,,,,,,#1は服を脱ぎ始めた。,#1 start(s) to take #his clothes off.
 tame_start,act,,,,,,#1は#2をブラシでこすり始めた。,#1 start(s) to brush #2.
@@ -565,9 +570,9 @@ enc_curse,,,bad,,,,#1は輝きを失った。,#1 become(s) dull.
 faith,,,nice,,,,#1は#2の暖かい眼差しを感じた。,#1 feel(s) as if #2 is watching #him.
 faith_bless,,,positive,,,,空から三つ葉のクローバーがふってきた。,A three-leaved falls from the sky.
 faith_curse,,,negative,,,,#1は#2の怒りを感じた。,#1 feel(s) the anger of #2.
-lighten,,,nice,,,,#2は羽が生えたように軽くなった。,#2 becomes light as a feather.
-reconstruct,,,nice,,,,#2は再構築された。,#2 are/is reconstructed.
-lighten_curse,,,bad,,,,#2はずしりと重くなった。,#2 becomes heavy.
+lighten,,,nice,,,,#1は羽が生えたように軽くなった。,#1 become(s) light as a feather.
+reconstruct,,,nice,,,,#1は再構築された。,#1 are/is reconstructed.
+lighten_curse,,,bad,,,,#1はずしりと重くなった。,#1 become(s) heavy.
 levitating,,,ono,,,,*ふわ*,*float*
 gainAlly,,,save,,,,援軍がやってきた！,Your reinforcement is on the way!
 use_mahjong,,,ono,,,,#1は牌を切った。,#1 discard(s) a tile.
@@ -820,7 +825,7 @@ noRide,,,,,,,騎乗していない。,You have no ride.
 shakeHead,,,negative,,,,#1は頭を振った。,#1 shake(s) #his head.
 stagger,,,negative,,,,#1はふらふらした。,#1 stagger(s).
 allyDead,,,ono,,,,あなたは悲しくなった。,You feel sad for a moment.
-reflect_thorne,,,negative,,,,棘が#2に刺さった！,#2 are/is stuck by several thorns.
+reflect_thorne,,,negative,,,,棘が#1に刺さった！,#1 are/is stuck by several thorns.
 reflect_acid,,,negative,,,,酸が#2に飛び散った！,Acid splatter(s) onto #2!
 blanketGround_eleFire,,,,,,,#1が炎から地面のアイテムを守った。,#1 protect(s) an item on the ground from fire.
 blanketInv_eleFire,,,,,,,#1が#2の持ち物を炎から守った。,#1 protect(s) #your2 item from fire.
@@ -1000,6 +1005,7 @@ bounty,,,nice,,,,賞金首を倒して#2オレンの懸賞金を受け取った�
 subdue_complete,,,nice,,,,付近の魔物を一掃した！,You have wiped out the nearby monsters!
 party_end,,,,,,,パーティーが終了した。あなたの演奏は#1得点を記録した。,"The party has ended. Your performance scored #1 music points. "
 party_end2,,,,,,,合計で#1オレンを獲得した。,"You earn a total of #1 orens. "
+party_end3,,,,,,,祝宴は終わりを告げた。,The celebration came to an end.
 harvest_end,,,,,,,収穫が終わった。あなたは合計#1の重さの作物を納入した。,"The harvest has ended. You delivered crops weighing a total of #1. "
 farm_chest,,,nice,,,,重さ#2の#1を納入した。,You deliver #1 weighing #2.
 perfume,,,,,,,#1はいい匂いに包まれた。,#1 are/is wrapped in a nice fragrance.
@@ -1153,3 +1159,11 @@ egghatch,,,negative,,,,コクーンの殻を破り何かが這い出した。,A 
 egglay,,,negative,,,,#1は腹を震わせ粘りつく卵塊を産み落とした。,#1 tremble(s) its abdomen and release(s) a sticky cocoon.
 negateCondition,,,,,,,#1は#2から保護されている。,#1 are/is protected.from #2.
 death_sentense,,,special,,,,死は#1を抱きしめた。,Death embraces #1.
+unseal,,,,,,,#1は#2を開封した。,#1 unseal(s) #2.
+empty,,,,,,,何も入っていなかった…,It is empty...
+dna_loss,,,negative,,,,#1から#2は失われた。,#1 has lost #2.
+attuned,,,special,,,,#1は#2に属化された。,#1 are/is now attuned to #2.
+tender_hug,,,ono,,,,#1はそっと#2を抱きしめた。,"#1 hold(s) #2 close, ever so gently."
+divorce,,,negative,,,,#1は#2と離婚した。,#1 divorce #2.
+married,,,special,,,,#1と#2は結婚した！,#1 and #2 are now married!
+chu,,,ono,,,,*チュッ*,*kiss*
