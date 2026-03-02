@@ -1399,6 +1399,7 @@ workNotActive,home,仕事ができない,Can't work
 workNotActive_party,home,（パーティーメンバーは仕事をしない）,(Party members do not work.)
 notCountResident,home,（住人の数に計上されない）,(Does not count toward the resident total.)
 workBonus_skill,home,#1 #2,#1 #2
+key_Chat,key,チャット,Chat
 key_Dump,key,自動整頓,Auto Dump
 key_Mute,key,BGMミュート,Mute BGM
 key_Meditate,key,休憩,Rest
