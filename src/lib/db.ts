@@ -2,11 +2,11 @@ import { loadCsv } from './csvLoader';
 import { z } from 'zod';
 
 // Import CSV files for EA version
-import eaCharasContent from '../../db/EA 23.281/charas.csv';
-import eaElementsContent from '../../db/EA 23.281/elements.csv';
-import eaRacesContent from '../../db/EA 23.281/races.csv';
-import eaJobsContent from '../../db/EA 23.281/jobs.csv';
-import eaTacticsContent from '../../db/EA 23.281/tactics.csv';
+import eaCharasContent from '../../db/EA 23.282 Patch 3/charas.csv';
+import eaElementsContent from '../../db/EA 23.282 Patch 3/elements.csv';
+import eaRacesContent from '../../db/EA 23.282 Patch 3/races.csv';
+import eaJobsContent from '../../db/EA 23.282 Patch 3/jobs.csv';
+import eaTacticsContent from '../../db/EA 23.282 Patch 3/tactics.csv';
 
 // Import CSV files for Nightly version (currently using EA data as placeholder)
 import nightlyCharasContent from '../../db/EA 23.280/charas.csv';
