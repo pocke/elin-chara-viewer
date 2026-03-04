@@ -113,3 +113,4 @@ id,alias,name_JP,name,category,tag,thing,goods,minerals,decal,decay,grass,defFlo
 111,netherite,ネザライト,netherite,ore,coral,ore,,,11,0,0,1,1,0,6,ore,stone,129,metal,5,0,270,200,21,12,13,8,18,140,"fire,acid",,"infernal ",煉獄で鍛えられし
 112,eternity,永砂,eternal sand,crystal,,fragment,,,11,0,0,1,1,0,6,glass,glass,300,"metal,leather",7,0,80,650,48,8,45,35,8,250,,"SPD/5,corruption/10",infinite,無限の
 113,iron_unfading,うつろわざる鉄,unfading iron,ore,,ore,,,11,0,0,1,1,0,6,ore,metal,350,"metal,leather",7,0,260,150,14,8,8,3,14,135,fire,resFire/2,unfading,うつろわざる
+114,cloud,雲,cloud,fiber,,fiber,,,15,0,0,1,1,0,6,leather,carpet,2,leather,2,1,20,240,26,0,0,0,0,100,,,puffy,ふわふわの
