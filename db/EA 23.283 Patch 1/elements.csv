@@ -1004,7 +1004,7 @@ See if a recipe can be learned when dismantling,Double the chance to discover re
 6626,ActDrainBlood,吸収,Drain Blood,,,CHA,eleNether,,5,100,100,,1,10,1000,0,6,1,0,Chara,DrainBlood,Ability,ABILITY,ability,ability,attack,neg,,1000,0,10,5,0,,,0,,,,,,a_drain_blood,,,,,,,,,,,,,,
 6627,ActCatHuffing,猫吸い,Cat Sniff,,,CHA,,,5,100,100,,1,10,1000,0,6,1,0,Self,CatSniff,Ability,ABILITY,ability,ability,special,neg,,50,5,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
 6628,ActKiss,キス,Kiss,,,CHA,,,5,100,100,,1,10,1000,0,1,1,0,Chara,,ActKiss,ABILITY,ability,ability,attack,,,50,0,10,5,0,,,0,,,,,,,対象にキスをする。,Kiss the target.,,,"対象の友好度を僅かに上昇,対象の興味を消費,対象の友好度が低いと高確率で失敗","Slightly increase affinity,Consumes target's interest,Likely to fail when target's affinity is low",,,,,,,,
-6629,ActDeepKiss,フレンチキス,French Kiss,,,CHA,,,5,100,100,,1,10,1000,0,1,1,0,Chara,,ActDeepKiss,ABILITY,ability,ability,special,neg,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
+6629,ActDeepKiss,ディープキス,Deep Kiss,,,CHA,,,5,100,100,,1,10,1000,0,1,1,0,Chara,,ActDeepKiss,ABILITY,ability,ability,special,neg,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
 6630,ActInsult,罵倒,Insult,,,WIL,,,5,100,100,,1,1,1000,0,3,1,0,Chara,"Debuff,ConDim",Ability,ABILITY,ability,ability,debuff,neg,,50,0,10,5,0,,,0,,,,,,gaze_insult,,,,,@ConDim,@ConDim,,,,,,,,
 6631,ActScream,絶叫,Scream,,,WIL,,,5,100,100,,1,1,1000,0,25,1,0,Self,Scream,Ability,ABILITY,ability,ability,any,neg,,50,0,10,5,0,,,0,,,,,,a_scream,,,,,,,,,,,,,,
 6640,ActSteal,窃盗,Steal,,,DEX,,,5,100,100,,1,1,1000,0,16,1,0,Neighbor,Steal,Ability,ABILITY,ability,ability,attack,neg,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,

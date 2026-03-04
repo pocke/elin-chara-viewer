@@ -102,6 +102,7 @@ actRotateWall,act,ブロックの向きを変更,Rotate block
 actSetLight,act,光の色を変える,Change light color
 actClearLight,act,光の色を元に戻す,Clear light color
 actDisarm,act,罠解除,Disarm trap
+actReissue,act,再発行,Reissue
 actDivorce,act,離婚する,Divorce
 actWrench,act,改造する,Upgrade
 actEco,act,貼る,Stick
@@ -379,7 +380,6 @@ money,chara,オレン,Oren
 mood,chara,ムード,Mood
 myHome,chara,住まい,House
 nameBio,chara,#2「#1」,"#1, #2"
-noHome,chara,なし,None
 notEquipped,chara,装備なし,Not Equipped
 PEN,chara,貫通,Pen
 perMonth,chara," / 月"," / Month"
@@ -1399,6 +1399,8 @@ workNotActive,home,仕事ができない,Can't work
 workNotActive_party,home,（パーティーメンバーは仕事をしない）,(Party members do not work.)
 notCountResident,home,（住人の数に計上されない）,(Does not count toward the resident total.)
 workBonus_skill,home,#1 #2,#1 #2
+key_Console,key,コンソール起動,Open Console
+key_Chat,key,チャット,Chat
 key_Dump,key,自動整頓,Auto Dump
 key_Mute,key,BGMミュート,Mute BGM
 key_Meditate,key,休憩,Rest
