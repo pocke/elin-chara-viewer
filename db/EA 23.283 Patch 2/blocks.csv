@@ -204,4 +204,4 @@ id,alias,name_JP,name,sort,reqHarvest,hp,idThing,_tileType,_idRenderData,tiles,s
 202,fence12,金網のフェンス,wire mesh fence,1112,"mining,5",100,fence,Fence,fence,"1416,-1416",2100,100,,20,38,,factory_wall,ingot,iron,fence,0,,False,False,-1,,,,
 203,fence13,金網のフェンス,wire mesh fence,1113,"mining,5",100,fence,Fence,fence,"1417,-1417",2100,100,,20,38,,factory_wall,ingot,iron,fence,0,,False,False,-1,,,,
 204,fence14,石のフェンス,stone fence,1114,"mining,5",100,fence,Fence,fence,"1418,-1418",2100,100,,20,21,,factory_wall,cutstone,granite,fence,0,,False,False,-1,,,,
-205,block_cloud,雲のブロック,cloud block,1100,"mining,1",100,block,Block,,207,2100,100,,20,36,,factory_block,texture/1,cloud,wall,1,floor_cloud,False,False,"0,5",,,,
+205,block_cloud,雲のブロック,cloud block,1100,"mining,1",100,block,Block,,207,2100,100,,20,36,,factory_block,texture/1,cloud,wall,1,floor_cloud,False,False,-1,,,,
