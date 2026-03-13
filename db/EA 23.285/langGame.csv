@@ -934,7 +934,7 @@ love_curse,,,negative,,,,#2は#1が無性に嫌いになった。,#2 start(s) to
 love_curse_self,,,negative,,,,#1は無性に自分が嫌いになった。,#1 start(s) to hate #himself for no reason.
 use_leash,,,,,,,あなたは#2で#1を繋いだ。,You put #2 on #1.
 use_leash2,,,,,,,あなたは#1を解放した。,You let #1 go.
-use_whip,,,,,,,あなたは#2で#1を打った。,You whip #1 with #2.
+use_whip,,,,,,,#1は#3で#2を打った。,#1 whip(s) #2 with #3.
 use_scope,,,,,,,あなたは#1に#2を当てた。,You place #2 on #1.
 use_scope2,,,ono,,,,#1は顔を赤らめた。,#1 blush/blushes.
 use_whip4,,,ono,,,,#1の人格は変わった。,#your personality change(s).
@@ -1151,6 +1151,7 @@ counter,,,ability,,,,反撃！,Counter!
 counter_enemy,,,enemy,,,,反撃！,Counter!
 fate,,,save,,,,運命が#1の死を拒んだ。,Fate denies #your death.
 little_migration,,,save,,,,#1人のリトルシスター達は新天地を求めて旅立っていった。,#1 Little Sisters/Sister depart(s) in search of a new home.
+cat_migration,,,save,,,,#1匹のシルバーキャット達は新天地を求めて旅立っていった。,#1 Silver Cats/Cat depart(s) in search of a new home.
 self_dupe,,,,,,,#1は#2を組み立てた。,#1 assemble(s) #2.
 update_deepest,,,save,,,,最深到達層が#1階に更新された。,The deepest reached level has been updated to #1.
 update_deepest_void,,,save,,,,すくつの最深到達層が#1階に更新された。,The deepest reached level of the Void has been updated to #1.
@@ -1167,3 +1168,5 @@ tender_hug,,,ono,,,,#1はそっと#2を抱きしめた。,"#1 hold(s) #2 close, 
 divorce,,,negative,,,,#1は#2と離婚した。,#1 divorce #2.
 married,,,special,,,,#1と#2は結婚した！,#1 and #2 are now married!
 chu,,,ono,,,,*チュッ*,*kiss*
+num_little,,,,,,,ここには#1人のリトルシスターがいる。,There are/is #1 little sisters/sister here.
+num_silvercat,,,,,,,ここには#1匹のシルバーキャットがいる。,There are/is #1 silver cats/cat here.

@@ -2955,3 +2955,8 @@ item_marriage,,"#1 (#2年#3月#5日 #4) ","#1 (#3/#5, #2 in #4)"
 already_wed,,挙式済み,Already Wed
 party,,パーティー,Party
 disband,,解散,Disband
+party_empty,,( 登録 ),( Register )
+party_setup,,パーティーの編成,Manage Party
+party_load,,編成 #1,Roster #1
+party_ride,,(騎乗),(Ride)
+party_parasite,,(共生),(Symbiosis)
