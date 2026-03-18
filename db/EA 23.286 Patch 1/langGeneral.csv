@@ -1292,6 +1292,7 @@ invButcher,inv,バラす,Butcher
 invBuy,inv,買う,Buy
 invCollect,inv,収集,Collect
 invChangeMaterial,inv,素材変化,Change Material
+invChangeRarity,inv,品質変化,Change Quality
 invCook,inv,料理,Cook
 invDefault,inv,一般,General
 invDeliver,inv,納入,Deliver
