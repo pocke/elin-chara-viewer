@@ -2,18 +2,18 @@ import { loadCsv } from './csvLoader';
 import { z } from 'zod';
 
 // Import CSV files for EA version
-import eaCharasContent from '../../db/EA 23.282 Patch 3/charas.csv';
-import eaElementsContent from '../../db/EA 23.282 Patch 3/elements.csv';
-import eaRacesContent from '../../db/EA 23.282 Patch 3/races.csv';
-import eaJobsContent from '../../db/EA 23.282 Patch 3/jobs.csv';
-import eaTacticsContent from '../../db/EA 23.282 Patch 3/tactics.csv';
+import eaCharasContent from '../../db/EA 23.287 Patch 4/charas.csv';
+import eaElementsContent from '../../db/EA 23.287 Patch 4/elements.csv';
+import eaRacesContent from '../../db/EA 23.287 Patch 4/races.csv';
+import eaJobsContent from '../../db/EA 23.287 Patch 4/jobs.csv';
+import eaTacticsContent from '../../db/EA 23.287 Patch 4/tactics.csv';
 
 // Import CSV files for Nightly version (currently using EA data as placeholder)
-import nightlyCharasContent from '../../db/EA 23.286 Patch 1/charas.csv';
-import nightlyElementsContent from '../../db/EA 23.286 Patch 1/elements.csv';
-import nightlyRacesContent from '../../db/EA 23.286 Patch 1/races.csv';
-import nightlyJobsContent from '../../db/EA 23.286 Patch 1/jobs.csv';
-import nightlyTacticsContent from '../../db/EA 23.286 Patch 1/tactics.csv';
+import nightlyCharasContent from '../../db/EA 23.287 Patch 4/charas.csv';
+import nightlyElementsContent from '../../db/EA 23.287 Patch 4/elements.csv';
+import nightlyRacesContent from '../../db/EA 23.287 Patch 4/races.csv';
+import nightlyJobsContent from '../../db/EA 23.287 Patch 4/jobs.csv';
+import nightlyTacticsContent from '../../db/EA 23.287 Patch 4/tactics.csv';
 
 export type GameVersion = 'EA' | 'Nightly';
 
