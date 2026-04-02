@@ -48,7 +48,7 @@ wolf,狼,wolf,8,"animal,ride,mofu",90,80,100,14,0,0,0,0,8,8,6,11,7,8,4,6,120,,3,
 zombie,ゾンビ,zombie,8,undead,125,80,100,0,0,10,0,0,10,8,2,2,1,6,6,2,60,,2,4,0,"featUndead/2,featLightEater/2,featAshborn/1","rsCooking 3
 rsFishing 3",頭|首|体|背|手|指|腕|腰|,6,meat,"_meat,20",,3,,,,50,"10,200",160,100,100,,,
 rabbit,ウサギ,rabbit,8,"animal,mofu,sleepBeside",60,90,100,10,0,0,0,10,5,4,6,11,5,4,4,10,150,,3,1,0,featFluffyTail/1,rsRiding 3,頭|首|体|背|腕|,7,meat,"_meat,20",,2,,,,53,"1,10",40,720,200,fiber/cashmere,,
-rabbitkin,ウサギ―,rabbet,8,"human,mofu",80,90,100,10,0,0,0,25,6,6,9,10,5,4,9,13,150,,3,4,0,"featFluffyTail/1,featLightEater/3",rsRiding 3,頭|首|体|背|手|手|指|指|腕|腰|脚|足|,4,meat,"_meat,20",,2,Kick,,,53,"6,30",190,440,100,fiber/cashmere,,
+rabbitkin,ラビアン,ravian,8,"human,mofu",80,90,100,10,0,0,0,25,6,6,9,10,5,4,9,13,150,,3,4,0,"featFluffyTail/1,featLightEater/3",rsRiding 3,頭|首|体|背|手|手|指|指|腕|腰|脚|足|,4,meat,"_meat,20",,2,Kick,,,53,"6,30",190,440,100,fiber/cashmere,,
 sheep,羊,sheep,8,"animal,mofu",130,80,100,0,0,0,0,0,6,6,5,8,4,5,4,7,80,,3,1,0,,"rsHealing 3
 rsAnatomy 3",頭|首|体|背|腕|脚|足|,6,meat,"_meat,20",,2,Bite,,,53,"1,10",150,1000,250,fiber/wool,,
 frog,蛙,frog,8,"noRide,fish,sand",80,80,100,0,0,0,0,0,6,6,6,8,5,5,5,6,90,,1,1,0,,"rsPerform 3
