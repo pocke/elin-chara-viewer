@@ -1272,7 +1272,9 @@ hintCon,info,#2ターンの#1を付与する,Apply #1 for #2 turns
 hintCon2,info,#1を付与する,Apply #1
 hintDefenseAttb,info,対象の#1により効果は軽減される,Effectiveness is reduced by target's #1
 hintNullify,info,#1を無効化,Nullify #1
-hintStrife,info,Lv.#1 (#2) 物理攻撃に#3の追加ダメージ,Lv.#1 (#2) #3 damages to physical attacks
+hintStrife,info,"Lv.#1 (#2) ",Lv.#1 (#2) #3 damages to physical attacks
+hintStrife2,info,物理攻撃のダメージを#1%上昇し、#2%のダメージ限界突破を付与,+#1% increased physical damage and +#2% damage limit
+hintStrife3,info,効果は味方にも適用される,The effects also apply to your allies
 hintDOT,info,#1の#2の瘴気,Suffer a #1 #2 miasma
 hintHOT,info,#1の体力回復,Restore #1 hit points
 hintBuffStats,info,#2の#1強化,Increase #1 by #2
