@@ -857,6 +857,8 @@ daChangeDomain,drama,専門領域を変えたい,I want to change domain special
 daCopyItem,drama,複製するアイテムを登録したい(最大#1個),I want to register items to copy. (Max #1)
 daCopySpellbook,drama,魔法書を予約したい(最大#1冊),I want to reserve spellbooks. (Max #1)
 daRob,drama,襲撃するよ,Prepare to die!
+daMama,drama,ママー！,Mommy!
+daBaby,drama,ママだよ！,I'm your mommy!
 daBanish,drama,追放する,I'm going to banish you.
 daBlessing,drama,加護を受けたい,Give me blessings.
 daBorrowBook,drama,本を借りたい,I want to borrow some books.
@@ -1272,7 +1274,7 @@ hintCon,info,#2ターンの#1を付与する,Apply #1 for #2 turns
 hintCon2,info,#1を付与する,Apply #1
 hintDefenseAttb,info,対象の#1により効果は軽減される,Effectiveness is reduced by target's #1
 hintNullify,info,#1を無効化,Nullify #1
-hintStrife,info,"Lv.#1 (#2) ",Lv.#1 (#2) #3 damages to physical attacks
+hintStrife,info,"Lv.#1 (#2) ",Lv.#1 (#2)
 hintStrife2,info,物理攻撃のダメージを#1%上昇し、#2%のダメージ限界突破を付与,+#1% increased physical damage and +#2% damage limit
 hintStrife3,info,効果は味方にも適用される,The effects also apply to your allies
 hintDOT,info,#1の#2の瘴気,Suffer a #1 #2 miasma
