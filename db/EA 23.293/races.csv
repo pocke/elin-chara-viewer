@@ -19,6 +19,7 @@ centaur,ケンタウロス,centaur,5,"humanSpeak,ride",100,40,100,0,0,0,-10,0,11
 shiba,シバ,shiba,7,"animal,ride,mofu,sleepBeside",110,90,100,0,0,0,0,0,7,9,6,8,10,8,10,12,120,,7,3,0,"featShiva/1,featFluffyTail/1,featLoyal/1,spotting/8,weightlifting/3,evasion/5,swimming/3",●,頭|首|体|背|手|足|足|,5,meat,"_meat,20",tail_dog/10,2,Bite,,,53,"1,15",80,680,100,fiber/wool,シバは多様な種族により形成され、その外見や生態も様々ですが、総じてがっちりした体格と、友好的で従順な性格で知られています。彼らは賢く、キュートで、氷に対する耐性を持っています。,"The Shiba, while diverse in appearance and ecology, are generally known for their sturdy build and friendly, submissive nature. They are intelligent and adorable. and possess resistance to cold."
 eldercrab,古代蟹,elder crab,7,"fish,sand",150,80,100,0,15,25,25,0,10,13,6,10,3,4,5,6,60,,1,5,0,"featAquatic/5,featElderCrab/1,ActCrabBreathe/1,twowield/5,regeneration/4,weightlifting/4,swimming/3",●,背|手|手|指|指|足|足|足||足|,3,meat,"_meat,20",,2,Claw,,,53,"1,10",450,210,200,,古代蟹は最も古い蟹の種族で、水辺を好み、生息する地域に適応し様々な属性へと進化しています。基本的には美味しいものの、属性によって風味も変化します。筋力と耐久に秀で、その巨大なハサミで敵を拘束し、また泡のブレスを吐くことができます。,"The Elder Crab is the oldest of the crab species, preferring waterside habitats and evolving into various elements adapted to their environments. They are basically delicious, but their flavor changes depending on their element. Excelling in strength and endurance, they can restrain enemies with their massive pincers and are capable of exhaling a bubble breath."
 ratkin,ラトキン,ratkin,8,"human,mofu",80,90,100,0,0,0,0,0,5,7,13,14,8,6,7,7,150,,13,4,0,"featFastLearner/2,featHeavyEater/3,stealth/3,spotting/3,travel/4,cooking/4,featChef/1,featHarem/3,featFluffyTail/1",●,頭|首|体|背|手|手|指|指|腕|腰|脚|足|,3,meat,"_meat,20",,2,Bite,,all,50,"4,20",125,800,100,,,
+werewolf,人狼,werewolf,8,"human,mofu",130,70,100,0,0,0,0,0,12,10,6,9,4,6,4,5,120,,13,6,0,"regeneration/5,spotting/4,featNorland/1,twohand/3,tactics/4",●,頭|首|体|背|手|手|指|指|腕|腰|脚|足|,3,meat,"_meat,20",,2,Claw,,all,50,"8,60",175,60,100,,,
 goblin,ゴブリン,goblin,8,humanSpeak,110,90,100,0,0,0,0,0,8,8,5,5,8,7,7,4,100,,8,2,0,featUnderground/1,"rsHealing 5
 rsFishing 2
 rsMining 2
@@ -75,7 +76,7 @@ rsAnatomy 3",頭|,9,meat,"_meat,20",,3,Gaze,,,53,"1,10",40,50,100,,,
 wyvern,ワイバーン,wyvern,8,dragon,180,80,100,0,0,0,0,0,11,13,8,9,5,7,8,4,100,,12,5,0,"levitation/1,resFire/20,featHeavyEater/2","rsLiteracy 3
 rsTravel 3",首|体|指|指|,5,meat,"_meat,20",,2,Claw,,,53,"10,300",1600,60,150,fiber/hide_dragon,,
 wasp,ワスプ,wasp,8,insect,55,80,100,28,0,0,0,30,7,6,13,11,4,6,3,2,150,,3,3,0,"levitation/1,resPoison/20",rsEvadePlus 2,頭|,8,meat,"_meat,20",,2,Sting,,,53,"1,10",80,580,100,,,
-giant,巨人,giant,8,human,300,80,100,0,0,0,0,0,12,14,9,4,8,5,6,3,90,,5,7,0,throwing/7,"rsAnatomy 3
+giant,巨人,giant,8,human,300,80,100,0,0,0,0,0,13,14,9,4,8,5,6,3,90,,5,7,0,throwing/7,"rsAnatomy 3
 rsMagicDevice 2
 rsCarpentry 3",体|背|手|手|腕|脚|足|,4,meat,"_meat,20",,2,,,all,53,"10,300",1800,50,100,,,
 imp,インプ,imp,8,fairy,65,110,100,25,0,0,30,30,5,6,8,8,8,4,7,3,100,,12,2,0,"featFairyResist/1,featUnderground/1","rsMemorize 3
@@ -84,7 +85,7 @@ hand,手,hand,8,,100,100,100,0,0,0,0,0,8,9,9,4,8,6,5,2,100,,2,4,0,,rsCritical 4,
 snake,蛇,snake,8,"animal,sand",100,100,100,0,0,0,0,0,6,9,8,10,4,6,6,4,100,,2,2,0,"featUnderground/1,resPoison/20",rsStealth 4,体|,8,meat,"_meat,20",,2,Bite,,,53,"1,10",50,430,100,,,
 drake,ドレイク,drake,8,"ride,dragon",180,80,100,0,12,0,0,0,11,12,11,8,6,9,8,7,100,,14,5,0,featHeavyEater/3,"rsTravel 3
 rsFishing 2",首|体|指|指|,5,meat,"_meat,20",,2,Claw,,,53,"10,500",1400,90,150,fiber/hide_dragon,,
-bear,熊,bear,8,"animal,ride",160,80,100,0,0,0,0,0,9,10,5,6,6,6,3,5,100,,5,4,0,,"rsHealing 3
+bear,熊,bear,8,"animal,ride",160,80,100,0,0,0,0,0,10,10,5,6,6,6,3,5,100,,5,4,0,,"rsHealing 3
 rsPerform 2
 rsCritical 3",手|手|指|指|腕|腰|脚|足|,5,meat,"_meat,20",,2,Claw,,,53,"1,20",280,340,100,fiber/hide,,
 armor,鎧,armor,8,undead,30,80,100,0,40,80,0,0,8,4,7,5,6,6,7,4,50,,6,3,0,featGolem/1,"rsOpenLock 3
@@ -97,9 +98,9 @@ phantom,ファントム,phantom,8,undead,70,90,100,0,20,15,50,0,6,6,8,7,6,6,9,4,
 rsDisarmTrap 3",首|体|手|手|指|指|腕|,5,meat,"_meat,20",,8,,,all,53,"10,300",450,35,100,,,
 harpy,ハーピー,harpy,8,,90,100,100,15,0,0,0,20,8,6,9,9,6,8,9,4,100,,8,3,0,,"rsMagicCapacity 3
 rsMagicDevice 2",首|手|手|指|指|腕|脚|足|脚|足|,4,meat,"_meat,20",,2,Kick,,,53,"10,80",140,420,150,fiber/griffon,,
-dragon,ドラゴン,dragon,8,"ride,dragon",260,100,100,0,12,10,0,0,13,15,10,9,10,9,13,9,100,,20,6,0,"featHeavyEater/5,featElder/1,levitation/1,swimming/5","rsTravel 3
+dragon,ドラゴン,dragon,8,"ride,dragon",260,100,100,0,12,10,0,0,14,15,10,9,10,9,13,9,100,,20,6,0,"featHeavyEater/5,featElder/1,levitation/1,swimming/5","rsTravel 3
 rsJeweller 3",首|体|指|指|,5,meat,"_meat,20",,2,Claw,,,53,"10,600",2400,20,250,fiber/hide_dragon,,
-dinosaur,恐竜,dinosaur,8,"animal,dragon",140,40,100,0,8,0,0,0,8,10,6,5,4,5,6,5,150,,5,7,0,featHeavyEater/5,"rsTravel 3
+dinosaur,恐竜,dinosaur,8,"animal,dragon",140,40,100,0,8,0,0,0,11,10,6,5,4,5,6,5,150,,5,7,0,featHeavyEater/5,"rsTravel 3
 rsEvadePlus 2",首|体|指|指|,4,meat,"_meat,20",,2,Claw,,,53,"10,100",2000,30,150,fiber/hide,,
 cerberus,ケルベロス,cerberus,8,"animal,dungeon",180,70,100,0,0,10,0,0,11,9,10,11,6,8,7,4,110,,6,4,0,"featUnderground/1,featHeavyEater/3","rsDetection 3
 rsTailor 3",頭|頭|頭|首|体|腕|脚|足|脚|足|,4,meat,"_meat,20",tail_dog/10,2,Claw,,,53,"10,100",1200,70,150,,,
