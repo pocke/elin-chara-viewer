@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
   env: {
     GIT_LAST_COMMIT_DATE: gitInfo.lastCommitDate,
     ELIN_EA_VERSION: 'EA 23.287 Patch 4',
-    ELIN_NIGHTLY_VERSION: 'EA 23.293 Patch 1',
+    ELIN_NIGHTLY_VERSION: 'EA 23.294',
   },
   turbopack: {
     rules: {
