@@ -9,11 +9,11 @@ import eaJobsContent from '../../db/EA 23.295 Patch 2/jobs.csv';
 import eaTacticsContent from '../../db/EA 23.295 Patch 2/tactics.csv';
 
 // Import CSV files for Nightly version (currently using EA data as placeholder)
-import nightlyCharasContent from '../../db/EA 23.294/charas.csv';
-import nightlyElementsContent from '../../db/EA 23.294/elements.csv';
-import nightlyRacesContent from '../../db/EA 23.294/races.csv';
-import nightlyJobsContent from '../../db/EA 23.294/jobs.csv';
-import nightlyTacticsContent from '../../db/EA 23.294/tactics.csv';
+import nightlyCharasContent from '../../db/EA 23.296/charas.csv';
+import nightlyElementsContent from '../../db/EA 23.296/elements.csv';
+import nightlyRacesContent from '../../db/EA 23.296/races.csv';
+import nightlyJobsContent from '../../db/EA 23.296/jobs.csv';
+import nightlyTacticsContent from '../../db/EA 23.296/tactics.csv';
 
 export type GameVersion = 'EA' | 'Nightly';
 

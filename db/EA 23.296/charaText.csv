@@ -675,6 +675,32 @@ parttimer_jure,,"「今なら無料でジュア様の抱き枕が手に入るよ
 ""Step right up!""
 ""You there lucky one! &A beautiful and sweet Goddess awaits you.""
 ""A flower growing in the desert &fragile yet most noble. &A maiden pure in heart with compassion. &Jure of Healing, our only Goddess!""",,@tourist,@tourist,@tourist
+thief,,"「やばいヤマだったぜ」
+「お、カモ{だ}」
+「ククク…」",,,"「覚えていろよ」
+「やめてください！」",「ふん！青二才め」,"""Heh  easy money.""
+""Time to pluck it.""
+""Heh heh heh...""",,,"""Remember this!""
+""Please stop!""","""Hmph! You foolish amateur."""
+kuzu,,,,"「イヒヒヒヒ」
+「もうすぐ殺してあげる{よ}」
+「ウヒャ！」
+「かわいそうに！」
+「おまえさん、ついてない{な}」
+「馬鹿な選択をした{な}」","「たちけて」
+「ひぃぃ、こいつ強い」
+「命だけは！」
+「ゆるちて」","「ついてなかったな」
+「この雑魚がぁ」",,,"""Hee hee hee...""
+""I’ll kill you soon.""
+""Hyah!""
+""How pathetic!""
+""You’re really unlucky.""
+""That was a foolish choice.""","""Help me...""
+""Eek... this guy’s strong...""
+""Spare my life!""
+""Please forgive me!""","""Looks like you were out of luck.""
+""You pathetic weakling."""
 tourist_festival,,"「屋台でおいしいもの売ってるかな？」
 「今日ははじけるぜ」
 「なんとも騒々しい{な}」
