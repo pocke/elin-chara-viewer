@@ -52,7 +52,7 @@ rabbit,ウサギ,rabbit,8,"animal,mofu,sleepBeside",60,90,100,10,0,0,0,10,5,4,6,
 rabbitkin,ラビアン,ravian,8,"human,mofu",80,90,100,10,0,0,0,25,6,6,9,10,5,4,9,13,150,,3,4,0,"featFluffyTail/1,featLightEater/3",rsRiding 3,頭|首|体|背|手|手|指|指|腕|腰|脚|足|,4,meat,"_meat,20",,2,Kick,,,53,"6,30",190,440,100,fiber/cashmere,,
 sheep,羊,sheep,8,"animal,mofu",130,80,100,0,0,0,0,0,6,6,5,8,4,5,4,7,80,,3,1,0,,"rsHealing 3
 rsAnatomy 3",頭|首|体|背|腕|脚|足|,6,meat,"_meat,20",,2,Bite,,,53,"1,10",150,1000,250,fiber/wool,,
-frog,蛙,frog,8,"noRide,fish,sand",80,80,100,0,0,0,0,0,6,6,6,8,5,5,5,6,90,,1,1,0,,"rsPerform 3
+frog,蛙,frog,8,"noRide,fish,sand",80,80,100,0,0,0,0,0,6,6,6,8,5,5,5,6,90,,1,1,0,"featAquatic/1,swimming/4","rsPerform 3
 rsInvest 2",体|,8,meat,"_meat,20",,2,Kick,,,53,"1,10",10,610,100,,,
 centipede,ムカデ,centipede,8,"noRide,insect",90,80,100,0,0,0,0,0,6,5,5,6,3,2,2,2,90,,1,1,0,"featUnderground/1,antidote/-20",rsCritical 3,背|指|指|,7,meat,"_meat,20",,2,Touch,,,53,"1,10",10,420,100,,,
 mandrake,マンドレイク,mandrake,8,plant,70,120,100,0,0,0,40,0,5,6,5,10,8,8,10,4,90,,4,2,0,,"rsMemorize 3

@@ -1676,6 +1676,7 @@ LayerChara,title,キャラクター,Character
 LayerConsole,title,コンソール,Console
 LayerCredit,title,クレジット,Credit
 LayerPixelPaint,title,画像編集,Pixel Paint
+LayerPickPCC,title,パーツ選択,Select Parts
 LayerEditPCC,title,外見編集,Edit Appearance
 LayerFactions,title,勢力,Factions
 LayerTextureViewer,title,テクスチャビューアー,Texture Viewer

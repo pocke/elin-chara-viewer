@@ -252,7 +252,7 @@ id,alias,name_JP,name,altname_JP,altname,aliasParent,aliasRef,aliasMtp,parentFac
 704,food_bug,虫,Bug,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Skill,FOOD,food,,,,,50,0,10,5,0,,,0,,,,love,,,,,,,"発情, 複製不可","Excitement, Not Duplicable",,,,,",,蟲混入",",,Bug Mix",,
 705,gainWeight,増量,Gain Weight,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Skill,FOOD,food,,,,,50,0,10,5,0,,,0,,,,gainWeight,,,,,,,体重増加,Weight Gain,,,,,",,太る",",,Fatten up",,
 706,loseWeight,減量,Lose Weight,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Skill,FOOD,food,,,,,50,0,10,5,0,,,0,,,,loseWeight,,,,,,,ダイエット,Weight Loss,,,,,",,痩せる",",,Slim Down",,
-707,kirimi,切り身,Sliced,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Skill,FOOD,food,,,,,50,0,10,5,0,,,0,,,,sliced,,,,,,,,,,,,,",,切り身",",,Sliced",,
+707,kirimi,切り身,Sliced,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Skill,FOOD,food,,,,,50,0,10,5,0,,,0,,,,sliced,,,,,,,発酵不可,Not fermentable,,,,,",,切り身",",,Sliced",,
 708,food_human,人肉,Human Flesh,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Skill,FOOD,food,,,,,50,0,10,5,0,,,0,,,,-,,,,,,,,,,,,,",人肉",",Human Flesh",,
 709,food_undead,不浄,Tainted,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Skill,FOOD,food,,,,,50,0,10,5,0,,,0,,,,-,,,,,,,,,,,,,",不浄",",Tainted",,
 710,food_blood,血の糧,Blood Meal,,,,,,0,0,100,,1,1,0,0,0,1,0,,,Skill,FOOD,food,,,,,50,0,10,5,0,,,0,,,,-,,,,,,,吸血症時の食事効果倍率 (#1倍),Food effect multiplier when vampiric (x#1),,,,,",血の糧,血の糧",",Blood Meal,Blood Meal",,
