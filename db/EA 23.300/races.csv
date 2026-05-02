@@ -69,7 +69,7 @@ hound,猟犬,hound,8,"animal,ride",90,50,100,12,0,0,0,0,8,9,11,10,5,4,3,3,120,,6
 rsPerform 2",頭|首|体|背|脚|足|,5,meat,"_meat,20",tail_wolf/10,2,Bite,,,53,"1,15",160,540,100,,,
 ghost,幽霊,ghost,8,"undead,humanSpeak",30,130,20,16,0,75,75,30,4,7,6,14,7,6,11,11,90,,10,2,0,"featUndead/2,levitation/1,featLightEater/2,seeInvisible/1,featAshborn/1","rsMagicCapacity 4
 rsMagicDevice 2",頭|首|体|背|手|手|指|指|,5,meat,"_meat,20",,5,Touch,,,53,"10,1500",180,30,100,,,
-spirit,精霊,spirit,8,,90,120,100,5,0,0,30,0,5,9,5,7,8,10,13,4,100,,11,2,0,"featFairyResist/2,levitation/1,featLightEater/3","rsCasting 3
+spirit,精霊,spirit,8,,90,120,100,5,0,0,30,0,5,9,5,7,8,10,13,4,100,,11,2,0,"featFairyResist/2,levitation/1,featLightEater/3,resHoly/10","rsCasting 3
 rsMagicControl 2",頭|首|体|背|手|手|指|指|,4,meat,"_meat,20",,5,,,,53,"10,1500",100,25,100,,,
 eye,目,eye,8,filth,100,120,100,0,0,0,30,0,3,9,4,6,4,7,10,4,40,,2,3,0,"featUnderground/1,resNerve/20,resMind/10,nerve/-10","rsDetection 3
 rsAnatomy 3",頭|,9,meat,"_meat,20",,3,Gaze,,,53,"1,10",40,50,100,,,
@@ -92,8 +92,8 @@ armor,鎧,armor,8,undead,30,80,100,0,40,80,0,0,8,4,7,5,6,6,7,4,50,,6,3,0,featGol
 rsMagicDevice 2",頭|首|体|背|手|手|腕|腰|,6,meat,"_meat,20",,8,,,all,53,"8,50",550,40,100,,,
 medusa,メデューサ,medusa,8,humanSpeak,100,110,100,10,0,0,25,0,7,6,8,7,7,9,11,5,100,,12,3,0,,"rsMagicCapacity 3
 rsMagicControl 3",頭|頭|頭|体|手|手|指|指|腕|脚|足|,3,meat,"_meat,20",,2,,,all,53,"10,200",160,180,100,,,
-cupid,キューピット,cupid,8,,80,130,100,20,0,0,25,25,6,7,9,8,8,7,12,8,110,,11,2,0,levitation/1,"rsLiteracy 4
-rsMagicControl 3",首|体|手|手|指|指|腕|,5,meat,"_meat,20",,2,,,all,53,"10,300",120,360,100,,,
+cupid,キューピット,cupid,8,,80,130,100,20,0,0,25,25,6,7,9,8,8,7,12,8,110,,11,2,0,"levitation/1,resHoly/20","rsLiteracy 4
+rsMagicControl 3",首|体|手|手|指|指|腕|,5,meat,"_meat,20",helm_angel/5,2,,,all,53,"10,300",120,360,100,,,
 phantom,ファントム,phantom,8,undead,70,90,100,0,20,15,50,0,6,6,8,7,6,6,9,4,100,,9,2,0,"featUndead/2,featLightEater/2","rsStealth 3
 rsDisarmTrap 3",首|体|手|手|指|指|腕|,5,meat,"_meat,20",,8,,,all,53,"10,300",450,35,100,,,
 harpy,ハーピー,harpy,8,,90,100,100,15,0,0,0,20,8,6,9,9,6,8,9,4,100,,8,3,0,,"rsMagicCapacity 3
@@ -102,6 +102,8 @@ dragon,ドラゴン,dragon,8,"ride,dragon",260,100,100,0,12,10,0,0,14,15,10,9,10
 rsJeweller 3",首|体|指|指|,5,meat,"_meat,20",,2,Claw,,,53,"10,600",2400,20,250,fiber/hide_dragon,,
 dinosaur,恐竜,dinosaur,8,"animal,dragon",140,40,100,0,8,0,0,0,11,10,6,5,4,5,6,5,150,,5,7,0,featHeavyEater/5,"rsTravel 3
 rsEvadePlus 2",首|体|指|指|,4,meat,"_meat,20",,2,Claw,,,53,"10,100",2000,30,150,fiber/hide,,
+alien,エイリアン,alien,8,,110,20,100,20,30,30,25,0,11,9,8,9,8,8,2,3,130,,5,8,0,"resAcid/20,antidote/-40,swimming/3,featMurderer/1","rsTravel 3
+rsEvadePlus 2",頭|首|体|手|手|腕|脚|足|,4,meat,"_meat,20",,2,Claw,,,53,"1,50",400,5,100,fiber/zylon,,
 cerberus,ケルベロス,cerberus,8,"animal,dungeon",180,70,100,0,0,10,0,0,11,9,10,11,6,8,7,4,110,,6,4,0,"featUnderground/1,featHeavyEater/3","rsDetection 3
 rsTailor 3",頭|頭|頭|首|体|腕|脚|足|脚|足|,4,meat,"_meat,20",tail_dog/10,2,Claw,,,53,"10,100",1200,70,150,,,
 spider,蜘蛛,spider,8,"ride,webfree,insect,filth",40,70,100,17,0,0,0,20,5,5,9,12,5,6,8,4,180,,3,2,0,"resPoison/20,antidote/-20","rsStealth 3
@@ -134,7 +136,7 @@ rsSenseQuality 3",足|,8,meat,"_meat,20",,2,Claw,,,53,"1,10",120,380,150,,,
 machine,機械,machine,8,"machine,ride",100,65,100,0,5,20,0,0,7,10,7,9,5,12,5,6,110,,9,4,0,"featGolem/1,blood/-20,spotting/4,weaponGun/3,armorHeavy/3","rsMeditation 3
 rsOpenLock 3
 rsDisarmTrap 3",頭|首|体|背|手|手|指|指|腕|腰|脚|足|,3,iron,"ore,300",,10,,castMachine,all,53,"1,1500",170,15,100,,,
-wisp,ウィスプ,wisp,8,fairy,60,150,100,10,0,50,50,0,5,10,10,20,10,15,15,4,50,,7,1,0,"featFairyResist/3,levitation/1,featLightEater/3,seeInvisible/1","rsMagicControl 3
+wisp,ウィスプ,wisp,8,fairy,60,150,100,10,0,50,50,0,5,10,10,20,10,15,15,4,50,,7,1,0,"featFairyResist/3,levitation/1,featLightEater/3,seeInvisible/1,resHoly/15","rsMagicControl 3
 rsMagicCapacity 5",頭|,8,meat,"_meat,20",,5,Gaze,,,53,"1,200",40,25,100,,,
 chicken,鶏,chicken,8,"animal,ride",80,80,100,5,0,0,0,0,8,6,7,7,4,4,5,7,100,,3,1,0,swimming/3,"rsAnatomy 3
 rsMeditation 3",頭|,9,meat,"_meat,20",,2,Bite,,,53,"1,10",40,1320,220,,,
@@ -178,7 +180,7 @@ rsThrow 3
 rsTwoWield 4
 rsGun 4
 rsTwoHand 3",頭|首|体|背|手|手|指|指|腕|腰|脚|足|,3,meat,"_meat,20",,2,,,all,52,"50,300",165,5,100,,,
-god,神,god,9,"noRide,humanSpeak,god",200,200,100,30,20,0,0,0,17,13,19,17,16,25,24,21,200,,100,8,0,"food_god/40,seeInvisible/1,featElder/1,resEther/100","rsEvade 3
+god,神,god,9,"noRide,humanSpeak,god",200,200,100,30,20,0,0,0,17,13,19,17,16,25,24,21,200,,100,8,0,"food_god/40,seeInvisible/1,featElder/1,resEther/100,resHoly/10","rsEvade 3
 rsEvadePlus 3
 rsCritical 2
 rsGun 8
