@@ -1879,6 +1879,7 @@ alwaysTilt,,常にチルト,Always Tilt
 announce,,お知らせ,Announcement
 ap,,運営力,Admin Points
 apply,,適用,Apply
+loadImage,,画像を読み込み,Load Image
 apShort,,運営力,Admin
 Area,,エリア,Area
 attackEval,,"#1 #2  x#3  (命中 #4%, 貫通 #5%)","#1 #2  x#3  (Hit #4%, Pen #5%)"
