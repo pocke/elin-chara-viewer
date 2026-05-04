@@ -19,7 +19,7 @@ id,alias,name_JP,name,sort,idBiome,reqHarvest,hp,_tileType,_idRenderData,tiles,c
 17,floor_metal,錆びた金属の床,rusty metal floor,1181,Factory,"digging,20",100,Floor,,505,250,10,11,,factory_floor,ingot,iron,block_rock3,pillar31,floor,0,0,0,0,metal,,,
 18,floor_metal2,金属の床,metal floor,1182,Factory,"digging,20",100,Floor,floorEx,506,250,10,17,,factory_floor,ingot,steel,block_rock3,pillar31,floor,0,0,0,0,metal,,,
 19,floor_rock5,石の床,stone floor,1166,,"digging,1",100,Floor,,507,100,10,14,,factory_floor,cutstone,granite,block_rock3,pillar31,floor,0,0,0,0,stone,,,
-20,floor_magma,マグマの床,magma,1231,,"digging,1",100,Floor,,705,100,0,50,,factory_floor,dye,magma,block_test3b,pillar31,floor,0,0,0,0,water,noBridge,,
+20,floor_magma,マグマの床,magma,1231,,"digging,1",100,Floor,,2200,100,0,50,,factory_floor,dye,magma,block_test3b,pillar31,floor,0,0,0,0,water,noBridge,,
 21,floor_log3,丸太の床,log floor,1128,,"digging,1",100,Floor,,"605,-605",100,10,2,*,factory_floor,log/1,oak,block_log,pillar31,floor,0,0,0,0,wood,,,
 22,floor_crystal,結晶の床,crystal floor,1225,,"digging,1",100,Floor,floorEx,702,100,10,22,,factory_floor,glass,glass,block_rock3,pillar31,floor,0,0,0,0,glass,,,
 23,floor_deco2,タイルの床,tile floor,1212,,"digging,30",100,Floor,,703,100,10,38,,factory_floor,gem/1,marble,block_deco,pillar31,floor,0,0,0,0,stone,,,
