@@ -436,6 +436,7 @@ Mana can be used as health,Cannot die until mana is depleted,Immunity to Neck Hu
 1426,featNeckHunter,首狩り本能,Beheading Instinct,,,,,,0,0,100,,1,1,1000,0,5,1,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,10,,,0,,,,,,,種族により受け継がれた特性。,A trait inherited from race.,あなたは首を見ると切り落としたくなる。,You feel an urge to cut off heads at a visible neck.,近接攻撃時に確率で首狩り,Chance to behead the target on melee attacks,,,,,,,,
 1427,featDisguise,偽りの仮面,False Face,,,,,,0,0,100,,1,1,1000,0,3,1,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,1,,,0,,,,,,,種族により受け継がれた特性。,A trait inherited from race.,あなたは人の皮を被る。,You wear human skin.,擬人化,Human mimicry,,,,,,,,
 1428,featMurderer,殺人本能,Killing Instinct,,,,,,0,0,100,,1,1,1000,0,4,1,0,,,Feat,FEAT,feat,,,class,,50,0,10,5,3,,,0,,,,,,,専門の職業に従事し、長い年月を経て獲得した特性。,A trait acquired over many years of working in a specialized profession.,あなたは殺しに快感を覚える。,You take pleasure in killing.,ランダムにNPCを殺害,Murder NPCs at random,,,,,,,,
+1429,featManyFace,千の異形,Thousand Face,,,,,,0,0,100,,1,1,1000,0,6,2,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,1,,,0,,,,,,,種族により受け継がれた特性。,A trait inherited from race.,あなたは千の姿を持っている。,You take on a thousand forms.,形状変化,Metamorphosis,,,,,,,,
 1510,mutationSkin,鉄の皮膚,Iron Skin,,,mutationSkinN,,,0,0,100,,1,1,1000,0,0,-1,0,,,Mutation,MUTATION,mutation,,,,,50,0,10,5,3,,,0,,,,,,,突然変異により生じた体の変化。,A physical alterations caused by a mutation.,"あなたの皮膚は硬い。
 あなたの皮膚はとても硬い。
 あなたは鉄のような皮膚を持っている。","Your skin is hard.
@@ -995,7 +996,7 @@ See if a recipe can be learned when dismantling,Double the chance to discover re
 6600,ActCurse,呪い,Curse,,,WIL,,,5,100,100,,1,1,1000,250,8,1,0,Chara,CurseEQ,Ability,ABILITY,ability,ability,debuff,neg,"  S",50,0,10,5,0,,,0,,,,,,,対象に呪いを振りかける。,Bestow a curse upon a target.,,,,,,,,,,,,
 6601,ActEntangle,拘束,Entangle,,,END,,,5,100,100,,1,1,1000,0,4,1,0,Neighbor,"Debuff,ConEntangle",Ability,ABILITY,ability,ability,debuff,neg,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
 6602,ActDraw,牽引,Draw,,,END,,,5,100,100,,1,1,1000,0,4,1,0,Chara,Draw,Ability,ABILITY,ability,ability,attack,neg,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
-6603,ActNTR,イタズラ,Mischief,,,CHA,,,5,100,100,,1,1,1000,0,10,1,0,Neighbor,,ActNTR,ABILITY,ability,ability,any,neg,,50,0,10,5,0,,,0,,,,,,,対象を愛でて生気を吸い取る。,Cherish the target and drain its life force.,,,"対象と気持ちいいことをする,対象の持つ最も高い主能力の潜在能力を得る","Engage in pleasurable acts with the target,Gain the potential of the target’s highest primary attribute",,,,,,,,
+6603,ActNTR,イタズラ,Mischief,,,CHA,,,5,100,100,,1,1,1000,0,10,1,0,Neighbor,,ActNTR,ABILITY,ability,ability,any,"neg,dontForget",,50,0,10,5,0,,,0,,,,,,,対象を愛でて生気を吸い取る。,Cherish the target and drain its life force.,,,"対象と気持ちいいことをする,対象の持つ最も高い主能力の潜在能力を得る","Engage in pleasurable acts with the target,Gain the potential of the target’s highest primary attribute",,,,,,,,
 6604,ActCryRage,嘆きの慟哭,Soul Cry,,,CHA,,,5,100,100,,1,50,1000,0,8,1,0,Self,,ActCryRage,ABILITY,ability,ability,any,neg,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
 6605,ActCrySad,物悲しい慟哭,Sad Cry,,,CHA,,,5,100,100,,1,50,1000,0,8,1,0,Self,,ActCrySad,ABILITY,ability,ability,any,"neg,specialAbility,noRandomAbility",,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
 6606,ActBurnMana,マナの燃焼,Burn Mana,,,END,,,5,100,100,,1,1,1000,0,1,1,0,Self,BurnMana,Ability,ABILITY,ability,ability,any,neg,,50,5,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,

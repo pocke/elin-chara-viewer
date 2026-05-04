@@ -1887,6 +1887,7 @@ Auto,,オート,Auto
 autoHideBG,,背景を自動的に隠す,Auto hide BG
 autoRamp,,階段自動設置,Auto Stairs
 autoRefuel,,自動燃料追加,Auto Refuel
+deliverAll,,全て納品,Deliver All
 useContainerStock,,保管した素材の使用,Use Stocked Ingredients
 autoUseText,,右クリックで#1。,"""#1"" when right clicked."
 avatar,,化身,Avatar
