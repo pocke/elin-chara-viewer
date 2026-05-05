@@ -18,4 +18,4 @@ predator,プレデター,predator,8,8,11,8,0,0,0,0,0,10,,"regeneration/3,tactics
 bard,唄い手,bard,8,9,3,7,6,0,0,4,0,0,,"weaponStaff/3,weaponDagger/2,regeneration/3,tactics/3,casting/3,marksman/3,music/3",staff,warrior,"eleFire/1,eleCold/1,eleLightning/1",,
 alchemist,錬金術師,alchemist,8,0,0,0,4,3,8,10,0,0,,"weaponStaff/3,weaponDagger/2,reading/3,casting/5,magicDevice/3,memorization/3,controlmana/4,featWizard/2",staff,mage,"eleFire/1,eleCold/1,eleLightning/1,eleMind/1,eleMagic/1",,
 defender,防衛者,defender,8,9,3,7,6,0,0,4,0,0,,"regeneration/3,tactics/3,casting/3,marksman/3",sword,warrior,"eleFire/1,eleCold/1,eleLightning/1",,
-none,なし,none,9,2,2,2,2,2,2,2,2,0,,"regeneration/3,tactics/3,casting/3,marksman/3",,warrior,"eleFire/1,eleCold/1,eleLightning/1",,
+none,なし,none,8,2,2,2,2,2,2,2,2,0,,"regeneration/3,tactics/3,casting/3,marksman/3",,warrior,"eleFire/1,eleCold/1,eleLightning/1",,
