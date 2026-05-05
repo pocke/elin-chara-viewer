@@ -93,6 +93,20 @@ lockpick_start,act,,,,,,#2の解錠を始めた。,#1 start(s) to open #2.
 lockpick_start_pick,act,,,,,,#1を使って#2の解錠を始めた。,You start to open #2 with #1.
 lockpick_end,act,,,,,,#2の解錠を諦めた。,#1 give(s) up opening #2.
 lockpick_success,act,,,,,,#1は#2の解錠に成功した！,#1 successfully unlock(s) #2.
+pry_damage,act,,ono,,,,"何かが壊れる音がした。
+*ガシャン*
+嫌な感触がした。
+おっと！
+*ゴツン*
+#1は悪態をついた。","#1 hear(s) something break. 
+*Crash*
+#1 feel(s) something unpleasant. 
+Watch it!
+*Thunk*
+#1 curse(s). "
+pry_start,act,,,,,,#2をこじ開け始めた。,#1 start(s) to pry open #2.
+pry_end,act,,,,,,#2をこじ開けるのを諦めた。,#1 give(s) up pry opening #2.
+pry_success,act,,,,,,#1は#2を力ずくでこじ開けた！,#1 successfully pry open #2.
 drink,act,,,,,,#1は#2を飲んだ。,#1 drink(s) #2.
 steal_chara_nothing,act,,,,,,#2はもう何も持っていないようだ。,It seems #2 has nothing to steal.
 steal_chara,act,,,,,,#1は#2から盗む機会をうかがった。,#1 begin(s) to steal from #2.

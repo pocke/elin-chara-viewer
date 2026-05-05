@@ -90,6 +90,7 @@ _toneYou,_sysReplace,君,
 actSalesTag,act,#2に売り札をつける (#1),Put a sales tag on #2 (#1)
 actRemoveSalesTag,act,#1を売るのを止める,Remove a sales tag from #1
 actCollectFurniture,act,#2を徴収する (チケット#1枚),Collect #2 (#1 Ticket#(s))
+AI_PryOpen,act,こじ開ける,Pry open
 actHammerFurniture,act,#1に使う,Hammer #1
 actSkyJump,act,飛び降りる,Take a leap
 actSetElevatorLevel,act,目的地を設定する,Set destination
@@ -663,9 +664,9 @@ uiScale,config,UI 拡大,UI Scale
 unlimited,config,無制限,Unlimited
 unsealWidgets,config,システムウィジェットの制限解除,Unseal system widgets
 altExamine,config,アイテムを調査時、キーを押している間だけウィンドウを開く,Open the item examine window only while holding down the examine key
-unsealWidgets_tip,config,"*危険* システム系のウィジェットをいじれるようになります。
+unsealWidgets_tip,config,"<color=red>*危険*</color> システム系のウィジェットをいじれるようになります。
 おかしいことになった時は、ESCからウィジェットマネージャーを開き
-リセットしてください。","*Unsafe* Enables editing system widgets.
+リセットしてください。","<color=red>*Unsafe*</color> Enables editing system widgets.
 When things go wrong, hit Escape, open Widget Manager
 and reset widgets."
 moveTiming_tip,config,"マウス移動時の入力時間を延長し、操作性を向上させます。
@@ -692,7 +693,11 @@ zoomToMouse,config,カーソル位置にズーム,Zoom to cursor
 _configOf,"config ",#1の設定,#1 Config
 backerContent,"config ",バッカーコンテンツとムーンゲート,Backer Contents and Moongate
 extraRace,config,追加の種族と職業,Extra Races and Classes
-extraRaceAll,config,さらなる追加の種族と職業,More extra races and classes
+extraRaceAll,config,追加の種族と職業の拡張,Extended extra races and classes
+extraRaceAll_tip,config,"冒険者作成時に「追加の種族と職業」を有効にすると
+ゲーム内の全ての種族と職業が選択可能になります。
+<color=red>*注意*</color> これらの種族や職業は完全にサポートの対象外です。","Enabling ""Extra Races and Classes"" during character creation allows all races and classes in the game to be selected.
+<color=red>*Warning*</color> These races and classes are not officially supported."
 extraRace_tip,config,"熟練冒険者向けのエキストラ種族と職業が選択できるようになります。
 特殊なものも多いので、まずは初期種族と職業で冒険に慣れることをお勧めします。","Turn this on to unlock extra races and classes for seasoned adventurers.
 With an array of unique choices, it is recommended that you first become comfortable
