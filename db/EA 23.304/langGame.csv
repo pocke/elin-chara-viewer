@@ -973,6 +973,7 @@ bury,,,,,,,あなたは#1を#2に埋葬した。,You bury #1 beneath #2.
 renewNefia,,,special,,,,この大陸に大きな地殻変動が起こった。,A sudden diastrophism hits the continent.
 haul,,,,,,,#1は#2を片づけた。,#1 put(s) away #2.
 removeHex,,,nice,,,,#1の#2は浄化された。,#your #2 is cleansed.
+removeHex_fail,,,bad,,,,#1の呪いは浄化を拒んだ。,#your hex refuses to fade.
 split,,,ability,,,,#1は増殖した！,#1 split(s)!
 split_fail,,,,,,,#1はブルブルと震えた。,#1 tremble(s) intensely.
 pillow,,,ono,,,,#1は#2をギュッと抱きしめた。,#1 wrap(s) #his arms tightly around #2.
