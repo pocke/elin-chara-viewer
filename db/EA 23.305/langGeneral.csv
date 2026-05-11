@@ -1277,6 +1277,7 @@ textEncSkill,info,それは#1の技術を#3。,It #3 your skill of #1.
 textEncEnc,info,それは#1を#3。,It #3 #1.
 hintCon,info,#2ターンの#1を付与する,Apply #1 for #2 turns
 hintCon2,info,#1を付与する,Apply #1
+hintCon3,info," (上限 #1ターン)"," (Max: #1 Turns)"
 hintDefenseAttb,info,対象の#1により効果は軽減される,Effectiveness is reduced by target's #1
 hintNullify,info,#1を無効化,Nullify #1
 hintStrife,info,"Lv.#1 (#2) ",Lv.#1 (#2)
