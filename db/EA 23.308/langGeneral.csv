@@ -2308,6 +2308,7 @@ toggleExcludeCraft,,コンテナ内のアイテムをクラフト時に使用し
 toggleDump,,コンテナ内のアイテムを自動整頓の対象にしない,Exclude items in this containers from auto-dumping
 toggleShiftToShowMenu,,Shiftキーを押している時のみメニューを表示,Show menu only when pressing Shift Key
 toggleItemCompress,,重ならないアイテムを圧縮してまとめる（実験中）,Compress unstackable items (Experimental)
+toggleCacheEffect,,エフェクトをキャッシュして高速化する,Cache effects to improve performance
 toggleBG,,背景を表示,Show BG
 ToggleBuildLight,,ライト切り替え,Toggle Light
 toggleComplete,,完了済み,Completed
