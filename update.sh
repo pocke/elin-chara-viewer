@@ -18,5 +18,5 @@ git add .
 git commit -m "$version $build"
 git new-br
 git push -u origin
-gh pr create 
+gh pr create --fill
 gh pr merge --auto --merge --delete-branch
