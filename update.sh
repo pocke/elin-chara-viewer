@@ -17,6 +17,6 @@ git add .
 
 git commit -m "$version $build"
 git new-br
-git push -u origin
+git push -u origin "$(git rev-parse --abbrev-ref HEAD)"
 gh pr create --fill --head "$(git rev-parse --abbrev-ref HEAD)"
 gh pr merge --auto --merge --delete-branch
