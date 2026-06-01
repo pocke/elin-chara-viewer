@@ -1239,6 +1239,7 @@ isNoSell,info,それは売却できない。,It cannot be sold.
 isOnlyUsableByPC,info,それはあなたにしか使えない。,It can be only used by you.
 isTourism,info,それは観光価値をあげる。,It raises tourism value.
 isMarkedImportant,info,それは大事なものに指定されている。,It is marked as important.
+isDyeableCrop,info,それは作物に染色を引き継ぐ。,It passes its dye color on to the crop.
 isStolen,info,それは盗品だ。,It is stolen goods.
 isCopy,info,それは複製品だ。,It is a copy.
 isLeftoverable,info,それは食べ切れなかった分を残せる。,It keeps the uneaten portion for later.
