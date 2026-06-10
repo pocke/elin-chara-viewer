@@ -694,9 +694,8 @@ _configOf,config ,#1の設定,#1 Config
 backerContent,config ,バッカーコンテンツとムーンゲート,Backer Contents and Moongate
 extraRace,config,追加の種族と職業,Extra Races and Classes
 extraRaceAll,config,追加の種族と職業の拡張,Extended extra races and classes
-extraRaceAll_tip,config,"冒険者作成時に「追加の種族と職業」を有効にすると
-ゲーム内の全ての種族と職業が選択可能になります。
-<color=red>*注意*</color> これらの種族や職業は完全にサポートの対象外です。","Enabling ""Extra Races and Classes"" during character creation allows all races and classes in the game to be selected.
+extraRaceAll_tip,config,"冒険者作成時にゲーム内の全ての種族と職業が選択可能になります。
+<color=red>*注意*</color> これらの種族や職業は完全にサポートの対象外です。","Enabling this option allows all races and classes in the game to be selected during character creation.
 <color=red>*Warning*</color> These races and classes are not officially supported."
 extraRace_tip,config,"熟練冒険者向けのエキストラ種族と職業が選択できるようになります。
 特殊なものも多いので、まずは初期種族と職業で冒険に慣れることをお勧めします。","Turn this on to unlock extra races and classes for seasoned adventurers.
@@ -1141,6 +1140,8 @@ By #3
 By #3
 
 Please confirm this item is created by you."
+mod_export_text,mod,ローカライゼーション用のテキストをエキスポート,Export texts for localization
+mod_convert_local,mod,ローカルPackageに変換,Convert to a local package
 alwaysShow,hotbar,折りたたみ中も表示,Visible when collapsed
 alwaysShow2,hotbar,ビルドモードでも表示,Visible in build mode
 anchor,hotbar,アンカー,Anchor
