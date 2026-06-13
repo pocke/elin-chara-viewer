@@ -274,6 +274,7 @@ id,alias,name_JP,name,altname_JP,altname,aliasParent,aliasRef,aliasMtp,parentFac
 763,air,空気,Air,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Element,ELEMENT,,,,trait,,50,0,10,5,0,,,0,,,,,,,,,,,空気,Air,,,,,"空気,呼吸していない,呼吸している","Air,Suffocating,Breathing",,
 764,creativeDish,創作料理,Creative Cuisine,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Element,FOOD,food,,,"trait,noInherit",,50,0,10,5,0,,,0,,,,,,,,,,,"複製不可, 捧げ物不可","Not Duplicable, Not Offerable",,,,,",,創作料理",",,Creative Food",,
 765,difficulty,難易度,Difficulty,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Element,ELEMENT,,,,trait,,50,0,10,5,0,,,0,,,,,,,,,,,"読書難易度上昇,暗記効果減少","Increased Reading Difficulty,Reduced Memorization Effect",,,,,",,難解",",,Cryptic",,
+770,effectRange,範囲,Range,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Element,ELEMENT,,,,trait,,50,0,10,5,0,,,0,,,,,,,,,,,効果範囲,Effect Range,,,,,"範囲,狭まる,広がる","Range,Narrowing,Widening",,
 800,domTest,ドメイン,Domain,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Element,DOMAIN,,,,,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
 801,domSurvival,生存,Survival,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Element,DOMAIN,,,,,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
 802,domFaith,信仰,Faith,,,,,,0,0,100,,1,1,1000,0,0,1,0,,,Element,DOMAIN,,,,,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
