@@ -1259,6 +1259,7 @@ isReplica,info,それは残念ながら模造品だ。,"It is a replica, unfortu
 isHomeItem,info,それはあなたの土地でのみ使える。,It can be only used in your lands.
 isRareResource,info,それは稀少なクラフト素材だ。,It is rare craft ingredient.
 isEdible,info,それは食べることができる。,It is edible.
+isDrinkable,info,それは飲むことができる。,It is drinkable.
 isProc,info,それは「#1」を発動する。,"It triggers ""#1""."
 isResist,info,それはあなたに#1を授ける。,It grants you #1.
 isResistNeg,info,それはあなたの#1を下げる。,It weakens your #1.
