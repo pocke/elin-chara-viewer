@@ -7,7 +7,7 @@ id,alias,type,name_JP,name,ai,talk,area,destTrait,workTag,expedition,resources,r
 6,Cook,Both,料理,Cooking,,farm,,Cooker,,,"0,0,0",50,culture,60,"seasoning,500,dish,200",,cooking,,
 7,Pray,Both,お祈り,Praying,,farm,,,,,"0,0,0",50,education,40,"1085,10","fMoral/30,fSafety/20",faith,,
 8,Write,Both,執筆,Writing,,read,,ToolWrite,,,"0,0,0",50,culture,120,,fEducation/15,reading,,
-9,Paint,Both,絵描き,Painting,,read,,Painter,,,"0,0,0",50,culture,60,"234,100,1084,20,milk,10",,sculpture,,
+9,Paint,Both,絵描き,Painting,,read,,Painter,,,"0,0,0",50,culture,60,"234,100,1084,20,_milk,10",,sculpture,,
 10,Walk,Hobby,散歩,Walking,,farm,,,,,"0,0,0",50,safety,30,"#mushroom,200",,travel,,
 11,Bath,Hobby,風呂,Bathing,,farm,,Bath,,,"0,0,0",50,medicine,30,"water,30,869,20,_egg,100",,swimming,,
 12,Clean,Both,掃除,Cleaning,Clean,farm,,,,,"0,0,0",50,medicine,20,,fMoral/10,stealing,ホームの清掃,Clean the home
@@ -19,7 +19,7 @@ id,alias,type,name_JP,name,ai,talk,area,destTrait,workTag,expedition,resources,r
 18,Blog,Both,ブログ,Blog,,read,,Computer,,,"0,0,0",50,education,120,,fPromo/25,reading,,
 19,Sleep,Hobby,昼寝,Sleeping,,farm,,Bed,,,"0,0,0",50,safety,80,,fLoyal/20,regeneration,,
 20,Cheer,Both,応援,Cheering,,farm,,,,,"0,0,0",50,fun,100,,"fLoyal/15,fPromo/10",negotiation,,
-21,Romance,Hobby,恋愛,Romance,,farm,,,,,"0,0,0",50,fun,80,"milk,20",resident_wanted/20,negotiation,,
+21,Romance,Hobby,恋愛,Romance,,farm,,,,,"0,0,0",50,fun,80,"_milk,20",resident_wanted/20,negotiation,,
 22,SelfHarm,Both,自傷,Self-Harm,,farm,,,,,"0,0,0",50,medicine,50,"amulet_engagement,50,fail_drink,100",,anatomy,,
 23,Drug,Hobby,薬,Drug,,farm,,,,,"0,0,0",50,medicine,120,"#drug,300","legal_drug/10,fMoral/-20",meditation,,
 24,Wash,Both,洗濯,Washing,,farm,,SpotFish,,,"0,0,0",50,education,30,,fLoyal/20,weaving,,
@@ -29,7 +29,7 @@ id,alias,type,name_JP,name,ai,talk,area,destTrait,workTag,expedition,resources,r
 28,Shop,Both,ショッピング,Shopping,,farm,,,,,"0,0,0",50,fun,150,,home_discount/20,negotiation,,
 29,Drink,Hobby,飲酒,Drinking,,farm,,,,,"0,0,0",50,fun,200,"#booze,500","fMoral/-10,fSafety/-10",cooking,,
 30,Smoke,Hobby,喫煙,Smoking,,farm,,,,,"0,0,0",50,fun,300,,"fElec/40,fMoral/-10",meditation,高額納税,High tax
-31,Nurse,Both,看病,Nursing,,farm,,Bed,,,"0,0,0",50,medicine,80,"milk,100",fMoral/20,regeneration,住人の自動蘇生,Automatic revival of residents
+31,Nurse,Both,看病,Nursing,,farm,,Bed,,,"0,0,0",50,medicine,80,"_milk,100",fMoral/20,regeneration,住人の自動蘇生,Automatic revival of residents
 32,Game,Both,ゲーム,Game,,read,,TV,,,"0,0,0",50,fun,200,,nocturnal_life/20,magicDevice,,
 33,Fluffy,Hobby,モフモフ,Fluffy Stroke,,farm,,PetHouse,,,"0,0,0",50,nature,180,,"fLuck/10,fMoral/10,fSafety/20",meditation,,
 34,Feel,Hobby,気持ちいいこと,Personal Pleasure,,farm,,Bed,,,"0,0,0",50,nature,160,"_egg,10",fElec/20,magicDevice,,
@@ -44,7 +44,7 @@ id,alias,type,name_JP,name,ai,talk,area,destTrait,workTag,expedition,resources,r
 42,Chore,Both,雑用,Chores,Chore,farm,,,,,"0,0,0",50,culture,50,,,weightlifting,ホームの清掃,Clean the home
 43,Smith,Work,鍛冶,Blacksmith,,farm,,Anvil,,,"0,0,0",50,industry,120,"ore,500,ore_gem,100",,blacksmith,,
 44,Lumberjack,Work,木こり,Lumberjack,Lumberjack,farm,,SpotLumberjack,,,"0,0,0",50,industry,40,"log,1500",,lumberjack,,
-45,Breeding,Pet,繁殖,Breeding,,farm,,,,,"0,0,0",50,nature,20,"_egg,66,milk,33",,negotiation,,
+45,Breeding,Pet,繁殖,Breeding,,farm,,,,,"0,0,0",50,nature,20,"_egg,66,_milk,33",,negotiation,,
 46,Supervising,Unique,監査,Supervising,,farm,,,,,"0,0,0",50,education,0,,fAdmin/20,investing,,
 47,Assassination,Unique,暗殺,Assassination,,farm,,,,,"0,0,0",50,education,50,,fSafety/30,stealth,,
 48,Rich,Hobby,散財,Extravagance ,,farm,,,,,"0,0,0",50,education,400,,,appraising,高額納税,High tax
