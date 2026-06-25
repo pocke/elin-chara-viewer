@@ -813,6 +813,7 @@ parasite_fail,,,negative,,,,"#1は小刻みに震えた。
 #1 shout(s) at #2."
 rush,,,ability,,,,#1は#2に目掛けて突進した！,#1 charge(s) towards #2!
 burn_mana,,,ability,,,,#1はマナを燃やした！,#1 burn(s) #his mana!
+fuse,,,special,,,,#1の様子がおかしい…！,#1 looks different somehow!
 abMissileBarrage,,,special,,,,#1はミサイルを乱射した！,#1 unleash(es) a barrage of missiles!
 abCatSniff,,,ability,,,,#1は#2を吸った。,#1 sniff(s) #2.
 abShutterHex,,,ability,,,,#1の呪いは砕け散った。,#your hexes shatter.
