@@ -188,3 +188,11 @@ rsBow 7
 rsTwoWield 7
 rsTwohand 5
 rsTactics 7",手|手|,999,meat,"_meat,20",,2,,,all,0,"10000,100000",180,1,100,,,
+god_mani,神,god,9,"noRide,humanSpeak,god,machine",999,999,100,0,0,0,0,0,99,99,99,99,99,99,99,99,200,,100,10,0,"food_god/40,seeInvisible,featElder,resEther/100,resHoly/10","rsEvade 3
+rsEvadePlus 3
+rsCritical 2
+rsGun 8
+rsBow 7
+rsTwoWield 7
+rsTwohand 5
+rsTactics 7",頭|首|体|背|手|手|指|指|腕|腰|脚|足|,999,meat,"_meat,20",,2,,,all,0,"10000,100000",180,1,100,,,
