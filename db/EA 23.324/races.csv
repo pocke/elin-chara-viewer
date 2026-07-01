@@ -117,7 +117,7 @@ rsShield 2
 rsOpenlock 3",頭|首|体|背|手|手|指|指|腕|腰|脚|足|,4,bone,"bone,500",,14,,,all,53,"10,150",160,30,100,fiber/bone,,
 piece,駒,piece,8,humanSpeak,90,80,100,0,10,15,0,0,9,7,6,4,5,9,10,4,100,,7,3,0,featLightEater/2,"rsMagicCapacity 2
 rsLiteracy 3",頭|首|体|背|手|手|指|指|腕|腰|,3,meat,"_meat,20",,8,,,all,53,"10,100",750,25,100,,,
-cat,猫,cat,8,"animal,ride,cat,mofu,sleepBeside",100,120,100,10,0,0,0,25,6,7,7,7,4,4,7,12,160,,8,3,0,"featFluffyTail,food_cat/-1","rsPerform 2
+cat,猫,cat,8,"animal,ride,cat,mofu,sleepBeside",100,120,100,10,0,0,0,25,6,7,7,7,4,4,7,12,160,,8,3,0,"featFluffyTail,food_cat/-1,bane_machine/20","rsPerform 2
 rsEvadePlus 3
 rsEvade 2",頭|首|体|背|手|脚|足|脚|足|,6,meat,"_meat,20",tail_cat/10,2,Claw,castGaze,,53,"1,15",60,640,50,,,
 dog,犬,dog,8,"animal,ride,mofu,sleepBeside",100,80,100,0,0,0,0,0,7,8,7,7,8,7,7,7,120,,7,3,0,"featFluffyTail,swimming/2","rsWeightLifting 3
@@ -164,7 +164,7 @@ rsDisarmTrap 3",頭|体|背|手|手|腰|脚|足|脚|足|,5,meat,"_meat,20",,2,Bi
 animal,豚,pig,8,"animal,ride",100,80,100,0,0,0,0,0,9,8,7,7,8,7,7,7,100,,7,3,0,featHeavyEater/3,"rsWeightLifting 3
 rsPerform 2
 rsDetection 3",頭|首|体|背|手|脚|足|脚|足|,6,meat,"_meat,20",,2,Bite,,,53,"1,15",80,920,150,fiber/wool,,
-catgod,猫の神,catgod,9,"noRide,god,humanSpeak",140,80,100,25,0,0,0,0,12,13,21,28,8,13,12,25,800,,100,6,0,"featFluffyTail,food_cat/-1,seeInvisible","rsEvade 3
+catgod,猫の神,catgod,9,"noRide,god,humanSpeak",140,80,100,25,0,0,0,0,12,13,21,28,8,13,12,25,800,,100,6,0,"featFluffyTail,food_cat/-1,seeInvisible,bane_machine/50","rsEvade 3
 rsEvadePlus 3
 rsCritical 2",頭|首|体|手|指|腕|脚|足|,3,meat,"_meat,20",,2,Claw,,all,0,"10000,100000",120,5,100,,,
 machinegod,機械の神,machinegod,9,"machine,god,humanSpeak",200,80,100,0,15,0,0,0,15,14,11,24,12,15,8,10,100,,100,8,0,"featGolem,seeInvisible,swimming/5",rsGun 30,頭|体|背|手|手|腕|腰|脚|足|,3,steel,"ore,1000",,10,,,all,53,"10000,100000",3000,5,100,,,
