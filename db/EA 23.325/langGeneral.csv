@@ -37,7 +37,7 @@ _unit2,_sys,#1#2,#1 unit#(s)
 _sealed,_sys,(未開封),(Sealed)
 _factionWide,_sys,(ファクション),(Faction)
 _partyWide,_sys,(パーティー),(Party)
-_deciphered ,_sys,解読済みの#1,deciphered #1
+_deciphered,_sys,解読済みの#1,deciphered #1
 _titled,_sys,「#1」という題名の#2,"#2 titled ""#1"""
 _flavor,_sys,(#1風味),(#1 flavor)
 _named,_sys,「#1」と名付けられた#2,"#2 named ""#1"""
@@ -694,9 +694,8 @@ _configOf,config ,#1の設定,#1 Config
 backerContent,config ,バッカーコンテンツとムーンゲート,Backer Contents and Moongate
 extraRace,config,追加の種族と職業,Extra Races and Classes
 extraRaceAll,config,追加の種族と職業の拡張,Extended extra races and classes
-extraRaceAll_tip,config,"冒険者作成時に「追加の種族と職業」を有効にすると
-ゲーム内の全ての種族と職業が選択可能になります。
-<color=red>*注意*</color> これらの種族や職業は完全にサポートの対象外です。","Enabling ""Extra Races and Classes"" during character creation allows all races and classes in the game to be selected.
+extraRaceAll_tip,config,"冒険者作成時にゲーム内の全ての種族と職業が選択可能になります。
+<color=red>*注意*</color> これらの種族や職業は完全にサポートの対象外です。","Enabling this option allows all races and classes in the game to be selected during character creation.
 <color=red>*Warning*</color> These races and classes are not officially supported."
 extraRace_tip,config,"熟練冒険者向けのエキストラ種族と職業が選択できるようになります。
 特殊なものも多いので、まずは初期種族と職業で冒険に慣れることをお勧めします。","Turn this on to unlock extra races and classes for seasoned adventurers.
@@ -1141,6 +1140,8 @@ By #3
 By #3
 
 Please confirm this item is created by you."
+mod_export_text,mod,ローカライゼーション用のテキストをエキスポート,Export texts for localization
+mod_convert_local,mod,ローカルPackageに変換,Convert to a local package
 alwaysShow,hotbar,折りたたみ中も表示,Visible when collapsed
 alwaysShow2,hotbar,ビルドモードでも表示,Visible in build mode
 anchor,hotbar,アンカー,Anchor
@@ -1239,6 +1240,7 @@ isNoSell,info,それは売却できない。,It cannot be sold.
 isOnlyUsableByPC,info,それはあなたにしか使えない。,It can be only used by you.
 isTourism,info,それは観光価値をあげる。,It raises tourism value.
 isMarkedImportant,info,それは大事なものに指定されている。,It is marked as important.
+isDyeableCrop,info,それは作物に染色を引き継ぐ。,It passes its dye color on to the crop.
 isStolen,info,それは盗品だ。,It is stolen goods.
 isCopy,info,それは複製品だ。,It is a copy.
 isLeftoverable,info,それは食べ切れなかった分を残せる。,It keeps the uneaten portion for later.
@@ -1257,6 +1259,7 @@ isReplica,info,それは残念ながら模造品だ。,"It is a replica, unfortu
 isHomeItem,info,それはあなたの土地でのみ使える。,It can be only used in your lands.
 isRareResource,info,それは稀少なクラフト素材だ。,It is rare craft ingredient.
 isEdible,info,それは食べることができる。,It is edible.
+isDrinkable,info,それは飲むことができる。,It is drinkable.
 isProc,info,それは「#1」を発動する。,"It triggers ""#1""."
 isResist,info,それはあなたに#1を授ける。,It grants you #1.
 isResistNeg,info,それはあなたの#1を下げる。,It weakens your #1.
@@ -1405,7 +1408,7 @@ recordPeople,journal,偉大な人物はいない,There are no magnificent people
 recordTime,journal,経過時間,Total Time
 religion,journal,宗教,Religion
 schedule,journal,スケジュール,Schedule
-tGameTime,journal,#1日 #2ターン,#1 Day#(s) #2 Turn(#s2)
+tGameTime,journal,#1日 #2ターン,#1 Day#(s) #2 Turn#(s2)
 unhappy,journal,不幸,Unhappy
 work,home,仕事,Work
 workDestTrait,home,#1などが必要,Require #1 or alike
@@ -2308,6 +2311,7 @@ toggleExcludeCraft,,コンテナ内のアイテムをクラフト時に使用し
 toggleDump,,コンテナ内のアイテムを自動整頓の対象にしない,Exclude items in this containers from auto-dumping
 toggleShiftToShowMenu,,Shiftキーを押している時のみメニューを表示,Show menu only when pressing Shift Key
 toggleItemCompress,,重ならないアイテムを圧縮してまとめる（実験中）,Compress unstackable items (Experimental)
+toggleCacheEffect,,エフェクトをキャッシュして高速化する,Cache effects to improve performance
 toggleBG,,背景を表示,Show BG
 ToggleBuildLight,,ライト切り替え,Toggle Light
 toggleComplete,,完了済み,Completed

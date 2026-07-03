@@ -48,15 +48,23 @@ fish_miss,,,ono,,,,"何も釣れなかった…
 あなたは空を見上げた。
 誰かが釣り餌に透明化の魔法をかけたらしい。
 魚たちは隠れんぼが得意だ！
-あっ、糸が切れた！","Nothing was caught...
+あっ、糸が切れた！
+あなたはイルヴァを釣り上げた！","Nothing was caught...
 The fish escapes.
 Fish ignore you.
+
 It seems like the fish are taking a day off today.
+
 You sigh.
+
 You look up at the sky.
+
 Someone must have cast an invisibility spell on the bait.
+
 Fish are good at hide and seek!
-Oh, the line broke!"
+
+Oh, the line broke!
+You caught Ylva! "
 fish_ehe,,,ono,,,,…と思ったが、魚はどこかに消えてしまったようだ。,Or so it seems. The fish somehow vanishes without a trace.
 fish_ehe2,,,save,,,,みゅ… ,Mew... 
 fish_ehe3,,,nice,,,,あなたは小さな幸運の気配を感じ取った。,You sense a faint sign of good fortune.
@@ -805,6 +813,7 @@ parasite_fail,,,negative,,,,"#1は小刻みに震えた。
 #1 shout(s) at #2."
 rush,,,ability,,,,#1は#2に目掛けて突進した！,#1 charge(s) towards #2!
 burn_mana,,,ability,,,,#1はマナを燃やした！,#1 burn(s) #his mana!
+fuse,,,special,,,,#1の様子がおかしい…！,#1 looks different somehow!
 abMissileBarrage,,,special,,,,#1はミサイルを乱射した！,#1 unleash(es) a barrage of missiles!
 abCatSniff,,,ability,,,,#1は#2を吸った。,#1 sniff(s) #2.
 abShutterHex,,,ability,,,,#1の呪いは砕け散った。,#your hexes shatter.
@@ -1164,7 +1173,7 @@ warhorn,,,warning,,,,"*ヴォゥオォーオゥゥゥ*
 *BWRRUUHHHHOOHHHH* "
 eternalYouth1,,,save,,,,ワァオー！#1は永遠の若さを手に入れた！,Wow! #1 attain(s) eternal youth!
 eternalYouth2,,,negative,,,,#1の肉体は再び老化し始めた。,#your body once again starts to wither with age.
-guts,,,ability,,,,#1は不屈の意志で持ちこたえた！,1 endure(s) with an indomitable will!
+guts,,,ability,,,,#1は不屈の意志で持ちこたえた！,#1 endure(s) with an indomitable will!
 parry,,,critical,,,,パリィ！,Parry!
 parry_enemy,,,enemy,,,,パリィ！,Parry!
 counter,,,ability,,,,反撃！,Counter!

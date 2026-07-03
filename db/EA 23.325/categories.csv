@@ -45,6 +45,7 @@ mushroom,34,きのこ,Mushroom,foodstuff,food,_void,_void,999,0,0,2,,mushroom,"f
 egg,35,卵,Egg,foodstuff,food,_void,_void,999,0,0,2,,egg,"food,10",2,0,0,100,1,147,0
 fish,36,魚,Fish,foodstuff,food,_void,_void,999,0,0,2,,75,"food,10",2,0,0,100,1,148,0
 nuts,37,実,Nuts,foodstuff,food,_void,_void,999,0,0,2,,696,"food,10",2,0,0,100,1,149,0
+filling,139,フィリング,Filling,foodstuff,food,_void,_void,999,0,0,2,,filling,"food,10",2,0,0,100,1,150,0
 seasoning,38,調味料,Seasoning,food,food,_void,_void,999,0,0,2,,salt,"food,10",2,0,0,100,1,160,0
 _seasoning,130,調味料,Seasoning,seasoning,food,_void,_void,999,0,0,2,,,"food,10",2,0,0,100,1,161,0
 herb,132,ハーブ,Herb,seasoning,food,_void,_void,999,0,0,2,,herb_blue,"food,10",2,0,0,100,1,162,0
@@ -55,7 +56,7 @@ foodstuff_raw,42,未加工食材,Raw Foodstuff,food,food,_void,_void,999,0,0,2,,
 drink,43,飲料,Drink,,food,_void,_void,999,0,0,0,,potion,"food,10",2,100,100,100,1,200,4
 _drink,127,ポーション,Potion,drink,food,_void,_void,999,0,0,0,,potion,"food,10",2,100,100,100,1,201,0
 booze,44,酒,Booze,drink,food,_void,_void,999,0,0,0,,crimAle,"food,10",2,100,100,100,1,202,0
-milk,45,ミルク,Milk,drink,food,_void,_void,999,0,0,0,,milk,"food,10",2,100,100,100,1,203,0
+milk,45,ミルク,Dairy,drink,food,_void,_void,999,0,0,0,,milk,"food,10",2,100,100,100,1,203,0
 drug,46,薬,Drug,drink,food,_void,_void,999,0,0,0,,drug,"food,10",2,100,100,100,1,204,0
 weapon,47,武器,Weapon,,goods,_void,_void,1,0,0,0,,sword,"material,10",3,0,0,100,1,300,8
 melee,48,近接武器,Melee Weapon,weapon,goods,hand,_void,1,0,0,0,,sword,"material,10",3,100,100,100,1,310,0

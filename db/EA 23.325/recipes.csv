@@ -7,6 +7,7 @@ id,factory,type,thing,num,sp,time,ing1,ing2,ing3,tag
 26,Mill,Food,tempurako,1,1,15,"wheat,rice_plant","oil_olive,oil_chili",,
 8,Mill,Food,noodle,1,1,15,"wheat,rice_plant",salt,,
 28,Mill,Food,gelatin,4+r(2),1,15,meat@gelatin,meat@gelatin,,
+71,Mill,Food,cream_custard,2,1,15,dough,milk_custard,,
 10,Mill,FixedResource,clay,1,1,15,chunk,#drink,,known
 33,Mill,None,drug_crim,2+r(2),1,5,crim,#nuts,,
 54,Mill,None,powder_blue,2+r(2),1,5,herb_blue,herb_blue,,
