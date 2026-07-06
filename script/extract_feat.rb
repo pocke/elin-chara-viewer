@@ -22,7 +22,7 @@ def version_value(str)
   m = str.match(/(\d+)\.(\d+)/) or raise "no version in #{str.inspect}"
   major, minor = m.captures
   patch = str[/Patch (\d+)/, 1] || 0
-  major.to_i * 1_000_000 + minor.to_i * 1_000 + patch.to_i
+  [major.to_i, minor.to_i, patch.to_i]
 end
 
 def closest_commit(spec)
@@ -39,7 +39,7 @@ def closest_commit(spec)
   return exact.first if exact
 
   warn "extract_feat: no decompiled build for #{spec.inspect}; falling back to the closest older version"
-  older = candidates.map { |_hash, value| value }.select { |value| value < target }
+  older = candidates.map { |_hash, value| value }.select { |value| (value <=> target).negative? }
   best = older.max or raise "no decompiled build at or before #{spec.inspect}"
   candidates.find { |_hash, value| value == best }.first
 end
