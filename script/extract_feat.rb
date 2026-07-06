@@ -105,6 +105,19 @@ def make_json(version)
       next
     end
 
+    # ModBase(60, A * 2 * invert, hide: false);
+    # A == a.abs and invert == a's sign, so A * N * invert == a * N.
+    if sc.scan(/^\s*ModBase\((?=\d+,\s*-?A\s*\*\s*-?\d+\s*\*\s*invert,)/)
+      target_id = sc.scan(/\d+/) or raise
+      sc.skip(/,\s*/)
+      sign = sc.scan(/-/) ? -1 : 1
+      sc.skip(/A\s*\*\s*/)
+      power = sc.scan(/-?\d+/) or raise
+      sub_feats[target_id] = power.to_i * sign
+      sc.skip(/.+\n/)
+      next
+    end
+
     if sc.scan(/^\t}/)
       flush result, feat_ids, sub_feats
       break
