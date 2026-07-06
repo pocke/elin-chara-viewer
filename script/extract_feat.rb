@@ -11,13 +11,30 @@ def prepare
   end
 end
 
-def checkout(version)
-  sh! 'git', '-C', 'tmp/Elin-Decompiled', 'checkout', 'origin/main'
+VERSION_FILES = { 'EA' => 'versions/EA', 'Nightly' => 'versions/nightly' }.freeze
 
-  key = version == 'EA' ? 'Stable' : 'Nightly'
-  until `git -C tmp/Elin-Decompiled log --oneline | head -1`.include?(key)
-    sh! "git", "-C", "tmp/Elin-Decompiled", "checkout", "HEAD^"
+def checkout(version)
+  target = version_value(File.read(VERSION_FILES.fetch(version)))
+  sh! 'git', '-C', 'tmp/Elin-Decompiled', 'checkout', closest_commit(target)
+end
+
+def version_value(str)
+  m = str.match(/(\d+)\.(\d+)/) or raise "no version in #{str.inspect}"
+  major, minor = m.captures
+  patch = str[/Patch (\d+)/, 1] || 0
+  major.to_i * 1_000_000 + minor.to_i * 1_000 + patch.to_i
+end
+
+def closest_commit(target)
+  log = `git -C tmp/Elin-Decompiled log --format=%H%x09%s origin/main`
+  candidates = log.each_line.filter_map do |line|
+    hash, subject = line.chomp.split("\t", 2)
+    next unless subject&.match?(/\d+\.\d+/)
+    [hash, version_value(subject)]
   end
+  raise 'no candidate commit' if candidates.empty?
+
+  candidates.min_by { |_hash, value| (value - target).abs }.first
 end
 
 def sh!(*cmd)
@@ -30,7 +47,7 @@ def make_json(version)
   content = File.read('tmp/Elin-Decompiled/Elin/FEAT.cs')
   sc = StringScanner.new(content)
 
-  sc.skip_until(/^\tpublic List<string> Apply\(/) or raise
+  sc.skip_until(/^\tpublic virtual List<string> Apply\(/) or raise
 
   feat_ids = []
   sub_feats = {}
