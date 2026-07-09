@@ -772,7 +772,7 @@ tail_free,,,ono,,,,#1の尻尾は元気よく揺れた。,#your tail wags energe
 tail_covered,,,ono,,,,#1はシュンとなった。,#1 become(s) dejected.
 gain_bodyparts,,,save,,,,#1の体に#2が生えた！,#1 grow(s) a new #2!
 lose_bodyparts,,,save,,,,#2は#1の体からもげた。,#1 lose(s) a #2.
-book_decode,,,,,,,#1は#2を解読した。,#1 decipher (s) #2.
+book_decode,,,,,,,#1は#2を解読した。,#1 decipher(s) #2.
 alreadyDecoded,,,,,,,それは既に解読済みだ。,It is already deciphered.
 blinded,,,,,,,#1は何も見えない。,#1 can see nothing.
 spell_fail_teleport,,,negative,,,,#1は奇妙な力に捻じ曲げられた！,A dimension door opens in front of #1!
