@@ -66,7 +66,7 @@ Fish are good at hide and seek!
 Oh, the line broke!
 You caught Ylva! "
 fish_ehe,,,ono,,,,…と思ったが、魚はどこかに消えてしまったようだ。,Or so it seems. The fish somehow vanishes without a trace.
-fish_ehe2,,,save,,,,みゅ… ,Mew... 
+fish_ehe2,,,save,,,,みゅ… ,Mew...
 fish_ehe3,,,nice,,,,あなたは小さな幸運の気配を感じ取った。,You sense a faint sign of good fortune.
 fish_get,,,nice,,,,#1は#2を釣り上げた！,#1 catch(es) #2!
 fish_start,act,,,,,,#2で釣りを始めた。,#1 start(s) to fish with #2.
@@ -106,12 +106,12 @@ pry_damage,act,,ono,,,,"何かが壊れる音がした。
 嫌な感触がした。
 おっと！
 *ゴツン*
-#1は悪態をついた。","#1 hear(s) something break. 
+#1は悪態をついた。","#1 hear(s) something break.
 *Crash*
-#1 feel(s) something unpleasant. 
+#1 feel(s) something unpleasant.
 Watch it!
 *Thunk*
-#1 curse(s). "
+#1 curse(s)."
 pry_start,act,,,,,,#2をこじ開け始めた。,#1 start(s) to pry open #2.
 pry_end,act,,,,,,#2をこじ開けるのを諦めた。,#1 give(s) up pry opening #2.
 pry_success,act,,,,,,#1は#2を力ずくでこじ開けた！,#1 successfully pry open #2.
@@ -1032,10 +1032,10 @@ contribute,,,nice,,,,#2への貢献度が上昇した。,Your contribution to #2
 faction_promote,,,nice,,,,あなたは昇進した！,You are promoted!
 bounty,,,nice,,,,賞金首を倒して#2オレンの懸賞金を受け取った。,The Fighters Guild pays you #2 oren(s2) for the bounty target.
 subdue_complete,,,nice,,,,付近の魔物を一掃した！,You have wiped out the nearby monsters!
-party_end,,,,,,,パーティーが終了した。あなたの演奏は#1得点を記録した。,The party has ended. Your performance scored #1 music points. 
-party_end2,,,,,,,合計で#1オレンを獲得した。,You earn a total of #1 orens. 
+party_end,,,,,,,パーティーが終了した。あなたの演奏は#1得点を記録した。,The party has ended. Your performance scored #1 music points.
+party_end2,,,,,,,合計で#1オレンを獲得した。,You earn a total of #1 orens.
 party_end3,,,,,,,祝宴は終わりを告げた。,The celebration came to an end.
-harvest_end,,,,,,,収穫が終わった。あなたは合計#1の重さの作物を納入した。,The harvest has ended. You delivered crops weighing a total of #1. 
+harvest_end,,,,,,,収穫が終わった。あなたは合計#1の重さの作物を納入した。,The harvest has ended. You delivered crops weighing a total of #1.
 farm_chest,,,nice,,,,重さ#2の#1を納入した。,You deliver #1 weighing #2.
 perfume,,,,,,,#1はいい匂いに包まれた。,#1 are/is wrapped in a nice fragrance.
 reward_bonus,,,,,,,ボーナスとして報酬に#1オレンが追加された。,A bonus of #1 oren#(s) is added to the reward.
@@ -1111,7 +1111,7 @@ pick_valuable,,,,,,,それを置いていくなんてとんでもない！,Leavi
 pick_valuable2,,,ono,,,,#1はあなたのバックパックに滑り込んだ。,#1 slip(s) into your backpack.
 syringe,,,ability,,,,#1は#3を#2に刺した。,#1 inject(s) #2 with #3.
 isIn,,,,,,,#1は#2にいる。,#1 is in #2.
-goto_heaven,,,save,,,,#1は天に召された。,#1 are/is taken to heaven. 
+goto_heaven,,,save,,,,#1は天に召された。,#1 are/is taken to heaven.
 sleep_beside,,,ono,,,,#1は#2にぴったり寄り添った。,#1 closely accompany/accompanies #2.
 firstTimeCraft,,,nice,,,,これは初めてクラフトするアイテムだ。,It's a new craft item.
 recipe_factory,,,nice,,,,それは「#1」でクラフトできる。,It can be crafted at #1.

@@ -1652,7 +1652,7 @@ statistics,tab,統計,Statistics
 stock,tab,ストック,Stock
 top,tab,トップ,Top
 tag_bamboo,tag,竹,Bamboo
-tag_carbone,tag,炭,Carbone
+tag_carbone,tag,炭,Carbon
 tag_glass,tag,ガラス,Glass
 tag_ice,tag,氷,Ice
 tag_mud,tag,泥,Mud
@@ -2045,7 +2045,7 @@ fav,,読み込み ,Load Fav
 favgift,,好物: #1と#2,Favorites: #1 and #2
 favgift2,,好物,Favorites
 featStage,,#1段階,Stage #1
-FlagCell,,セルを編集,Edit Cellls
+FlagCell,,セルを編集,Edit Cells
 flagFloat,,浮遊セル,Float
 flagSnow,,除雪セル,Snowless
 flagWallPillar,,壁柱トグル,Toggle Wall Pillar
