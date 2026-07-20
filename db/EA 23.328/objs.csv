@@ -7,7 +7,7 @@ id,alias,name_JP,name,_growth,costSoil,objType,vals,tag,sort,reqHarvest,hp,_tile
 5,,雑草,weed,"Weed,300",10,crop,14,seed,10,"gathering,1",50,Obj,,obj_S flat,"302,334",,0,0,,10,1,100,,,"grass/2,leaf/2",grass,,obj,0,,
 6,kinoko,きのこ,mushroom,"Kinoko,310,0,#mushroom,1",20,crop,11,seed,11,"gathering,1",50,Obj,,obj_S flat,312,,0,0,,10,1,100,,,grass,grass,,obj,0,,
 7,,雑草,weed,,10,crop,14,,12,"gathering,1",100,Obj,,obj_S flat,26,,0,100,,10,1,100,,,"grass/2,leaf/2",grass,,obj,0,,
-8,,ラフレシア,rafflesia,"Deco,19",10,crop,60,"seed,flower",15,"gathering,1",50,Obj,,obj_S flat,19,,0,0,,10,1,100,,,leaf,grass,,obj,0,,
+8,,ラフレシア,rafflesia,"Flower,415,0,_meat,1",10,crop,60,"seed,flower",15,"gathering,1",50,Obj,,obj_S flat,417,,0,0,,10,1,100,,,leaf,grass,,obj,0,,
 9,,石ころ,pebble,,0,resource,,mat_name,16,"gathering,1",100,Obj,,obj_S flat,"112,113,114,115",,0,100,,10,1,100,,,pebble,granite,rock,obj,0,,
 10,,クリスタル,crystal,,0,resource,,mat_name,18,"mining,20",100,Obj,Material,obj_S,"106,107",,0,100,,10,40,100,,factory_floor,fragment,mica,"crystal,bone",obj,0,,
 11,,石,stone,,0,resource,,mat_name,19,"gathering,1",50,Obj,,obj_S flat,"108,109,110,111",,0,100,,10,10,100,,factory_floor,"rock,rock,pebble",granite,rock,obj,0,,

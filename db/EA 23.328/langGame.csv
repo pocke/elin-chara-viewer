@@ -164,7 +164,7 @@ identified,,,positive,,,,#1は#2だと判明した。,#1 is identified as #2.
 identified2,,,positive,,,,#1には上位の鑑定が必要だ。,#1 requires higher level identification.
 identified3,,,positive,,,,バックパックの中の#1は#3だという感じがする。,You sense #1 in your backpack is #3.
 seeZone,,,,,,,#1が見える。,You see #1.
-seeZoneDanger,,,,,,,#1(危険度#2階相当)が見える。,You see #1(Danger Level #2).
+seeZoneDanger,,,,,,,#1(危険度#2階相当)が見える。,You see #1 (Danger Level #2).
 debuff_resist,,,,,,,#1は抵抗した。,#1 resist(s).
 cast,combat,,ability,,,,#1は#3#2を詠唱した。,#1 cast(s) #2#3.
 cast_hand_ally,combat,,ability,,,,#2は#3で#1に#4。,#1 #4 #2 with #his #3.
@@ -644,7 +644,8 @@ food_bad2,food,,ono,,,,"#1は苦い顔をした。
 #1は吐きそうな顔をした。","#1 make(s) a bitter face.
 #1 feel(s) like #he are/is about to throw up."
 food_average2,food,,ono,,,,"#1は物足りなそうな顔で腹をさすった。
-#1はため息をついた。",#1 rub(s) #his stomach with an unsatisfied look. #1 sigh(s).
+#1はため息をついた。","#1 rub(s) #his stomach with an unsatisfied look.
+#1 sigh(s)."
 food_soso2,food,,ono,,,,"#1は腹をさすった。
 #1は少し嬉しそうな顔をした。","#1 rub(s) #his belly.
 #1 show(s) a contented face."
@@ -1019,7 +1020,7 @@ statue_pick,,,statue,,,,あなたは胸騒ぎを覚えた。,You feel a sense of
 statue_install,,,statue,,,,（…そんな所に置いていいのか？）,(...Are you sure it's alright to leave it there?)
 statue_sell,,,statue,,,,（…後悔はしないな？）,(...Was it right to let it go?)
 plant_pop,,,ono,,,,#1の死体は芽吹いた。,#your body sprouts.
-little_pop,,,ono,,,,ビッグダディの肩から、リトルシスターが滑り落ちた。「Mr Bubbles！！」,"The little sister slips from Big Daddy's shoulder, ""Mr.Bubbles!!"""
+little_pop,,,ono,,,,ビッグダディの肩から、リトルシスターが滑り落ちた。「Mr Bubbles！！」,"The little sister slips from Big Daddy's shoulder, ""Mr. Bubbles!!"""
 shark_pop,,,ono,,,,妹鮫の口から、妹シャークが滑り落ちた。,The younger shark sister slips from the younger sister shark's mouth.
 little_eat,,,special,,,,#1は進化した。,#1 evolve(s).
 little_adam,,,special,,,,#1はアダムの遺伝子を取り込んだ。,#1 absorb(s) the genes of Adam.
