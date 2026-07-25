@@ -1,0 +1,72 @@
+name: Archive versions
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: archive
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  archive:
+    name: Update the version archive
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # archive_versions.rb walks every commit that ever touched db/.
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Checkout the archive repository
+        uses: actions/checkout@v4
+        with:
+          repository: pocke/elin-chara-viewer-data
+          token: ${{ secrets.ARCHIVE_REPO_TOKEN }}
+          path: archive
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Rebuild the archive
+        run: |
+          ruby script/archive_versions.rb archive --ref "$GITHUB_SHA"
+          ruby script/extract_feat.rb --archive archive
+
+      - name: Check that every archived version parses
+        run: npm run check:archive -- archive
+
+      - name: Commit and push
+        working-directory: archive
+        env:
+          # Passed through the environment so that the message cannot break out
+          # of the script.
+          SOURCE_COMMIT: ${{ github.event.head_commit.message || github.sha }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'Archive is already up to date'
+            exit 0
+          fi
+          git commit -m "Archive ${SOURCE_COMMIT%%$'\n'*}"
+          git pull --rebase
+          git push

@@ -9,9 +9,15 @@ if (fs.existsSync(publicCsvDir)) {
 }
 fs.mkdirSync(publicCsvDir, { recursive: true });
 
-const versionDirs = fs
-  .readdirSync(dbDir)
-  .filter((name) => fs.statSync(path.join(dbDir, name)).isDirectory());
+const versionDirs = [
+  ...new Set(
+    ['EA', 'nightly'].map((channel) =>
+      fs
+        .readFileSync(path.join(__dirname, '..', 'versions', channel), 'utf8')
+        .trim()
+    )
+  ),
+];
 
 for (const versionDir of versionDirs) {
   const srcDir = path.join(dbDir, versionDir);
