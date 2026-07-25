@@ -1,6 +1,7 @@
-import { GAME_VERSIONS } from '@/lib/db';
+import { GAME_VERSIONS, isCurrentVersion } from '@/lib/db';
 import CurveSimClient from './CurveSimClient';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { generateAlternates } from '@/lib/metadata';
 
 export async function generateMetadata(props: {
@@ -35,6 +36,11 @@ interface CurveSimPageProps {
 
 export default async function CurveSimPage({ params }: CurveSimPageProps) {
   const { lang, version } = await params;
+
+  // curveUtils hardcodes the current game's formulas.
+  if (!isCurrentVersion(version)) {
+    notFound();
+  }
 
   return <CurveSimClient lang={lang} version={version} />;
 }

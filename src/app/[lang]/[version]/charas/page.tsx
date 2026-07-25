@@ -1,14 +1,23 @@
-import { all, GAME_VERSIONS, GameVersion } from '@/lib/db';
-import { Chara, CharaSchema } from '@/lib/models/chara';
+import { GAME_VERSIONS } from '@/lib/db';
+import { charaIndexRows } from '@/lib/pageData';
+import { resolveVersion } from '@/lib/versions';
+import ArchivedCharaPage from './ArchivedCharaPage';
 import CharaPageClient from './CharaPageClient';
 import { Metadata } from 'next';
-import { generateAlternates } from '@/lib/metadata';
+import { notFound } from 'next/navigation';
+import { archivedPageMetadata, generateAlternates } from '@/lib/metadata';
 
 export async function generateMetadata(props: {
   params: Promise<{ lang: string; version: string }>;
 }): Promise<Metadata> {
   const { lang, version } = await props.params;
   const pathname = `/${lang}/${version}/charas`;
+  const resolved = await resolveVersion(version);
+
+  if (resolved?.kind === 'archived') {
+    return archivedPageMetadata(lang, pathname, resolved.label);
+  }
+
   const canonicalPathname = version !== 'EA' ? `/${lang}/EA/charas` : pathname;
 
   return {
@@ -32,11 +41,20 @@ interface PageProps {
 
 export default async function CharaPage({ params }: PageProps) {
   const { version } = await params;
-  const gameVersion = version as GameVersion;
+  const resolved = await resolveVersion(version);
 
-  const charaRows = all(gameVersion, 'charas', CharaSchema).filter(
-    (row) => !Chara.isIgnoredCharaId(row.id)
+  if (!resolved) {
+    notFound();
+  }
+
+  if (resolved.kind === 'archived') {
+    return <ArchivedCharaPage entry={resolved.entry} />;
+  }
+
+  return (
+    <CharaPageClient
+      charaRows={charaIndexRows(resolved.key)}
+      version={resolved.key}
+    />
   );
-
-  return <CharaPageClient charaRows={charaRows} version={gameVersion} />;
 }

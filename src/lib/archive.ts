@@ -1,0 +1,142 @@
+import { z } from 'zod';
+import {
+  FeatModifierJson,
+  isVersionDataRegistered,
+  registerVersionData,
+} from './db';
+
+// Falls back to the archive repository on GitHub so that a checkout works
+// without any configuration; production points this at Cloudflare R2.
+export const ARCHIVE_BASE_URL =
+  process.env.NEXT_PUBLIC_ARCHIVE_BASE_URL ??
+  'https://raw.githubusercontent.com/pocke/elin-chara-viewer-data/main';
+
+// The tables the viewer reads. Versions archived before the exporter dumped
+// every table have exactly these five.
+export const REQUIRED_TABLES = [
+  'charas',
+  'elements',
+  'races',
+  'jobs',
+  'tactics',
+] as const;
+
+export const ArchivedVersionSchema = z.object({
+  version: z.string(),
+  // Also used as a path segment against the archive host.
+  slug: z.string().regex(/^[a-z0-9][a-z0-9.-]*$/),
+  channel: z.enum(['stable', 'nightly']).nullable(),
+  date: z.string(),
+  // Also used as a DuckDB table name on the sources page.
+  tables: z.array(z.string().regex(/^[A-Za-z][A-Za-z0-9_]*$/)),
+  contentHash: z.string(),
+  source: z.string(),
+  // Absent while extract_feat.rb has not run over a freshly rebuilt index.
+  featModifier: z.boolean().default(false),
+  featModifierSource: z.string().nullish(),
+});
+
+export type ArchivedVersion = z.infer<typeof ArchivedVersionSchema>;
+
+export const ArchivedIdsSchema = z.object({
+  charas: z.array(z.string()),
+  elements: z.array(z.string()),
+});
+
+export type ArchivedIds = z.infer<typeof ArchivedIdsSchema>;
+
+export const archiveCsvUrl = (slug: string, table: string): string =>
+  `${ARCHIVE_BASE_URL}/csv/${encodeURIComponent(slug)}/${encodeURIComponent(table)}.csv`;
+
+export const archiveFeatModifierUrl = (slug: string): string =>
+  `${ARCHIVE_BASE_URL}/featModifier/${encodeURIComponent(slug)}.json`;
+
+export const archiveIdsUrl = (slug: string): string =>
+  `${ARCHIVE_BASE_URL}/ids/${encodeURIComponent(slug)}.json`;
+
+const fetchText = async (url: string, init?: RequestInit): Promise<string> => {
+  const response = await fetch(url, init);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url}: ${response.status}`);
+  }
+  return response.text();
+};
+
+// An archived version's files only change when the archive is rebuilt to
+// correct them; the index gains an entry on every release.
+const ARCHIVED_INIT: RequestInit = { next: { revalidate: 86400 } };
+const INDEX_INIT: RequestInit = { next: { revalidate: 3600 } };
+
+export const archiveIndex = async (): Promise<ArchivedVersion[]> => {
+  const text = await fetchText(`${ARCHIVE_BASE_URL}/index.json`, INDEX_INIT);
+  const entries: unknown[] = JSON.parse(text);
+
+  // One malformed entry must not hide every other version, so entries are
+  // validated one by one instead of as an array.
+  return entries.flatMap((entry) => {
+    const parsed = ArchivedVersionSchema.safeParse(entry);
+    if (!parsed.success) {
+      console.error('Skipping a malformed archive entry:', parsed.error.issues);
+      return [];
+    }
+    return [parsed.data];
+  });
+};
+
+export const archivedVersionBySlug = async (
+  slug: string
+): Promise<ArchivedVersion | undefined> =>
+  (await archiveIndex()).find((entry) => entry.slug === slug);
+
+export const archivedIds = async (slug: string): Promise<ArchivedIds> =>
+  ArchivedIdsSchema.parse(
+    JSON.parse(await fetchText(archiveIdsUrl(slug), ARCHIVED_INIT))
+  );
+
+const inFlight = new Map<string, Promise<void>>();
+
+export const loadArchivedVersion = (
+  slug: string,
+  hasFeatModifier: boolean
+): Promise<void> => {
+  if (isVersionDataRegistered(slug)) {
+    return Promise.resolve();
+  }
+
+  const running = inFlight.get(slug);
+  if (running) {
+    return running;
+  }
+
+  const load = fetchArchivedVersion(slug, hasFeatModifier).finally(() => {
+    inFlight.delete(slug);
+  });
+  inFlight.set(slug, load);
+  return load;
+};
+
+const fetchArchivedVersion = async (
+  slug: string,
+  hasFeatModifier: boolean
+): Promise<void> => {
+  const [csvContents, featModifier] = await Promise.all([
+    Promise.all(
+      REQUIRED_TABLES.map((table) =>
+        fetchText(archiveCsvUrl(slug, table), ARCHIVED_INIT)
+      )
+    ),
+    hasFeatModifier
+      ? fetchText(archiveFeatModifierUrl(slug), ARCHIVED_INIT).then(
+          (text) => JSON.parse(text) as FeatModifierJson
+        )
+      : Promise.resolve({}),
+  ]);
+
+  registerVersionData(
+    slug,
+    Object.fromEntries(
+      REQUIRED_TABLES.map((table, index) => [table, csvContents[index]])
+    ),
+    featModifier
+  );
+};

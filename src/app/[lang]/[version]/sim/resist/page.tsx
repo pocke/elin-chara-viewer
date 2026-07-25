@@ -1,7 +1,8 @@
-import { all, GAME_VERSIONS, GameVersion } from '@/lib/db';
-import { Chara, CharaSchema } from '@/lib/models/chara';
+import { GAME_VERSIONS, GameVersion, isCurrentVersion } from '@/lib/db';
+import { charaIndexRows } from '@/lib/pageData';
 import ResistSimClient from './ResistSimClient';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { generateAlternates } from '@/lib/metadata';
 
 export async function generateMetadata(props: {
@@ -38,9 +39,12 @@ export default async function ResistSimPage({ params }: ResistSimPageProps) {
   const { lang, version } = await params;
   const gameVersion = version as GameVersion;
 
-  const charaRows = all(gameVersion, 'charas', CharaSchema).filter(
-    (row) => !Chara.isIgnoredCharaId(row.id)
-  );
+  // resistSimUtils hardcodes the current game's formulas.
+  if (!isCurrentVersion(gameVersion)) {
+    notFound();
+  }
+
+  const charaRows = charaIndexRows(gameVersion);
 
   return (
     <ResistSimClient charaRows={charaRows} lang={lang} version={gameVersion} />

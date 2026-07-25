@@ -1,11 +1,16 @@
-import { all, GAME_VERSIONS, GameVersion } from '@/lib/db';
+import { all, GAME_VERSIONS } from '@/lib/db';
 import { Chara, CharaSchema } from '@/lib/models/chara';
 import { ElementAttacks, elementByAlias } from '@/lib/models/element';
+import { archivedIds } from '@/lib/archive';
+import { charaDetailRow } from '@/lib/pageData';
+import { resolveVersion } from '@/lib/versions';
+import ArchivedCharaDetailPage from './ArchivedCharaDetailPage';
 import CharaDetailClient from './CharaDetailClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { resources, Language } from '@/lib/i18n-resources';
 import {
+  archivedPageMetadata,
   generateAlternates,
   getCanonicalVersionForChara,
 } from '@/lib/metadata';
@@ -16,17 +21,28 @@ export const generateMetadata = async (props: {
   const params = await props.params;
   const decodedId = decodeURIComponent(params.id);
   const [baseId, variantElement] = decodedId.split('---');
-  const gameVersion = params.version as GameVersion;
+  const resolved = await resolveVersion(params.version);
 
-  const charaRows = all(gameVersion, 'charas', CharaSchema);
-  const charaRow = charaRows.find((chara) => chara.id === baseId);
+  if (!resolved) {
+    return {};
+  }
+
+  if (resolved.kind === 'archived') {
+    return archivedPageMetadata(
+      params.lang,
+      `/${params.lang}/${params.version}/charas/${params.id}`,
+      resolved.label
+    );
+  }
+
+  const charaRow = charaDetailRow(resolved.key, baseId);
 
   if (!charaRow) {
     return {};
   }
 
   const chara = new Chara(
-    gameVersion,
+    resolved.key,
     charaRow,
     variantElement as ElementAttacks | null
   );
@@ -49,7 +65,7 @@ export const generateMetadata = async (props: {
   const primaryAttributes = chara.primaryAttributes();
   const primaryAttrsText = primaryAttributes
     .map((attr) => {
-      const element = elementByAlias(gameVersion, attr.alias)!;
+      const element = elementByAlias(resolved.key, attr.alias)!;
       const displayName = element.name(lang);
       return `${displayName}${attr.value}`;
     })
@@ -58,9 +74,9 @@ export const generateMetadata = async (props: {
   const description = `${raceName}/${jobName}\n${primaryAttrsText}\n${t.life}${life}/${t.mana}${mana}/${t.speed}${speed}/${t.vigor}${vigor}`;
 
   const pathname = `/${lang}/${params.version}/charas/${params.id}`;
-  const canonicalVersion = getCanonicalVersionForChara(gameVersion, decodedId);
+  const canonicalVersion = getCanonicalVersionForChara(resolved.key, decodedId);
   const canonicalPathname =
-    canonicalVersion !== gameVersion
+    canonicalVersion !== resolved.key
       ? `/${lang}/${canonicalVersion}/charas/${params.id}`
       : pathname;
 
@@ -111,13 +127,34 @@ export default async function CharaPage(props: {
 }) {
   const params = await props.params;
   const decodedId = decodeURIComponent(params.id);
-  const gameVersion = params.version as GameVersion;
+  const resolved = await resolveVersion(params.version);
+
+  if (!resolved) {
+    notFound();
+  }
 
   // Parse variant element from ID (format: baseId#variantElement)
   const [baseId, variantElement] = decodedId.split('---');
 
-  const charaRows = all(gameVersion, 'charas', CharaSchema);
-  const charaRow = charaRows.find((chara) => chara.id === baseId);
+  if (resolved.kind === 'archived') {
+    // Checked here rather than in the client component so that a URL that
+    // never existed answers 404 instead of filling the route cache with an
+    // empty page for every identifier that is asked for.
+    const ids = await archivedIds(resolved.entry.slug);
+    if (!ids.charas.includes(baseId)) {
+      notFound();
+    }
+
+    return (
+      <ArchivedCharaDetailPage
+        entry={resolved.entry}
+        baseId={baseId}
+        variantElement={variantElement as ElementAttacks | null}
+      />
+    );
+  }
+
+  const charaRow = charaDetailRow(resolved.key, baseId);
 
   if (!charaRow) {
     notFound();
@@ -127,7 +164,7 @@ export default async function CharaPage(props: {
     <CharaDetailClient
       charaRow={charaRow}
       variantElement={variantElement as ElementAttacks | null}
-      version={gameVersion}
+      version={resolved.key}
     />
   );
 }

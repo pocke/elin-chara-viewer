@@ -1,2 +1,8 @@
 User-agent: *
 Allow: /
+
+# Archived versions are addressed by their version number (/ja/23.306-patch-1/...)
+# and are generated on request. They are new URLs that were never indexed, so
+# keeping crawlers out is cheaper than letting them crawl every one of them to
+# read a noindex. The version list at /<lang>/versions stays crawlable.
+Disallow: /*/2*/

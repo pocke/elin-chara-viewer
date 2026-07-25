@@ -19,7 +19,10 @@ import { HoverPrefetchLink as Link } from '../../components/HoverPrefetchLink';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import theme from '../theme';
-import { GAME_VERSIONS, GameVersion } from '../../lib/db';
+// The models call all() in the browser too, so the current versions have to
+// be registered somewhere in the client graph; this layout wraps every page.
+import '../../lib/bundledData';
+import { GameVersion, isCurrentVersion } from '../../lib/db';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 import VersionSwitcher from '../../components/VersionSwitcher';
 import Footer from '../../components/Footer';
@@ -39,12 +42,10 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
 
-  // Extract current version from pathname (e.g., /ja/EA/charas -> EA)
   const pathParts = pathname.split('/');
-  const currentVersion: GameVersion =
-    pathParts.length >= 3 && GAME_VERSIONS.includes(pathParts[2] as GameVersion)
-      ? (pathParts[2] as GameVersion)
-      : 'EA';
+  const pathVersion = pathParts.length >= 4 ? pathParts[2] : null;
+  const currentVersion: GameVersion = pathVersion ?? 'EA';
+  const isArchived = !isCurrentVersion(currentVersion);
 
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
@@ -63,17 +64,25 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
       text: t.common.browseFeats,
       href: `/${language}/${currentVersion}/feats`,
     },
-    {
-      text: t.common.browseResistSim,
-      href: `/${language}/${currentVersion}/sim/resist`,
-    },
-    {
-      text: t.common.browseCurveSim,
-      href: `/${language}/${currentVersion}/sim/curve`,
-    },
+    ...(isArchived
+      ? []
+      : [
+          {
+            text: t.common.browseResistSim,
+            href: `/${language}/${currentVersion}/sim/resist`,
+          },
+          {
+            text: t.common.browseCurveSim,
+            href: `/${language}/${currentVersion}/sim/curve`,
+          },
+        ]),
     {
       text: t.common.browseSources,
       href: `/${language}/${currentVersion}/sources`,
+    },
+    {
+      text: t.common.pastVersions,
+      href: `/${language}/versions`,
     },
   ];
 
@@ -89,8 +98,9 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
         position="static"
         elevation={1}
         sx={{
-          background:
-            currentVersion === 'EA'
+          background: isArchived
+            ? 'linear-gradient(to bottom right, #37474f 30%, #546e7a 70%, #546e7a)'
+            : currentVersion === 'EA'
               ? 'linear-gradient(to bottom right, #0d47a1 30%, #1565c0 70%, #1565c0)'
               : 'linear-gradient(to bottom right, #0d47a1 30%, #061a3d 70%, #061a3d)',
         }}

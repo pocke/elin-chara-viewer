@@ -1,21 +1,19 @@
 'use client';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, Divider, Menu, MenuItem } from '@mui/material';
 import { SwapHoriz as SwapHorizIcon } from '@mui/icons-material';
 import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { GAME_VERSIONS, GameVersion } from '@/lib/db';
+import { useTranslation } from '@/lib/simple-i18n';
 
 export default function VersionSwitcher() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const pathname = usePathname();
   const router = useRouter();
+  const { t, language } = useTranslation();
 
-  // Extract current version from pathname (e.g., /ja/EA/charas -> EA)
-  const pathParts = pathname.split('/');
-  const currentVersion =
-    pathParts.length >= 3 && GAME_VERSIONS.includes(pathParts[2] as GameVersion)
-      ? (pathParts[2] as GameVersion)
-      : null;
+  const segments = pathname.split('/');
+  const currentVersion: GameVersion | null = segments[2] ?? null;
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -27,18 +25,14 @@ export default function VersionSwitcher() {
 
   const changeVersion = (newVersion: GameVersion) => {
     if (currentVersion) {
-      // Replace version in path: /ja/EA/charas -> /ja/Nightly/charas
-      const newPath = pathname.replace(
-        `/${currentVersion}/`,
-        `/${newVersion}/`
-      );
-      router.push(newPath);
+      const newSegments = [...segments];
+      newSegments[2] = newVersion;
+      router.push(newSegments.join('/'));
     }
     handleClose();
   };
 
-  // Don't render if not on a versioned page
-  if (!currentVersion) {
+  if (!currentVersion || segments.length < 4) {
     return null;
   }
 
@@ -70,6 +64,15 @@ export default function VersionSwitcher() {
             {version}
           </MenuItem>
         ))}
+        <Divider />
+        <MenuItem
+          onClick={() => {
+            router.push(`/${language}/versions`);
+            handleClose();
+          }}
+        >
+          {t.common.pastVersions}
+        </MenuItem>
       </Menu>
     </>
   );

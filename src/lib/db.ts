@@ -1,44 +1,71 @@
 import { loadCsv } from './csvLoader';
 import { z } from 'zod';
 
-// Import CSV files for EA version
-import eaCharasContent from '../../db/EA 23.325 Patch 2/charas.csv';
-import eaElementsContent from '../../db/EA 23.325 Patch 2/elements.csv';
-import eaRacesContent from '../../db/EA 23.325 Patch 2/races.csv';
-import eaJobsContent from '../../db/EA 23.325 Patch 2/jobs.csv';
-import eaTacticsContent from '../../db/EA 23.325 Patch 2/tactics.csv';
+// A version key is either a current version ('EA' / 'Nightly') or an archived
+// version's slug ('23.306-patch-1').
+export type GameVersion = string;
 
-// Import CSV files for Nightly version (currently using EA data as placeholder)
-import nightlyCharasContent from '../../db/EA 23.329 Patch 2/charas.csv';
-import nightlyElementsContent from '../../db/EA 23.329 Patch 2/elements.csv';
-import nightlyRacesContent from '../../db/EA 23.329 Patch 2/races.csv';
-import nightlyJobsContent from '../../db/EA 23.329 Patch 2/jobs.csv';
-import nightlyTacticsContent from '../../db/EA 23.329 Patch 2/tactics.csv';
+export const GAME_VERSIONS = ['EA', 'Nightly'] as const;
 
-export type GameVersion = 'EA' | 'Nightly';
+export type CurrentVersion = (typeof GAME_VERSIONS)[number];
 
-export const GAME_VERSIONS: GameVersion[] = ['EA', 'Nightly'];
+export const isCurrentVersion = (
+  version: GameVersion
+): version is CurrentVersion =>
+  (GAME_VERSIONS as readonly string[]).includes(version);
 
-// Map version -> table name -> CSV content
-const csvContentMap: Record<GameVersion, Record<string, string>> = {
-  EA: {
-    charas: eaCharasContent,
-    elements: eaElementsContent,
-    races: eaRacesContent,
-    jobs: eaJobsContent,
-    tactics: eaTacticsContent,
-  },
-  Nightly: {
-    charas: nightlyCharasContent,
-    elements: nightlyElementsContent,
-    races: nightlyRacesContent,
-    jobs: nightlyJobsContent,
-    tactics: nightlyTacticsContent,
-  },
-};
+export type FeatModifierJson = Record<string, Record<string, number>>;
+
+// version -> table name -> CSV content. A table's content is dropped once it
+// has been parsed.
+const csvContentMap = new Map<GameVersion, Record<string, string>>();
+const registeredVersions = new Set<GameVersion>();
+const featModifierMap = new Map<GameVersion, FeatModifierJson>();
 
 // Cache: version:tableName -> data
 const cache = new Map<string, unknown[]>();
+
+// An archived version costs around 0.5MB of CSV plus the parsed rows, and a
+// session that walks the version list would otherwise keep every one it opened.
+const MAX_RETAINED_VERSIONS = 3;
+const retained: GameVersion[] = [];
+
+const forget = (version: GameVersion) => {
+  csvContentMap.delete(version);
+  featModifierMap.delete(version);
+  registeredVersions.delete(version);
+  for (const key of cache.keys()) {
+    if (key.startsWith(`${version}:`)) {
+      cache.delete(key);
+    }
+  }
+};
+
+export const registerVersionData = (
+  version: GameVersion,
+  tables: Record<string, string>,
+  featModifier: FeatModifierJson
+) => {
+  forget(version);
+  csvContentMap.set(version, { ...tables });
+  featModifierMap.set(version, featModifier);
+  registeredVersions.add(version);
+
+  if (isCurrentVersion(version)) {
+    return;
+  }
+
+  retained.push(version);
+  while (retained.length > MAX_RETAINED_VERSIONS) {
+    forget(retained.shift()!);
+  }
+};
+
+export const isVersionDataRegistered = (version: GameVersion): boolean =>
+  registeredVersions.has(version);
+
+export const featModifierFor = (version: GameVersion): FeatModifierJson =>
+  featModifierMap.get(version) ?? {};
 
 export const all = <T>(
   version: GameVersion,
@@ -50,7 +77,7 @@ export const all = <T>(
     return cache.get(cacheKey) as T[];
   }
 
-  const versionContent = csvContentMap[version];
+  const versionContent = csvContentMap.get(version);
   if (!versionContent) {
     throw new Error(`Version ${version} not found`);
   }
@@ -62,5 +89,6 @@ export const all = <T>(
 
   const result = loadCsv(content, schema);
   cache.set(cacheKey, result);
+  delete versionContent[tableName];
   return result;
 };

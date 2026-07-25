@@ -1,5 +1,6 @@
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { GAME_VERSIONS } from '@/lib/db';
+import { resolveVersion } from '@/lib/versions';
 
 export function generateStaticParams() {
   const params = [];
@@ -16,6 +17,16 @@ interface PageProps {
 }
 
 export default async function VersionHome({ params }: PageProps) {
-  const { lang } = await params;
+  const { lang, version } = await params;
+  const resolved = await resolveVersion(version);
+
+  if (!resolved) {
+    notFound();
+  }
+
+  if (resolved.kind === 'archived') {
+    redirect(`/${lang}/${resolved.entry.slug}/charas`);
+  }
+
   redirect(`/${lang}`);
 }

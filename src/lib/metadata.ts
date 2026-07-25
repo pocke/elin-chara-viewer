@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { all, GameVersion } from './db';
+import { resources } from './i18n-resources';
+import { all, CurrentVersion } from './db';
 import { CharaSchema, Chara } from './models/chara';
 import { allFeats } from './models/feat';
 
@@ -44,9 +45,9 @@ function getEAFeatAliases(): Set<string> {
  * Otherwise returns the current version.
  */
 export function getCanonicalVersionForChara(
-  currentVersion: GameVersion,
+  currentVersion: CurrentVersion,
   charaId: string
-): GameVersion {
+): CurrentVersion {
   if (currentVersion === 'EA') return 'EA';
   return getEACharaIds().has(charaId) ? 'EA' : 'Nightly';
 }
@@ -57,11 +58,25 @@ export function getCanonicalVersionForChara(
  * Otherwise returns the current version.
  */
 export function getCanonicalVersionForFeat(
-  currentVersion: GameVersion,
+  currentVersion: CurrentVersion,
   featAlias: string
-): GameVersion {
+): CurrentVersion {
   if (currentVersion === 'EA') return 'EA';
   return getEAFeatAliases().has(featAlias) ? 'EA' : 'Nightly';
+}
+
+export function archivedPageMetadata(
+  lang: string,
+  pathname: string,
+  version: string
+): Metadata {
+  const appTitle = resources[lang === 'ja' ? 'ja' : 'en'].common.title;
+
+  return {
+    title: `${version} - ${appTitle}`,
+    robots: { index: false },
+    alternates: generateAlternates(lang, pathname, pathname),
+  };
 }
 
 /**
