@@ -62,8 +62,11 @@ jobs:
             cat "versions/$channel"
             echo
           done | sort -u | while IFS= read -r version; do
-            ruby script/archive_release.rb archive "$version"
-            ruby script/extract_feat.rb --archive archive --version "$version"
+            # A versions/ file written with a trailing newline would otherwise
+            # add an empty version to the list.
+            [ -n "$version" ] || continue
+            ruby script/archive_release.rb archive "$version" </dev/null
+            ruby script/extract_feat.rb --archive archive --version "$version" </dev/null
           done
 
       - name: Check that every archived version parses
