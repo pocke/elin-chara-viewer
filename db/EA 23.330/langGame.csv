@@ -17,7 +17,7 @@ saved,,,save,,,,*保存*,*Saved*
 tutorial_added,,,save,,,,冒険の書に新しい項目が追加された。,A new entry has been added to Adventure Log.
 story_added,,,save,,,,新しい物語が追加された。,A new story has been added.
 earthquake,,,,,,,ゴゴゴゴゴ…,WHRRRR….
-guestArrive,,,,,,,#1が来訪した。,#1 have/has arrived.
+guestArrive,,,,,,,#1が来訪した。,#1 has arrived.
 stack_thing,,,,,,,#1を#2にまとめた。,You add #1 to #2.
 pick_thing,,,,,,,#1は#2を拾った。,#1 picks up #2.
 pick_thing_pc,,,,,,,#2を拾った。,You pick up #2.
@@ -375,7 +375,7 @@ notEnoughInfluence,,,,,,,影響力が足りない。,You don't have enough influ
 notEnoughFood,,,,,,,旅糧が足りない。,You don't have enough travel rations.
 payBill,,,,,,,#1を支払った。,You pay #1.
 depositMoney,,,,,,,#1を#2に投入した。,You put #1 into #2.
-travel,,,,,,,#2に#1を発ってから、#3日と#4時間の旅を終えた。,#3 day(s) and #4 hour(s) have passed since you left #1.
+travel,,,,,,,#2に#1を発ってから、#3日と#4時間の旅を終えた。,#3 day(s3) and #4 hour(s4) have passed since you left #1.
 travel2,,,,,,,#2は#1マイルを歩き、経験を積んだ。,#2 have walked around #1 miles and have gained experience.
 regionAbortMove,,,bad,,,,あなたは危険を感じ移動を中断した。,You sense danger and abort your move.
 noLogForTorch,,,,,,,必要な素材を持っていない。,You don't have required resource.
@@ -674,7 +674,7 @@ insane_act,,,ono,,,,"#1は突然踊りだした。
 #1はぐるぐる回りだした。
 #1は奇声を発した。
 #1は独り笑いを浮かべた。","#1 suddenly start(s) dancing.
-#1 start(s) to take #his cloths off.
+#1 start(s) to take #his clothes off.
 #1 start(s) to spin around in circles.
 #1 make(s) strange noises.
 #1 laugh(s) to #himself."
