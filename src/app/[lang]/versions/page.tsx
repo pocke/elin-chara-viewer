@@ -28,7 +28,6 @@ export default async function VersionsPage() {
       slug: entry.slug,
       channel: entry.channel,
       date: entry.date,
-      tableCount: entry.tables.length,
       sameAsPrevious:
         i > 0 && archived[i - 1].contentHash === entry.contentHash,
     }))

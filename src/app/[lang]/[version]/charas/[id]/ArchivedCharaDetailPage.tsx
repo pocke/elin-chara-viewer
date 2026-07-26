@@ -51,7 +51,6 @@ export default function ArchivedCharaDetailPage({
   return (
     <ArchivedVersionProvider
       slug={entry.slug}
-      version={entry.version}
       hasFeatModifier={entry.featModifier}
     >
       <Content

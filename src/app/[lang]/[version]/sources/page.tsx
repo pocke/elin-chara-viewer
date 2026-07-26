@@ -1,5 +1,4 @@
 import { CurrentVersion, GAME_VERSIONS } from '@/lib/db';
-import ArchivedVersionNotice from '@/components/ArchivedVersionNotice';
 import { ARCHIVE_BASE_URL } from '@/lib/archive';
 import { resolveVersion } from '@/lib/versions';
 import SourcesPageClient from './SourcesPageClient';
@@ -56,14 +55,11 @@ export default async function SourcesPage({ params }: PageProps) {
 
   if (resolved.kind === 'archived') {
     return (
-      <>
-        <ArchivedVersionNotice version={resolved.label} />
-        <SourcesPageClient
-          versionLabel={resolved.label}
-          tableNames={resolved.entry.tables}
-          csvBasePath={`${ARCHIVE_BASE_URL}/csv/${resolved.entry.slug}`}
-        />
-      </>
+      <SourcesPageClient
+        versionLabel={resolved.label}
+        tableNames={resolved.entry.tables}
+        csvBasePath={`${ARCHIVE_BASE_URL}/csv/${resolved.entry.slug}`}
+      />
     );
   }
 

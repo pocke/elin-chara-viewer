@@ -80,10 +80,6 @@ function ClientLayoutInner({ children }: { children: React.ReactNode }) {
       text: t.common.browseSources,
       href: `/${language}/${currentVersion}/sources`,
     },
-    {
-      text: t.common.pastVersions,
-      href: `/${language}/versions`,
-    },
   ];
 
   return (

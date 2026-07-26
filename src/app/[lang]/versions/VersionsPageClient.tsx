@@ -14,7 +14,6 @@ import {
   Typography,
 } from '@mui/material';
 import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
-import { REQUIRED_TABLES } from '@/lib/archive';
 import { GAME_VERSIONS } from '@/lib/db';
 import { useTranslation } from '@/lib/simple-i18n';
 
@@ -23,7 +22,6 @@ export interface VersionListEntry {
   slug: string;
   channel: 'stable' | 'nightly' | null;
   date: string;
-  tableCount: number;
   sameAsPrevious: boolean;
 }
 
@@ -63,9 +61,8 @@ export default function VersionsPageClient({
           <TableHead>
             <TableRow>
               <TableCell>{t.common.version}</TableCell>
-              <TableCell>{t.common.archivedDate}</TableCell>
+              <TableCell>{t.common.releaseDate}</TableCell>
               <TableCell>{t.common.channel}</TableCell>
-              <TableCell align="right">{t.common.tableCount}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -89,18 +86,6 @@ export default function VersionsPageClient({
                 <TableCell>
                   {entry.channel === 'stable' && t.common.channelStable}
                   {entry.channel === 'nightly' && t.common.channelNightly}
-                </TableCell>
-                <TableCell align="right">
-                  {entry.tableCount}
-                  {entry.tableCount <= REQUIRED_TABLES.length && (
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      sx={{ ml: 1 }}
-                    >
-                      {t.common.archivedVersionLimitedTables}
-                    </Typography>
-                  )}
                 </TableCell>
               </TableRow>
             ))}

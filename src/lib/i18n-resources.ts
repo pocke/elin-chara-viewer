@@ -122,21 +122,15 @@ export const resources = {
       otherElements: 'その他の属性',
       notFound: 'データが見つかりませんでした',
       version: 'バージョン',
-      pastVersions: '過去バージョン',
       pastVersionsTitle: '過去バージョン一覧',
       pastVersionsDescription:
         '過去のバージョンのデータを閲覧できます。データは当時のゲームから抽出したものです。',
-      archivedVersionNotice:
-        'これは過去バージョン {{version}} のデータです。最新のデータとは異なります。',
       archivedVersionLoadFailed: '過去バージョンのデータを読み込めませんでした',
-      archivedVersionLimitedTables:
-        'このバージョンは一部のテーブルのみ保存されています',
-      archivedDate: '取り込み日',
+      releaseDate: 'リリース日',
       channel: 'チャンネル',
       channelStable: '安定版',
       channelNightly: 'Nightly',
       sameAsPrevious: '前バージョンとデータが同一',
-      tableCount: 'テーブル数',
     },
     feat: {
       geneSlot: '使用スロット数',
@@ -392,21 +386,15 @@ export const resources = {
       otherElements: 'Other Elements',
       notFound: 'Not found',
       version: 'Version',
-      pastVersions: 'Past Versions',
       pastVersionsTitle: 'Past Versions',
       pastVersionsDescription:
         'Browse data from past versions, exported from the game at the time.',
-      archivedVersionNotice:
-        'This is data from the past version {{version}}. It differs from the latest data.',
       archivedVersionLoadFailed: 'Failed to load the past version data',
-      archivedVersionLimitedTables:
-        'Only some tables were archived for this version',
-      archivedDate: 'Archived',
+      releaseDate: 'Release date',
       channel: 'Channel',
       channelStable: 'Stable',
       channelNightly: 'Nightly',
       sameAsPrevious: 'Same data as the previous version',
-      tableCount: 'Tables',
     },
     feat: {
       geneSlot: 'Slot Count',

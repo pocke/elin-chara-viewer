@@ -2,14 +2,12 @@
 
 import { Alert, Box, CircularProgress } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
-import ArchivedVersionNotice from '@/components/ArchivedVersionNotice';
 import { loadArchivedVersion } from '@/lib/archive';
 import { isVersionDataRegistered } from '@/lib/db';
 import { useTranslation } from '@/lib/simple-i18n';
 
 interface ArchivedVersionProviderProps {
   slug: string;
-  version: string;
   hasFeatModifier: boolean;
   children: ReactNode;
 }
@@ -21,7 +19,6 @@ interface ArchivedVersionProviderProps {
  */
 export default function ArchivedVersionProvider({
   slug,
-  version,
   hasFeatModifier,
   children,
 }: ArchivedVersionProviderProps) {
@@ -55,7 +52,6 @@ export default function ArchivedVersionProvider({
 
   return (
     <>
-      <ArchivedVersionNotice version={version} />
       {failed && (
         <Box sx={{ p: 3 }}>
           <Alert severity="error">{t.common.archivedVersionLoadFailed}</Alert>

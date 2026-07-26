@@ -19,7 +19,6 @@ export default function ArchivedFeatPage({
   return (
     <ArchivedVersionProvider
       slug={entry.slug}
-      version={entry.version}
       hasFeatModifier={entry.featModifier}
     >
       <Content version={entry.slug} />
