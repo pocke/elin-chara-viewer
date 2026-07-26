@@ -108,6 +108,12 @@ processed=0
 consecutive_failures=0
 echo "== backfill start ($(done_ids | wc -l) already done of $(wc -l <<< "$targets"))"
 
+# 判断待ちであって機械の故障ではないので、連続失敗の勘定には入れない。
+defer() {
+  record "$1" "$2" "$3" "$4" "${5:-}" "${6:-}"
+  echo "   $4: ${6:-}" >&2
+}
+
 fail() {
   record "$1" "$2" "$3" "$4" "${5:-}" "${6:-}"
   echo "   $4: ${6:-}" >&2
@@ -215,7 +221,7 @@ while IFS=$'\t' read -r id date branch <&3; do
   case "$action" in
     conflict)
       rm -rf "$build"
-      fail "$id" "$date" "$branch" version-conflict "$version" "differs from the archived $version"
+      defer "$id" "$date" "$branch" version-conflict "$version" "differs from the archived $version"
       continue ;;
     duplicate)
       echo "   duplicate of an already restored $version" ;;

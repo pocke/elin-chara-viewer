@@ -112,11 +112,13 @@ function compareHeaders(
     columns.filter((column) => column !== PLACEHOLDER);
   const namedGained = named(gained);
   const namedLost = named(lost);
+  // EA 23.55 rearranged the elements sheet, moving eight columns without
+  // changing their values, so a reordering is not on its own a sign of damage.
   const moved = namedGained.filter((column) => namedLost.includes(column));
   if (moved.length > 0) {
     return [
       {
-        level: 'error',
+        level: 'warn',
         table,
         message: `columns reordered: ${[...new Set(moved)].join(', ')}`,
       },
