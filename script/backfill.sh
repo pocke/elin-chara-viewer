@@ -70,7 +70,9 @@ record() {
 }
 done_ids() { awk -F'\t' '$4=="done" || $4=="duplicate" {print $1}' "$STATE"; }
 attempted_ids() { awk -F'\t' '{print $1}' "$STATE"; }
-version_seen() { awk -F'\t' -v v="$1" '$5==v {found=1} END {exit !found}' "$STATE"; }
+version_seen() {
+  awk -F'\t' -v v="$1" '($4=="done" || $4=="duplicate") && $5==v {found=1} END {exit !found}' "$STATE"
+}
 
 # 列の増減はゲーム自身のスキーマ変更でも起きるので、離れた版と比べると検出
 # したい破損と区別がつかなくなる。
@@ -138,6 +140,7 @@ while IFS=$'\t' read -r id date branch <&3; do
   [ -n "$dry_run" ] && continue
 
   free_mb=$(df -m --output=avail /mnt/c | tail -1 | tr -d ' ')
+  case "$free_mb" in ''|*[!0-9]*) echo "ABORT: df が空き容量を返さない" >&2; exit 4 ;; esac
   if [ "$free_mb" -lt "$MIN_FREE_MB" ]; then
     echo "ABORT: C: の空きが ${free_mb}MB しかない (最低 ${MIN_FREE_MB}MB)" >&2
     exit 4
@@ -200,8 +203,7 @@ while IFS=$'\t' read -r id date branch <&3; do
     continue
   fi
 
-  # 同じバージョン名を複数の manifest が名乗る。既にアーカイブ済みの版を
-  # 上書きすると、先に入っていた内容もリリース日も失われる。
+  # 同じバージョン名を複数の manifest が名乗る。
   existing=$(archived_csv_dir "$version")
   action=new
   if [ -n "$existing" ]; then
@@ -249,6 +251,7 @@ while IFS=$'\t' read -r id date branch <&3; do
     continue
   fi
   mv "$part" "$DROPBOX/${date}_${id}.tar.zst" || {
+    rm -f "$part"
     fail "$id" "$date" "$branch" archive-failed "$version" "could not move the archive into place"
     continue
   }

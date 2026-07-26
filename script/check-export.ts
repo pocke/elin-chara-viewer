@@ -112,42 +112,40 @@ function compareHeaders(
     columns.filter((column) => column !== PLACEHOLDER);
   const namedGained = named(gained);
   const namedLost = named(lost);
-  // EA 23.55 rearranged the elements sheet, moving eight columns without
-  // changing their values, so a reordering is not on its own a sign of damage.
+  const findings: Finding[] = [];
+
+  // The game rearranges its own sheets: EA 23.55 moved eight columns of
+  // elements.csv without changing what they hold.
   const moved = namedGained.filter((column) => namedLost.includes(column));
   if (moved.length > 0) {
-    return [
-      {
-        level: 'warn',
-        table,
-        message: `columns reordered: ${[...new Set(moved)].join(', ')}`,
-      },
-    ];
-  }
-
-  // A column the game itself dropped shifts everything after it exactly as a
-  // lost placeholder does, and no version in the archive has ever dropped one.
-  if (namedLost.length > 0) {
-    return [
-      {
-        level: 'error',
-        table,
-        message: `lost column(s) ${namedLost.join(', ')}; columns after them have shifted`,
-      },
-    ];
-  }
-
-  if (namedGained.length === 0) {
-    return [];
-  }
-
-  return [
-    {
+    findings.push({
       level: 'warn',
       table,
-      message: `columns added: ${namedGained.join(', ')}`,
-    },
-  ];
+      message: `columns reordered: ${[...new Set(moved)].join(', ')}`,
+    });
+  }
+
+  // A dropped column shifts everything after it exactly as a lost placeholder
+  // does, and no version in the archive has ever dropped one.
+  const dropped = namedLost.filter((column) => !moved.includes(column));
+  if (dropped.length > 0) {
+    findings.push({
+      level: 'error',
+      table,
+      message: `lost column(s) ${dropped.join(', ')}; columns after them have shifted`,
+    });
+  }
+
+  const added = namedGained.filter((column) => !moved.includes(column));
+  if (added.length > 0) {
+    findings.push({
+      level: 'warn',
+      table,
+      message: `columns added: ${added.join(', ')}`,
+    });
+  }
+
+  return findings;
 }
 
 function checkTable(

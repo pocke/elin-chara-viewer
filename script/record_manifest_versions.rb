@@ -27,13 +27,20 @@ def main
   abort "no restored manifests in #{state}" if versions.empty?
 
   manifests = JSON.parse(File.read(MANIFESTS))
-  named = manifests.count { |m| versions.key?(m['manifestId']) }
-  manifests.each do |manifest|
-    version = versions[manifest['manifestId']] or next
-    manifest['version'] = version
-  end
+  abort "#{MANIFESTS} is not an array" unless manifests.is_a?(Array)
 
-  File.write(MANIFESTS, "#{JSON.pretty_generate(manifests)}\n")
+  known = manifests.to_h { |m| [m['manifestId'], m] }
+  unknown = versions.keys.reject { |id| known.key?(id) }
+  abort "none of the #{versions.size} restored manifests are in #{MANIFESTS}" if unknown.size == versions.size
+  warn "#{unknown.size} restored manifests are not listed in manifests.json" unless unknown.empty?
+
+  versions.each { |id, version| known[id]&.[]=('version', version) }
+
+  # 途中で死んでも manifests.json が切り詰められないように置き換える。
+  tmp = "#{MANIFESTS}.new"
+  File.write(tmp, "#{JSON.pretty_generate(manifests)}\n")
+  File.rename(tmp, MANIFESTS)
+  named = manifests.count { |m| m['version'] }
   puts "named #{named} of #{manifests.size} manifests (#{versions.values.uniq.size} distinct versions)"
 end
 

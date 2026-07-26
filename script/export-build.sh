@@ -35,6 +35,7 @@ stop() { powershell.exe -NoProfile -Command "$ps_filter | Stop-Process -Force" >
 mkdir -p "$export_dir" /mnt/c/tmp || exit 1
 rm -f "$log"
 
+trap 'stop; rm -f "${bat:-}"' EXIT
 bat="/mnt/c/tmp/launch-elin-$$.bat"
 printf '@echo off\r\nset ELIN_DEPOT_EXPORT_DIR=%s\r\ncd /d %s\r\nstart "" Elin.exe\r\n' \
   "$export_win" "$build_win" > "$bat"
@@ -72,7 +73,6 @@ elapsed=$(( $(date +%s) - start ))
 
 stop
 kill "$launcher" 2>/dev/null
-rm -f "$bat"
 # 呼び出し側がこのディレクトリを tar で読むが、プロセスが消えたあとも
 # Windows がしばらくファイルを掴んでいる。
 for _ in 1 2 3 4 5 6 7 8 9 10; do running || break; sleep 1; done

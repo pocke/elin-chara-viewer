@@ -42,6 +42,18 @@ at build time.
   existed in this repository's git history. It was a one-shot; the release flow
   above is what keeps the archive current.
 
+* `script/backfill.sh` restored the rest — every version Steam still serves,
+  back to 2024-11-01 — by downloading each build from the depot, running it so
+  the exporter writes its CSVs, and archiving those. `script/export-build.sh`
+  does the launching half. Also a one-shot, but the same path is what to reach
+  for when the release flow misses a version.
+
+  `manifests.json` lists the 600 builds Steam has served, with the version each
+  turned out to hold. It is the only record of which past versions exist:
+  SteamDB cannot be scraped, so it was copied by hand and is fed through
+  `script/parse_manifests.rb`, and `script/record_manifest_versions.rb` writes
+  the version names back once builds have been run.
+
 ## License
 
 MIT License for the source code.
