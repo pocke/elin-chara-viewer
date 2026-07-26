@@ -23,7 +23,8 @@ export const ElementSchema = z.object({
   chance: z.coerce.number(),
   value: z.coerce.number(),
   cost: z.string().optional(),
-  geneSlot: z.coerce.number(),
+  // Added with EA 23.46; the builds restored from before it have no such column.
+  geneSlot: z.coerce.number().default(0),
   sort: z.coerce.number(),
   target: z.string().optional(),
   proc: z.string().optional(),

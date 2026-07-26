@@ -81,7 +81,8 @@ export const RaceSchema = z.object({
   elements: z.string().optional(),
   skill: z.string().optional(),
   figure: z.string(),
-  geneCap: z.coerce.number(),
+  // Added with EA 23.41; the builds restored from before it have no such column.
+  geneCap: z.coerce.number().default(0),
   material: z.string(),
   corpse: z.string(),
   loot: z.string().optional(),
