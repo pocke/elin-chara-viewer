@@ -28,6 +28,8 @@ const index = ArchivedVersionSchema.array().parse(
   JSON.parse(fs.readFileSync(path.join(archiveDir, 'index.json'), 'utf8'))
 );
 
+const versionDir = (slug: string) => path.join(archiveDir, 'v', slug);
+
 const failures: string[] = [];
 
 for (const entry of index) {
@@ -36,7 +38,7 @@ for (const entry of index) {
       Object.keys(SCHEMAS).map((table) => [
         table,
         fs.readFileSync(
-          path.join(archiveDir, 'csv', entry.slug, `${table}.csv`),
+          path.join(versionDir(entry.slug), 'csv', `${table}.csv`),
           'utf8'
         ),
       ])
@@ -52,10 +54,7 @@ for (const entry of index) {
 
     ArchivedIdsSchema.parse(
       JSON.parse(
-        fs.readFileSync(
-          path.join(archiveDir, 'ids', `${entry.slug}.json`),
-          'utf8'
-        )
+        fs.readFileSync(path.join(versionDir(entry.slug), 'ids.json'), 'utf8')
       )
     );
   } catch (error) {

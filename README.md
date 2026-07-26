@@ -21,17 +21,22 @@ at build time.
   syncs itself to Cloudflare R2 and that is what production points at; the
   bucket needs the CORS policy kept in that repository, because the browser
   reads the CSVs directly.
-* The version list is prerendered, so the archive has to be reachable during a
-  build.
-* `.github/workflows/archive.yml` rebuilds the archive from this repository's
-  git history on every push to `master` and pushes it to the data repository. It
-  needs an `ARCHIVE_REPO_TOKEN` secret with write access there.
-* To rebuild the archive by hand:
+* Nothing reads the archive at build time, so a build never depends on the
+  archive host.
+* `.github/workflows/archive.yml` adds the versions named in `versions/` to the
+  data repository on every push to `master`. It needs an `ARCHIVE_REPO_TOKEN`
+  secret with write access there.
+* To add a version by hand — a build downloaded from Steam, or one the release
+  flow missed:
 
   ```console
-  $ ruby script/archive_versions.rb ../elin-chara-viewer-data
-  $ ruby script/extract_feat.rb --archive ../elin-chara-viewer-data
+  $ ruby script/archive_release.rb ../elin-chara-viewer-data 'EA 23.306' --source depot
+  $ ruby script/extract_feat.rb --archive ../elin-chara-viewer-data --version 'EA 23.306'
   ```
+
+* `script/restore_archive_from_history.rb` imported the versions that only
+  existed in this repository's git history. It was a one-shot; the release flow
+  above is what keeps the archive current.
 
 ## License
 

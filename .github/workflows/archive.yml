@@ -13,15 +13,13 @@ permissions: {}
 
 jobs:
   archive:
-    name: Update the version archive
+    name: Add the released versions to the archive
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # archive_versions.rb walks every commit that ever touched db/.
-          fetch-depth: 0
           persist-credentials: false
 
       - name: Checkout the archive repository
@@ -45,10 +43,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Rebuild the archive
+      - name: Archive the versions named in versions/
         run: |
-          ruby script/archive_versions.rb archive --ref "$GITHUB_SHA"
-          ruby script/extract_feat.rb --archive archive
+          date="$(git log -1 --format=%ad --date=short)"
+
+          for channel in EA nightly; do
+            version="$(cat "versions/$channel")"
+            ruby script/archive_release.rb archive "$version" --release-date "$date"
+            ruby script/extract_feat.rb --archive archive --version "$version"
+          done
 
       - name: Check that every archived version parses
         run: npm run check:archive -- archive

@@ -4,7 +4,9 @@ import { generateAlternates } from '@/lib/metadata';
 import { currentVersionOf } from '@/lib/versions';
 import VersionsPageClient, { VersionListEntry } from './VersionsPageClient';
 
-export const revalidate = 3600;
+// The archive is resolved at request time only, so that a build never
+// depends on the archive host being reachable.
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata(props: {
   params: Promise<{ lang: string }>;
@@ -27,7 +29,7 @@ export default async function VersionsPage() {
       version: entry.version,
       slug: entry.slug,
       channel: entry.channel,
-      date: entry.date,
+      date: entry.releaseDate,
       sameAsPrevious:
         i > 0 && archived[i - 1].contentHash === entry.contentHash,
     }))

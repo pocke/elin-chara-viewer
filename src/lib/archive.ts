@@ -24,16 +24,14 @@ export const REQUIRED_TABLES = [
 export const ArchivedVersionSchema = z.object({
   version: z.string(),
   // Also used as a path segment against the archive host.
-  slug: z.string().regex(/^[a-z0-9][a-z0-9.-]*$/),
+  slug: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9.-]*$/),
   channel: z.enum(['stable', 'nightly']).nullable(),
-  date: z.string(),
+  releaseDate: z.string(),
   // Also used as a DuckDB table name on the sources page.
   tables: z.array(z.string().regex(/^[A-Za-z][A-Za-z0-9_]*$/)),
   contentHash: z.string(),
   source: z.string(),
-  // Absent while extract_feat.rb has not run over a freshly rebuilt index.
   featModifier: z.boolean().default(false),
-  featModifierSource: z.string().nullish(),
 });
 
 export type ArchivedVersion = z.infer<typeof ArchivedVersionSchema>;
@@ -45,14 +43,22 @@ export const ArchivedIdsSchema = z.object({
 
 export type ArchivedIds = z.infer<typeof ArchivedIdsSchema>;
 
-export const archiveCsvUrl = (slug: string, table: string): string =>
-  `${ARCHIVE_BASE_URL}/csv/${encodeURIComponent(slug)}/${encodeURIComponent(table)}.csv`;
+export const archiveVersionUrl = (slug: string): string =>
+  `${ARCHIVE_BASE_URL}/v/${encodeURIComponent(slug)}`;
 
-export const archiveFeatModifierUrl = (slug: string): string =>
-  `${ARCHIVE_BASE_URL}/featModifier/${encodeURIComponent(slug)}.json`;
+export const archiveCsvUrl = (slug: string, table: string): string =>
+  `${archiveVersionUrl(slug)}/csv/${encodeURIComponent(table)}.csv`;
 
 export const archiveIdsUrl = (slug: string): string =>
-  `${ARCHIVE_BASE_URL}/ids/${encodeURIComponent(slug)}.json`;
+  `${archiveVersionUrl(slug)}/ids.json`;
+
+const archiveFeatModifierUrl = (slug: string): string =>
+  `${archiveVersionUrl(slug)}/featModifier.json`;
+
+const FeatModifierFileSchema = z.object({
+  source: z.string().nullish(),
+  modifiers: z.record(z.string(), z.record(z.string(), z.number())),
+});
 
 const fetchText = async (url: string, init?: RequestInit): Promise<string> => {
   const response = await fetch(url, init);
@@ -127,7 +133,9 @@ const fetchArchivedVersion = async (
     ),
     hasFeatModifier
       ? fetchText(archiveFeatModifierUrl(slug), ARCHIVED_INIT).then(
-          (text) => JSON.parse(text) as FeatModifierJson
+          (text) =>
+            FeatModifierFileSchema.parse(JSON.parse(text))
+              .modifiers as FeatModifierJson
         )
       : Promise.resolve({}),
   ]);

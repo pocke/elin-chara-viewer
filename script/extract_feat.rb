@@ -3,6 +3,7 @@ require 'fileutils'
 require 'optparse'
 require 'strscan'
 require 'json'
+require_relative 'archive_repo'
 
 GITHUB_REPO_URL = "https://github.com/Elin-Modding-Resources/Elin-Decompiled"
 
@@ -156,37 +157,39 @@ def generate_current
   end
 end
 
-def generate_archive(dir)
-  index = JSON.parse(File.read(File.join(dir, 'index.json')))
-
-  index.each do |entry|
-    begin
-      result, build = make_json(entry['version'])
-      write_json(File.join(dir, 'featModifier', "#{entry['slug']}.json"), result)
-      entry['featModifier'] = true
-      entry['featModifierSource'] = build
-    rescue StandardError => e
-      warn "extract_feat: #{entry['version']} failed: #{e.message}"
-      entry['featModifier'] = false
-      entry['featModifierSource'] = nil
-    end
+# The build the modifiers came from is written next to them: 80 of the archived
+# versions have no decompiled build of their own upstream, and an approximation
+# has to be distinguishable from an exact match.
+def generate_archive(root, slugs)
+  slugs.each do |slug|
+    version = ArchiveRepo.read_meta(root, slug).fetch('version')
+    result, build = make_json(version)
+    write_json(
+      File.join(ArchiveRepo.version_dir(root, slug), 'featModifier.json'),
+      { 'source' => build, 'modifiers' => result }
+    )
+  rescue StandardError => e
+    warn "extract_feat: #{version || slug} failed: #{e.message}"
   end
 
-  File.write(File.join(dir, 'index.json'), "#{JSON.pretty_generate(index)}\n")
+  ArchiveRepo.build_index(root)
 end
 
 def main
   archive_dir = nil
+  only = nil
   parser = OptionParser.new do |opts|
-    opts.banner = 'Usage: ruby script/extract_feat.rb [--archive DIR]'
-    opts.on('--archive DIR', 'generate one file per version listed in DIR/index.json') { |v| archive_dir = v }
+    opts.banner = 'Usage: ruby script/extract_feat.rb [--archive DIR [--version VERSION]]'
+    opts.on('--archive DIR', 'write into the archive repository at DIR') { |v| archive_dir = v }
+    opts.on('--version VERSION', 'only this version, instead of every archived one') { |v| only = v }
   end
   parser.parse!
 
   prepare
 
   if archive_dir
-    generate_archive(archive_dir)
+    slugs = only ? [ArchiveRepo.slugify(only)] : ArchiveRepo.slugs(archive_dir)
+    generate_archive(archive_dir, slugs)
   else
     generate_current
   end

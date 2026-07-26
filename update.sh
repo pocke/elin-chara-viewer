@@ -31,6 +31,7 @@ if [ ${#builds[@]} -gt 1 ]; then
   subject="$subject, ${builds[1]}"
 fi
 
+ruby script/extract_feat.rb
 ruby script/sync_version.rb
 git add .
 

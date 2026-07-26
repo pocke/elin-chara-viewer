@@ -1,5 +1,5 @@
 import { CurrentVersion, GAME_VERSIONS } from '@/lib/db';
-import { ARCHIVE_BASE_URL } from '@/lib/archive';
+import { archiveVersionUrl } from '@/lib/archive';
 import { resolveVersion } from '@/lib/versions';
 import SourcesPageClient from './SourcesPageClient';
 import { Metadata } from 'next';
@@ -58,7 +58,7 @@ export default async function SourcesPage({ params }: PageProps) {
       <SourcesPageClient
         versionLabel={resolved.label}
         tableNames={resolved.entry.tables}
-        csvBasePath={`${ARCHIVE_BASE_URL}/csv/${resolved.entry.slug}`}
+        csvBasePath={`${archiveVersionUrl(resolved.entry.slug)}/csv`}
       />
     );
   }
