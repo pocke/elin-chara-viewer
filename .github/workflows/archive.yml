@@ -52,10 +52,16 @@ jobs:
       # fetch the decompiled source again for the same result.
       - name: Archive the versions named in versions/
         run: |
+          set -euo pipefail
+
           for channel in EA nightly; do
-            echo "$(cat "versions/$channel")"
+            [ -s "versions/$channel" ] || {
+              echo "versions/$channel is missing or empty" >&2
+              exit 1
+            }
+            cat "versions/$channel"
+            echo
           done | sort -u | while IFS= read -r version; do
-            [ -n "$version" ] || continue
             ruby script/archive_release.rb archive "$version"
             ruby script/extract_feat.rb --archive archive --version "$version"
           done

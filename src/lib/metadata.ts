@@ -74,7 +74,7 @@ export function archivedPageMetadata(
 
   return {
     title: `${version} - ${appTitle}`,
-    robots: { index: false },
+    robots: { index: false, follow: false },
     alternates: generateAlternates(lang, pathname, pathname),
   };
 }

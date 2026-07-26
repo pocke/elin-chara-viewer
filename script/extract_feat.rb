@@ -160,7 +160,7 @@ end
 # The build the modifiers came from is written next to them: 80 of the archived
 # versions have no decompiled build of their own upstream, and an approximation
 # has to be distinguishable from an exact match.
-def generate_archive(root, slugs)
+def generate_archive(root, slugs, fail_fast:)
   slugs.each do |slug|
     version = ArchiveRepo.read_meta(root, slug).fetch('version')
     result, build = make_json(version)
@@ -169,6 +169,8 @@ def generate_archive(root, slugs)
       { 'source' => build, 'modifiers' => result }
     )
   rescue StandardError => e
+    raise if fail_fast
+
     warn "extract_feat: #{version || slug} failed: #{e.message}"
   end
 
@@ -189,7 +191,7 @@ def main
 
   if archive_dir
     slugs = only ? [ArchiveRepo.slugify(only)] : ArchiveRepo.slugs(archive_dir)
-    generate_archive(archive_dir, slugs)
+    generate_archive(archive_dir, slugs, fail_fast: !only.nil?)
   else
     generate_current
   end

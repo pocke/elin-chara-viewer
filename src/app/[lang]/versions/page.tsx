@@ -15,7 +15,7 @@ export async function generateMetadata(props: {
   const pathname = `/${lang}/versions`;
 
   return {
-    robots: { index: false },
+    robots: { index: false, follow: false },
     alternates: generateAlternates(lang, pathname, pathname),
   };
 }

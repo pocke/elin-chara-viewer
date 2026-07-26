@@ -6,8 +6,15 @@ import {
 } from './db';
 
 // A checkout works without configuration by reading the archive repository on
-// GitHub, which is not a host to serve readers from: production has to set the
-// variable.
+// GitHub, which is not a host to serve readers from. NEXT_PUBLIC_VERCEL_ENV
+// rather than VERCEL_ENV, because this module is in the client bundle too.
+if (
+  !process.env.NEXT_PUBLIC_ARCHIVE_BASE_URL &&
+  process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
+) {
+  throw new Error('NEXT_PUBLIC_ARCHIVE_BASE_URL is required in production');
+}
+
 export const ARCHIVE_BASE_URL =
   process.env.NEXT_PUBLIC_ARCHIVE_BASE_URL ??
   'https://raw.githubusercontent.com/pocke/elin-chara-viewer-data/main';
