@@ -132,7 +132,6 @@ export const resources = {
       channel: 'チャンネル',
       channelStable: '安定版',
       channelNightly: 'Nightly',
-      sameAsPrevious: '前バージョンとデータが同一',
     },
     feat: {
       geneSlot: '使用スロット数',
@@ -398,7 +397,6 @@ export const resources = {
       channel: 'Channel',
       channelStable: 'Stable',
       channelNightly: 'Nightly',
-      sameAsPrevious: 'Same data as the previous version',
     },
     feat: {
       geneSlot: 'Slot Count',

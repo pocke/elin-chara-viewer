@@ -22,7 +22,6 @@ export interface VersionListEntry {
   slug: string;
   channel: 'stable' | 'nightly';
   date: string;
-  sameAsPrevious: boolean;
 }
 
 interface VersionsPageClientProps {
@@ -72,15 +71,6 @@ export default function VersionsPageClient({
                   <Link href={`/${language}/${entry.slug}/charas`}>
                     {entry.version}
                   </Link>
-                  {entry.sameAsPrevious && (
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      sx={{ ml: 1 }}
-                    >
-                      {t.common.sameAsPrevious}
-                    </Typography>
-                  )}
                 </TableCell>
                 <TableCell>{entry.date}</TableCell>
                 <TableCell>
