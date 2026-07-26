@@ -30,9 +30,13 @@ at build time.
   flow missed:
 
   ```console
-  $ ruby script/archive_release.rb ../elin-chara-viewer-data 'EA 23.306'
+  $ ruby script/archive_release.rb ../elin-chara-viewer-data 'EA 23.306' \
+      --channel stable --release-date 2026-05-10 --db /path/to/exported/csv
   $ ruby script/extract_feat.rb --archive ../elin-chara-viewer-data --version 'EA 23.306'
   ```
+
+  `--db` points at the directory holding `<version>/*.csv`, and `--channel` is
+  required for a version that no `versions/` file names.
 
 * `script/restore_archive_from_history.rb` imported the versions that only
   existed in this repository's git history. It was a one-shot; the release flow

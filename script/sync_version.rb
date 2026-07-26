@@ -5,8 +5,8 @@ require 'pathname'
 root = Pathname(__dir__).join('..')
 db_paths = Pathname.glob(Pathname(__dir__).join('../db/*/'))
 
-EA_VERSION = root.join('versions/EA').read
-NIGHTLY_VERSION = root.join('versions/nightly').read
+EA_VERSION = root.join('versions/EA').read.strip
+NIGHTLY_VERSION = root.join('versions/nightly').read.strip
 
 unnecessary_versions = db_paths.select { |p|
   ver_str = p.basename.to_s

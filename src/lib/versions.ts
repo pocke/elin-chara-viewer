@@ -2,11 +2,9 @@ import './bundledData';
 import { ArchivedVersion, archivedVersionBySlug } from './archive';
 import { CurrentVersion, GameVersion, isCurrentVersion } from './db';
 
-// The archive is rebuilt from the whole history, so it also holds the versions
-// that are currently shipped. Those are served from the bundle instead, or the
-// same data would be delivered twice under two URLs, the archived one carrying
-// a banner saying it differs from the current data.
-// A promoted nightly is named by both files; EA is set last so that it wins.
+// The archive holds the versions that are currently shipped too, and those are
+// served from the bundle rather than fetched. A promoted nightly is named by
+// both files, so EA is set last and wins.
 const CURRENT_VERSION_NAMES = new Map<string, CurrentVersion>([
   [process.env.ELIN_NIGHTLY_VERSION ?? '', 'Nightly'],
   [process.env.ELIN_EA_VERSION ?? '', 'EA'],
@@ -28,7 +26,7 @@ export type ResolvedVersion =
 
 /**
  * Resolves a [version] path segment. Current versions keep their names ('EA',
- * 'Nightly'); archived versions are addressed by slug ('23.306-patch-1').
+ * 'Nightly'); archived versions are addressed by slug ('EA-23.306-patch-1').
  * Returns null when the segment matches neither, so pages can call notFound().
  */
 export const resolveVersion = async (

@@ -1,4 +1,4 @@
-import { GAME_VERSIONS, GameVersion, isCurrentVersion } from '@/lib/db';
+import { GAME_VERSIONS, isCurrentVersion } from '@/lib/db';
 import { charaIndexRows } from '@/lib/pageData';
 import ResistSimClient from './ResistSimClient';
 import { Metadata } from 'next';
@@ -37,16 +37,15 @@ interface ResistSimPageProps {
 
 export default async function ResistSimPage({ params }: ResistSimPageProps) {
   const { lang, version } = await params;
-  const gameVersion = version as GameVersion;
 
   // resistSimUtils hardcodes the current game's formulas.
-  if (!isCurrentVersion(gameVersion)) {
+  if (!isCurrentVersion(version)) {
     notFound();
   }
 
-  const charaRows = charaIndexRows(gameVersion);
+  const charaRows = charaIndexRows(version);
 
   return (
-    <ResistSimClient charaRows={charaRows} lang={lang} version={gameVersion} />
+    <ResistSimClient charaRows={charaRows} lang={lang} version={version} />
   );
 }

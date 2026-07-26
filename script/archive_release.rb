@@ -12,18 +12,21 @@
 
 require 'date'
 require 'optparse'
+require 'pathname'
 require_relative 'archive_repo'
 
+ROOT = Pathname(__dir__).join('..')
 CHANNEL_FILES = { 'stable' => 'versions/EA', 'nightly' => 'versions/nightly' }.freeze
 
 def channel_of(version)
   CHANNEL_FILES.find { |_channel, path|
-    File.exist?(path) && File.read(path).strip == version
+    full = ROOT.join(path)
+    full.exist? && full.read.strip == version
   }&.first
 end
 
 def main
-  options = { db: 'db' }
+  options = { db: ROOT.join('db').to_s }
   parser = OptionParser.new do |opts|
     opts.banner = 'Usage: ruby script/archive_release.rb <archive-dir> <version> [options]'
     opts.on('--channel CHANNEL', 'stable or nightly') { |v| options[:channel] = v }

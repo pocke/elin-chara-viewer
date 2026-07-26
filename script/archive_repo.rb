@@ -19,9 +19,13 @@ require 'json'
 module ArchiveRepo
   module_function
 
+  # "EA 23.306 Patch 1" -> "EA-23.306-patch-1". The edition is kept as it is so
+  # that the slug stays meaningful once the game leaves early access.
   def slugify(version)
-    channel, rest = version.split(' ', 2)
-    "#{channel}-#{rest.downcase.gsub(/[^a-z0-9.]+/, '-').gsub(/\A-|-\z/, '')}"
+    edition, rest = version.split(' ', 2)
+    raise "no version number in #{version.inspect}" unless rest
+
+    "#{edition}-#{rest.downcase.gsub(/[^a-z0-9.]+/, '-').gsub(/\A-|-\z/, '')}"
   end
 
   def version_key(version)
@@ -60,6 +64,11 @@ module ArchiveRepo
   # render, so that a URL that never existed answers 404 rather than filling the
   # route cache with an empty page.
   def write_ids(dir)
+    %w[charas elements].each do |table|
+      path = File.join(dir, 'csv', "#{table}.csv")
+      raise "#{path} is missing; #{table}.csv is required" unless File.exist?(path)
+    end
+
     ids = {
       # csvLoader strips the space out of "fish_ piranha" before it reaches a URL.
       'charas' => csv_column(File.join(dir, 'csv', 'charas.csv'), 'id').map { |id| id.sub(' ', '') },
@@ -74,7 +83,7 @@ module ArchiveRepo
 
   def build_index(root)
     entries = slugs(root).map { |slug| index_entry(root, slug) }
-    entries.sort_by! { |entry| [version_key(entry['version']), entry['releaseDate']] }
+    entries.sort_by! { |entry| [version_key(entry['version']), entry['releaseDate'], entry['slug']] }
     File.write(File.join(root, 'index.json'), "#{JSON.pretty_generate(entries)}\n")
     entries
   end

@@ -14,8 +14,7 @@ interface ArchivedVersionProviderProps {
 
 /**
  * Archived versions are not bundled, so their CSVs are fetched in the browser
- * and registered before the page renders. The data is immutable, so a version
- * loaded once stays available for the rest of the session.
+ * and registered before the page renders.
  */
 export default function ArchivedVersionProvider({
   slug,

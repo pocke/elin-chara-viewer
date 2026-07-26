@@ -15,6 +15,7 @@ export async function generateMetadata(props: {
   const pathname = `/${lang}/versions`;
 
   return {
+    robots: { index: false },
     alternates: generateAlternates(lang, pathname, pathname),
   };
 }
@@ -22,17 +23,15 @@ export async function generateMetadata(props: {
 export default async function VersionsPage() {
   const index = await archiveIndex();
 
-  const archived = index.filter((entry) => !currentVersionOf(entry.version));
-
-  const entries: VersionListEntry[] = archived
+  const entries: VersionListEntry[] = index
     .map((entry, i) => ({
       version: entry.version,
       slug: entry.slug,
       channel: entry.channel,
       date: entry.releaseDate,
-      sameAsPrevious:
-        i > 0 && archived[i - 1].contentHash === entry.contentHash,
+      sameAsPrevious: i > 0 && index[i - 1].contentHash === entry.contentHash,
     }))
+    .filter((entry) => !currentVersionOf(entry.version))
     .reverse();
 
   return <VersionsPageClient entries={entries} />;

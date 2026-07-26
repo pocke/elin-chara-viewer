@@ -328,8 +328,8 @@ export class Element {
     if (modifiers) {
       result.push(
         // An archived version's featModifier may come from a nearby decompiled
-        // build (index.json records which), so a child element it names is not
-        // guaranteed to exist in this version.
+        // build (its own file records which), so a child element it names is
+        // not guaranteed to exist in this version.
         ...Object.entries(modifiers).flatMap(([childId, coefficient]) => {
           const childElement = elementById(this.version, childId);
           return childElement ? [{ element: childElement, coefficient }] : [];

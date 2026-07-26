@@ -9,7 +9,8 @@ concurrency:
   group: archive
   cancel-in-progress: false
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   archive:
@@ -21,13 +22,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
-
-      - name: Checkout the archive repository
-        uses: actions/checkout@v4
-        with:
-          repository: pocke/elin-chara-viewer-data
-          token: ${{ secrets.ARCHIVE_REPO_TOKEN }}
-          path: archive
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -43,13 +37,26 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # After npm ci, so that the token is not on disk while dependency
+      # install scripts run.
+      - name: Checkout the archive repository
+        uses: actions/checkout@v4
+        with:
+          repository: pocke/elin-chara-viewer-data
+          token: ${{ secrets.ARCHIVE_REPO_TOKEN }}
+          path: archive
+          # git pull --rebase below needs more than the tip commit.
+          fetch-depth: 0
+
+      # A promoted nightly is named by both files; archiving it twice would
+      # fetch the decompiled source again for the same result.
       - name: Archive the versions named in versions/
         run: |
-          date="$(git log -1 --format=%ad --date=short)"
-
           for channel in EA nightly; do
-            version="$(cat "versions/$channel")"
-            ruby script/archive_release.rb archive "$version" --release-date "$date"
+            echo "$(cat "versions/$channel")"
+          done | sort -u | while IFS= read -r version; do
+            [ -n "$version" ] || continue
+            ruby script/archive_release.rb archive "$version"
             ruby script/extract_feat.rb --archive archive --version "$version"
           done
 
@@ -71,5 +78,5 @@ jobs:
             exit 0
           fi
           git commit -m "Archive ${SOURCE_COMMIT%%$'\n'*}"
-          git pull --rebase
-          git push
+          git pull --rebase origin main
+          git push origin HEAD:main

@@ -5,8 +5,9 @@ import {
   registerVersionData,
 } from './db';
 
-// Falls back to the archive repository on GitHub so that a checkout works
-// without any configuration; production points this at Cloudflare R2.
+// A checkout works without configuration by reading the archive repository on
+// GitHub, which is not a host to serve readers from: production has to set the
+// variable.
 export const ARCHIVE_BASE_URL =
   process.env.NEXT_PUBLIC_ARCHIVE_BASE_URL ??
   'https://raw.githubusercontent.com/pocke/elin-chara-viewer-data/main';

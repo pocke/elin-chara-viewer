@@ -121,6 +121,8 @@ export const resources = {
       basicInfo: '基本情報',
       otherElements: 'その他の属性',
       notFound: 'データが見つかりませんでした',
+      unexpectedError: 'エラーが発生しました',
+      retry: '再試行',
       version: 'バージョン',
       pastVersionsTitle: '過去バージョン一覧',
       pastVersionsDescription:
@@ -385,6 +387,8 @@ export const resources = {
       basicInfo: 'Basic Info',
       otherElements: 'Other Elements',
       notFound: 'Not found',
+      unexpectedError: 'Something went wrong',
+      retry: 'Retry',
       version: 'Version',
       pastVersionsTitle: 'Past Versions',
       pastVersionsDescription:
