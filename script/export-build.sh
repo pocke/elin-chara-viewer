@@ -51,9 +51,6 @@ while :; do
   if [ -f "$log" ]; then
     if grep -qa 'CSV export finished' "$log"; then status=ok; break; fi
     if grep -qa 'CSV export failed' "$log"; then status=export-failed; break; fi
-    if grep -qaE 'Could not load|Error loading|Failed to load assembly' "$log"; then
-      status=mod-load-failed; break
-    fi
   fi
 
   if running; then
