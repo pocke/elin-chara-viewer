@@ -1,14 +1,5 @@
 import { z } from 'zod';
-import featModifierEaJson from '../../generated/featModifier.ea.json';
-import featModifierNightlyJson from '../../generated/featModifier.nightly.json';
-import { all, GameVersion } from '../db';
-
-type FeatModifierJson = typeof featModifierEaJson;
-
-const featModifierMap: Record<GameVersion, FeatModifierJson> = {
-  EA: featModifierEaJson,
-  Nightly: featModifierNightlyJson,
-};
+import { all, featModifierFor, GameVersion } from '../db';
 
 export const ElementSchema = z.object({
   __meta: z.object({
@@ -331,22 +322,17 @@ export class Element {
   }
 
   subElements() {
-    const featModifierJson = featModifierMap[this.version];
-    const modifiers = featModifierJson[this.row.id as keyof FeatModifierJson];
+    const modifiers = featModifierFor(this.version)[this.row.id];
     const result = [];
 
     if (modifiers) {
       result.push(
-        ...Object.entries(modifiers).map(([childId, coefficient]) => {
+        // An archived version's featModifier may come from a nearby decompiled
+        // build (its own file records which), so a child element it names is
+        // not guaranteed to exist in this version.
+        ...Object.entries(modifiers).flatMap(([childId, coefficient]) => {
           const childElement = elementById(this.version, childId);
-          if (!childElement) {
-            throw new Error(`Child element not found: ${childId}`);
-          }
-
-          return {
-            element: childElement,
-            coefficient,
-          };
+          return childElement ? [{ element: childElement, coefficient }] : [];
         })
       );
     }

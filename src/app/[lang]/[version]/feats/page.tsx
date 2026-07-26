@@ -1,14 +1,23 @@
-import { GAME_VERSIONS, GameVersion } from '@/lib/db';
+import { GAME_VERSIONS } from '@/lib/db';
+import { featIndexRows } from '@/lib/pageData';
+import { resolveVersion } from '@/lib/versions';
+import ArchivedFeatPage from './ArchivedFeatPage';
 import FeatPageClient from './FeatPageClient';
 import { Metadata } from 'next';
-import { generateAlternates } from '@/lib/metadata';
-import { allFeats } from '@/lib/models/feat';
+import { notFound } from 'next/navigation';
+import { archivedPageMetadata, generateAlternates } from '@/lib/metadata';
 
 export async function generateMetadata(props: {
   params: Promise<{ lang: string; version: string }>;
 }): Promise<Metadata> {
   const { lang, version } = await props.params;
   const pathname = `/${lang}/${version}/feats`;
+  const resolved = await resolveVersion(version);
+
+  if (resolved?.kind === 'archived') {
+    return archivedPageMetadata(lang, pathname, resolved.label);
+  }
+
   const canonicalPathname = version !== 'EA' ? `/${lang}/EA/feats` : pathname;
 
   return {
@@ -32,10 +41,20 @@ interface PageProps {
 
 export default async function FeatPage({ params }: PageProps) {
   const { version } = await params;
-  const gameVersion = version as GameVersion;
+  const resolved = await resolveVersion(version);
 
-  const feats = allFeats(gameVersion);
-  const featRows = feats.map((feat) => feat.row);
+  if (!resolved) {
+    notFound();
+  }
 
-  return <FeatPageClient featRows={featRows} version={gameVersion} />;
+  if (resolved.kind === 'archived') {
+    return <ArchivedFeatPage entry={resolved.entry} />;
+  }
+
+  return (
+    <FeatPageClient
+      featRows={featIndexRows(resolved.key)}
+      version={resolved.key}
+    />
+  );
 }

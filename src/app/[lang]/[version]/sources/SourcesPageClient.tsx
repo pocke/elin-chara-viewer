@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import { Storage as StorageIcon } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
-import { GameVersion } from '@/lib/db';
 import dynamic from 'next/dynamic';
 
 const SqlRoomContainer = dynamic(() => import('./SqlRoomContainer'), {
@@ -19,13 +18,13 @@ const SqlRoomContainer = dynamic(() => import('./SqlRoomContainer'), {
 });
 
 interface SourcesPageClientProps {
-  version: GameVersion;
+  versionLabel: string;
   tableNames: string[];
   csvBasePath: string;
 }
 
 export default function SourcesPageClient({
-  version,
+  versionLabel,
   tableNames,
   csvBasePath,
 }: SourcesPageClientProps) {
@@ -47,8 +46,8 @@ export default function SourcesPageClient({
 
         <Paper elevation={1} sx={{ p: 2, height: '70vh' }}>
           <SqlRoomContainer
-            key={`${version}-${csvBasePath}`}
-            version={version}
+            key={`${versionLabel}-${csvBasePath}`}
+            versionLabel={versionLabel}
             tableNames={tableNames}
             csvBasePath={csvBasePath}
           />

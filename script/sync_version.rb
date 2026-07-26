@@ -5,8 +5,8 @@ require 'pathname'
 root = Pathname(__dir__).join('..')
 db_paths = Pathname.glob(Pathname(__dir__).join('../db/*/'))
 
-EA_VERSION = root.join('versions/EA').read
-NIGHTLY_VERSION = root.join('versions/nightly').read
+EA_VERSION = root.join('versions/EA').read.strip
+NIGHTLY_VERSION = root.join('versions/nightly').read.strip
 
 unnecessary_versions = db_paths.select { |p|
   ver_str = p.basename.to_s
@@ -18,9 +18,9 @@ unnecessary_versions.each do |path|
   path.rmtree
 end
 
-db_ts = Pathname(__dir__).join('../src/lib/db.ts')
-db_ts.write db_ts.read.gsub(%r!^(import ea\w+ from '\.\./\.\./db/)[^/]+!) { "#{$1}#{EA_VERSION}" }
-db_ts.write db_ts.read.gsub(%r!^(import nightly\w+ from '\.\./\.\./db/)[^/]+!) { "#{$1}#{NIGHTLY_VERSION}" }
+bundled_data_ts = Pathname(__dir__).join('../src/lib/bundledData.ts')
+bundled_data_ts.write bundled_data_ts.read.gsub(%r!^(import ea\w+ from '\.\./\.\./db/)[^/]+!) { "#{$1}#{EA_VERSION}" }
+bundled_data_ts.write bundled_data_ts.read.gsub(%r!^(import nightly\w+ from '\.\./\.\./db/)[^/]+!) { "#{$1}#{NIGHTLY_VERSION}" }
 
 next_config = Pathname(__dir__).join('../next.config.ts')
 next_config.write next_config.read.sub(/(ELIN_EA_VERSION: ')[^']+/) { |m| "#{$1}#{EA_VERSION}" }

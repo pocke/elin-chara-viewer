@@ -1,22 +1,39 @@
-import { all, GAME_VERSIONS, GameVersion } from '@/lib/db';
+import { all, GAME_VERSIONS } from '@/lib/db';
 import { ElementSchema, elementByAlias, Element } from '@/lib/models/element';
-import { CharaSchema, Chara } from '@/lib/models/chara';
-import { racesByFeat } from '@/lib/models/race';
-import { jobsByFeat } from '@/lib/models/job';
+import { archivedIds } from '@/lib/archive';
+import { featDetailRows } from '@/lib/pageData';
+import { resolveVersion } from '@/lib/versions';
+import ArchivedFeatDetailPage from './ArchivedFeatDetailPage';
 import FeatDetailClient from './FeatDetailClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { resources, Language } from '@/lib/i18n-resources';
-import { generateAlternates, getCanonicalVersionForFeat } from '@/lib/metadata';
+import {
+  archivedPageMetadata,
+  generateAlternates,
+  getCanonicalVersionForFeat,
+} from '@/lib/metadata';
 
 export const generateMetadata = async (props: {
   params: Promise<{ alias: string; lang: string; version: string }>;
 }): Promise<Metadata> => {
   const params = await props.params;
   const decodedAlias = decodeURIComponent(params.alias);
-  const gameVersion = params.version as GameVersion;
+  const resolved = await resolveVersion(params.version);
 
-  const element = elementByAlias(gameVersion, decodedAlias);
+  if (!resolved) {
+    return {};
+  }
+
+  if (resolved.kind === 'archived') {
+    return archivedPageMetadata(
+      params.lang,
+      `/${params.lang}/${params.version}/feats/${params.alias}`,
+      resolved.label
+    );
+  }
+
+  const element = elementByAlias(resolved.key, decodedAlias);
 
   if (!element) {
     return {};
@@ -43,11 +60,11 @@ export const generateMetadata = async (props: {
   const lang = params.lang as Language;
   const pathname = `/${lang}/${params.version}/feats/${params.alias}`;
   const canonicalVersion = getCanonicalVersionForFeat(
-    gameVersion,
+    resolved.key,
     decodedAlias
   );
   const canonicalPathname =
-    canonicalVersion !== gameVersion
+    canonicalVersion !== resolved.key
       ? `/${lang}/${canonicalVersion}/feats/${params.alias}`
       : pathname;
 
@@ -96,37 +113,39 @@ export default async function FeatPage(props: {
 }) {
   const params = await props.params;
   const decodedAlias = decodeURIComponent(params.alias);
-  const gameVersion = params.version as GameVersion;
+  const resolved = await resolveVersion(params.version);
 
-  const element = elementByAlias(gameVersion, decodedAlias);
-
-  if (!element) {
+  if (!resolved) {
     notFound();
   }
 
-  // Find races with this feat
-  const racesWithFeat = racesByFeat(gameVersion, decodedAlias);
+  if (resolved.kind === 'archived') {
+    // Checked here rather than in the client component so that a URL that
+    // never existed answers 404 instead of filling the route cache with an
+    // empty page for every alias that is asked for.
+    const ids = await archivedIds(resolved.entry.slug);
+    if (!ids.elements.includes(decodedAlias)) {
+      notFound();
+    }
 
-  // Find jobs with this feat
-  const jobsWithFeat = jobsByFeat(gameVersion, decodedAlias);
+    return (
+      <ArchivedFeatDetailPage entry={resolved.entry} alias={decodedAlias} />
+    );
+  }
 
-  // Find characters with this feat
-  const charaRows = all(gameVersion, 'charas', CharaSchema);
-  const charactersWithFeat = charaRows
-    .filter((row) => !Chara.isIgnoredCharaId(row.id))
-    .map((row) => new Chara(gameVersion, row))
-    .filter((chara) => {
-      const feats = chara.feats();
-      return feats.some((f) => f.element.alias === decodedAlias);
-    });
+  const rows = featDetailRows(resolved.key, decodedAlias);
+
+  if (!rows) {
+    notFound();
+  }
 
   return (
     <FeatDetailClient
-      elementRow={element.row}
-      raceRows={racesWithFeat.map((r) => r.row)}
-      jobRows={jobsWithFeat.map((j) => j.row)}
-      charaRows={charactersWithFeat.map((c) => c.row)}
-      version={gameVersion}
+      elementRow={rows.elementRow}
+      raceRows={rows.raceRows}
+      jobRows={rows.jobRows}
+      charaRows={rows.charaRows}
+      version={resolved.key}
     />
   );
 }

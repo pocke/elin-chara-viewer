@@ -4,6 +4,9 @@ import { z } from 'zod';
 export function loadCsv<T>(content: string, schema: z.ZodType<T>) {
   const parsed = parse(content, {
     columns: true,
+    // The oldest archived exports start with a BOM, which would otherwise end
+    // up in the first column's name.
+    bom: true,
   }).map((row: unknown, index) => {
     const r = row as Record<string, string>;
     const ret: Record<string, unknown> = {

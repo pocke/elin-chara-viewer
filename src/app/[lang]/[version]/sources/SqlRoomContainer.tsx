@@ -23,11 +23,10 @@ import {
 } from '@sqlrooms/sql-editor';
 import { LayoutTypes } from '@sqlrooms/layout-config';
 import { Database } from 'lucide-react';
-import { GameVersion } from '@/lib/db';
 import type { UrlDataSource } from '@sqlrooms/room-config';
 
 interface SqlRoomContainerProps {
-  version: GameVersion;
+  versionLabel: string;
   tableNames: string[];
   csvBasePath: string;
 }
@@ -59,7 +58,7 @@ const DataPanel: FC = () => {
 };
 
 function createStore(
-  version: GameVersion,
+  versionLabel: string,
   tableNames: string[],
   csvBasePath: string
 ) {
@@ -72,7 +71,7 @@ function createStore(
   const stateCreator: StateCreator<RoomState> = (set, get, store) => ({
     ...createRoomShellSlice({
       config: {
-        title: `Elin Source Search (${version})`,
+        title: `Elin Source Search (${versionLabel})`,
         dataSources,
       },
       layout: {
@@ -107,12 +106,12 @@ function createStore(
 }
 
 export default function SqlRoomContainer({
-  version,
+  versionLabel,
   tableNames,
   csvBasePath,
 }: SqlRoomContainerProps) {
   const [roomStore] = useState(() =>
-    createStore(version, tableNames, csvBasePath)
+    createStore(versionLabel, tableNames, csvBasePath)
   );
 
   return (

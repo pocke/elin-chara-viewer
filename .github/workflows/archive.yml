@@ -1,0 +1,91 @@
+name: Archive versions
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: archive
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  archive:
+    name: Add the released versions to the archive
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # After npm ci, so that the token is not on disk while dependency
+      # install scripts run.
+      - name: Checkout the archive repository
+        uses: actions/checkout@v4
+        with:
+          repository: pocke/elin-chara-viewer-data
+          token: ${{ secrets.ARCHIVE_REPO_TOKEN }}
+          path: archive
+          # git pull --rebase below needs more than the tip commit.
+          fetch-depth: 0
+
+      # A promoted nightly is named by both files; archiving it twice would
+      # fetch the decompiled source again for the same result.
+      - name: Archive the versions named in versions/
+        run: |
+          set -euo pipefail
+
+          for channel in EA nightly; do
+            [ -s "versions/$channel" ] || {
+              echo "versions/$channel is missing or empty" >&2
+              exit 1
+            }
+            cat "versions/$channel"
+            echo
+          done | sort -u | while IFS= read -r version; do
+            # A versions/ file written with a trailing newline would otherwise
+            # add an empty version to the list.
+            [ -n "$version" ] || continue
+            ruby script/archive_release.rb archive "$version" </dev/null
+            ruby script/extract_feat.rb --archive archive --version "$version" </dev/null
+          done
+
+      - name: Check that every archived version parses
+        run: npm run check:archive -- archive
+
+      - name: Commit and push
+        working-directory: archive
+        env:
+          # Passed through the environment so that the message cannot break out
+          # of the script.
+          SOURCE_COMMIT: ${{ github.event.head_commit.message || github.sha }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'Archive is already up to date'
+            exit 0
+          fi
+          git commit -m "Archive ${SOURCE_COMMIT%%$'\n'*}"
+          git pull --rebase origin main
+          git push origin HEAD:main
