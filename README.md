@@ -42,17 +42,20 @@ at build time.
   existed in this repository's git history. It was a one-shot; the release flow
   above is what keeps the archive current.
 
-* `script/backfill.sh` restored the rest — every version Steam still serves,
-  back to 2024-11-01 — by downloading each build from the depot, running it so
-  the exporter writes its CSVs, and archiving those. `script/export-build.sh`
-  does the launching half. Also a one-shot, but the same path is what to reach
-  for when the release flow misses a version.
+* The versions older than that were restored from Steam itself, by
+  downloading each build of depot 2135153 and running it so the exporter
+  writes its CSVs. That sweep was a one-shot; its scripts and the manifest
+  list it worked from are attached to #303.
 
-  `manifests.json` lists the 600 builds Steam has served, with the version each
-  turned out to hold. It is the only record of which past versions exist:
-  SteamDB cannot be scraped, so it was copied by hand and is fed through
-  `script/parse_manifests.rb`, and `script/record_manifest_versions.rb` writes
-  the version names back once builds have been run.
+* `script/export-build.sh` is the part of it that stays: it launches a build
+  that was downloaded rather than installed, waits for the export to finish,
+  and stops the game. `update.sh` uses it.
+
+* `npm run check:export -- <export-dir> --baseline <dir>` checks an export for
+  the ways the exporter fails quietly — the column order is reconstructed from
+  the IL of `CreateRow()`, and a build it cannot follow writes a
+  plausible-looking CSV with the wrong columns. `--archive <dir>` sweeps every
+  archived version instead.
 
 ## License
 
