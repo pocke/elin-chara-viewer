@@ -81,7 +81,8 @@ export const RaceSchema = z.object({
   elements: z.string().optional(),
   skill: z.string().optional(),
   figure: z.string(),
-  // Added with EA 23.41; the builds restored from before it have no such column.
+  // Added with EA 23.41; the builds restored from before it have no such
+  // column, and no gene capacity to describe.
   geneCap: z.coerce.number().default(0),
   material: z.string(),
   corpse: z.string(),
