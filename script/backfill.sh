@@ -255,4 +255,15 @@ while IFS=$'\t' read -r id date branch <&3; do
   echo "   $status $version, ${size}MB to Dropbox"
 done 3<<< "$targets"
 
-echo "== finished: $(awk -F'\t' '$4=="done"' "$STATE" | wc -l) done, $(awk -F'\t' '$4=="duplicate"' "$STATE" | wc -l) duplicate, $(awk -F'\t' '$4!="done" && $4!="duplicate"' "$STATE" | wc -l) failed"
+# state.tsv は追記のみなので、再試行して成功した manifest には失敗行も残る。
+summary() {
+  awk -F'\t' '
+    $4=="done" || $4=="duplicate" { ok[$1]=$4; next }
+    { bad[$1]=$4 }
+    END {
+      for (id in ok) if (ok[id]=="done") d++; else dup++
+      for (id in bad) if (!(id in ok)) f++
+      printf "%d done, %d duplicate, %d failed", d, dup, f
+    }' "$STATE"
+}
+echo "== finished: $(summary)"
