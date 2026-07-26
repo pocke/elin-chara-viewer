@@ -25,7 +25,7 @@ export const ArchivedVersionSchema = z.object({
   version: z.string(),
   // Also used as a path segment against the archive host.
   slug: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9.-]*$/),
-  channel: z.enum(['stable', 'nightly']).nullable(),
+  channel: z.enum(['stable', 'nightly']),
   releaseDate: z.string(),
   // Also used as a DuckDB table name on the sources page.
   tables: z.array(z.string().regex(/^[A-Za-z][A-Za-z0-9_]*$/)),

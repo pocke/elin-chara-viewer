@@ -42,12 +42,14 @@ def main
 
   slug = ArchiveRepo.slugify(version)
   known = ArchiveRepo.slugs(root).include?(slug) ? ArchiveRepo.read_meta(root, slug) : {}
+  channel = options[:channel] || channel_of(version) || known['channel']
+  abort "cannot tell which channel #{version} shipped on; pass --channel" unless channel
 
   dir = ArchiveRepo.write_version(
     root,
     {
       'version' => version,
-      'channel' => options[:channel] || channel_of(version) || known['channel'],
+      'channel' => channel,
       # A nightly that is promoted to stable is archived twice; the date it
       # first shipped is the one worth keeping.
       'releaseDate' => options[:release_date] || known['releaseDate'] || Date.today.to_s

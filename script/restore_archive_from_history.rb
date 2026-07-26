@@ -97,7 +97,9 @@ def main
       root,
       {
         'version' => version,
-        'channel' => channels.fetch(version, nil),
+        # Versions older than the versions/ files predate the nightly channel
+        # being followed at all, so they are all stable.
+        'channel' => channels.fetch(version, 'stable'),
         # The day the version was committed here, which is the release date give
         # or take the delay before the export ran. Steam has the exact dates and
         # the backfill will correct them.

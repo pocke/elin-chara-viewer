@@ -20,7 +20,7 @@ import { useTranslation } from '@/lib/simple-i18n';
 export interface VersionListEntry {
   version: string;
   slug: string;
-  channel: 'stable' | 'nightly' | null;
+  channel: 'stable' | 'nightly';
   date: string;
   sameAsPrevious: boolean;
 }
@@ -84,8 +84,9 @@ export default function VersionsPageClient({
                 </TableCell>
                 <TableCell>{entry.date}</TableCell>
                 <TableCell>
-                  {entry.channel === 'stable' && t.common.channelStable}
-                  {entry.channel === 'nightly' && t.common.channelNightly}
+                  {entry.channel === 'stable'
+                    ? t.common.channelStable
+                    : t.common.channelNightly}
                 </TableCell>
               </TableRow>
             ))}
