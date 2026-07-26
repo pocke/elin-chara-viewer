@@ -1,0 +1,3602 @@
+[
+  {
+    "manifestId": "5498356835454492430",
+    "seenAt": "2024-11-01T07:00:05Z",
+    "date": "2024-11-01",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3040371994742310157",
+    "seenAt": "2024-11-01T07:13:05Z",
+    "date": "2024-11-01",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7264558571072855625",
+    "seenAt": "2024-11-02T05:20:55Z",
+    "date": "2024-11-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1574775502949258888",
+    "seenAt": "2024-11-02T05:53:44Z",
+    "date": "2024-11-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "720936334246798287",
+    "seenAt": "2024-11-02T13:10:05Z",
+    "date": "2024-11-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6644078141919454306",
+    "seenAt": "2024-11-03T10:23:48Z",
+    "date": "2024-11-03",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2403345410439568573",
+    "seenAt": "2024-11-03T10:43:37Z",
+    "date": "2024-11-03",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5758006992030102832",
+    "seenAt": "2024-11-03T23:38:02Z",
+    "date": "2024-11-03",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6660857235279495264",
+    "seenAt": "2024-11-04T08:02:52Z",
+    "date": "2024-11-04",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8842728741118857021",
+    "seenAt": "2024-11-05T08:47:09Z",
+    "date": "2024-11-05",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5212991481401902008",
+    "seenAt": "2024-11-06T05:12:21Z",
+    "date": "2024-11-06",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7394279919563283142",
+    "seenAt": "2024-11-06T07:33:09Z",
+    "date": "2024-11-06",
+    "branch": "public"
+  },
+  {
+    "manifestId": "316630919590045699",
+    "seenAt": "2024-11-06T08:58:50Z",
+    "date": "2024-11-06",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7304919524427057084",
+    "seenAt": "2024-11-07T08:41:13Z",
+    "date": "2024-11-07",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1233612036383629228",
+    "seenAt": "2024-11-07T09:08:51Z",
+    "date": "2024-11-07",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8860536206022627363",
+    "seenAt": "2024-11-07T09:25:42Z",
+    "date": "2024-11-07",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7873634197353068247",
+    "seenAt": "2024-11-08T04:15:43Z",
+    "date": "2024-11-08",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4263796923066822036",
+    "seenAt": "2024-11-08T08:59:02Z",
+    "date": "2024-11-08",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7202590106697169236",
+    "seenAt": "2024-11-09T00:24:08Z",
+    "date": "2024-11-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4635887719947155628",
+    "seenAt": "2024-11-09T02:31:47Z",
+    "date": "2024-11-09",
+    "branch": "public"
+  },
+  {
+    "manifestId": "668355211518344330",
+    "seenAt": "2024-11-09T17:31:36Z",
+    "date": "2024-11-09",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6305464706361748139",
+    "seenAt": "2024-11-10T06:39:26Z",
+    "date": "2024-11-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6488051053982384482",
+    "seenAt": "2024-11-10T11:02:55Z",
+    "date": "2024-11-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "278400087187364036",
+    "seenAt": "2024-11-10T12:04:45Z",
+    "date": "2024-11-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3675008023230435492",
+    "seenAt": "2024-11-11T05:42:56Z",
+    "date": "2024-11-11",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7566638591502313680",
+    "seenAt": "2024-11-11T07:09:15Z",
+    "date": "2024-11-11",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4745107430845004666",
+    "seenAt": "2024-11-12T00:11:05Z",
+    "date": "2024-11-12",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2506369343817932649",
+    "seenAt": "2024-11-12T00:39:22Z",
+    "date": "2024-11-12",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7545229533389941522",
+    "seenAt": "2024-11-12T01:02:49Z",
+    "date": "2024-11-12",
+    "branch": "public"
+  },
+  {
+    "manifestId": "9205083398679781164",
+    "seenAt": "2024-11-12T04:58:17Z",
+    "date": "2024-11-12",
+    "branch": "public"
+  },
+  {
+    "manifestId": "37880606811013648",
+    "seenAt": "2024-11-12T07:24:05Z",
+    "date": "2024-11-12",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5937427450824443934",
+    "seenAt": "2024-11-12T09:09:01Z",
+    "date": "2024-11-12",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1660395165693379482",
+    "seenAt": "2024-11-12T13:37:53Z",
+    "date": "2024-11-12",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4586782681196201475",
+    "seenAt": "2024-11-13T01:50:09Z",
+    "date": "2024-11-13",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1049813714263361313",
+    "seenAt": "2024-11-14T02:49:39Z",
+    "date": "2024-11-14",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5148374143249465366",
+    "seenAt": "2024-11-14T06:28:54Z",
+    "date": "2024-11-14",
+    "branch": "public"
+  },
+  {
+    "manifestId": "707415227732772282",
+    "seenAt": "2024-11-14T06:52:48Z",
+    "date": "2024-11-14",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3550853080141488434",
+    "seenAt": "2024-11-14T07:06:31Z",
+    "date": "2024-11-14",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2786376482149929149",
+    "seenAt": "2024-11-15T06:02:11Z",
+    "date": "2024-11-15",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6409215761933121812",
+    "seenAt": "2024-11-15T08:17:02Z",
+    "date": "2024-11-15",
+    "branch": "public"
+  },
+  {
+    "manifestId": "523454869997259282",
+    "seenAt": "2024-11-16T02:21:26Z",
+    "date": "2024-11-16",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6205148054542468759",
+    "seenAt": "2024-11-16T08:13:14Z",
+    "date": "2024-11-16",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6648004431319854328",
+    "seenAt": "2024-11-17T04:21:40Z",
+    "date": "2024-11-17",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2283880259137999055",
+    "seenAt": "2024-11-17T13:36:51Z",
+    "date": "2024-11-17",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2229163928028801202",
+    "seenAt": "2024-11-18T09:02:01Z",
+    "date": "2024-11-18",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7259966756864475037",
+    "seenAt": "2024-11-18T10:22:27Z",
+    "date": "2024-11-18",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6710139295100913666",
+    "seenAt": "2024-11-19T07:32:43Z",
+    "date": "2024-11-19",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2095521770162833034",
+    "seenAt": "2024-11-19T20:24:11Z",
+    "date": "2024-11-19",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3781223802839629864",
+    "seenAt": "2024-11-20T04:28:56Z",
+    "date": "2024-11-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7214849368871712382",
+    "seenAt": "2024-11-20T05:09:55Z",
+    "date": "2024-11-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "145438264209644023",
+    "seenAt": "2024-11-20T06:15:36Z",
+    "date": "2024-11-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2942761616514105145",
+    "seenAt": "2024-11-20T07:39:38Z",
+    "date": "2024-11-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1723732069326702802",
+    "seenAt": "2024-11-21T08:16:14Z",
+    "date": "2024-11-21",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7573308372638857063",
+    "seenAt": "2024-11-21T10:28:34Z",
+    "date": "2024-11-21",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5334069366956278189",
+    "seenAt": "2024-11-22T13:52:28Z",
+    "date": "2024-11-22",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8737611754712826053",
+    "seenAt": "2024-11-23T11:02:33Z",
+    "date": "2024-11-23",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8180808345979048220",
+    "seenAt": "2024-11-24T08:12:36Z",
+    "date": "2024-11-24",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3729453898332237989",
+    "seenAt": "2024-11-24T09:08:56Z",
+    "date": "2024-11-24",
+    "branch": "public"
+  },
+  {
+    "manifestId": "508896302903823295",
+    "seenAt": "2024-11-25T09:53:00Z",
+    "date": "2024-11-25",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5544920059254017323",
+    "seenAt": "2024-11-26T08:35:58Z",
+    "date": "2024-11-26",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2138441677302635185",
+    "seenAt": "2024-11-26T09:11:59Z",
+    "date": "2024-11-26",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6044229524192802352",
+    "seenAt": "2024-11-27T09:14:24Z",
+    "date": "2024-11-27",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3450860899980326357",
+    "seenAt": "2024-11-27T17:29:53Z",
+    "date": "2024-11-27",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3124832983232441694",
+    "seenAt": "2024-11-28T07:37:01Z",
+    "date": "2024-11-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "295743574343379548",
+    "seenAt": "2024-11-28T10:44:57Z",
+    "date": "2024-11-28",
+    "branch": "public"
+  },
+  {
+    "manifestId": "481857563646828717",
+    "seenAt": "2024-11-29T10:47:17Z",
+    "date": "2024-11-29",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6845337505719646992",
+    "seenAt": "2024-11-29T11:28:47Z",
+    "date": "2024-11-29",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4445988530339237936",
+    "seenAt": "2024-11-30T07:42:07Z",
+    "date": "2024-11-30",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2093897767191232853",
+    "seenAt": "2024-11-30T18:53:26Z",
+    "date": "2024-11-30",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3786288921852591280",
+    "seenAt": "2024-12-01T10:11:23Z",
+    "date": "2024-12-01",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7295161405498045141",
+    "seenAt": "2024-12-02T06:17:29Z",
+    "date": "2024-12-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5812275667024693939",
+    "seenAt": "2024-12-02T06:43:11Z",
+    "date": "2024-12-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4071343692325456631",
+    "seenAt": "2024-12-02T07:45:30Z",
+    "date": "2024-12-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6687739209535386570",
+    "seenAt": "2024-12-03T14:19:16Z",
+    "date": "2024-12-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8379682471183443833",
+    "seenAt": "2024-12-04T13:30:07Z",
+    "date": "2024-12-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2282630899364645686",
+    "seenAt": "2024-12-05T12:58:25Z",
+    "date": "2024-12-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2086137322410919295",
+    "seenAt": "2024-12-06T10:40:30Z",
+    "date": "2024-12-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "9086671143615446320",
+    "seenAt": "2024-12-07T12:22:08Z",
+    "date": "2024-12-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8656761693925074182",
+    "seenAt": "2024-12-08T11:33:32Z",
+    "date": "2024-12-08",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1675950836284512670",
+    "seenAt": "2024-12-09T10:54:23Z",
+    "date": "2024-12-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7777820355156672040",
+    "seenAt": "2024-12-10T06:27:16Z",
+    "date": "2024-12-10",
+    "branch": "public"
+  },
+  {
+    "manifestId": "140812362573235351",
+    "seenAt": "2024-12-13T07:20:22Z",
+    "date": "2024-12-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6054738078100817512",
+    "seenAt": "2024-12-13T08:18:04Z",
+    "date": "2024-12-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1082090926357998533",
+    "seenAt": "2024-12-13T10:08:15Z",
+    "date": "2024-12-13",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8899327497463689316",
+    "seenAt": "2024-12-13T10:22:26Z",
+    "date": "2024-12-13",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5201288617205715621",
+    "seenAt": "2024-12-13T14:19:08Z",
+    "date": "2024-12-13",
+    "branch": "public"
+  },
+  {
+    "manifestId": "521925905805845053",
+    "seenAt": "2024-12-13T14:51:49Z",
+    "date": "2024-12-13",
+    "branch": "public"
+  },
+  {
+    "manifestId": "642656656301428640",
+    "seenAt": "2024-12-14T12:06:57Z",
+    "date": "2024-12-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6938663284224680659",
+    "seenAt": "2024-12-15T04:42:50Z",
+    "date": "2024-12-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8669686853558617478",
+    "seenAt": "2024-12-16T12:46:04Z",
+    "date": "2024-12-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6175553785141379940",
+    "seenAt": "2024-12-17T13:51:33Z",
+    "date": "2024-12-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2231176171447364462",
+    "seenAt": "2024-12-18T08:39:09Z",
+    "date": "2024-12-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "763912341236515625",
+    "seenAt": "2024-12-19T05:08:03Z",
+    "date": "2024-12-19",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4058453260322879320",
+    "seenAt": "2024-12-19T09:07:03Z",
+    "date": "2024-12-19",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8630380393480792732",
+    "seenAt": "2024-12-20T08:14:12Z",
+    "date": "2024-12-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8223384736966347518",
+    "seenAt": "2024-12-20T10:01:31Z",
+    "date": "2024-12-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2156575485864814399",
+    "seenAt": "2024-12-21T10:22:31Z",
+    "date": "2024-12-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3325571818630689771",
+    "seenAt": "2024-12-21T10:27:51Z",
+    "date": "2024-12-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8619700956214641270",
+    "seenAt": "2024-12-22T09:53:30Z",
+    "date": "2024-12-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5586967549689797859",
+    "seenAt": "2024-12-23T07:58:45Z",
+    "date": "2024-12-23",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1367994811933774027",
+    "seenAt": "2024-12-23T09:46:36Z",
+    "date": "2024-12-23",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8068440952602412378",
+    "seenAt": "2024-12-24T11:07:54Z",
+    "date": "2024-12-24",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6893848686990250865",
+    "seenAt": "2024-12-24T11:56:36Z",
+    "date": "2024-12-24",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2103492733801253244",
+    "seenAt": "2024-12-24T13:08:17Z",
+    "date": "2024-12-24",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2635296736836181427",
+    "seenAt": "2024-12-25T04:49:55Z",
+    "date": "2024-12-25",
+    "branch": "public"
+  },
+  {
+    "manifestId": "862060472301155475",
+    "seenAt": "2024-12-25T07:21:17Z",
+    "date": "2024-12-25",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3296520076666013700",
+    "seenAt": "2024-12-25T09:52:03Z",
+    "date": "2024-12-25",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8756537149938461051",
+    "seenAt": "2024-12-25T17:15:37Z",
+    "date": "2024-12-25",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4696035546475393387",
+    "seenAt": "2024-12-26T03:27:34Z",
+    "date": "2024-12-26",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3008459683484782707",
+    "seenAt": "2024-12-28T05:47:00Z",
+    "date": "2024-12-28",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2429976300491665633",
+    "seenAt": "2024-12-28T08:46:45Z",
+    "date": "2024-12-28",
+    "branch": "public"
+  },
+  {
+    "manifestId": "642617321271674705",
+    "seenAt": "2024-12-28T14:20:03Z",
+    "date": "2024-12-28",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3072547981792681428",
+    "seenAt": "2024-12-28T14:26:49Z",
+    "date": "2024-12-28",
+    "branch": "public"
+  },
+  {
+    "manifestId": "142224682145399914",
+    "seenAt": "2024-12-28T15:01:56Z",
+    "date": "2024-12-28",
+    "branch": "public"
+  },
+  {
+    "manifestId": "865087069427309177",
+    "seenAt": "2024-12-29T12:48:32Z",
+    "date": "2024-12-29",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6702170263935951919",
+    "seenAt": "2024-12-30T13:10:30Z",
+    "date": "2024-12-30",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7057751472641598394",
+    "seenAt": "2024-12-30T14:09:15Z",
+    "date": "2024-12-30",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "807515546056122017",
+    "seenAt": "2024-12-31T04:42:59Z",
+    "date": "2024-12-31",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7214480138680281937",
+    "seenAt": "2025-01-01T09:11:47Z",
+    "date": "2025-01-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1934099261009741049",
+    "seenAt": "2025-01-01T14:56:24Z",
+    "date": "2025-01-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2758975417515978443",
+    "seenAt": "2025-01-02T09:07:04Z",
+    "date": "2025-01-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6245055640049227572",
+    "seenAt": "2025-01-02T10:52:57Z",
+    "date": "2025-01-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3561565397779668958",
+    "seenAt": "2025-01-03T07:46:41Z",
+    "date": "2025-01-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5694570622394248805",
+    "seenAt": "2025-01-04T09:28:42Z",
+    "date": "2025-01-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2627347307291867484",
+    "seenAt": "2025-01-05T05:44:51Z",
+    "date": "2025-01-05",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2950242793169407114",
+    "seenAt": "2025-01-06T01:23:12Z",
+    "date": "2025-01-06",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5351013483194369331",
+    "seenAt": "2025-01-07T09:57:51Z",
+    "date": "2025-01-07",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4230163411800450880",
+    "seenAt": "2025-01-07T11:24:52Z",
+    "date": "2025-01-07",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4240109109869358358",
+    "seenAt": "2025-01-07T11:51:13Z",
+    "date": "2025-01-07",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2031314189931932160",
+    "seenAt": "2025-01-09T10:28:10Z",
+    "date": "2025-01-09",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7248690586460777269",
+    "seenAt": "2025-01-11T10:49:23Z",
+    "date": "2025-01-11",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7744490142001858426",
+    "seenAt": "2025-01-11T14:58:09Z",
+    "date": "2025-01-11",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4802357997130104917",
+    "seenAt": "2025-01-14T10:44:15Z",
+    "date": "2025-01-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8342796075339880919",
+    "seenAt": "2025-01-14T13:28:03Z",
+    "date": "2025-01-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8931336786507277744",
+    "seenAt": "2025-01-16T13:30:42Z",
+    "date": "2025-01-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6568603950791657359",
+    "seenAt": "2025-01-18T12:27:35Z",
+    "date": "2025-01-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6401822607407113037",
+    "seenAt": "2025-01-18T14:08:26Z",
+    "date": "2025-01-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8958740518161358267",
+    "seenAt": "2025-01-21T00:07:00Z",
+    "date": "2025-01-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2837352453547060761",
+    "seenAt": "2025-01-21T02:29:59Z",
+    "date": "2025-01-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "236641424107703005",
+    "seenAt": "2025-01-24T06:10:18Z",
+    "date": "2025-01-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4730432671438323234",
+    "seenAt": "2025-01-24T07:57:21Z",
+    "date": "2025-01-24",
+    "branch": "public"
+  },
+  {
+    "manifestId": "747176267053225526",
+    "seenAt": "2025-01-25T10:21:48Z",
+    "date": "2025-01-25",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7951519813510112780",
+    "seenAt": "2025-01-26T10:23:40Z",
+    "date": "2025-01-26",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2318673360414574145",
+    "seenAt": "2025-01-26T10:49:57Z",
+    "date": "2025-01-26",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3059239365254148824",
+    "seenAt": "2025-01-26T18:37:42Z",
+    "date": "2025-01-26",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6212755808298478618",
+    "seenAt": "2025-01-27T04:21:21Z",
+    "date": "2025-01-27",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4072276332202185249",
+    "seenAt": "2025-01-27T10:06:09Z",
+    "date": "2025-01-27",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5665662646492709",
+    "seenAt": "2025-01-28T08:30:30Z",
+    "date": "2025-01-28",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7481816783311466879",
+    "seenAt": "2025-01-29T08:13:53Z",
+    "date": "2025-01-29",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2339624088088725413",
+    "seenAt": "2025-01-30T05:30:24Z",
+    "date": "2025-01-30",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6553402298475477264",
+    "seenAt": "2025-01-30T06:10:56Z",
+    "date": "2025-01-30",
+    "branch": "public"
+  },
+  {
+    "manifestId": "475723656738444046",
+    "seenAt": "2025-01-31T04:06:40Z",
+    "date": "2025-01-31",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1481470198801369437",
+    "seenAt": "2025-02-03T12:54:58Z",
+    "date": "2025-02-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2824556322174471700",
+    "seenAt": "2025-02-03T13:18:31Z",
+    "date": "2025-02-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2145789799446157008",
+    "seenAt": "2025-02-03T13:44:30Z",
+    "date": "2025-02-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6132558417991897926",
+    "seenAt": "2025-02-04T12:48:37Z",
+    "date": "2025-02-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5878450884738425050",
+    "seenAt": "2025-02-05T11:46:22Z",
+    "date": "2025-02-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7119409938084036405",
+    "seenAt": "2025-02-05T12:03:39Z",
+    "date": "2025-02-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8308075700943173312",
+    "seenAt": "2025-02-06T03:32:01Z",
+    "date": "2025-02-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "676094801985910633",
+    "seenAt": "2025-02-06T11:54:01Z",
+    "date": "2025-02-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1463837646127308541",
+    "seenAt": "2025-02-06T13:46:48Z",
+    "date": "2025-02-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2962849819014810735",
+    "seenAt": "2025-02-09T05:42:16Z",
+    "date": "2025-02-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3358214431651506116",
+    "seenAt": "2025-02-09T13:21:48Z",
+    "date": "2025-02-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8168366144956137310",
+    "seenAt": "2025-02-11T09:14:04Z",
+    "date": "2025-02-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8781119707974516903",
+    "seenAt": "2025-02-11T10:50:35Z",
+    "date": "2025-02-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4164859580085123651",
+    "seenAt": "2025-02-12T04:10:52Z",
+    "date": "2025-02-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6314995311772670273",
+    "seenAt": "2025-02-13T04:08:50Z",
+    "date": "2025-02-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5000117256926440501",
+    "seenAt": "2025-02-13T05:36:31Z",
+    "date": "2025-02-13",
+    "branch": "public"
+  },
+  {
+    "manifestId": "530083023124434935",
+    "seenAt": "2025-02-13T08:17:11Z",
+    "date": "2025-02-13",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2773332357221211174",
+    "seenAt": "2025-02-13T10:01:22Z",
+    "date": "2025-02-13",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8602269614782609039",
+    "seenAt": "2025-02-13T14:25:46Z",
+    "date": "2025-02-13",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2875812976465078523",
+    "seenAt": "2025-02-17T10:52:54Z",
+    "date": "2025-02-17",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1060036769013341582",
+    "seenAt": "2025-02-19T06:55:06Z",
+    "date": "2025-02-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3913308728684128787",
+    "seenAt": "2025-02-20T12:37:35Z",
+    "date": "2025-02-20",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5749130970023124256",
+    "seenAt": "2025-02-21T02:59:34Z",
+    "date": "2025-02-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3154550806020181283",
+    "seenAt": "2025-02-22T10:46:42Z",
+    "date": "2025-02-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6536638502961786411",
+    "seenAt": "2025-02-26T12:50:55Z",
+    "date": "2025-02-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5592101463877132073",
+    "seenAt": "2025-03-02T12:09:03Z",
+    "date": "2025-03-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6159050488551634477",
+    "seenAt": "2025-03-04T02:27:39Z",
+    "date": "2025-03-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7712918403987277372",
+    "seenAt": "2025-03-04T07:08:25Z",
+    "date": "2025-03-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8764096301581366585",
+    "seenAt": "2025-03-05T09:43:52Z",
+    "date": "2025-03-05",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6102252734298146005",
+    "seenAt": "2025-03-06T13:13:46Z",
+    "date": "2025-03-06",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6907295434409474393",
+    "seenAt": "2025-03-08T09:31:46Z",
+    "date": "2025-03-08",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3348895166355422076",
+    "seenAt": "2025-03-12T03:38:23Z",
+    "date": "2025-03-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3416481430789849086",
+    "seenAt": "2025-03-12T03:52:19Z",
+    "date": "2025-03-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "195417821358381414",
+    "seenAt": "2025-03-13T05:17:33Z",
+    "date": "2025-03-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1165273168526768749",
+    "seenAt": "2025-03-15T04:17:22Z",
+    "date": "2025-03-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "224131551707651543",
+    "seenAt": "2025-03-16T11:31:38Z",
+    "date": "2025-03-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7051257173492864803",
+    "seenAt": "2025-03-17T08:55:36Z",
+    "date": "2025-03-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1585773795788217429",
+    "seenAt": "2025-03-17T09:17:16Z",
+    "date": "2025-03-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3040086634689971639",
+    "seenAt": "2025-03-18T03:44:22Z",
+    "date": "2025-03-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5808180204543136410",
+    "seenAt": "2025-03-19T01:50:53Z",
+    "date": "2025-03-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6551057157621425323",
+    "seenAt": "2025-03-19T07:59:21Z",
+    "date": "2025-03-19",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8192608418933883811",
+    "seenAt": "2025-03-20T07:10:22Z",
+    "date": "2025-03-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4734474988224181823",
+    "seenAt": "2025-03-20T08:24:19Z",
+    "date": "2025-03-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6007886224917905868",
+    "seenAt": "2025-03-20T12:16:46Z",
+    "date": "2025-03-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8570057237471166398",
+    "seenAt": "2025-03-21T13:53:45Z",
+    "date": "2025-03-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "753653223322756435",
+    "seenAt": "2025-03-22T07:58:15Z",
+    "date": "2025-03-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5564923103673557710",
+    "seenAt": "2025-03-24T09:28:30Z",
+    "date": "2025-03-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7649139261380236695",
+    "seenAt": "2025-03-25T10:44:03Z",
+    "date": "2025-03-25",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7708340957852733944",
+    "seenAt": "2025-03-26T07:48:56Z",
+    "date": "2025-03-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5615256341393504850",
+    "seenAt": "2025-03-27T06:46:13Z",
+    "date": "2025-03-27",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8783812402790182253",
+    "seenAt": "2025-03-27T08:15:48Z",
+    "date": "2025-03-27",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1672570599572323229",
+    "seenAt": "2025-03-29T11:48:10Z",
+    "date": "2025-03-29",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "627333762867323189",
+    "seenAt": "2025-03-31T12:34:09Z",
+    "date": "2025-03-31",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1281179673694378544",
+    "seenAt": "2025-03-31T13:15:47Z",
+    "date": "2025-03-31",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6748156664614037739",
+    "seenAt": "2025-04-01T07:39:17Z",
+    "date": "2025-04-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1822395126389705427",
+    "seenAt": "2025-04-03T11:01:05Z",
+    "date": "2025-04-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "709774150277555255",
+    "seenAt": "2025-04-04T07:35:52Z",
+    "date": "2025-04-04",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2965507975410775524",
+    "seenAt": "2025-04-04T13:20:27Z",
+    "date": "2025-04-04",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8088805916402201393",
+    "seenAt": "2025-04-06T07:32:06Z",
+    "date": "2025-04-06",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8272489027739132764",
+    "seenAt": "2025-04-07T12:25:16Z",
+    "date": "2025-04-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4527394666879678602",
+    "seenAt": "2025-04-07T13:08:01Z",
+    "date": "2025-04-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3561380469288329330",
+    "seenAt": "2025-04-08T10:50:11Z",
+    "date": "2025-04-08",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3507163951546084767",
+    "seenAt": "2025-04-10T11:35:19Z",
+    "date": "2025-04-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8348603878632738473",
+    "seenAt": "2025-04-11T09:56:00Z",
+    "date": "2025-04-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4913996512984801082",
+    "seenAt": "2025-04-12T07:40:51Z",
+    "date": "2025-04-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "9187934367618690478",
+    "seenAt": "2025-04-13T09:06:49Z",
+    "date": "2025-04-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3852603291186185265",
+    "seenAt": "2025-04-13T13:29:03Z",
+    "date": "2025-04-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2589201070391079315",
+    "seenAt": "2025-04-13T13:59:27Z",
+    "date": "2025-04-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2579538665624858427",
+    "seenAt": "2025-04-14T09:13:27Z",
+    "date": "2025-04-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4675690320333851075",
+    "seenAt": "2025-04-14T10:45:37Z",
+    "date": "2025-04-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2600178732900185342",
+    "seenAt": "2025-04-15T08:09:49Z",
+    "date": "2025-04-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8428333187358337915",
+    "seenAt": "2025-04-16T09:29:05Z",
+    "date": "2025-04-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "257658956322772776",
+    "seenAt": "2025-04-16T09:52:42Z",
+    "date": "2025-04-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2234910210692959507",
+    "seenAt": "2025-04-16T10:32:25Z",
+    "date": "2025-04-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2949252597672245779",
+    "seenAt": "2025-04-17T10:02:01Z",
+    "date": "2025-04-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8790266562521755811",
+    "seenAt": "2025-04-17T10:34:24Z",
+    "date": "2025-04-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3188750568158680792",
+    "seenAt": "2025-04-18T09:35:03Z",
+    "date": "2025-04-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7397426916819672027",
+    "seenAt": "2025-04-19T05:40:50Z",
+    "date": "2025-04-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "32514222198231502",
+    "seenAt": "2025-04-19T08:06:19Z",
+    "date": "2025-04-19",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5660705455719820569",
+    "seenAt": "2025-04-20T06:58:56Z",
+    "date": "2025-04-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5898957419764783530",
+    "seenAt": "2025-04-22T10:30:02Z",
+    "date": "2025-04-22",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5312965304854380725",
+    "seenAt": "2025-04-25T10:08:06Z",
+    "date": "2025-04-25",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7745989138883614243",
+    "seenAt": "2025-05-01T10:07:32Z",
+    "date": "2025-05-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3627418764119450641",
+    "seenAt": "2025-05-01T10:56:14Z",
+    "date": "2025-05-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "348904514765493654",
+    "seenAt": "2025-05-01T11:07:33Z",
+    "date": "2025-05-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1411274701771961075",
+    "seenAt": "2025-05-02T07:48:10Z",
+    "date": "2025-05-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3271657267063221436",
+    "seenAt": "2025-05-02T09:28:08Z",
+    "date": "2025-05-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6497964455319598816",
+    "seenAt": "2025-05-05T08:35:40Z",
+    "date": "2025-05-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5919476695558758437",
+    "seenAt": "2025-05-07T10:23:45Z",
+    "date": "2025-05-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "200536493197132728",
+    "seenAt": "2025-05-08T12:43:47Z",
+    "date": "2025-05-08",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5751813997422811199",
+    "seenAt": "2025-05-09T10:23:26Z",
+    "date": "2025-05-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7723904514918389569",
+    "seenAt": "2025-05-11T10:58:50Z",
+    "date": "2025-05-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6134140573696791592",
+    "seenAt": "2025-05-12T13:32:26Z",
+    "date": "2025-05-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8815283652011455191",
+    "seenAt": "2025-05-14T04:13:29Z",
+    "date": "2025-05-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8095996226355294396",
+    "seenAt": "2025-05-15T08:32:10Z",
+    "date": "2025-05-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2682126955078476740",
+    "seenAt": "2025-05-15T10:16:29Z",
+    "date": "2025-05-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5588446456558969999",
+    "seenAt": "2025-05-15T10:58:53Z",
+    "date": "2025-05-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7729210572817334926",
+    "seenAt": "2025-05-15T11:59:04Z",
+    "date": "2025-05-15",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6166503436359070567",
+    "seenAt": "2025-05-16T09:56:35Z",
+    "date": "2025-05-16",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7902608619079497959",
+    "seenAt": "2025-05-18T10:33:31Z",
+    "date": "2025-05-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6445000640928423654",
+    "seenAt": "2025-05-21T07:00:01Z",
+    "date": "2025-05-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5297757395247951896",
+    "seenAt": "2025-05-23T11:58:56Z",
+    "date": "2025-05-23",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3728749428124206213",
+    "seenAt": "2025-05-26T10:42:00Z",
+    "date": "2025-05-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7541529914994996029",
+    "seenAt": "2025-05-26T11:16:01Z",
+    "date": "2025-05-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7996826935252013304",
+    "seenAt": "2025-05-28T12:14:30Z",
+    "date": "2025-05-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1805368417555792208",
+    "seenAt": "2025-05-28T15:23:17Z",
+    "date": "2025-05-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7936357119796499959",
+    "seenAt": "2025-05-29T11:23:22Z",
+    "date": "2025-05-29",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5492474290083413719",
+    "seenAt": "2025-05-29T11:58:36Z",
+    "date": "2025-05-29",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6774153750549806099",
+    "seenAt": "2025-05-31T08:21:29Z",
+    "date": "2025-05-31",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5485340243794809406",
+    "seenAt": "2025-05-31T13:30:47Z",
+    "date": "2025-05-31",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4350230544002283938",
+    "seenAt": "2025-06-03T13:01:27Z",
+    "date": "2025-06-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2689928186525631963",
+    "seenAt": "2025-06-03T16:35:41Z",
+    "date": "2025-06-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4761569481362129363",
+    "seenAt": "2025-06-03T18:05:15Z",
+    "date": "2025-06-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5959578229418653719",
+    "seenAt": "2025-06-05T13:17:43Z",
+    "date": "2025-06-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1283968274866764483",
+    "seenAt": "2025-06-06T11:54:06Z",
+    "date": "2025-06-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8076139279117712917",
+    "seenAt": "2025-06-08T11:36:18Z",
+    "date": "2025-06-08",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1373458947385435510",
+    "seenAt": "2025-06-10T12:20:07Z",
+    "date": "2025-06-10",
+    "branch": "public"
+  },
+  {
+    "manifestId": "9135156218866949222",
+    "seenAt": "2025-06-11T09:51:22Z",
+    "date": "2025-06-11",
+    "branch": "public"
+  },
+  {
+    "manifestId": "9033085791656885520",
+    "seenAt": "2025-06-14T11:31:11Z",
+    "date": "2025-06-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3221736859637617708",
+    "seenAt": "2025-06-18T12:36:46Z",
+    "date": "2025-06-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8416011988800317365",
+    "seenAt": "2025-06-25T13:29:59Z",
+    "date": "2025-06-25",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2579667519671822296",
+    "seenAt": "2025-06-26T12:07:48Z",
+    "date": "2025-06-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3906019628961280345",
+    "seenAt": "2025-07-02T22:40:13Z",
+    "date": "2025-07-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1263383784643674013",
+    "seenAt": "2025-07-08T08:21:58Z",
+    "date": "2025-07-08",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7258863987179356310",
+    "seenAt": "2025-07-16T09:21:16Z",
+    "date": "2025-07-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2650115214376461157",
+    "seenAt": "2025-07-18T10:54:50Z",
+    "date": "2025-07-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6427237534599924731",
+    "seenAt": "2025-07-21T04:48:42Z",
+    "date": "2025-07-21",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4881052262697321135",
+    "seenAt": "2025-07-23T09:18:25Z",
+    "date": "2025-07-23",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2015786986774753129",
+    "seenAt": "2025-07-24T08:54:46Z",
+    "date": "2025-07-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7945954826012197707",
+    "seenAt": "2025-07-26T08:15:19Z",
+    "date": "2025-07-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2764316378896485778",
+    "seenAt": "2025-07-26T10:08:06Z",
+    "date": "2025-07-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8549818990525398093",
+    "seenAt": "2025-07-27T03:32:49Z",
+    "date": "2025-07-27",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1672263155573614697",
+    "seenAt": "2025-07-27T10:30:14Z",
+    "date": "2025-07-27",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7859405141340537192",
+    "seenAt": "2025-07-28T09:08:17Z",
+    "date": "2025-07-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2909807394365150973",
+    "seenAt": "2025-08-04T10:05:59Z",
+    "date": "2025-08-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4798544734377241239",
+    "seenAt": "2025-08-04T11:42:02Z",
+    "date": "2025-08-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "9084087292838580100",
+    "seenAt": "2025-08-07T10:43:29Z",
+    "date": "2025-08-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2085288692522902601",
+    "seenAt": "2025-08-07T11:11:30Z",
+    "date": "2025-08-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6129555123714933486",
+    "seenAt": "2025-08-11T08:27:31Z",
+    "date": "2025-08-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7941149040881191457",
+    "seenAt": "2025-08-11T08:44:47Z",
+    "date": "2025-08-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3304390914505822571",
+    "seenAt": "2025-08-11T10:01:01Z",
+    "date": "2025-08-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8123883522576082160",
+    "seenAt": "2025-08-11T12:55:00Z",
+    "date": "2025-08-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5413279286907023908",
+    "seenAt": "2025-08-13T10:07:37Z",
+    "date": "2025-08-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3260000186154549515",
+    "seenAt": "2025-08-13T12:05:47Z",
+    "date": "2025-08-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4518410499102174969",
+    "seenAt": "2025-08-13T13:05:47Z",
+    "date": "2025-08-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1250282490971252909",
+    "seenAt": "2025-08-14T10:08:23Z",
+    "date": "2025-08-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1965015058305769090",
+    "seenAt": "2025-08-14T14:00:35Z",
+    "date": "2025-08-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8465851647977513418",
+    "seenAt": "2025-08-15T14:50:13Z",
+    "date": "2025-08-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7313523827113745882",
+    "seenAt": "2025-08-16T14:07:48Z",
+    "date": "2025-08-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "183376742933205847",
+    "seenAt": "2025-08-17T13:00:16Z",
+    "date": "2025-08-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2862181897927208913",
+    "seenAt": "2025-08-18T14:41:40Z",
+    "date": "2025-08-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5107443797320589108",
+    "seenAt": "2025-08-18T16:12:03Z",
+    "date": "2025-08-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2405047912954049875",
+    "seenAt": "2025-08-20T10:48:29Z",
+    "date": "2025-08-20",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7089650600945556730",
+    "seenAt": "2025-08-20T11:26:42Z",
+    "date": "2025-08-20",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4691338540159477764",
+    "seenAt": "2025-08-21T09:15:04Z",
+    "date": "2025-08-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1201855434861036878",
+    "seenAt": "2025-08-21T10:50:41Z",
+    "date": "2025-08-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6909626834327162675",
+    "seenAt": "2025-08-22T13:40:02Z",
+    "date": "2025-08-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "569247191623525637",
+    "seenAt": "2025-08-24T13:45:38Z",
+    "date": "2025-08-24",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3280791463280743291",
+    "seenAt": "2025-08-25T14:57:34Z",
+    "date": "2025-08-25",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5787593731391157431",
+    "seenAt": "2025-08-26T11:55:05Z",
+    "date": "2025-08-26",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8433275418741161176",
+    "seenAt": "2025-08-26T13:02:04Z",
+    "date": "2025-08-26",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4166001784520474948",
+    "seenAt": "2025-08-28T14:09:35Z",
+    "date": "2025-08-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8681866548941203343",
+    "seenAt": "2025-08-28T15:20:56Z",
+    "date": "2025-08-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "622804886372910171",
+    "seenAt": "2025-08-30T13:20:55Z",
+    "date": "2025-08-30",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8565025247530920903",
+    "seenAt": "2025-08-30T13:51:36Z",
+    "date": "2025-08-30",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5313542063459594773",
+    "seenAt": "2025-09-01T11:07:21Z",
+    "date": "2025-09-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7101464490097116841",
+    "seenAt": "2025-09-02T10:43:49Z",
+    "date": "2025-09-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4152851690339847539",
+    "seenAt": "2025-09-02T14:34:37Z",
+    "date": "2025-09-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1152063855869577222",
+    "seenAt": "2025-09-03T14:29:43Z",
+    "date": "2025-09-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3974955793091198331",
+    "seenAt": "2025-09-04T04:48:18Z",
+    "date": "2025-09-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7945995207613522936",
+    "seenAt": "2025-09-05T12:20:34Z",
+    "date": "2025-09-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8466279214424365604",
+    "seenAt": "2025-09-06T11:41:23Z",
+    "date": "2025-09-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8508350294222063956",
+    "seenAt": "2025-09-06T15:34:17Z",
+    "date": "2025-09-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5096155207569401027",
+    "seenAt": "2025-09-07T11:10:54Z",
+    "date": "2025-09-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4062004871954444514",
+    "seenAt": "2025-09-08T09:05:48Z",
+    "date": "2025-09-08",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4515540059515086414",
+    "seenAt": "2025-09-10T10:29:37Z",
+    "date": "2025-09-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6013985864918641800",
+    "seenAt": "2025-09-10T13:19:41Z",
+    "date": "2025-09-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7361132866295998477",
+    "seenAt": "2025-09-14T07:01:42Z",
+    "date": "2025-09-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8625399621866804000",
+    "seenAt": "2025-09-14T07:28:50Z",
+    "date": "2025-09-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2534256877242860661",
+    "seenAt": "2025-09-15T11:19:48Z",
+    "date": "2025-09-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6096432633275061224",
+    "seenAt": "2025-09-17T07:31:44Z",
+    "date": "2025-09-17",
+    "branch": "public"
+  },
+  {
+    "manifestId": "6440164237925158380",
+    "seenAt": "2025-09-17T15:19:59Z",
+    "date": "2025-09-17",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4757214749054552467",
+    "seenAt": "2025-09-18T06:02:27Z",
+    "date": "2025-09-18",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7134146064052585022",
+    "seenAt": "2025-09-18T14:47:01Z",
+    "date": "2025-09-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "843827224604513145",
+    "seenAt": "2025-09-20T11:57:41Z",
+    "date": "2025-09-20",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1311038343035370122",
+    "seenAt": "2025-09-22T08:51:09Z",
+    "date": "2025-09-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "789352183283735670",
+    "seenAt": "2025-09-22T13:22:21Z",
+    "date": "2025-09-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2530242563154260104",
+    "seenAt": "2025-09-24T12:31:45Z",
+    "date": "2025-09-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "9206787397270925806",
+    "seenAt": "2025-09-25T12:11:32Z",
+    "date": "2025-09-25",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8149777886504994635",
+    "seenAt": "2025-09-26T10:42:44Z",
+    "date": "2025-09-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1498619829699901510",
+    "seenAt": "2025-09-28T07:29:22Z",
+    "date": "2025-09-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3730944883943557930",
+    "seenAt": "2025-09-29T10:46:11Z",
+    "date": "2025-09-29",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6422082678599534371",
+    "seenAt": "2025-09-29T11:17:13Z",
+    "date": "2025-09-29",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4739583390438237474",
+    "seenAt": "2025-09-30T14:21:39Z",
+    "date": "2025-09-30",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8212710003262523261",
+    "seenAt": "2025-10-01T08:27:23Z",
+    "date": "2025-10-01",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7046598722821924427",
+    "seenAt": "2025-10-01T11:43:30Z",
+    "date": "2025-10-01",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5981066533680450885",
+    "seenAt": "2025-10-03T14:05:31Z",
+    "date": "2025-10-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "342176111892919428",
+    "seenAt": "2025-10-03T14:47:46Z",
+    "date": "2025-10-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2804634487692117841",
+    "seenAt": "2025-10-04T10:09:23Z",
+    "date": "2025-10-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4717467675781063596",
+    "seenAt": "2025-10-04T11:16:30Z",
+    "date": "2025-10-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "761710232529462799",
+    "seenAt": "2025-10-04T12:40:47Z",
+    "date": "2025-10-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4600856970578703466",
+    "seenAt": "2025-10-05T07:36:19Z",
+    "date": "2025-10-05",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5809573154934781800",
+    "seenAt": "2025-10-06T07:58:04Z",
+    "date": "2025-10-06",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1983356842746510496",
+    "seenAt": "2025-10-07T10:03:59Z",
+    "date": "2025-10-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7143667819562215474",
+    "seenAt": "2025-10-08T13:48:59Z",
+    "date": "2025-10-08",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3922855979169559120",
+    "seenAt": "2025-10-09T08:45:28Z",
+    "date": "2025-10-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2019259824975227754",
+    "seenAt": "2025-10-10T10:53:03Z",
+    "date": "2025-10-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5975584260974928745",
+    "seenAt": "2025-10-11T13:06:37Z",
+    "date": "2025-10-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8056105937369066975",
+    "seenAt": "2025-10-12T14:50:31Z",
+    "date": "2025-10-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1783310762666766846",
+    "seenAt": "2025-10-13T12:23:43Z",
+    "date": "2025-10-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3628100894213205038",
+    "seenAt": "2025-10-14T09:39:31Z",
+    "date": "2025-10-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "57907935817799239",
+    "seenAt": "2025-10-14T10:25:01Z",
+    "date": "2025-10-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "9004885131723646917",
+    "seenAt": "2025-10-16T10:13:18Z",
+    "date": "2025-10-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5856020813037569770",
+    "seenAt": "2025-10-17T12:17:04Z",
+    "date": "2025-10-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8684737934732827537",
+    "seenAt": "2025-10-19T07:04:00Z",
+    "date": "2025-10-19",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8879593439652491277",
+    "seenAt": "2025-10-20T05:35:59Z",
+    "date": "2025-10-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2419114711058939435",
+    "seenAt": "2025-10-21T08:49:51Z",
+    "date": "2025-10-21",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5114083714567318102",
+    "seenAt": "2025-10-22T14:41:38Z",
+    "date": "2025-10-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3955788470948136362",
+    "seenAt": "2025-10-24T06:13:04Z",
+    "date": "2025-10-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6019621014864862542",
+    "seenAt": "2025-10-26T05:08:51Z",
+    "date": "2025-10-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2750250465085703903",
+    "seenAt": "2025-10-26T08:08:22Z",
+    "date": "2025-10-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2691755781684889239",
+    "seenAt": "2025-10-26T08:35:37Z",
+    "date": "2025-10-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2201462369836745784",
+    "seenAt": "2025-10-26T13:02:52Z",
+    "date": "2025-10-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "135484241284222678",
+    "seenAt": "2025-10-28T08:53:39Z",
+    "date": "2025-10-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8858606271691349463",
+    "seenAt": "2025-10-29T08:45:04Z",
+    "date": "2025-10-29",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4984917073473911332",
+    "seenAt": "2025-10-29T09:22:11Z",
+    "date": "2025-10-29",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "748677033704798519",
+    "seenAt": "2025-10-30T14:43:44Z",
+    "date": "2025-10-30",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2586963250988079079",
+    "seenAt": "2025-10-31T06:31:07Z",
+    "date": "2025-10-31",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1429764088997818222",
+    "seenAt": "2025-10-31T09:47:33Z",
+    "date": "2025-10-31",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2217202605655440169",
+    "seenAt": "2025-10-31T10:33:32Z",
+    "date": "2025-10-31",
+    "branch": "public"
+  },
+  {
+    "manifestId": "774629749232657212",
+    "seenAt": "2025-11-01T11:10:20Z",
+    "date": "2025-11-01",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4645041232059819795",
+    "seenAt": "2025-11-02T02:29:31Z",
+    "date": "2025-11-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8369047469472775091",
+    "seenAt": "2025-11-03T10:32:03Z",
+    "date": "2025-11-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8213875130804839598",
+    "seenAt": "2025-11-07T11:51:50Z",
+    "date": "2025-11-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2219034374101940790",
+    "seenAt": "2025-11-07T14:40:45Z",
+    "date": "2025-11-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2418375390230738758",
+    "seenAt": "2025-11-09T13:00:01Z",
+    "date": "2025-11-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4351104777625732002",
+    "seenAt": "2025-11-09T14:48:42Z",
+    "date": "2025-11-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5882080624970107378",
+    "seenAt": "2025-11-09T15:18:23Z",
+    "date": "2025-11-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1875281172149012568",
+    "seenAt": "2025-11-11T11:24:16Z",
+    "date": "2025-11-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8349878775598060190",
+    "seenAt": "2025-11-11T11:54:38Z",
+    "date": "2025-11-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8464846562531624873",
+    "seenAt": "2025-11-11T12:27:42Z",
+    "date": "2025-11-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4445675279639536399",
+    "seenAt": "2025-11-11T12:41:58Z",
+    "date": "2025-11-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2726442683682685530",
+    "seenAt": "2025-11-11T13:11:52Z",
+    "date": "2025-11-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1954610289075772438",
+    "seenAt": "2025-11-15T15:35:48Z",
+    "date": "2025-11-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1527654839372961023",
+    "seenAt": "2025-11-17T03:57:01Z",
+    "date": "2025-11-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6190052325074186314",
+    "seenAt": "2025-11-17T04:50:19Z",
+    "date": "2025-11-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4883064243120279809",
+    "seenAt": "2025-11-18T09:37:13Z",
+    "date": "2025-11-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7447386065088717551",
+    "seenAt": "2025-11-18T10:07:35Z",
+    "date": "2025-11-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8956814444923856996",
+    "seenAt": "2025-11-19T01:48:30Z",
+    "date": "2025-11-19",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7582249212275651590",
+    "seenAt": "2025-11-19T10:45:52Z",
+    "date": "2025-11-19",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4724901268168317545",
+    "seenAt": "2025-11-21T12:56:37Z",
+    "date": "2025-11-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7390276620729387319",
+    "seenAt": "2025-11-24T12:30:14Z",
+    "date": "2025-11-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1774055334771717213",
+    "seenAt": "2025-11-24T12:37:04Z",
+    "date": "2025-11-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6696402768555263910",
+    "seenAt": "2025-11-28T12:55:12Z",
+    "date": "2025-11-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5848746971001512259",
+    "seenAt": "2025-12-01T13:45:03Z",
+    "date": "2025-12-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6669281430291437424",
+    "seenAt": "2025-12-03T14:03:04Z",
+    "date": "2025-12-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7201480892292360682",
+    "seenAt": "2025-12-04T11:37:06Z",
+    "date": "2025-12-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7448481153536941107",
+    "seenAt": "2025-12-04T11:58:11Z",
+    "date": "2025-12-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2918073882832678070",
+    "seenAt": "2025-12-05T10:53:48Z",
+    "date": "2025-12-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4921165463064614732",
+    "seenAt": "2025-12-05T11:03:26Z",
+    "date": "2025-12-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4574273854781798903",
+    "seenAt": "2025-12-05T14:54:28Z",
+    "date": "2025-12-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8450150061035988549",
+    "seenAt": "2025-12-06T14:51:39Z",
+    "date": "2025-12-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4086572671391848552",
+    "seenAt": "2025-12-06T15:34:11Z",
+    "date": "2025-12-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3493396191105790841",
+    "seenAt": "2025-12-07T08:13:42Z",
+    "date": "2025-12-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8056411664326045691",
+    "seenAt": "2025-12-08T14:14:52Z",
+    "date": "2025-12-08",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8801764225372201737",
+    "seenAt": "2025-12-11T13:49:39Z",
+    "date": "2025-12-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8638879095153817936",
+    "seenAt": "2025-12-12T09:04:41Z",
+    "date": "2025-12-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4139966396059156807",
+    "seenAt": "2025-12-12T13:05:46Z",
+    "date": "2025-12-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3567083448201383142",
+    "seenAt": "2025-12-14T11:12:21Z",
+    "date": "2025-12-14",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2611328552970222412",
+    "seenAt": "2025-12-15T07:46:54Z",
+    "date": "2025-12-15",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5853391885125975169",
+    "seenAt": "2025-12-17T11:19:17Z",
+    "date": "2025-12-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5302391036185153560",
+    "seenAt": "2025-12-19T12:58:39Z",
+    "date": "2025-12-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1143334436329098732",
+    "seenAt": "2025-12-19T16:19:20Z",
+    "date": "2025-12-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7682746110832676232",
+    "seenAt": "2025-12-20T06:11:55Z",
+    "date": "2025-12-20",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3032235098862096447",
+    "seenAt": "2025-12-21T04:49:11Z",
+    "date": "2025-12-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2842276751826790780",
+    "seenAt": "2025-12-21T12:11:06Z",
+    "date": "2025-12-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1950872770808966189",
+    "seenAt": "2025-12-22T06:10:19Z",
+    "date": "2025-12-22",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5541243463739391738",
+    "seenAt": "2025-12-23T07:06:24Z",
+    "date": "2025-12-23",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1985821082885329446",
+    "seenAt": "2025-12-24T10:51:02Z",
+    "date": "2025-12-24",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2341229728967736056",
+    "seenAt": "2025-12-26T10:17:10Z",
+    "date": "2025-12-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6661308581742178253",
+    "seenAt": "2025-12-27T02:59:54Z",
+    "date": "2025-12-27",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5377478236661199913",
+    "seenAt": "2026-01-02T14:04:59Z",
+    "date": "2026-01-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3715011578519455718",
+    "seenAt": "2026-01-02T14:19:12Z",
+    "date": "2026-01-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7388666687239146833",
+    "seenAt": "2026-01-05T09:01:14Z",
+    "date": "2026-01-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3777503674989520513",
+    "seenAt": "2026-01-05T09:04:32Z",
+    "date": "2026-01-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6182806754829896960",
+    "seenAt": "2026-01-05T09:13:34Z",
+    "date": "2026-01-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5545565034664658344",
+    "seenAt": "2026-01-05T12:10:00Z",
+    "date": "2026-01-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4447547608220247280",
+    "seenAt": "2026-01-07T12:54:23Z",
+    "date": "2026-01-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3662559550915477773",
+    "seenAt": "2026-01-07T13:56:47Z",
+    "date": "2026-01-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7000793515176598721",
+    "seenAt": "2026-01-10T03:13:43Z",
+    "date": "2026-01-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4390651081453909368",
+    "seenAt": "2026-01-10T04:42:38Z",
+    "date": "2026-01-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3610914458222286055",
+    "seenAt": "2026-01-10T09:27:09Z",
+    "date": "2026-01-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3680142797915381250",
+    "seenAt": "2026-01-11T09:59:26Z",
+    "date": "2026-01-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1018575090466820769",
+    "seenAt": "2026-01-12T08:14:42Z",
+    "date": "2026-01-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8890415876028586326",
+    "seenAt": "2026-01-13T07:25:20Z",
+    "date": "2026-01-13",
+    "branch": "public"
+  },
+  {
+    "manifestId": "4420575582037006123",
+    "seenAt": "2026-01-15T07:55:44Z",
+    "date": "2026-01-15",
+    "branch": "public"
+  },
+  {
+    "manifestId": "9012582375842404332",
+    "seenAt": "2026-01-17T05:07:29Z",
+    "date": "2026-01-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6005377029193041265",
+    "seenAt": "2026-01-17T05:39:02Z",
+    "date": "2026-01-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7873192234181615096",
+    "seenAt": "2026-01-17T06:45:37Z",
+    "date": "2026-01-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4221109998502317759",
+    "seenAt": "2026-01-17T08:38:09Z",
+    "date": "2026-01-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6942900338980568671",
+    "seenAt": "2026-01-19T11:50:33Z",
+    "date": "2026-01-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7980762455237880734",
+    "seenAt": "2026-01-19T12:15:55Z",
+    "date": "2026-01-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2279363059190279572",
+    "seenAt": "2026-01-19T13:53:49Z",
+    "date": "2026-01-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8101292544202201321",
+    "seenAt": "2026-01-19T15:22:55Z",
+    "date": "2026-01-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5838269731091434369",
+    "seenAt": "2026-01-22T14:39:35Z",
+    "date": "2026-01-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2276925538864551913",
+    "seenAt": "2026-01-23T07:37:00Z",
+    "date": "2026-01-23",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7580284786574362054",
+    "seenAt": "2026-01-23T10:02:14Z",
+    "date": "2026-01-23",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1641805891287796622",
+    "seenAt": "2026-01-24T07:59:19Z",
+    "date": "2026-01-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2161445692899877078",
+    "seenAt": "2026-01-30T10:06:17Z",
+    "date": "2026-01-30",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1700472707936277562",
+    "seenAt": "2026-01-31T11:18:36Z",
+    "date": "2026-01-31",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8929526035340578311",
+    "seenAt": "2026-02-03T03:52:30Z",
+    "date": "2026-02-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3436046482346618659",
+    "seenAt": "2026-02-03T06:52:34Z",
+    "date": "2026-02-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7331415908610859502",
+    "seenAt": "2026-02-03T12:33:16Z",
+    "date": "2026-02-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3889880372348920218",
+    "seenAt": "2026-02-06T08:24:37Z",
+    "date": "2026-02-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6514816441887485807",
+    "seenAt": "2026-02-06T11:04:19Z",
+    "date": "2026-02-06",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5809887067396591881",
+    "seenAt": "2026-02-06T12:22:19Z",
+    "date": "2026-02-06",
+    "branch": "public"
+  },
+  {
+    "manifestId": "207989178177426442",
+    "seenAt": "2026-02-09T10:55:14Z",
+    "date": "2026-02-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "330745227813360383",
+    "seenAt": "2026-02-11T12:31:52Z",
+    "date": "2026-02-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "126159466404304847",
+    "seenAt": "2026-02-11T13:17:57Z",
+    "date": "2026-02-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6327641704615659068",
+    "seenAt": "2026-02-11T13:32:30Z",
+    "date": "2026-02-11",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3195362021043832384",
+    "seenAt": "2026-02-12T11:07:00Z",
+    "date": "2026-02-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4842828933420388558",
+    "seenAt": "2026-02-15T13:54:53Z",
+    "date": "2026-02-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1231187644724905748",
+    "seenAt": "2026-02-15T14:10:20Z",
+    "date": "2026-02-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7535129984807760084",
+    "seenAt": "2026-02-15T14:11:54Z",
+    "date": "2026-02-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7225779188827703078",
+    "seenAt": "2026-02-16T09:23:56Z",
+    "date": "2026-02-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8460471539807614633",
+    "seenAt": "2026-02-17T06:08:24Z",
+    "date": "2026-02-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3370419864943092934",
+    "seenAt": "2026-02-18T13:27:54Z",
+    "date": "2026-02-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7577983619763282546",
+    "seenAt": "2026-02-20T09:39:43Z",
+    "date": "2026-02-20",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3382652854070484952",
+    "seenAt": "2026-02-21T09:45:44Z",
+    "date": "2026-02-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5678363105001246299",
+    "seenAt": "2026-02-21T10:38:46Z",
+    "date": "2026-02-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4443697516349426772",
+    "seenAt": "2026-02-21T10:41:31Z",
+    "date": "2026-02-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4042185586636798021",
+    "seenAt": "2026-02-21T11:41:10Z",
+    "date": "2026-02-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "380275948996802919",
+    "seenAt": "2026-02-22T11:58:24Z",
+    "date": "2026-02-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7071820696160561738",
+    "seenAt": "2026-02-22T12:15:39Z",
+    "date": "2026-02-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3117901931580651032",
+    "seenAt": "2026-02-23T08:26:41Z",
+    "date": "2026-02-23",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3807411052229154883",
+    "seenAt": "2026-02-24T10:20:48Z",
+    "date": "2026-02-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1946369543710445233",
+    "seenAt": "2026-02-24T11:18:14Z",
+    "date": "2026-02-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5279350491990317689",
+    "seenAt": "2026-02-24T12:30:01Z",
+    "date": "2026-02-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2175490463705815676",
+    "seenAt": "2026-02-25T09:55:57Z",
+    "date": "2026-02-25",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2532046073113412333",
+    "seenAt": "2026-02-25T10:45:05Z",
+    "date": "2026-02-25",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8499574495091412563",
+    "seenAt": "2026-02-26T05:51:33Z",
+    "date": "2026-02-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1653142494515222101",
+    "seenAt": "2026-02-27T12:26:35Z",
+    "date": "2026-02-27",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8718235840655355253",
+    "seenAt": "2026-02-27T13:44:00Z",
+    "date": "2026-02-27",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "930002455209295154",
+    "seenAt": "2026-02-28T07:31:58Z",
+    "date": "2026-02-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8884754484445855144",
+    "seenAt": "2026-02-28T12:47:44Z",
+    "date": "2026-02-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7868195579400875137",
+    "seenAt": "2026-03-01T05:54:47Z",
+    "date": "2026-03-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6370804250182701244",
+    "seenAt": "2026-03-01T08:04:12Z",
+    "date": "2026-03-01",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2297658538796428417",
+    "seenAt": "2026-03-02T08:35:40Z",
+    "date": "2026-03-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1795163134042245854",
+    "seenAt": "2026-03-02T08:56:09Z",
+    "date": "2026-03-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5699361410999632448",
+    "seenAt": "2026-03-02T09:41:48Z",
+    "date": "2026-03-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7622443610143006960",
+    "seenAt": "2026-03-02T12:45:04Z",
+    "date": "2026-03-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3998714525031074198",
+    "seenAt": "2026-03-04T13:02:48Z",
+    "date": "2026-03-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8742930831164336000",
+    "seenAt": "2026-03-04T13:43:33Z",
+    "date": "2026-03-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8687980221369796190",
+    "seenAt": "2026-03-06T07:47:18Z",
+    "date": "2026-03-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5758465834795977623",
+    "seenAt": "2026-03-09T13:13:02Z",
+    "date": "2026-03-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5729012452679261661",
+    "seenAt": "2026-03-09T13:16:21Z",
+    "date": "2026-03-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8947224818174790978",
+    "seenAt": "2026-03-09T15:34:14Z",
+    "date": "2026-03-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5719727049126971198",
+    "seenAt": "2026-03-09T19:06:24Z",
+    "date": "2026-03-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2277579532465012195",
+    "seenAt": "2026-03-13T09:10:19Z",
+    "date": "2026-03-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5788426362924724942",
+    "seenAt": "2026-03-15T05:31:03Z",
+    "date": "2026-03-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "9005081894586545437",
+    "seenAt": "2026-03-16T12:12:17Z",
+    "date": "2026-03-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2291238495533352270",
+    "seenAt": "2026-03-17T12:08:20Z",
+    "date": "2026-03-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5966804166502467123",
+    "seenAt": "2026-03-18T09:52:02Z",
+    "date": "2026-03-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2643790062857808044",
+    "seenAt": "2026-03-20T08:59:47Z",
+    "date": "2026-03-20",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4982613970405384823",
+    "seenAt": "2026-03-20T15:18:30Z",
+    "date": "2026-03-20",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1214493637688145404",
+    "seenAt": "2026-03-21T04:25:49Z",
+    "date": "2026-03-21",
+    "branch": "public"
+  },
+  {
+    "manifestId": "5711061521152954394",
+    "seenAt": "2026-03-21T06:02:28Z",
+    "date": "2026-03-21",
+    "branch": "public"
+  },
+  {
+    "manifestId": "1794664679848381493",
+    "seenAt": "2026-03-21T06:04:59Z",
+    "date": "2026-03-21",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2113567143589209700",
+    "seenAt": "2026-03-21T13:28:25Z",
+    "date": "2026-03-21",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7260471825341954681",
+    "seenAt": "2026-03-21T20:53:04Z",
+    "date": "2026-03-21",
+    "branch": "public"
+  },
+  {
+    "manifestId": "2136312266779136132",
+    "seenAt": "2026-03-26T11:30:51Z",
+    "date": "2026-03-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6235118604559427224",
+    "seenAt": "2026-03-26T15:24:08Z",
+    "date": "2026-03-26",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "799631842411659181",
+    "seenAt": "2026-03-30T13:27:01Z",
+    "date": "2026-03-30",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4461954330974279708",
+    "seenAt": "2026-04-02T12:32:45Z",
+    "date": "2026-04-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2456675065907843808",
+    "seenAt": "2026-04-03T03:25:30Z",
+    "date": "2026-04-03",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1852538220919539339",
+    "seenAt": "2026-04-05T13:53:19Z",
+    "date": "2026-04-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1361186945222283647",
+    "seenAt": "2026-04-05T14:17:28Z",
+    "date": "2026-04-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8468041905373581642",
+    "seenAt": "2026-04-07T13:05:51Z",
+    "date": "2026-04-07",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7538441911835746841",
+    "seenAt": "2026-04-08T09:05:22Z",
+    "date": "2026-04-08",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5030318330470537470",
+    "seenAt": "2026-04-09T12:25:32Z",
+    "date": "2026-04-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7817913300355953411",
+    "seenAt": "2026-04-10T13:38:49Z",
+    "date": "2026-04-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4304807492986056104",
+    "seenAt": "2026-04-11T09:34:45Z",
+    "date": "2026-04-11",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7611495760222063460",
+    "seenAt": "2026-04-15T09:09:17Z",
+    "date": "2026-04-15",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7132646619559464908",
+    "seenAt": "2026-04-15T10:07:48Z",
+    "date": "2026-04-15",
+    "branch": "public"
+  },
+  {
+    "manifestId": "3783901765887203942",
+    "seenAt": "2026-04-18T13:24:07Z",
+    "date": "2026-04-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7356598188864725242",
+    "seenAt": "2026-04-20T10:57:19Z",
+    "date": "2026-04-20",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8637861675956018275",
+    "seenAt": "2026-04-20T11:22:54Z",
+    "date": "2026-04-20",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5993643798177825366",
+    "seenAt": "2026-04-24T12:16:15Z",
+    "date": "2026-04-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5058330213262619860",
+    "seenAt": "2026-04-27T13:44:32Z",
+    "date": "2026-04-27",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4734507568956641769",
+    "seenAt": "2026-04-27T17:57:37Z",
+    "date": "2026-04-27",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "9072908689097973512",
+    "seenAt": "2026-05-01T08:31:33Z",
+    "date": "2026-05-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "300158867700490503",
+    "seenAt": "2026-05-02T14:03:06Z",
+    "date": "2026-05-02",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6344452587667786827",
+    "seenAt": "2026-05-04T13:45:06Z",
+    "date": "2026-05-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1670613480728756507",
+    "seenAt": "2026-05-05T12:14:56Z",
+    "date": "2026-05-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "322203378123998266",
+    "seenAt": "2026-05-09T11:58:08Z",
+    "date": "2026-05-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "602537326700603382",
+    "seenAt": "2026-05-10T11:54:31Z",
+    "date": "2026-05-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8812531964781307220",
+    "seenAt": "2026-05-14T06:43:32Z",
+    "date": "2026-05-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2327757964726432513",
+    "seenAt": "2026-05-14T12:52:57Z",
+    "date": "2026-05-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8558716139124105934",
+    "seenAt": "2026-05-14T13:07:56Z",
+    "date": "2026-05-14",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2982386909911311831",
+    "seenAt": "2026-05-15T09:46:28Z",
+    "date": "2026-05-15",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5181166128086417597",
+    "seenAt": "2026-05-18T01:49:01Z",
+    "date": "2026-05-18",
+    "branch": "public"
+  },
+  {
+    "manifestId": "8100452461214292199",
+    "seenAt": "2026-05-21T12:07:01Z",
+    "date": "2026-05-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4269270157242179626",
+    "seenAt": "2026-05-23T13:53:35Z",
+    "date": "2026-05-23",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2269949757648944707",
+    "seenAt": "2026-05-23T16:00:51Z",
+    "date": "2026-05-23",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2054868645118479953",
+    "seenAt": "2026-05-28T11:04:11Z",
+    "date": "2026-05-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4439714961962128489",
+    "seenAt": "2026-05-28T11:52:09Z",
+    "date": "2026-05-28",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8019257678756346918",
+    "seenAt": "2026-05-29T07:57:14Z",
+    "date": "2026-05-29",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8424444123234707495",
+    "seenAt": "2026-06-01T14:34:09Z",
+    "date": "2026-06-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7449627703429898368",
+    "seenAt": "2026-06-01T15:55:24Z",
+    "date": "2026-06-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2162434218188298837",
+    "seenAt": "2026-06-01T17:45:45Z",
+    "date": "2026-06-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8952649929790876520",
+    "seenAt": "2026-06-04T05:04:37Z",
+    "date": "2026-06-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3550673950040230648",
+    "seenAt": "2026-06-04T05:47:05Z",
+    "date": "2026-06-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5242659639043509423",
+    "seenAt": "2026-06-04T07:21:59Z",
+    "date": "2026-06-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5612216750479027385",
+    "seenAt": "2026-06-04T11:16:27Z",
+    "date": "2026-06-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8028469234337789860",
+    "seenAt": "2026-06-04T14:24:06Z",
+    "date": "2026-06-04",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4493047817560845563",
+    "seenAt": "2026-06-05T09:52:24Z",
+    "date": "2026-06-05",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "536258261364142913",
+    "seenAt": "2026-06-06T12:11:19Z",
+    "date": "2026-06-06",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3084919488835388422",
+    "seenAt": "2026-06-10T11:58:06Z",
+    "date": "2026-06-10",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4377063452981426214",
+    "seenAt": "2026-06-12T10:13:07Z",
+    "date": "2026-06-12",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5106856694576612609",
+    "seenAt": "2026-06-13T11:57:31Z",
+    "date": "2026-06-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5440730703786122755",
+    "seenAt": "2026-06-16T01:12:53Z",
+    "date": "2026-06-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4377190441729565822",
+    "seenAt": "2026-06-16T08:35:22Z",
+    "date": "2026-06-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "6226933927914025592",
+    "seenAt": "2026-06-16T10:20:13Z",
+    "date": "2026-06-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4002610103929227290",
+    "seenAt": "2026-06-16T11:20:31Z",
+    "date": "2026-06-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3898323487309716769",
+    "seenAt": "2026-06-16T13:13:57Z",
+    "date": "2026-06-16",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "12083630516573896",
+    "seenAt": "2026-06-17T21:04:41Z",
+    "date": "2026-06-17",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "5518041823569187665",
+    "seenAt": "2026-06-19T09:02:04Z",
+    "date": "2026-06-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1357501938965545153",
+    "seenAt": "2026-06-19T11:14:10Z",
+    "date": "2026-06-19",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "1383778063943410876",
+    "seenAt": "2026-06-22T11:46:42Z",
+    "date": "2026-06-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "250036877560454086",
+    "seenAt": "2026-06-22T12:54:53Z",
+    "date": "2026-06-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3064745062752110913",
+    "seenAt": "2026-06-22T12:57:16Z",
+    "date": "2026-06-22",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "2164506225866941332",
+    "seenAt": "2026-06-24T14:31:59Z",
+    "date": "2026-06-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "3861573985776550317",
+    "seenAt": "2026-06-24T15:00:30Z",
+    "date": "2026-06-24",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7755395718796100051",
+    "seenAt": "2026-06-25T12:00:08Z",
+    "date": "2026-06-25",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "8941412219830214936",
+    "seenAt": "2026-06-27T10:14:50Z",
+    "date": "2026-06-27",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "439650393621888220",
+    "seenAt": "2026-06-27T11:21:24Z",
+    "date": "2026-06-27",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4352651727191881522",
+    "seenAt": "2026-06-27T12:20:33Z",
+    "date": "2026-06-27",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4629903003813062991",
+    "seenAt": "2026-07-01T11:05:57Z",
+    "date": "2026-07-01",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4125297210340629115",
+    "seenAt": "2026-07-02T10:54:01Z",
+    "date": "2026-07-02",
+    "branch": "public"
+  },
+  {
+    "manifestId": "403534973635351183",
+    "seenAt": "2026-07-03T14:14:04Z",
+    "date": "2026-07-03",
+    "branch": "public"
+  },
+  {
+    "manifestId": "686887586342766718",
+    "seenAt": "2026-07-05T10:00:27Z",
+    "date": "2026-07-05",
+    "branch": "public"
+  },
+  {
+    "manifestId": "7691764473489903377",
+    "seenAt": "2026-07-09T07:34:03Z",
+    "date": "2026-07-09",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7155614432149442106",
+    "seenAt": "2026-07-13T05:19:14Z",
+    "date": "2026-07-13",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "890208547082658438",
+    "seenAt": "2026-07-18T06:14:47Z",
+    "date": "2026-07-18",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7371263538207940754",
+    "seenAt": "2026-07-21T12:24:02Z",
+    "date": "2026-07-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "7189158064511471418",
+    "seenAt": "2026-07-21T14:05:28Z",
+    "date": "2026-07-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "643619577090093908",
+    "seenAt": "2026-07-21T15:23:09Z",
+    "date": "2026-07-21",
+    "branch": "nightly"
+  },
+  {
+    "manifestId": "4399485436282850671",
+    "seenAt": "2026-07-26T06:13:28Z",
+    "date": "2026-07-26",
+    "branch": "nightly"
+  }
+]

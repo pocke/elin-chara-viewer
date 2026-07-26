@@ -16,7 +16,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 ARCHIVE="${ARCHIVE:-$ROOT/../elin-chara-viewer-data}"
 STATE_DIR="$ROOT/tmp/backfill"
 STATE="$STATE_DIR/state.tsv"
-MANIFESTS="$ROOT/tmp/manifests.json"
+MANIFESTS="$ROOT/manifests.json"
 
 DD='/mnt/c/Users/kuwab/AppData/Local/Microsoft/WinGet/Packages/SteamRE.DepotDownloader_Microsoft.Winget.Source_8wekyb3d8bbwe/DepotDownloader.exe'
 MOD='/mnt/c/Program Files (x86)/Steam/steamapps/common/Elin/Package/Mod_ElinMiscMod'
