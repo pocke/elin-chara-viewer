@@ -46,19 +46,19 @@ def candidates
                   }
 end
 
-# Returns [commit, the decompiled build it came from]. The build is reported so
-# that a version whose exact build is missing upstream is distinguishable from
-# one that matched.
-def closest_commit(spec)
+# The exact build, then every older one nearest first, then every newer one.
+# Newer ones are needed at all because the decompile of FEAT.cs carries only
+# the constants until EA 23.46 Hotfix 2, leaving the versions before it with
+# nothing older to read modifiers out of.
+def nearby_commits(spec)
   target = version_value(spec)
-
-  exact = candidates.find { |_hash, _subject, value| value == target }
-  return exact.first(2) if exact
-
-  warn "extract_feat: no decompiled build for #{spec.inspect}; falling back to the closest older version"
-  older = candidates.map { |_hash, _subject, value| value }.select { |value| (value <=> target).negative? }
-  best = older.max or raise "no decompiled build at or before #{spec.inspect}"
-  candidates.find { |_hash, _subject, value| value == best }.first(2)
+  builds = candidates.uniq { |_hash, _subject, value| value }
+  by_distance = ->(direction) {
+    builds.select { |_hash, _subject, value| (value <=> target) == direction }
+          .sort_by { |_hash, _subject, value| value }
+  }
+  builds.select { |_hash, _subject, value| value == target } +
+    by_distance.call(-1).reverse + by_distance.call(1)
 end
 
 def sh!(*cmd)
@@ -66,12 +66,21 @@ def sh!(*cmd)
 end
 
 def make_json(spec)
-  commit, build = closest_commit(spec)
-  sc = StringScanner.new(feat_source(commit))
+  nearby_commits(spec).each do |commit, build, _value|
+    sc = StringScanner.new(feat_source(commit))
+    # `virtual` was added to the signature partway through the game's history.
+    next unless sc.skip_until(/^\tpublic (?:virtual )?List<string> Apply\(/)
 
-  # `virtual` was added to the signature partway through the game's history.
-  sc.skip_until(/^\tpublic (?:virtual )?List<string> Apply\(/) or raise "no Apply method for #{spec.inspect}"
+    unless version_value(build) == version_value(spec)
+      warn "extract_feat: no decompiled build for #{spec.inspect}; using #{build.inspect}"
+    end
+    return scan_apply(sc, build)
+  end
 
+  raise "no decompiled build carries feat modifiers for #{spec.inspect}"
+end
+
+def scan_apply(sc, build)
   feat_ids = []
   sub_feats = {}
   result = {}
@@ -157,9 +166,9 @@ def generate_current
   end
 end
 
-# The build the modifiers came from is written next to them: 80 of the archived
-# versions have no decompiled build of their own upstream, and an approximation
-# has to be distinguishable from an exact match.
+# The build the modifiers came from is written next to them, because many
+# archived versions have no decompiled build of their own upstream and an
+# approximation has to be distinguishable from an exact match.
 def generate_archive(root, slugs, fail_fast:)
   slugs.each do |slug|
     version = ArchiveRepo.read_meta(root, slug).fetch('version')
