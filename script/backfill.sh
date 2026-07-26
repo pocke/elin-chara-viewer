@@ -108,12 +108,6 @@ processed=0
 consecutive_failures=0
 echo "== backfill start ($(done_ids | wc -l) already done of $(wc -l <<< "$targets"))"
 
-# 判断待ちであって機械の故障ではないので、連続失敗の勘定には入れない。
-defer() {
-  record "$1" "$2" "$3" "$4" "${5:-}" "${6:-}"
-  echo "   $4: ${6:-}" >&2
-}
-
 fail() {
   record "$1" "$2" "$3" "$4" "${5:-}" "${6:-}"
   echo "   $4: ${6:-}" >&2
@@ -214,20 +208,27 @@ while IFS=$'\t' read -r id date branch <&3; do
     if diff -rq "$export_dir/$version" "$existing" >/dev/null 2>&1; then
       version_seen "$version" && action=duplicate || action=redate
     else
-      action=conflict
+      action=supersede
     fi
   fi
 
+  if [ "$action" = supersede ]; then
+    mkdir -p "$STATE_DIR/conflicts" \
+      && diff -ru "$existing" "$export_dir/$version" > "$STATE_DIR/conflicts/${date}_${id}.diff"
+    echo "   supersedes the archived $version (diff in tmp/backfill/conflicts/${date}_${id}.diff)"
+  fi
+
+  # 版が最初に出た日を保つ。既にアーカイブ済みでもこの実行で入れたものでなければ、
+  # git 履歴から推測された日付なので Steam のものに置き換える。
+  release_date=(--release-date "$date")
+  version_seen "$version" && release_date=()
+
   case "$action" in
-    conflict)
-      rm -rf "$build"
-      defer "$id" "$date" "$branch" version-conflict "$version" "differs from the archived $version"
-      continue ;;
     duplicate)
       echo "   duplicate of an already restored $version" ;;
     *)
       if ! ruby "$ROOT/script/archive_release.rb" "$ARCHIVE" "$version" \
-          --db "$export_dir" --channel "$channel" --release-date "$date" >/dev/null; then
+          --db "$export_dir" --channel "$channel" "${release_date[@]}" >/dev/null; then
         rm -rf "$build"
         fail "$id" "$date" "$branch" archive-failed "$version" "archive_release.rb failed"
         continue
@@ -257,7 +258,9 @@ while IFS=$'\t' read -r id date branch <&3; do
   consecutive_failures=0
   status=done
   [ "$action" = duplicate ] && status=duplicate
-  record "$id" "$date" "$branch" "$status" "$version" "${size}MB"
+  note="${size}MB"
+  [ "$action" = supersede ] && note="${size}MB superseded"
+  record "$id" "$date" "$branch" "$status" "$version" "$note"
   echo "   $status $version, ${size}MB to Dropbox"
 done 3<<< "$targets"
 
