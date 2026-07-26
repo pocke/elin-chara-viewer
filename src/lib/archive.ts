@@ -30,7 +30,6 @@ export const ArchivedVersionSchema = z.object({
   // Also used as a DuckDB table name on the sources page.
   tables: z.array(z.string().regex(/^[A-Za-z][A-Za-z0-9_]*$/)),
   contentHash: z.string(),
-  source: z.string(),
   featModifier: z.boolean().default(false),
 });
 

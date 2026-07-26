@@ -8,7 +8,6 @@
 #
 #   --channel stable|nightly   defaults to whichever versions/ file names it
 #   --release-date YYYY-MM-DD  defaults to today
-#   --source git|depot         defaults to git
 #   --db DIR                   directory holding <version>/, defaults to db
 
 require 'date'
@@ -24,12 +23,11 @@ def channel_of(version)
 end
 
 def main
-  options = { db: 'db', source: 'git' }
+  options = { db: 'db' }
   parser = OptionParser.new do |opts|
     opts.banner = 'Usage: ruby script/archive_release.rb <archive-dir> <version> [options]'
     opts.on('--channel CHANNEL', 'stable or nightly') { |v| options[:channel] = v }
     opts.on('--release-date DATE', 'YYYY-MM-DD') { |v| options[:release_date] = v }
-    opts.on('--source SOURCE', 'git or depot') { |v| options[:source] = v }
     opts.on('--db DIR', 'directory holding <version>/') { |v| options[:db] = v }
   end
   parser.parse!
@@ -52,8 +50,7 @@ def main
       'channel' => options[:channel] || channel_of(version) || known['channel'],
       # A nightly that is promoted to stable is archived twice; the date it
       # first shipped is the one worth keeping.
-      'releaseDate' => options[:release_date] || known['releaseDate'] || Date.today.to_s,
-      'source' => options[:source]
+      'releaseDate' => options[:release_date] || known['releaseDate'] || Date.today.to_s
     },
     csv_files
   )

@@ -30,7 +30,7 @@ at build time.
   flow missed:
 
   ```console
-  $ ruby script/archive_release.rb ../elin-chara-viewer-data 'EA 23.306' --source depot
+  $ ruby script/archive_release.rb ../elin-chara-viewer-data 'EA 23.306'
   $ ruby script/extract_feat.rb --archive ../elin-chara-viewer-data --version 'EA 23.306'
   ```
 

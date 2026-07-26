@@ -101,8 +101,7 @@ def main
         # The day the version was committed here, which is the release date give
         # or take the delay before the export ran. Steam has the exact dates and
         # the backfill will correct them.
-        'releaseDate' => first_seen.fetch(version),
-        'source' => 'git'
+        'releaseDate' => first_seen.fetch(version)
       },
       csv_files
     )

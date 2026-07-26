@@ -8,7 +8,7 @@ require 'json'
 # Reads and writes the archive repository (pocke/elin-chara-viewer-data).
 #
 #   index.json                 generated from the files below
-#   v/<slug>/meta.json         version, channel, releaseDate, source
+#   v/<slug>/meta.json         version, channel, releaseDate
 #   v/<slug>/csv/<table>.csv
 #   v/<slug>/featModifier.json written by extract_feat.rb
 #   v/<slug>/ids.json          identifiers the detail pages accept
