@@ -10,8 +10,8 @@
 #
 #   26 July 2026 – 06:13:28 UTC<TAB>5 hours ago<TAB>4399485436282850671 nightly
 #
-# Keys already in manifests.json are kept, so the version names written back
-# once a build has named itself survive a re-import.
+# Manifests already in manifests.json are kept whether or not the paste
+# mentions them, and their extra keys survive the merge.
 
 require 'date'
 require 'json'
@@ -45,8 +45,13 @@ def main
   input = ARGV.shift or abort 'Usage: ruby script/parse_manifests.rb <pasted-table> [--out FILE]'
 
   known = File.exist?(out) ? JSON.parse(File.read(out)).to_h { |e| [e['manifestId'], e] } : {}
-  rows = parse(input).map { |row| (known[row['manifestId']] || {}).merge(row) }
-  rows.sort_by! { |row| row['seenAt'] }
+  parsed = parse(input)
+  abort "no manifest rows in #{input}" if parsed.empty?
+
+  # SteamDB のページを 1 枚だけ貼ることがあるので、貼られなかった manifest は残す。
+  rows = known.merge(parsed.to_h { |row| [row['manifestId'], (known[row['manifestId']] || {}).merge(row)] })
+              .values
+              .sort_by { |row| row['seenAt'] }
 
   File.write(out, "#{JSON.pretty_generate(rows)}\n")
   puts "#{rows.size} manifests (#{rows.first['date']} .. #{rows.last['date']}) into #{out}"
