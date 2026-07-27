@@ -33,5 +33,11 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      # The change history hides a raw column once the display group it feeds
+      # has reported the change, so a column that feeds a group without saying
+      # so shows the same change twice.
+      - name: Check that PROVENANCE still matches the models
+        run: npm run check:history
+
       - name: Build
         run: npm run build

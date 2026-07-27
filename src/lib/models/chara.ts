@@ -70,6 +70,9 @@ export const CharaSchema = z.object({
   idText: z.string().optional(),
   moveAnime: z.string().optional(),
   factory: z.string().optional(),
+  // Added with EA 23.233; the builds restored from before it have no such
+  // column, and no recruitment cost to describe.
+  recruitItems: z.string().optional(),
   detail_JP: z.string().optional(),
   detail: z.string().optional(),
 });

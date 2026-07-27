@@ -1,16 +1,20 @@
 'use client';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, Divider, Menu, MenuItem } from '@mui/material';
 import { SwapHoriz as SwapHorizIcon } from '@mui/icons-material';
 import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
 import { GAME_VERSIONS, GameVersion } from '@/lib/db';
+import { useTranslation } from '@/lib/simple-i18n';
 
 export default function VersionSwitcher() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const pathname = usePathname();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const segments = pathname.split('/');
+  const lang = segments[1];
   const currentVersion: GameVersion | null = segments[2] ?? null;
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -62,6 +66,14 @@ export default function VersionSwitcher() {
             {version}
           </MenuItem>
         ))}
+        <Divider />
+        <MenuItem
+          component={Link}
+          href={`/${lang}/versions`}
+          onClick={handleClose}
+        >
+          {t.common.pastVersionsTitle}
+        </MenuItem>
       </Menu>
     </>
   );

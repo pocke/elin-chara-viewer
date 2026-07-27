@@ -62,7 +62,7 @@ export const archiveIdsUrl = (slug: string): string =>
 const archiveFeatModifierUrl = (slug: string): string =>
   `${archiveVersionUrl(slug)}/featModifier.json`;
 
-const FeatModifierFileSchema = z.object({
+export const FeatModifierFileSchema = z.object({
   source: z.string().nullish(),
   modifiers: z.record(z.string(), z.record(z.string(), z.number())),
 });

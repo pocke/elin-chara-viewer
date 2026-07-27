@@ -12,19 +12,23 @@ export type ElementWithPower = { element: Element; powers: number[] };
  * Get total power from ElementWithPower.
  */
 export function totalPower(ewp: ElementWithPower): number {
-  return ewp.powers.reduce((sum, p) => sum + p, 0);
+  return sumPowers(ewp.powers);
+}
+
+export function sumPowers(powers: number[]): number {
+  return powers.reduce((sum, p) => sum + p, 0);
 }
 
 /**
  * Calculate base potential for a skill element.
- * Formula: 100 + (sum of powers excluding 1s) * 10
- * Powers of 1 indicate "existence only" and don't contribute to the bonus.
  */
 export function calcBasePotential(elementWithPower: ElementWithPower): number {
-  const power = elementWithPower.powers
-    .filter((p) => p !== 1)
-    .reduce((sum, p) => sum + p, 0);
-  return 100 + power * 10;
+  return basePotential(elementWithPower.powers);
+}
+
+/** A power of 1 says the skill is there at all, and adds no bonus. */
+export function basePotential(powers: number[]): number {
+  return 100 + sumPowers(powers.filter((p) => p !== 1)) * 10;
 }
 
 /**

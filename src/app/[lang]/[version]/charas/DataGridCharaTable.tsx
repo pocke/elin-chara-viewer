@@ -29,7 +29,6 @@ import {
   elementByAlias,
   skillElements,
   PRIMARY_ATTRIBUTE_ALIASES,
-  STATS_ALIASES,
 } from '@/lib/models/element';
 import { skillSortKey, calcBasePotential, totalPower } from '@/lib/elementable';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
@@ -47,6 +46,7 @@ import {
   serializeAdvancedSearch,
   deserializeAdvancedSearch,
   RawFieldsInfo,
+  STATS_FIELDS,
   TACTICS_FIELDS,
 } from '@/lib/advancedSearchUtils';
 
@@ -1031,7 +1031,7 @@ export default function DataGridCharaTable({
             presets.includes('keyInfo') && KEY_INFO_FIELDS.includes(col.field);
           const inOtherStats =
             presets.includes('otherStats') &&
-            (STATS_ALIASES as readonly string[]).includes(col.field);
+            (STATS_FIELDS as readonly string[]).includes(col.field);
           const inPrimaryAttributes =
             presets.includes('primaryAttributes') &&
             (PRIMARY_ATTRIBUTE_ALIASES as readonly string[]).includes(

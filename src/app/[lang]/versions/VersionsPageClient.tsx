@@ -18,6 +18,7 @@ import {
 import { Search as SearchIcon } from '@mui/icons-material';
 import { useMemo, useState } from 'react';
 import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
+import RelativeDate from '@/components/RelativeDate';
 import { normalizeForSearch } from '@/lib/searchUtils';
 import { compareVersionNames } from '@/lib/versionOrder';
 import { useTranslation } from '@/lib/simple-i18n';
@@ -169,7 +170,9 @@ export default function VersionsPageClient({
                     {entry.version}
                   </Link>
                 </TableCell>
-                <TableCell>{entry.date}</TableCell>
+                <TableCell>
+                  <RelativeDate date={entry.date} />
+                </TableCell>
                 <TableCell>
                   {entry.channel === 'stable'
                     ? t.common.channelStable

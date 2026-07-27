@@ -16,8 +16,10 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "build:history": "tsx script/build-history.ts",
     "check:archive": "tsx script/check-archive.ts",
-    "check:export": "tsx script/check-export.ts"
+    "check:export": "tsx script/check-export.ts",
+    "check:history": "tsx script/check-history-provenance.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

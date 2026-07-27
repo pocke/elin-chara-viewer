@@ -15,6 +15,12 @@ export const currentVersionOf = (
 ): CurrentVersion | undefined =>
   version ? CURRENT_VERSION_NAMES.get(version) : undefined;
 
+/** What the game calls a version the build ships, such as 'EA 23.330'. */
+export const currentVersionName = (version: CurrentVersion): string =>
+  version === 'EA'
+    ? (process.env.ELIN_EA_VERSION ?? version)
+    : (process.env.ELIN_NIGHTLY_VERSION ?? version);
+
 export type ResolvedVersion =
   | { kind: 'current'; key: CurrentVersion; label: string }
   | {

@@ -7,6 +7,7 @@ This is an application for viewing character data in the Elin.
 * `npm run dev` for development server
 * `npm run build` for production build
 * `npm run check:archive -- <archive-dir>` parses every archived version with the app's schemas (defaults to `tmp/archive`)
+* `npm run check:history` holds the change history's `PROVENANCE` to the models
 
 ## Past versions
 
@@ -24,8 +25,9 @@ at build time.
 * Nothing reads the archive at build time, so a build never depends on the
   archive host.
 * `.github/workflows/archive.yml` adds the versions named in `versions/` to the
-  data repository on every push to `master`. It needs an `ARCHIVE_REPO_TOKEN`
-  secret with write access there.
+  data repository on every push to `master`, rebuilds the change history there,
+  and pushes both as one commit. It needs an `ARCHIVE_REPO_TOKEN` secret with
+  write access there.
 * To add a version by hand — a build downloaded from Steam, or one the release
   flow missed:
 
@@ -33,6 +35,7 @@ at build time.
   $ ruby script/archive_release.rb ../elin-chara-viewer-data 'EA 23.306' \
       --channel stable --release-date 2026-05-10 --db /path/to/exported/csv
   $ ruby script/extract_feat.rb --archive ../elin-chara-viewer-data --version 'EA 23.306'
+  $ npm run build:history -- ../elin-chara-viewer-data
   ```
 
   `--db` points at the directory holding `<version>/*.csv`, and `--channel` is
@@ -72,6 +75,28 @@ at build time.
   the IL of `CreateRow()`, and a build it cannot follow writes a
   plausible-looking CSV with the wrong columns. `--archive <dir>` sweeps every
   archived version instead.
+
+## Change history
+
+The character detail pages show what changed about a character, version by
+version. Computing that from every archived version on request is out of the
+question, so `npm run build:history -- <archive-dir>` does it offline and writes
+one file per character page to `history/charas/` in the data repository; the
+page fetches its own when the accordion is opened. The whole history is rebuilt
+from scratch on every release, so a version archived out of order or a corrected
+release date needs nothing else done.
+
+* `src/lib/history/viewModel.ts` holds `PROVENANCE`, which says what each raw
+  column feeds. The history hides a raw column once the display group it feeds
+  has already reported the change, so a column that quietly starts feeding a
+  group would show the same change twice. `npm run check:history` sets each
+  column to another value the game uses and checks that nothing moves
+  undeclared.
+* A version that gains a column makes every character look changed, because the
+  schemas fill the older versions in with a default. Those are dropped, and a
+  column addition outside `KNOWN_NEW_COLUMNS` stops the build instead.
+* The build refuses to write when it would lose pages or change the entry count
+  by more than a quarter. `--allow-large-change` says the difference is meant.
 
 ## License
 
