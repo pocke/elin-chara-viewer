@@ -2401,8 +2401,8 @@ arrow_,_spell,#1の矢,#1 arrow
 hand_,_spell,#1の手,#1 touch
 funnel_,_spell,#1の具象,#1 funnel
 bit_,_spell,#1のビット,#1 bit
-flare_,_spell,#1のフレア,#1 flare
-comet_,_spell,#1のコメット,#1 comet
+flare_,_spell,#1・フレア,#1 flare
+comet_,_spell,#1・コメット,#1 comet
 puddle_,_spell,#1の海,sea of #1
 rod_,_spell,#1の杖,#1
 scroll_,_spell,#1の巻物,#1
@@ -2583,6 +2583,8 @@ textBenefit,,信仰を深めることで、#1へのボーナス修正を受け�
 seed_rot,,#1は#2から#3を取り出した。,#1 extract(s) #3 from #2.
 work_produce,,#1を生成 (#2%),Produce #1 (#2%)
 infoWork,,仕事場: #1,Workplace: #1
+infoSharedEquip_on,,共有コンテナを使用,Use shared containers
+infoSharedEquip,,自動装備: #1,Auto Equip: #1
 infoHome,,自宅: #1,Home: #1
 infoBed,,ベッド,Bed
 dramaText_shop,,(店の規模:#1),(Shop Level: #1)

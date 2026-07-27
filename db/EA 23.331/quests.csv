@@ -149,7 +149,7 @@ Token of friendship",QuestDeliver,,,random,"deliver,needDestZone",150,200,0,"#3�
 #3に住む新進気鋭の[qClient]が、#2を研究しているそう{だ}。この#2を無事届けてくれれば、報酬として#1を払{う}。
 #3に住む[qFriend]に、借りていた#2を届けてくれない{か}。報酬は#1{だ}。
 長年の友好の証として、[qFriend]に#2を送ろうと思ってい{る}。#3まで運んでもらえない{か}？","Have you any plan to visit #3 by chance? I have my [qFriend] there I haven't seen in a long time. Can you deliver #2 for me?
-Have you heard the news? The #2 fever is gripping the town of #3 and people are boiling with enthusiasm! My [qFriend] is crying and begging me to send one. Can you goto #3 and deliver this package for me?
+Have you heard the news? The #2 fever is gripping the town of #3 and people are boiling with enthusiasm! My [qFriend] is crying and begging me to send one. Can you go to #3 and deliver this package for me?
 Please deliver #2 to #3. If you manage to deliver it safely, you shall recieve the payment.
 My [qFriend] has built a house in #3, so I'd like to send #2 as a celebratory gift. Could you deliver it for me?
 I don't know what it will be used for, but some [qClient] wants to purchase my #2. If you deliver it to #3, you will be paid #1.
