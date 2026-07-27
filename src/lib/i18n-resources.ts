@@ -132,6 +132,9 @@ export const resources = {
       channel: 'チャンネル',
       channelStable: '安定版',
       channelNightly: 'Nightly',
+      channelAll: 'すべて',
+      versionSearchPlaceholder: 'バージョン番号で検索',
+      noVersionsMatched: '条件に一致するバージョンがありません',
     },
     feat: {
       geneSlot: '使用スロット数',
@@ -397,6 +400,9 @@ export const resources = {
       channel: 'Channel',
       channelStable: 'Stable',
       channelNightly: 'Nightly',
+      channelAll: 'All',
+      versionSearchPlaceholder: 'Search by version number',
+      noVersionsMatched: 'No versions match the filters',
     },
     feat: {
       geneSlot: 'Slot Count',

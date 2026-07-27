@@ -30,8 +30,7 @@ export default async function VersionsPage() {
       slug: entry.slug,
       channel: entry.channel,
       date: entry.releaseDate,
-    }))
-    .reverse();
+    }));
 
   return <VersionsPageClient entries={entries} />;
 }
