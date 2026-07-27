@@ -38,9 +38,8 @@ const abilityKey = (ability: {
   element: string | null;
 }): string => `${ability.name}|${ability.element ?? ''}`;
 
-/** With `prev` null, every field the character has is reported. */
 export const diffViewModels = (
-  prev: CharaViewModel | null,
+  prev: CharaViewModel,
   next: CharaViewModel
 ): ValueChange[] => {
   const changes: ValueChange[] = [];
@@ -51,63 +50,58 @@ export const diffViewModels = (
     from: ChangeValue,
     to: ChangeValue
   ) => {
-    if (prev ? same(from, to) : from === null && to === null) return;
+    if (same(from, to)) return;
     changes.push(
       key === undefined ? { field, from, to } : { field, key, from, to }
     );
   };
 
-  push('name', 'ja', prev?.name.ja ?? null, next.name.ja);
-  push('name', 'en', prev?.name.en ?? null, next.name.en);
-  push('mainElement', undefined, prev?.mainElement ?? null, next.mainElement);
+  push('name', 'ja', prev.name.ja, next.name.ja);
+  push('name', 'en', prev.name.en, next.name.en);
+  push('mainElement', undefined, prev.mainElement, next.mainElement);
 
   for (const field of ['race', 'job'] as const) {
-    push(field, 'id', prev?.[field].id ?? null, next[field].id);
-    push(field, 'nameJa', prev?.[field].nameJa ?? null, next[field].nameJa);
-    push(field, 'nameEn', prev?.[field].nameEn ?? null, next[field].nameEn);
+    push(field, 'id', prev[field].id, next[field].id);
+    push(field, 'nameJa', prev[field].nameJa, next[field].nameJa);
+    push(field, 'nameEn', prev[field].nameEn, next[field].nameEn);
   }
 
   for (const key of TACTICS_KEYS) {
-    push('tactics', key, prev?.tactics[key] ?? null, next.tactics[key]);
+    push('tactics', key, prev.tactics[key], next.tactics[key]);
   }
 
-  push('level', undefined, prev?.level ?? null, next.level);
-  push(
-    'geneSlot',
-    'actual',
-    prev?.geneSlot.actual ?? null,
-    next.geneSlot.actual
-  );
-  push('geneSlot', 'orig', prev?.geneSlot.orig ?? null, next.geneSlot.orig);
+  push('level', undefined, prev.level, next.level);
+  push('geneSlot', 'actual', prev.geneSlot.actual, next.geneSlot.actual);
+  push('geneSlot', 'orig', prev.geneSlot.orig, next.geneSlot.orig);
 
   const parts = new Set([
-    ...Object.keys(prev?.bodyParts ?? {}),
+    ...Object.keys(prev.bodyParts),
     ...Object.keys(next.bodyParts),
   ]);
   for (const part of [...parts].sort()) {
     push(
       'bodyParts',
       part,
-      prev?.bodyParts[part] ?? null,
+      prev.bodyParts[part] ?? null,
       next.bodyParts[part] ?? null
     );
   }
 
   const aliases = new Set([
-    ...Object.keys(prev?.elements ?? {}),
+    ...Object.keys(prev.elements),
     ...Object.keys(next.elements),
   ]);
   for (const alias of [...aliases].sort()) {
     push(
       'elements',
       alias,
-      prev?.elements[alias] ?? null,
+      prev.elements[alias] ?? null,
       next.elements[alias] ?? null
     );
   }
 
   const prevAbilities = new Map(
-    (prev?.abilities ?? []).map((ability) => [abilityKey(ability), ability])
+    prev.abilities.map((ability) => [abilityKey(ability), ability])
   );
   const nextAbilities = new Map(
     next.abilities.map((ability) => [abilityKey(ability), ability])

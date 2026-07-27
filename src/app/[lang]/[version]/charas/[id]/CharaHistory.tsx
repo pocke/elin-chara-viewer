@@ -12,10 +12,18 @@ import {
   Divider,
   FormControlLabel,
   Switch,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Typography,
 } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { Fragment, useEffect, useMemo, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
+import RelativeDate from '@/components/RelativeDate';
 import { GameVersion } from '@/lib/db';
 import { basePotential, sumPowers } from '@/lib/elementable';
 import { charaHistory } from '@/lib/history/fetch';
@@ -24,6 +32,7 @@ import {
   CharaHistory as CharaHistoryFile,
   ChangeValue,
   HistoryEntry,
+  RawChange,
   ValueChange,
 } from '@/lib/history/types';
 import { elementByAlias } from '@/lib/models/element';
@@ -49,10 +58,12 @@ const BODY_PART_LABELS: Record<string, (t: Translations) => string> = {
   finger: (t) => t.common.finger,
 };
 
+// The only group whose members do not name themselves: "taunt" and "range" say
+// nothing about being a tactic, so they carry the group in the label.
 const TACTICS_LABELS: Record<string, (t: Translations) => string> = {
-  id: (t) => `${t.common.tactics} (ID)`,
-  nameJa: (t) => `${t.common.tacticsName} (JA)`,
-  nameEn: (t) => `${t.common.tacticsName} (EN)`,
+  id: () => 'ID',
+  nameJa: (t) => `${t.common.name} (JA)`,
+  nameEn: (t) => `${t.common.name} (EN)`,
   distance: (t) => t.common.tacticsDistance,
   moveFrequency: (t) => t.common.tacticsMoveFrequency,
   party: (t) => t.common.tacticsParty,
@@ -80,6 +91,30 @@ interface HistoryResult {
   failed: boolean;
 }
 
+interface ChangeRow {
+  label: string;
+  before: string;
+  after: string;
+  delta: number | null;
+}
+
+/**
+ * A raw column holds text, and nothing says it holds a quantity. Both sides
+ * have to be numbers before the difference between them means anything: an
+ * empty tiles_snow becoming 715 is a tile it now has, not a rise of 715.
+ */
+const rawDelta = (from: string | null, to: string | null): number | null => {
+  const asNumber = (value: string | null): number | null =>
+    value !== null && /^-?\d+(\.\d+)?$/.test(value.trim())
+      ? Number(value)
+      : null;
+
+  const before = asNumber(from);
+  const after = asNumber(to);
+  if (before === null || after === null || before === after) return null;
+  return after - before;
+};
+
 const isAbility = (value: ChangeValue): value is AbilityValue =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
 
@@ -89,6 +124,7 @@ export default function CharaHistory({
   versionName,
 }: CharaHistoryProps) {
   const { t, language } = useTranslation();
+  const lang = useParams().lang as string;
   // Counts requests rather than recording that one was made, so that the retry
   // button has something to change. Zero means the accordion is still shut.
   const [attempt, setAttempt] = useState(0);
@@ -168,8 +204,10 @@ export default function CharaHistory({
         return `${t.common.race}${SUB_SUFFIX[change.key ?? ''] ?? ''}`;
       case 'job':
         return `${t.common.job}${SUB_SUFFIX[change.key ?? ''] ?? ''}`;
-      case 'tactics':
-        return TACTICS_LABELS[change.key ?? '']?.(t) ?? t.common.tactics;
+      case 'tactics': {
+        const sub = TACTICS_LABELS[change.key ?? '']?.(t);
+        return sub ? `${t.common.tactics}/${sub}` : t.common.tactics;
+      }
       case 'level':
         return t.common.level;
       case 'geneSlot':
@@ -177,9 +215,7 @@ export default function CharaHistory({
           ? `${t.common.geneSlot} (${t.common.historyGeneSlotBase})`
           : t.common.geneSlot;
       case 'bodyParts':
-        return `${t.common.bodyParts} / ${
-          BODY_PART_LABELS[change.key ?? '']?.(t) ?? change.key
-        }`;
+        return BODY_PART_LABELS[change.key ?? '']?.(t) ?? change.key ?? '';
       case 'elements': {
         const alias = change.key ?? '';
         return isSkill(alias)
@@ -222,37 +258,102 @@ export default function CharaHistory({
     return asNumber === null ? String(value) : String(asNumber);
   };
 
-  const deltaOf = (change: ValueChange): string | null => {
-    const from = numberOf(change, change.from);
-    const to = numberOf(change, change.to);
+  /**
+   * A value that was not there counts as zero against one that is a number, so
+   * that gaining a resistance of 15 reads as +15 rather than as nothing. An
+   * ability is not a quantity that way, and is left out.
+   */
+  const deltaOf = (change: ValueChange): number | null => {
+    if (isAbility(change.from) !== isAbility(change.to)) return null;
+
+    const from =
+      numberOf(change, change.from) ?? (change.from === null ? 0 : null);
+    const to = numberOf(change, change.to) ?? (change.to === null ? 0 : null);
     if (from === null || to === null || from === to) return null;
-    const difference = to - from;
-    return `${difference > 0 ? '+' : ''}${difference}`;
+    return to - from;
   };
 
-  const renderChanges = (changes: ValueChange[]) => (
-    <Box component="ul" sx={{ m: 0, pl: 3, listStyleType: 'disc' }}>
-      {changes.map((change, index) => {
-        const delta = deltaOf(change);
-        return (
-          <Typography component="li" variant="body2" key={index}>
-            {labelOf(change)}: {textOf(change, change.from)} →{' '}
-            <Box component="span" sx={{ fontWeight: 'bold' }}>
-              {textOf(change, change.to)}
-            </Box>
-            {delta && (
-              <Box
-                component="span"
-                sx={{ ml: 0.5, color: 'text.secondary' }}
-              >{`(${delta})`}</Box>
-            )}
-          </Typography>
-        );
-      })}
-    </Box>
+  // The base is the race's own gene capacity, the other what the feats leave of
+  // it, so the two move together unless a feat moved as well. Only the times
+  // they disagree say anything the effective row does not already.
+  const withoutEchoedGeneSlotBase = (changes: ValueChange[]): ValueChange[] => {
+    const base = changes.find(
+      (change) => change.field === 'geneSlot' && change.key === 'orig'
+    );
+    const actual = changes.find(
+      (change) => change.field === 'geneSlot' && change.key === 'actual'
+    );
+    if (!base || !actual || deltaOf(base) !== deltaOf(actual)) return changes;
+    return changes.filter((change) => change !== base);
+  };
+
+  const renderTable = (rows: ChangeRow[]) => (
+    <Table size="small" sx={{ mt: 0.5 }}>
+      <TableHead>
+        <TableRow>
+          <TableCell>{t.common.historyField}</TableCell>
+          <TableCell align="right">{t.common.historyBefore}</TableCell>
+          <TableCell align="right">{t.common.historyAfter}</TableCell>
+          <TableCell align="right">{t.common.historyDelta}</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, index) => (
+          <TableRow key={index}>
+            <TableCell>{row.label}</TableCell>
+            <TableCell align="right" sx={{ color: 'text.secondary' }}>
+              {row.before}
+            </TableCell>
+            <TableCell align="right" sx={{ fontWeight: 'bold' }}>
+              {row.after}
+            </TableCell>
+            <TableCell
+              align="right"
+              sx={{
+                color:
+                  row.delta === null
+                    ? 'text.secondary'
+                    : row.delta > 0
+                      ? 'success.main'
+                      : 'error.main',
+              }}
+            >
+              {row.delta === null
+                ? ''
+                : `${row.delta > 0 ? '+' : ''}${row.delta}`}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 
+  const changeRows = (changes: ValueChange[]): ChangeRow[] =>
+    withoutEchoedGeneSlotBase(changes).map((change) => ({
+      label: labelOf(change),
+      before: textOf(change, change.from),
+      after: textOf(change, change.to),
+      delta: deltaOf(change),
+    }));
+
+  const rawRows = (changes: RawChange[]): ChangeRow[] =>
+    changes.map((change) => ({
+      label: `${change.table}.${change.column}${
+        change.swapped ? ` (${t.common.historyReferenceSwapped})` : ''
+      }`,
+      before: change.from === null ? t.common.historyNoValue : change.from,
+      after: change.to === null ? t.common.historyNoValue : change.to,
+      delta: rawDelta(change.from, change.to),
+    }));
+
   const renderEntry = (entry: HistoryEntry) => {
+    // One table: a raw column names itself as `table.column`, which is already
+    // what tells it apart from a display field.
+    const rows = [
+      ...changeRows(entry.changes),
+      ...(showRaw ? rawRows(entry.raw) : []),
+    ];
+
     const kindLabel: Partial<Record<HistoryEntry['kind'], string>> = {
       origin: t.common.historyOrigin,
       added: history?.isVariant
@@ -274,7 +375,15 @@ export default function CharaHistory({
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="subtitle2">{entry.version}</Typography>
+          <Typography variant="subtitle2">
+            {entry.kind === 'removed' ? (
+              entry.version
+            ) : (
+              <Link href={`/${lang}/${entry.slug}/charas/${charaKey}`}>
+                {entry.version}
+              </Link>
+            )}
+          </Typography>
           <Chip
             size="small"
             variant="outlined"
@@ -285,7 +394,7 @@ export default function CharaHistory({
             }
           />
           <Typography variant="caption" color="text.secondary">
-            {entry.releaseDate}
+            <RelativeDate date={entry.releaseDate} />
           </Typography>
           {kindLabel[entry.kind] && (
             <Chip size="small" color="primary" label={kindLabel[entry.kind]} />
@@ -298,46 +407,7 @@ export default function CharaHistory({
           </Typography>
         )}
 
-        {entry.changes.length > 0 &&
-          (entry.kind === 'changed' ? (
-            renderChanges(entry.changes)
-          ) : (
-            <Accordion disableGutters elevation={0} sx={{ bgcolor: 'inherit' }}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="body2" color="text.secondary">
-                  {t.common.historyChangeCount.replace(
-                    '{{count}}',
-                    String(entry.changes.length)
-                  )}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                {renderChanges(entry.changes)}
-              </AccordionDetails>
-            </Accordion>
-          ))}
-
-        {showRaw && entry.raw.length > 0 && (
-          <Box sx={{ mt: 0.5 }}>
-            <Typography variant="caption" color="text.secondary">
-              {t.common.historyRawChanges}
-            </Typography>
-            <Box component="ul" sx={{ m: 0, pl: 3, listStyleType: 'circle' }}>
-              {entry.raw.map((change, index) => (
-                <Typography
-                  component="li"
-                  variant="body2"
-                  color="text.secondary"
-                  key={index}
-                >
-                  {change.table}.{change.column}: {change.from ?? '-'} →{' '}
-                  {change.to ?? '-'}
-                  {change.swapped && ` (${t.common.historyReferenceSwapped})`}
-                </Typography>
-              ))}
-            </Box>
-          </Box>
-        )}
+        {rows.length > 0 && renderTable(rows)}
       </Box>
     );
   };

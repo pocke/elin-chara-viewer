@@ -239,14 +239,15 @@ index.forEach((entry, position) => {
     Object.assign(state.names, item.names);
 
     if (!state.present || !state.model || !state.raw) {
-      // No previous values to compare against, so the entry is a snapshot. The
-      // character is only an addition when it was not here before: at the
+      // Nothing to compare against, and the values themselves are what this
+      // version's own page shows, so the entry only marks the place. The
+      // character is an addition only when it was not here before: at the
       // oldest archived version, or after versions that could not be computed,
       // it was here all along and this is merely where its record starts.
       state.entries.push({
         ...stamp,
         kind: state.present || position === 0 ? 'origin' : 'added',
-        changes: diffViewModels(null, item.model),
+        changes: [],
         raw: [],
       });
     } else {
