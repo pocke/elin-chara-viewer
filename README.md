@@ -42,6 +42,37 @@ at build time.
   existed in this repository's git history. It was a one-shot; the release flow
   above is what keeps the archive current.
 
+* The versions older than that were restored from Steam itself, by
+  downloading each build of depot 2135153 and running it so the exporter
+  writes its CSVs. That sweep was a one-shot; its scripts and the manifest
+  list it worked from are attached to #303.
+
+* `script/export-build.sh` is the part of it that stays: it launches a build
+  that was downloaded rather than installed, waits for the export to finish,
+  and stops the game. `update.sh` uses it for the build each branch currently
+  points at.
+
+* A release that was missed entirely needs the manifest of the build that is
+  no longer current, which only SteamDB lists. Copy its id from
+  https://steamdb.info/depot/2135153/manifests/ and hand it to
+  DepotDownloader; `-branch nightly` is required, because a past manifest is
+  refused on the public branch:
+
+  ```console
+  $ DepotDownloader.exe -app 2135150 -depot 2135153 -manifest <id> \
+      -branch nightly -username <user> -remember-password -dir C:\elin-build
+  $ script/export-build.sh 'C:\elin-build' 'C:\elin-export'
+  ```
+
+  The build names itself, so the export lands in `C:\elin-export/<version>/`.
+  From there it is the by-hand archive flow above.
+
+* `npm run check:export -- <export-dir> --baseline <dir>` checks an export for
+  the ways the exporter fails quietly — the column order is reconstructed from
+  the IL of `CreateRow()`, and a build it cannot follow writes a
+  plausible-looking CSV with the wrong columns. `--archive <dir>` sweeps every
+  archived version instead.
+
 ## License
 
 MIT License for the source code.

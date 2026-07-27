@@ -30,7 +30,8 @@ module ArchiveRepo
 
   def version_key(version)
     m = version.match(/(\d+)\.(\d+)/) or raise "no version number in #{version.inspect}"
-    [m[1].to_i, m[2].to_i, version[/Patch (\d+)/, 1].to_i]
+    # Builds from 2024 spell the patch number "fix 1" rather than "Patch 1".
+    [m[1].to_i, m[2].to_i, version[/(?:Patch|fix) (\d+)/i, 1].to_i]
   end
 
   def version_dir(root, slug)
