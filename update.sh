@@ -3,7 +3,7 @@ set -euo pipefail
 
 DD="${DD:-/mnt/c/Users/kuwab/AppData/Local/Microsoft/WinGet/Packages/SteamRE.DepotDownloader_Microsoft.Winget.Source_8wekyb3d8bbwe/DepotDownloader.exe}"
 MOD="${MOD:-/mnt/c/Program Files (x86)/Steam/steamapps/common/Elin/Package/Mod_ElinMiscMod}"
-STEAM_USER="${STEAM_USER:?set STEAM_USER to the Steam account that owns Elin}"
+STEAM_USER="${STEAM_USER:-p_ck_}"
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 WORK=/mnt/c/elin-update
 
