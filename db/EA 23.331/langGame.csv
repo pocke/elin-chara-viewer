@@ -790,7 +790,7 @@ musicGood,,,ono,,,,"#1はうっとりした。
 musicBad,,,ono,,,,"#1は悪態をついた。
 #1は耳をふさいだ。
 #1は#2の演奏をけなした。","#1 curse(s).
-#1 cover(es) #his ears.
+#1 cover(s) #his ears.
 #1 criticize(s) #your2 performance."
 ride,,,,,,,#1は#2に乗った。,#1 ride(s) #2.
 ride_unride,,,,,,,#1は#2から降りた。,#1 get(s) off #2.
