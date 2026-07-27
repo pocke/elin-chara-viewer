@@ -153,6 +153,7 @@ export const resources = {
       channelAll: 'すべて',
       versionSearchPlaceholder: 'バージョン番号で検索',
       noVersionsMatched: '条件に一致するバージョンがありません',
+      newCharacters: '新規追加キャラ',
     },
     feat: {
       geneSlot: '使用スロット数',
@@ -440,6 +441,7 @@ export const resources = {
       channelAll: 'All',
       versionSearchPlaceholder: 'Search by version number',
       noVersionsMatched: 'No versions match the filters',
+      newCharacters: 'New characters',
     },
     feat: {
       geneSlot: 'Slot Count',
