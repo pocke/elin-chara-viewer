@@ -393,13 +393,13 @@ export type PrimaryAttributeAlias = (typeof PRIMARY_ATTRIBUTE_ALIASES)[number];
 export const STATS_ALIASES = [
   'life',
   'mana',
-  'speed',
   'vigor',
-  'dv',
-  'pv',
-  'pdr',
-  'edr',
-  'ep',
+  'SPD',
+  'DV',
+  'PV',
+  'PDR',
+  'EDR',
+  'evasionPerfect',
 ] as const;
 
 export type StatsAlias = (typeof STATS_ALIASES)[number];

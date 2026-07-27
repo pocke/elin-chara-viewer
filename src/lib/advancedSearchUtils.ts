@@ -17,9 +17,22 @@ import {
   skillElements,
   elementByAlias,
   PRIMARY_ATTRIBUTE_ALIASES,
-  STATS_ALIASES,
 } from './models/element';
 import { normalizeForSearch } from './searchUtils';
+
+// ステータス列フィールド。列の名前であって element の alias ではないので、
+// t.common のキーと一致する必要がある。
+export const STATS_FIELDS = [
+  'life',
+  'mana',
+  'speed',
+  'vigor',
+  'dv',
+  'pv',
+  'pdr',
+  'edr',
+  'ep',
+] as const;
 
 // Tactics列フィールド
 export const TACTICS_FIELDS = [
@@ -111,7 +124,7 @@ export function getFieldInfoList(
   });
 
   // Stats fields
-  STATS_ALIASES.forEach((key) => {
+  STATS_FIELDS.forEach((key) => {
     fields.push({
       key,
       displayName: t.common[key] || key,
