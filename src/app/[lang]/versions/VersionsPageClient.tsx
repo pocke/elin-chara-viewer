@@ -1,8 +1,6 @@
 'use client';
 
 import {
-  Box,
-  Chip,
   Container,
   Paper,
   Table,
@@ -14,7 +12,6 @@ import {
   Typography,
 } from '@mui/material';
 import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
-import { GAME_VERSIONS } from '@/lib/db';
 import { useTranslation } from '@/lib/simple-i18n';
 
 export interface VersionListEntry {
@@ -42,20 +39,7 @@ export default function VersionsPageClient({
         {t.common.pastVersionsDescription}
       </Typography>
 
-      <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
-        {GAME_VERSIONS.map((version) => (
-          <Chip
-            key={version}
-            label={version}
-            component={Link}
-            href={`/${language}/${version}/charas`}
-            clickable
-            color="primary"
-          />
-        ))}
-      </Box>
-
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ mt: 3 }}>
         <Table size="small">
           <TableHead>
             <TableRow>
