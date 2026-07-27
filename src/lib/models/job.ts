@@ -7,7 +7,7 @@ import {
   filterSkills,
   filterOthers,
 } from '../elementable';
-import { all, GameVersion } from '../db';
+import { all, GameVersion, onVersionForgotten } from '../db';
 import { elementByAlias } from './element';
 
 export const JobSchema = z.object({
@@ -42,6 +42,11 @@ export type JobRow = z.infer<typeof JobSchema>;
 const _jobsMap: Map<GameVersion, Map<string, Job>> = new Map();
 // Cache: version -> featAlias -> Job[]
 const _jobsByFeatMap: Map<GameVersion, Map<string, Job[]>> = new Map();
+
+onVersionForgotten((version) => {
+  _jobsMap.delete(version);
+  _jobsByFeatMap.delete(version);
+});
 
 function getJobsMap(version: GameVersion): Map<string, Job> {
   if (!_jobsMap.has(version)) {

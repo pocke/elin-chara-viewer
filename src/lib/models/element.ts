@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { all, featModifierFor, GameVersion } from '../db';
+import { all, featModifierFor, GameVersion, onVersionForgotten } from '../db';
 
 export const ElementSchema = z.object({
   __meta: z.object({
@@ -92,6 +92,11 @@ export type ElementAttacks =
 const _elementsMap: Map<GameVersion, Map<string, Element>> = new Map();
 // Cache: version -> id -> Element
 const _elementsIdMap: Map<GameVersion, Map<string, Element>> = new Map();
+
+onVersionForgotten((version) => {
+  _elementsMap.delete(version);
+  _elementsIdMap.delete(version);
+});
 
 function getElementsMap(version: GameVersion): Map<string, Element> {
   if (!_elementsMap.has(version)) {

@@ -29,6 +29,19 @@ const cache = new Map<string, unknown[]>();
 const MAX_RETAINED_VERSIONS = 3;
 const retained: GameVersion[] = [];
 
+const forgetHandlers = new Set<(version: GameVersion) => void>();
+
+/**
+ * Registers a cache keyed by version. The models build objects that hold the
+ * rows they were parsed from, so dropping the rows here frees nothing until
+ * those go too, and MAX_RETAINED_VERSIONS would not bound anything.
+ */
+export const onVersionForgotten = (
+  handler: (version: GameVersion) => void
+): void => {
+  forgetHandlers.add(handler);
+};
+
 const forget = (version: GameVersion) => {
   const retainedAt = retained.indexOf(version);
   if (retainedAt >= 0) {
@@ -42,6 +55,7 @@ const forget = (version: GameVersion) => {
       cache.delete(key);
     }
   }
+  forgetHandlers.forEach((handler) => handler(version));
 };
 
 export const registerVersionData = (

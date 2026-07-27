@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { all, GameVersion } from '../db';
+import { all, GameVersion, onVersionForgotten } from '../db';
 
 export const TacticsSchema = z.object({
   id: z.string(),
@@ -27,6 +27,10 @@ export type TacticsRow = z.infer<typeof TacticsSchema>;
 
 // Cache: version -> id -> Tactics
 const _tacticsMap: Map<GameVersion, Map<string, Tactics>> = new Map();
+
+onVersionForgotten((version) => {
+  _tacticsMap.delete(version);
+});
 
 function getTacticsMap(version: GameVersion): Map<string, Tactics> {
   if (!_tacticsMap.has(version)) {

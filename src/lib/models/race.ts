@@ -7,7 +7,7 @@ import {
   filterSkills,
   filterOthers,
 } from '../elementable';
-import { all, GameVersion } from '../db';
+import { all, GameVersion, onVersionForgotten } from '../db';
 import { elementByAlias, elementById } from './element';
 
 // Common skill element IDs that all races have (from SourceRace.cs OnInit)
@@ -107,6 +107,11 @@ export type RaceRow = z.infer<typeof RaceSchema>;
 const _racesMap: Map<GameVersion, Map<string, Race>> = new Map();
 // Cache: version -> featAlias -> Race[]
 const _racesByFeatMap: Map<GameVersion, Map<string, Race[]>> = new Map();
+
+onVersionForgotten((version) => {
+  _racesMap.delete(version);
+  _racesByFeatMap.delete(version);
+});
 
 function getRacesMap(version: GameVersion): Map<string, Race> {
   if (!_racesMap.has(version)) {
