@@ -29,8 +29,10 @@ EOF
 # A build does not say which version it is until it runs.
 export_branch() {
   local branch="$1"
-  local build_win="C:\\elin-update\\$branch" export_win="C:\\elin-update\\$branch-csv"
   local build="$WORK/$branch" exported="$WORK/$branch-csv"
+  local build_win export_win
+  build_win="$(wslpath -w "$build")"
+  export_win="$(wslpath -w "$exported")"
 
   "$DD" -app 2135150 -depot 2135153 -branch "$branch" \
     -username "$STEAM_USER" -remember-password -filelist "$(wslpath -w "$WORK/filelist.txt")" \
