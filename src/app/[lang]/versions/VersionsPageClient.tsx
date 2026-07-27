@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  Box,
   Container,
   Paper,
   Table,
@@ -9,9 +10,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from '@mui/material';
+import { Search as SearchIcon } from '@mui/icons-material';
+import { useMemo, useState } from 'react';
 import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
+import { normalizeForSearch } from '@/lib/searchUtils';
 import { useTranslation } from '@/lib/simple-i18n';
 
 export interface VersionListEntry {
@@ -29,6 +34,18 @@ export default function VersionsPageClient({
   entries,
 }: VersionsPageClientProps) {
   const { t, language } = useTranslation();
+  const [query, setQuery] = useState('');
+
+  const visibleEntries = useMemo(() => {
+    const normalizedQuery = normalizeForSearch(query.trim());
+    if (!normalizedQuery) return entries;
+
+    return entries.filter(
+      (entry) =>
+        normalizeForSearch(entry.version).includes(normalizedQuery) ||
+        normalizeForSearch(entry.slug).includes(normalizedQuery)
+    );
+  }, [entries, query]);
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
@@ -39,7 +56,28 @@ export default function VersionsPageClient({
         {t.common.pastVersionsDescription}
       </Typography>
 
-      <TableContainer component={Paper} sx={{ mt: 3 }}>
+      <Paper elevation={2} sx={{ p: 3, mb: 2 }}>
+        <Box>
+          <TextField
+            fullWidth
+            size="small"
+            variant="outlined"
+            label={t.common.version}
+            placeholder={t.common.versionSearchPlaceholder}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <SearchIcon sx={{ mr: 1, color: 'action.active' }} />
+                ),
+              },
+            }}
+          />
+        </Box>
+      </Paper>
+
+      <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -49,7 +87,7 @@ export default function VersionsPageClient({
             </TableRow>
           </TableHead>
           <TableBody>
-            {entries.map((entry) => (
+            {visibleEntries.map((entry) => (
               <TableRow key={entry.slug} hover>
                 <TableCell>
                   <Link href={`/${language}/${entry.slug}/charas`}>
@@ -64,6 +102,19 @@ export default function VersionsPageClient({
                 </TableCell>
               </TableRow>
             ))}
+            {visibleEntries.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    role="status"
+                  >
+                    {t.common.noVersionsMatched}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
