@@ -3,6 +3,7 @@
 import {
   Box,
   Container,
+  MenuItem,
   Paper,
   Table,
   TableBody,
@@ -30,22 +31,26 @@ interface VersionsPageClientProps {
   entries: VersionListEntry[];
 }
 
+type ChannelFilter = 'all' | VersionListEntry['channel'];
+
 export default function VersionsPageClient({
   entries,
 }: VersionsPageClientProps) {
   const { t, language } = useTranslation();
   const [query, setQuery] = useState('');
+  const [channelFilter, setChannelFilter] = useState<ChannelFilter>('all');
 
   const visibleEntries = useMemo(() => {
     const normalizedQuery = normalizeForSearch(query.trim());
-    if (!normalizedQuery) return entries;
 
     return entries.filter(
       (entry) =>
-        normalizeForSearch(entry.version).includes(normalizedQuery) ||
-        normalizeForSearch(entry.slug).includes(normalizedQuery)
+        (channelFilter === 'all' || entry.channel === channelFilter) &&
+        (!normalizedQuery ||
+          normalizeForSearch(entry.version).includes(normalizedQuery) ||
+          normalizeForSearch(entry.slug).includes(normalizedQuery))
     );
-  }, [entries, query]);
+  }, [entries, query, channelFilter]);
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
@@ -57,7 +62,13 @@ export default function VersionsPageClient({
       </Typography>
 
       <Paper elevation={2} sx={{ p: 3, mb: 2 }}>
-        <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            flexDirection: { xs: 'column', sm: 'row' },
+          }}
+        >
           <TextField
             fullWidth
             size="small"
@@ -74,6 +85,18 @@ export default function VersionsPageClient({
               },
             }}
           />
+          <TextField
+            select
+            size="small"
+            label={t.common.channel}
+            value={channelFilter}
+            onChange={(e) => setChannelFilter(e.target.value as ChannelFilter)}
+            sx={{ minWidth: 160 }}
+          >
+            <MenuItem value="all">{t.common.channelAll}</MenuItem>
+            <MenuItem value="stable">{t.common.channelStable}</MenuItem>
+            <MenuItem value="nightly">{t.common.channelNightly}</MenuItem>
+          </TextField>
         </Box>
       </Paper>
 
