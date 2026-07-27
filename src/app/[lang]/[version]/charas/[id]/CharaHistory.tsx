@@ -211,9 +211,7 @@ export default function CharaHistory({
       case 'level':
         return t.common.level;
       case 'geneSlot':
-        return change.key === 'orig'
-          ? `${t.common.geneSlot} (${t.common.historyGeneSlotBase})`
-          : t.common.geneSlot;
+        return t.common.geneSlot;
       case 'bodyParts':
         return BODY_PART_LABELS[change.key ?? '']?.(t) ?? change.key ?? '';
       case 'elements': {
@@ -273,20 +271,6 @@ export default function CharaHistory({
     return to - from;
   };
 
-  // The base is the race's own gene capacity, the other what the feats leave of
-  // it, so the two move together unless a feat moved as well. Only the times
-  // they disagree say anything the effective row does not already.
-  const withoutEchoedGeneSlotBase = (changes: ValueChange[]): ValueChange[] => {
-    const base = changes.find(
-      (change) => change.field === 'geneSlot' && change.key === 'orig'
-    );
-    const actual = changes.find(
-      (change) => change.field === 'geneSlot' && change.key === 'actual'
-    );
-    if (!base || !actual || deltaOf(base) !== deltaOf(actual)) return changes;
-    return changes.filter((change) => change !== base);
-  };
-
   const renderTable = (rows: ChangeRow[]) => (
     <Table size="small" sx={{ mt: 0.5 }}>
       <TableHead>
@@ -329,7 +313,7 @@ export default function CharaHistory({
   );
 
   const changeRows = (changes: ValueChange[]): ChangeRow[] =>
-    withoutEchoedGeneSlotBase(changes).map((change) => ({
+    changes.map((change) => ({
       label: labelOf(change),
       before: textOf(change, change.from),
       after: textOf(change, change.to),

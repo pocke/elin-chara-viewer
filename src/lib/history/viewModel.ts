@@ -29,7 +29,8 @@ export interface CharaViewModel {
   job: EntityView;
   tactics: TacticsView;
   level: number;
-  geneSlot: { actual: number; orig: number };
+  /** After the feats; the race's own capacity is only a step on the way. */
+  geneSlot: number;
   bodyParts: Record<string, number>;
   // alias -> the powers that were merged into it, sorted so that reordering the
   // sources a character draws an element from is not a change.
@@ -38,7 +39,7 @@ export interface CharaViewModel {
 }
 
 export const buildViewModel = (chara: Chara): CharaViewModel => {
-  const [actualGeneSlot, origGeneSlot] = chara.geneSlot();
+  const [geneSlot] = chara.geneSlot();
   const race = chara.race;
   const job = chara.job();
   const tactics = chara.tactics();
@@ -76,7 +77,7 @@ export const buildViewModel = (chara: Chara): CharaViewModel => {
       partyBuff: tactics.usesPartyBuff(),
     },
     level: chara.level(),
-    geneSlot: { actual: actualGeneSlot, orig: origGeneSlot },
+    geneSlot,
     bodyParts: { ...chara.bodyParts() },
     elements,
     abilities: chara.abilities().map((ability) => ({

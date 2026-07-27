@@ -71,8 +71,7 @@ export const diffViewModels = (
   }
 
   push('level', undefined, prev.level, next.level);
-  push('geneSlot', 'actual', prev.geneSlot.actual, next.geneSlot.actual);
-  push('geneSlot', 'orig', prev.geneSlot.orig, next.geneSlot.orig);
+  push('geneSlot', undefined, prev.geneSlot, next.geneSlot);
 
   const parts = new Set([
     ...Object.keys(prev.bodyParts),
