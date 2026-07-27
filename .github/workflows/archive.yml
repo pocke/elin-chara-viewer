@@ -72,7 +72,18 @@ jobs:
       - name: Check that every archived version parses
         run: npm run check:archive -- archive
 
+      # Before the commit below, so that one release is one push: sync-r2 keeps
+      # a single pending run per group, and a third push would drop the second
+      # one's range on the floor until the weekly full sync.
+      - name: Rebuild the change history
+        id: history
+        run: npm run build:history -- archive
+
+      # Runs even when the step above fails, because a build that stops -- the
+      # game gained a column nobody has classified -- writes nothing, and the
+      # versions it was handed must not be lost with it.
       - name: Commit and push
+        if: success() || steps.history.outcome == 'failure'
         working-directory: archive
         env:
           # Passed through the environment so that the message cannot break out
