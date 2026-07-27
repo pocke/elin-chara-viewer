@@ -16,10 +16,12 @@ interface ArchivedCharaDetailPageProps {
 
 function Content({
   version,
+  versionName,
   baseId,
   variantElement,
 }: {
   version: string;
+  versionName: string;
   baseId: string;
   variantElement: ElementAttacks | null;
 }) {
@@ -39,6 +41,7 @@ function Content({
       charaRow={charaRow}
       variantElement={variantElement}
       version={version}
+      versionName={versionName}
     />
   );
 }
@@ -55,6 +58,7 @@ export default function ArchivedCharaDetailPage({
     >
       <Content
         version={entry.slug}
+        versionName={entry.version}
         baseId={baseId}
         variantElement={variantElement}
       />

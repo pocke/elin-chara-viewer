@@ -3,7 +3,7 @@ import { Chara, CharaSchema } from '@/lib/models/chara';
 import { ElementAttacks, elementByAlias } from '@/lib/models/element';
 import { archivedIds } from '@/lib/archive';
 import { charaDetailRow } from '@/lib/pageData';
-import { resolveVersion } from '@/lib/versions';
+import { currentVersionName, resolveVersion } from '@/lib/versions';
 import ArchivedCharaDetailPage from './ArchivedCharaDetailPage';
 import CharaDetailClient from './CharaDetailClient';
 import { Metadata } from 'next';
@@ -165,6 +165,7 @@ export default async function CharaPage(props: {
       charaRow={charaRow}
       variantElement={variantElement as ElementAttacks | null}
       version={resolved.key}
+      versionName={currentVersionName(resolved.key)}
     />
   );
 }

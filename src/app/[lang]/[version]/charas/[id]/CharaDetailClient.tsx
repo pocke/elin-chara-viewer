@@ -35,6 +35,7 @@ import {
   Element,
 } from '@/lib/models/element';
 import ResistanceBarChart from '@/components/ResistanceBarChart';
+import CharaHistory from './CharaHistory';
 import { getContrastColor } from '@/lib/colorUtils';
 import {
   filterGeneralSkills,
@@ -51,12 +52,14 @@ interface CharaDetailClientProps {
   charaRow: CharaRow;
   variantElement: ElementAttacks | null;
   version: GameVersion;
+  versionName: string;
 }
 
 export default function CharaDetailClient({
   charaRow,
   variantElement,
   version,
+  versionName,
 }: CharaDetailClientProps) {
   const chara = new Chara(version, charaRow, variantElement);
   const { t, language } = useTranslation();
@@ -783,6 +786,12 @@ export default function CharaDetailClient({
             </Box>
 
             <Divider sx={{ my: 3 }} />
+
+            <CharaHistory
+              charaKey={chara.id}
+              version={version}
+              versionName={versionName}
+            />
 
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
