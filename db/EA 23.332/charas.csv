@@ -225,6 +225,7 @@ fox_maid,303,*r,*r,メイド狐,fox maid,,0,,chara,820,,0,,,10,0,0,Neutral,,noPo
 militant,327,*r,*r,ミリタント,militant,,0,,chara,823,,0,,,10,0,0,Neutral,,noPortrait,,servant,warmage,,,"1,100","SpHealCritical/30,SpHero/50",,featMilitant,,,chara,,,,,,,m,strife,,,,,,,,,
 imotoroid,547,*r,*r,妹ロイド,younger sisteroid,,0,,chara,3118,,0,,,28,5,0,Neutral,,neutral,,machine,inquisitor,,,"2,40",,,"featGeneSlot,vopal/25,featMiscreation/2",,,chara,,,,,,,f,,,,sister2,,,,,,
 imotoroid_origin,548,*r,*r,妹,younger sister,,0,,chara,3119,,0,,,31,5,3,Neutral,,,UniqueMonster,machine,bard,,,"2,40",SpSummonImotoroid,,"featReboot,featMassSummoner/5,featSummoner/20,featGeneSlot/-3",,,chara,,,,,,,f,,,,sister,,,,,,
+imotomaton,596,*r,*r,イモートマトン,imotomaton,,0,,chara_L,127,,0,,,42,5,0,,,,,machine,gunner,,,"4,50",ActMissileBarrage/10,,"freemove,mod_splash/92,life/120,featDeviant,featMetal/500",,,chara,,,,,,,f,,,,sister,hop,,,,,
 at,8,＠,@,,,,0,,chara,1531,,0,,,10,0,0,,,noRandomProduct,,norland,wizard,,,,,,,,,chara,,,,,,,,,,,,,,,,,
 candle_ghost,24,蝋燭お化け,candle ghost,,,,0,,chara,1517,,0,,,11,100,0,,,,,ghost,none,,,,"SpBane/20,hand_Fire/50",,resFire/20,,,chara,,,,,fireplace,,,,,,,,,,,,
 cobra,40,コブラ,cobra,,,,0,,chara,1506,,0,,,10,100,0,,,,,snake,none,,,"1,80",hand_Poison/40,,,,,chara,,,,,,,,,,,,,,,,,
