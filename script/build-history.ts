@@ -24,6 +24,8 @@ import {
   RawRows,
 } from '../src/lib/history/diff';
 import {
+  AddedChara,
+  AddedCharasSchema,
   CharaHistory,
   HistoryEntry,
   HistoryField,
@@ -196,6 +198,7 @@ const baseIdOf = (key: string): string => key.split('---')[0];
 
 const index = loadIndex();
 const states = new Map<string, KeyState>();
+const added = new Map<string, AddedChara[]>();
 let headers: Map<string, string[]> | null = null;
 
 index.forEach((entry, position) => {
@@ -244,12 +247,14 @@ index.forEach((entry, position) => {
       // character is an addition only when it was not here before: at the
       // oldest archived version, or after versions that could not be computed,
       // it was here all along and this is merely where its record starts.
-      state.entries.push({
-        ...stamp,
-        kind: state.present || position === 0 ? 'origin' : 'added',
-        changes: [],
-        raw: [],
-      });
+      const kind = state.present || position === 0 ? 'origin' : 'added';
+      if (kind === 'added') {
+        added.set(entry.slug, [
+          ...(added.get(entry.slug) ?? []),
+          { key, ja: item.model.name.ja, en: item.model.name.en },
+        ]);
+      }
+      state.entries.push({ ...stamp, kind, changes: [], raw: [] });
     } else {
       const changes = dropColumnIntroductionArtifacts(
         diffViewModels(state.model, item.model),
@@ -392,6 +397,27 @@ for (const history of histories) {
   );
 }
 fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+
+fs.writeFileSync(
+  path.join(historyDir, 'added.json'),
+  `${JSON.stringify(
+    AddedCharasSchema.parse({
+      schemaVersion: HISTORY_SCHEMA_VERSION,
+      versions: Object.fromEntries(
+        [...added]
+          .sort(([left], [right]) => (left < right ? -1 : 1))
+          .map(([slug, charas]) => [
+            slug,
+            [...charas].sort((left, right) =>
+              left.key < right.key ? -1 : left.key > right.key ? 1 : 0
+            ),
+          ])
+      ),
+    }),
+    null,
+    2
+  )}\n`
+);
 
 console.log(
   `Wrote ${manifest.keys} histories (${manifest.entries} entries) from ${manifest.versions} versions`

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
-import { archiveIndex } from '@/lib/archive';
+import { archiveAddedCharas, archiveIndex } from '@/lib/archive';
+import { AddedChara } from '@/lib/history/types';
 import { generateAlternates } from '@/lib/metadata';
 import { currentVersionOf } from '@/lib/versions';
 import VersionsPageClient, { VersionListEntry } from './VersionsPageClient';
@@ -21,7 +22,15 @@ export async function generateMetadata(props: {
 }
 
 export default async function VersionsPage() {
-  const index = await archiveIndex();
+  const [index, added] = await Promise.all([
+    archiveIndex(),
+    // A version list that cannot say what a version added is still a version
+    // list, so this is not worth failing the page over.
+    archiveAddedCharas().catch((error): Record<string, AddedChara[]> => {
+      console.error(error);
+      return {};
+    }),
+  ]);
 
   const entries: VersionListEntry[] = index
     .filter((entry) => !currentVersionOf(entry.version))
@@ -30,6 +39,7 @@ export default async function VersionsPage() {
       slug: entry.slug,
       channel: entry.channel,
       date: entry.releaseDate,
+      added: added[entry.slug] ?? [],
     }));
 
   return <VersionsPageClient entries={entries} />;

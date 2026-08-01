@@ -4,6 +4,11 @@ import {
   isVersionDataRegistered,
   registerVersionData,
 } from './db';
+import {
+  AddedChara,
+  AddedCharasSchema,
+  HISTORY_SCHEMA_VERSION,
+} from './history/types';
 
 // A checkout works without configuration by reading the archive repository on
 // GitHub, which is not a host to serve readers from. NEXT_PUBLIC_VERCEL_ENV
@@ -100,6 +105,19 @@ export const archivedVersionBySlug = async (
   slug: string
 ): Promise<ArchivedVersion | undefined> =>
   (await archiveIndex()).find((entry) => entry.slug === slug);
+
+// Rewritten by every release, the same as the index, and read by the version
+// list rather than by a character page.
+export const archiveAddedCharas = async (): Promise<
+  Record<string, AddedChara[]>
+> => {
+  const text = await fetchText(
+    `${ARCHIVE_BASE_URL}/history/added.json`,
+    INDEX_INIT
+  );
+  const parsed = AddedCharasSchema.parse(JSON.parse(text));
+  return parsed.schemaVersion === HISTORY_SCHEMA_VERSION ? parsed.versions : {};
+};
 
 export const archivedIds = async (slug: string): Promise<ArchivedIds> =>
   ArchivedIdsSchema.parse(
