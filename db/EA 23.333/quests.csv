@@ -104,6 +104,7 @@ negotiation_darkness3,,,,,,,,0,0,0,|ルーリエ海底神殿の最奥でドラ�
 negotiation_darkness4,,,,,,,,0,0,0,|ビチェリンの依頼を達成した。贖罪の村に戻り、ビチェリンに報告しなければならない。,|The mission given by Bicerin has been fulfilled. Time to return to the Village of Atonement and inform him.,,,,
 negotiation_darkness5,,,,,,,,0,0,0,|贖罪の村での用事を終えた。ケトルの帰りを待とう。,|You have finished your business in the Village of Atonement. Let's wait for Kettle to return.,,,,
 demitas_spellwriter,魔法書作家,Spellwriter,QuestDialog,demitas,,,,0,0,0,汝に魔術のたしなみはあるか？,Dost thou possess knowledge of the arcane?,,,,
+stone_dream,夜の日課,Nightly Routine,QuestDialog,loytel,,,,0,0,0,さて、今夜も帳簿を片付けるとしよう。,Time to finish up the books for tonight.,,,,
 mokyu2,テスト,test,QuestDialog,corgon,,,debug,0,0,0,もきゅ。,Mokyu.,,,,
 mokyu3,テスト,test,QuestDialog,corgon,,,debug,0,0,0,もきゅ。,Mokyu.,,,,
 farrisSister,妹を訪ねて,Visiting Little Sister,QuestFarrisSister,farris,,,,0,0,0,お話ししたいことがあります。|リサナスの情報について、ファリスは妹のシオルシアを訪ねてみるようあなたに助言した。シオルシアはホームから南西に位置するオルヴィナという村に滞在しているらしい。,,,,,
