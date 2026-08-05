@@ -21,6 +21,68 @@ jobs:
           node-version-file: '.node-version'
           cache: 'npm'
 
+      # Dependabot only watches npm, so nothing moves the base image with the
+      # version this job installs.
+      - name: Check that the Dockerfile and .node-version agree
+        run: |
+          set -euo pipefail
+          want="$(cat .node-version)"
+          got="$(grep -oP '^FROM node:\K[0-9.]+' Dockerfile)" || {
+            echo 'Dockerfile has no "FROM node:<version>" line' >&2
+            exit 1
+          }
+          [ "$want" = "$got" ] || {
+            echo "Dockerfile pins Node $got, .node-version says $want" >&2
+            exit 1
+          }
+
+      # compose.yaml keeps the container from writing anything the host runs,
+      # which is a list that only holds while someone maintains it.
+      - name: Check the read-only mounts still cover what the host runs
+        run: |
+          set -euo pipefail
+          docker compose config -q
+
+          # Read from the resolved configuration rather than the file, so that
+          # commenting a line out or moving it to another service still fails.
+          config="$(docker compose config --format json)"
+          for mount in .git .claude .github .ruby-lsp tmp script \
+            compose.yaml Dockerfile .dockerignore .env CLAUDE.md update.sh wrangler.toml; do
+            jq -e --arg m "/app/$mount" '.services.app.volumes[]
+              | select(.target == $m) | .read_only == true' >/dev/null <<< "$config" || {
+              echo "compose.yaml no longer mounts $mount read-only" >&2
+              exit 1
+            }
+          done
+
+          # prettier writes these, so the read-only script/ mount has to be
+          # lifted for each of them.
+          for f in $(git ls-files 'script/*.ts' 'script/*.cjs'); do
+            jq -e --arg m "/app/$f" '.services.app.volumes[]
+              | select(.target == $m) | (.read_only // false) == false' >/dev/null <<< "$config" || {
+              echo "compose.yaml leaves $f read-only, and format will fail on it" >&2
+              exit 1
+            }
+          done
+
+          stray="$(git ls-files '*.rb' '*.sh' | grep -Ev '^(script/|\.claude/|\.github/|update\.sh$)' || true)"
+          [ -z "$stray" ] || {
+            echo "the host runs these, and no read-only mount covers them:" >&2
+            printf '%s\n' "$stray" >&2
+            exit 1
+          }
+
+          grep -qF '"preinstall": "sh script/assert-container.sh"' package.json || {
+            echo 'package.json lost the preinstall guard' >&2
+            exit 1
+          }
+
+          env_lines="$(grep -Ecv '^\s*(#|$)' .env || true)"
+          grep -qxF 'COMPOSE_FILE=compose.yaml' .env && [ "$env_lines" = 1 ] || {
+            echo '.env must carry the COMPOSE_FILE pin and nothing else' >&2
+            exit 1
+          }
+
       - name: Install dependencies
         run: npm ci
 

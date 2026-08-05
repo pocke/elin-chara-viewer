@@ -8,6 +8,12 @@ db_paths = Pathname.glob(Pathname(__dir__).join('../db/*/'))
 EA_VERSION = root.join('versions/EA').read.strip
 NIGHTLY_VERSION = root.join('versions/nightly').read.strip
 
+# Both are spliced into TypeScript below, so a quote in one of them writes code
+# rather than a version.
+[EA_VERSION, NIGHTLY_VERSION].each do |version|
+  raise "not a version: #{version.inspect}" unless version.match?(/\A[A-Za-z0-9]+(?:[. ][A-Za-z0-9]+)*\z/)
+end
+
 unnecessary_versions = db_paths.select { |p|
   ver_str = p.basename.to_s
   ver_str != EA_VERSION && ver_str != NIGHTLY_VERSION

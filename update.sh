@@ -10,6 +10,9 @@ WORK=/mnt/c/elin-update
 cd "$ROOT"
 [ -x "$DD" ] || { echo "update.sh: DepotDownloader not found: $DD" >&2; exit 1; }
 [ -f "$MOD/ElinMiscMod.dll" ] || { echo "update.sh: mod not found: $MOD/ElinMiscMod.dll" >&2; exit 1; }
+# Before the checkout below, which leaves a detached HEAD behind when a later
+# step fails.
+docker compose version >/dev/null 2>&1 || { echo 'update.sh: docker compose is not available' >&2; exit 1; }
 
 trap 'rm -rf "$WORK"' EXIT
 rm -rf "$WORK"
@@ -19,6 +22,10 @@ git fetch origin
 # Everything below is written from the download.
 git checkout -qf origin/master
 git clean -qfd db
+
+# The checkout above may have moved the lockfile or the Dockerfile, and
+# node_modules lives in a volume that nothing else updates.
+docker compose run --build --rm -T check npm ci --ignore-scripts >&2
 
 # Exports taken from a copy without these are byte-identical to exports from
 # the complete build.
@@ -71,7 +78,9 @@ for channel in EA nightly; do
   # check-export.ts only warns when it cannot read the baseline, and would
   # otherwise pass an unchecked export straight through.
   [ -d "db/$current" ] || { echo "update.sh: db/$current is missing" >&2; exit 1; }
-  npx tsx script/check-export.ts "$fresh" --baseline "db/$current"
+  # npm run, not npx: npx fetches tsx from the network when it is missing.
+  docker compose run --rm -T -v "$fresh:/fresh:ro" check \
+    npm run check:export -- /fresh --baseline "db/$current"
 
   # The other channel may have written this version already, when a nightly is
   # promoted. Both should be the same build, but only the name says so.
@@ -114,6 +123,25 @@ if grep -q 'no decompiled build' <<< "$feat"; then
   echo "$body" >&2
 fi
 ruby script/sync_version.rb
+
+# The container mounts this repository read-write, and the commit below is
+# merged and deployed without anyone reading it. -z because every db/ path
+# holds spaces, which the default output quotes.
+git status --porcelain -z --no-renames > "$WORK/status"
+unexpected=()
+while IFS= read -r -d '' entry; do
+  case "${entry:3}" in
+    db/* | versions/* | src/generated/featModifier.ea.json | \
+      src/generated/featModifier.nightly.json | src/lib/bundledData.ts | next.config.ts) ;;
+    *) unexpected+=("${entry:3}") ;;
+  esac
+done < "$WORK/status"
+[ ${#unexpected[@]} -eq 0 ] || {
+  echo 'update.sh: changes outside the files this script writes:' >&2
+  printf '%s\n' "${unexpected[@]}" >&2
+  exit 1
+}
+
 git add .
 
 git commit -m "$subject"

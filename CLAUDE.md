@@ -1,11 +1,42 @@
 # Project Information for Claude
 
+## Development Environment
+
+Everything that runs project dependencies runs inside Docker, so a compromised
+package cannot reach the host's SSH keys, gh token or Windows files.
+
+- **Never run `npm`, `npx`, `node`, `yarn`, `pnpm` or `tsx` on the host.** A
+  PreToolUse hook refuses, and a `preinstall` guard catches the installs that
+  reach npm anyway. Neither sees a command built at runtime, so treat them as
+  a reminder rather than the boundary.
+- `node_modules` lives in a named volume rather than the working tree, so the
+  host has no copy of it to read or execute.
+
+| Task | Command |
+|---|---|
+| Install dependencies | `mkdir -p node_modules` then `docker compose run --rm check npm ci --ignore-scripts` |
+| Dev server on localhost:3000 | `docker compose up` |
+| Everything else | `docker compose run --rm app npm run <script>` |
+| Add a dependency | `docker compose run --rm app npm install --ignore-scripts <pkg>` |
+
+`docker compose run` does not publish ports, which is why the dev server is the
+one command that uses `up`.
+
+`npm ci` runs in the `check` service, which mounts the repository read-only:
+`update.sh` commits and merges the working tree right after installing. The
+directory has to exist for the volume to mount into it, hence the `mkdir`.
+Adding a dependency writes `package.json`, so it uses `app` instead.
+
+Every file the host executes or interprets is mounted read-only, so that a
+dependency cannot write itself a path back out of the container. Adding a file
+of that kind means adding it to `compose.yaml` as well.
+
 ## Development Workflow
 
 ### Code Formatting and Linting
-- **Always run `npm run format` after editing code** to ensure consistent formatting
-- **Always run `npm run lint` after editing code** and fix any issues that arise
-- **Always run `npm run typecheck` after editing code** and fix any issues that arise
+- **Always run `docker compose run --rm app npm run format` after editing code** to ensure consistent formatting
+- **Always run `docker compose run --rm app npm run lint` after editing code** and fix any issues that arise
+- **Always run `docker compose run --rm app npm run typecheck` after editing code** and fix any issues that arise
 
 ### TypeScript Guidelines
 - **Never use `any` type** - always specify proper, explicit types
@@ -15,9 +46,9 @@
 This is an Elin character viewer application built with Next.js and TypeScript.
 
 ### Commands
-- `npm run format` - Format code using the project's formatting rules
-- `npm run lint` - Run linting checks and identify issues to fix
-- `npm run typecheck` - Run TypeScript type checking
+- `docker compose run --rm app npm run format` - Format code using the project's formatting rules
+- `docker compose run --rm app npm run lint` - Run linting checks and identify issues to fix
+- `docker compose run --rm app npm run typecheck` - Run TypeScript type checking
 
 ### I18n (Internationalization)
 - **Always implement I18n for user-facing text** - never hardcode Japanese or English text in components
