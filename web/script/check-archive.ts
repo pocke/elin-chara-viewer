@@ -2,7 +2,7 @@
  * Parses every archived version with the schemas the app uses, so that a
  * version the viewer cannot read is found before it is served.
  *
- * Usage: npx tsx script/check-archive.ts [archive-dir]
+ * Usage: npm run check:archive -- <archive-dir>
  */
 import fs from 'fs';
 import path from 'path';

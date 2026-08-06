@@ -27,7 +27,7 @@ A file that the host executes or reads as configuration belongs outside `web/`.
 `docker compose run` does not publish ports, which is why the dev server is the
 one command that uses `up`.
 
-`npm ci` runs in the `check` service, which mounts the repository read-only:
+`npm ci` runs in the `check` service, which mounts web/ read-only:
 `update.sh` commits and merges the working tree right after installing. The
 directory has to exist for the volume to mount into it, hence the `mkdir`.
 Adding a dependency writes `package.json`, so it uses `app` instead.
@@ -56,7 +56,7 @@ This is an Elin character viewer application built with Next.js and TypeScript.
 
 ### I18n (Internationalization)
 - **Always implement I18n for user-facing text** - never hardcode Japanese or English text in components
-- **Translation file location**: `src/lib/simple-i18n.tsx` contains all translation resources
+- **Translation file location**: `web/src/lib/simple-i18n.tsx` contains all translation resources
 - **Supported languages**: Japanese (`ja`) and English (`en`)
 - **Usage**: Use the `useTranslation()` hook to get `t` (translations) and `language` values
 - **Model columns with `_JP` suffix**: When models have columns ending with `_JP` (e.g., `name_JP`, `detail_JP`), implement language-specific methods that return the appropriate column based on the current language

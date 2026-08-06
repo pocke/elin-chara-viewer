@@ -1,7 +1,7 @@
 #!/bin/sh
-# package.json runs this as preinstall. It is a .sh rather than a .cjs so that
-# compose.yaml can mount it read-only: prettier rewrites .cjs, and a read-only
-# mount would make `npm run format` fail on it.
+# package.json runs this as preinstall. The container can write it, since it
+# sits in web/ with everything else npm touches; CI checks that it still
+# refuses.
 set -eu
 
 if [ -f /.dockerenv ] ||

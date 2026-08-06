@@ -10,6 +10,9 @@ x-toolchain: &toolchain
     - ALL
   environment:
     ELIN_DEV_CONTAINER: '1'
+    # Outside /app, so that Docker does not leave a root-owned web/.git behind
+    # to hold the mount point.
+    GIT_DIR: /git
 
 # web/ holds everything the toolchain touches and nothing the host runs, so it
 # is the only part of the repository a dependency can reach. Anything the host
@@ -27,7 +30,7 @@ services:
       - ./web:/app
       # next.config.ts reads the last commit date. `git log` needs the object
       # store and HEAD, neither of which it writes.
-      - ./.git:/app/.git:ro
+      - ./.git:/git:ro
       - node_modules:/app/node_modules
       - npm-cache:/npm-cache
 

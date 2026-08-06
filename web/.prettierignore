@@ -7,3 +7,6 @@ out
 *.json
 public
 db
+# Prettier reads .gitignore from the working directory, which no longer holds
+# the one that covers this.
+next-env.d.ts

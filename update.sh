@@ -79,6 +79,8 @@ for channel in EA nightly; do
   # otherwise pass an unchecked export straight through.
   [ -d "web/db/$current" ] || { echo "update.sh: web/db/$current is missing" >&2; exit 1; }
   # npm run, not npx: npx fetches tsx from the network when it is missing.
+  # The baseline has no web/ in front of it because the check service starts in
+  # /app, which is web/.
   docker compose run --rm -T -v "$fresh:/fresh:ro" check \
     npm run check:export -- /fresh --baseline "db/$current"
 

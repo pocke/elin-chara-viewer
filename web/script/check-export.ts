@@ -5,8 +5,8 @@
  * columns: `EA 23.306 Nightly` (0d23795) shipped a jobs.csv that started at
  * `domain` and had no `id` column at all.
  *
- * Usage: npx tsx script/check-export.ts <export-dir> [--baseline <dir>]
- *        npx tsx script/check-export.ts --archive [archive-dir]
+ * Usage: npm run check:export -- <export-dir> [--baseline <dir>]
+ *        npm run check:export -- --archive <archive-dir>
  *
  * <export-dir> holds `<table>.csv`, as written into db/<version>. The baseline
  * must be a neighbouring version: comparing across a long stretch of releases
@@ -337,13 +337,19 @@ function checkArchive(archiveDir: string): number {
 }
 
 const USAGE = [
-  'Usage: npx tsx script/check-export.ts <export-dir> [--baseline <dir>]',
-  '       npx tsx script/check-export.ts --archive [archive-dir]',
+  'Usage: npm run check:export -- <export-dir> [--baseline <dir>]',
+  '       npm run check:export -- --archive <archive-dir>',
 ].join('\n');
 
 function main(args: string[]): number {
   if (args[0] === '--archive') {
-    return checkArchive(args[1] ?? 'tmp/archive');
+    // No default: the archive lives outside web/, so it reaches the container
+    // only through a mount the caller names.
+    if (args[1] === undefined) {
+      console.error(USAGE);
+      return 1;
+    }
+    return checkArchive(args[1]);
   }
 
   const dir = args[0];

@@ -48,8 +48,10 @@ jobs:
         working-directory: .
         run: |
           set -euo pipefail
-          docker compose config -q
-          config="$(docker compose config --format json)"
+          # --profile '*': a service behind a profile is left out of the
+          # resolved configuration, and check is the one that runs npm ci.
+          docker compose --profile '*' config -q
+          config="$(docker compose --profile '*' config --format json)"
 
           outside="$(jq -r --arg root "$PWD/" '.services[].volumes[]
             | select(.type == "bind") | .source | ltrimstr($root)
@@ -67,13 +69,42 @@ jobs:
             exit 1
           }
 
-          # Anything under web/ is writable from the container, so a script the
-          # host runs cannot live there.
-          stray="$(git ls-files web | grep -E '\.(rb|sh)$' |
-            grep -v '^web/script/assert-container.sh$' || true)"
+          # A named volume can carry a bind of its own, and the keys below hand
+          # out the host by other routes than a mount.
+          jq -e '(.volumes // {}) | [.[] | .driver_opts // empty] | length == 0' \
+            >/dev/null <<< "$config" || {
+            echo 'a named volume carries driver_opts, which can bind the host' >&2
+            exit 1
+          }
+          escapes="$(jq -r '["privileged", "pid", "ipc", "network_mode",
+              "userns_mode", "devices", "cap_add", "volumes_from"] as $keys
+            | .services | to_entries[]
+            | .key as $s | .value | to_entries[]
+            | .key as $k | select($keys | index($k)) | "\($s): \($k)"' <<< "$config")"
+          [ -z "$escapes" ] || {
+            echo "these reach the host without a mount:" >&2
+            printf '%s\n' "$escapes" >&2
+            exit 1
+          }
+
+          # Anything under web/ is writable from the container, so nothing the
+          # host runs or reads as instruction can live there.
+          stray="$( { git ls-files -s web | awk '$1 == "100755" { print $4 }'
+                      git ls-files web | grep -E \
+                        '(\.(rb|sh|bash|py|ps1|bat)$|(^|/)(Makefile|CLAUDE\.md|\.envrc|\.tool-versions))|^web/\.(claude|vscode|idea)/'
+                    } | sort -u | grep -v '^web/script/assert-container.sh$' || true)"
           [ -z "$stray" ] || {
-            echo "the host runs these, and the container can write them:" >&2
+            echo "the host runs or reads these, and the container can write them:" >&2
             printf '%s\n' "$stray" >&2
+            exit 1
+          }
+
+          # The one exception above is executed by the host on `npm install`,
+          # which is exactly when it is supposed to refuse.
+          grep -qF 'ELIN_DEV_CONTAINER' web/script/assert-container.sh &&
+            grep -qF 'GITHUB_ACTIONS' web/script/assert-container.sh &&
+            grep -qF 'exit 1' web/script/assert-container.sh || {
+            echo 'the preinstall guard no longer refuses anything' >&2
             exit 1
           }
 

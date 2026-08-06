@@ -8,7 +8,7 @@
 #
 #   --channel stable|nightly   defaults to whichever versions/ file names it
 #   --release-date YYYY-MM-DD  defaults to today
-#   --db DIR                   directory holding <version>/, defaults to db
+#   --db DIR                   directory holding <version>/, defaults to web/db
 
 require 'date'
 require 'optparse'

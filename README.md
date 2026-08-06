@@ -18,7 +18,7 @@ $ docker compose up                                      # localhost:3000
 ```
 
 * `docker compose run --rm app npm run build` for production build
-* `docker compose run --rm app npm run check:archive -- <archive-dir>` parses every archived version with the app's schemas (the archive lives outside `web/`, so it has to be mounted in, as below)
+* `docker compose run --rm -v '<archive-dir>:/data:ro' app npm run check:archive -- /data` parses every archived version with the app's schemas
 * `docker compose run --rm app npm run check:history` holds the change history's `PROVENANCE` to the models
 
 `docker compose run` does not publish ports, which is why the dev server is the
@@ -39,8 +39,14 @@ all the container is given. Everything the host executes or reads as
 configuration — `update.sh`, `script/*.rb`, `.github`, `.claude`, `CLAUDE.md`,
 `compose.yaml`, `tmp/` — sits outside it, where a dependency cannot write
 itself a path back out. A file of that kind belongs outside `web/`, and CI
-checks both halves: that nothing outside `web/` is mounted, and that no `.rb`
-or `.sh` the host runs has moved inside it.
+checks both halves: that the container reaches nothing but `web/` and a
+read-only `.git` — by mount, by `privileged` and friends, or through a named
+volume that binds — and that nothing the host runs or reads as instruction has
+moved inside `web/`.
+
+That check reads `compose.yaml` only. A `docker compose run -v ...` widens the
+boundary for that one command, so mount read-only whenever the command only
+reads, and keep the `.git` of anything you mount read-only either way.
 
 `.env` carries the `COMPOSE_FILE` pin, without which compose would also load a
 `compose.override.yaml`. Nothing can write one where compose would look for it
@@ -60,8 +66,13 @@ What this does not protect:
   `package.json`'s scripts, and `next.config.ts` and `src/lib/bundledData.ts`,
   which `update.sh` rewrites and therefore has to allow through its own check
   and which run in the Vercel build once merged
-* the same `package-lock.json`, installed again by CI and by Vercel
+* the same `package-lock.json`, installed again by CI and by Vercel, where the
+  `ARCHIVE_REPO_TOKEN` is on disk while `archive.yml` runs the toolchain
 * the host's own Node, which nothing removes
+
+`.node-version` stays at the root, out of the container's reach, which also
+puts it outside the root directory Vercel builds from: Vercel takes its Node
+version from its own project settings.
 
 ## Past versions
 
@@ -89,12 +100,15 @@ at build time.
   $ ruby script/archive_release.rb ../elin-chara-viewer-data 'EA 23.306' \
       --channel stable --release-date 2026-05-10 --db /path/to/exported/csv
   $ ruby script/extract_feat.rb --archive ../elin-chara-viewer-data --version 'EA 23.306'
-  $ docker compose run --rm -v "$PWD/../elin-chara-viewer-data:/data" app \
+  $ docker compose run --rm -v "$PWD/../elin-chara-viewer-data:/data" \
+      -v "$PWD/../elin-chara-viewer-data/.git:/data/.git:ro" app \
       npm run build:history -- /data
   ```
 
   The archive lives outside `web/`, so it reaches the container only through a
-  mount.
+  mount — and a mount is a hole in the boundary the rest of this relies on.
+  Mount read-only where the command only reads, and keep `.git` read-only
+  either way: a hook written into it runs on the host at the next commit.
 
   `--db` points at the directory holding `<version>/*.csv`, and `--channel` is
   required for a version that no `web/versions/` file names.
@@ -151,7 +165,7 @@ page fetches its own when the accordion is opened. The whole history is rebuilt
 from scratch on every release, so a version archived out of order or a corrected
 release date needs nothing else done.
 
-* `src/lib/history/viewModel.ts` holds `PROVENANCE`, which says what each raw
+* `web/src/lib/history/viewModel.ts` holds `PROVENANCE`, which says what each raw
   column feeds. The history hides a raw column once the display group it feeds
   has already reported the change, so a column that quietly starts feeding a
   group would show the same change twice. `docker compose run --rm app npm run check:history` sets each
@@ -168,4 +182,4 @@ release date needs nothing else done.
 MIT License for the source code.
 
 Note that the files under web/db/ are not covered by this license. They are imported from the Elin game.
-Also, the files under src/generated/ are generated files from the Elin source code and are not covered by this license.
+Also, the files under web/src/generated/ are generated files from the Elin source code and are not covered by this license.
