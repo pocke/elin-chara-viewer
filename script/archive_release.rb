@@ -15,7 +15,7 @@ require 'optparse'
 require 'pathname'
 require_relative 'archive_repo'
 
-ROOT = Pathname(__dir__).join('..')
+ROOT = Pathname(__dir__).join('../web')
 CHANNEL_FILES = { 'stable' => 'versions/EA', 'nightly' => 'versions/nightly' }.freeze
 
 def channel_of(version)

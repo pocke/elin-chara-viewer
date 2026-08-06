@@ -5,6 +5,11 @@
 Everything that runs project dependencies runs inside Docker, so a compromised
 package cannot reach the host's SSH keys, gh token or Windows files.
 
+The application lives in `web/`, which is the only part of the repository the
+container is given. Everything the host runs — `update.sh`, `script/*.rb`,
+`.github`, `.claude`, `compose.yaml` — sits outside it and stays out of reach.
+A file that the host executes or reads as configuration belongs outside `web/`.
+
 - **Never run `npm`, `npx`, `node`, `yarn`, `pnpm` or `tsx` on the host.** A
   PreToolUse hook refuses, and a `preinstall` guard catches the installs that
   reach npm anyway. Neither sees a command built at runtime, so treat them as
@@ -14,7 +19,7 @@ package cannot reach the host's SSH keys, gh token or Windows files.
 
 | Task | Command |
 |---|---|
-| Install dependencies | `mkdir -p node_modules` then `docker compose run --rm check npm ci --ignore-scripts` |
+| Install dependencies | `mkdir -p web/node_modules` then `docker compose run --rm check npm ci --ignore-scripts` |
 | Dev server on localhost:3000 | `docker compose up` |
 | Everything else | `docker compose run --rm app npm run <script>` |
 | Add a dependency | `docker compose run --rm app npm install --ignore-scripts <pkg>` |
@@ -27,9 +32,8 @@ one command that uses `up`.
 directory has to exist for the volume to mount into it, hence the `mkdir`.
 Adding a dependency writes `package.json`, so it uses `app` instead.
 
-Every file the host executes or interprets is mounted read-only, so that a
-dependency cannot write itself a path back out of the container. Adding a file
-of that kind means adding it to `compose.yaml` as well.
+CI checks that `compose.yaml` still mounts nothing but `web/` and a read-only
+`.git`, and that no `.rb` or `.sh` the host runs has moved under `web/`.
 
 ## Development Workflow
 

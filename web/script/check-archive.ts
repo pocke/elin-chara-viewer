@@ -23,7 +23,13 @@ const SCHEMAS: Record<string, z.ZodType<unknown>> = {
   tactics: TacticsSchema,
 };
 
-const archiveDir = process.argv[2] ?? 'tmp/archive';
+// No default: the archive lives outside web/, so it reaches the container
+// only through a mount the caller names.
+const archiveDir = process.argv[2];
+if (!archiveDir) {
+  console.error('usage: check:archive -- <archive-dir>');
+  process.exit(1);
+}
 const index = ArchivedVersionSchema.array().parse(
   JSON.parse(fs.readFileSync(path.join(archiveDir, 'index.json'), 'utf8'))
 );

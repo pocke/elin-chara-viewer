@@ -11,6 +11,10 @@ jobs:
     name: Check Code Quality
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: web
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,10 +24,12 @@ jobs:
         with:
           node-version-file: '.node-version'
           cache: 'npm'
+          cache-dependency-path: 'web/package-lock.json'
 
       # Dependabot only watches npm, so nothing moves the base image with the
       # version this job installs.
       - name: Check that the Dockerfile and .node-version agree
+        working-directory: .
         run: |
           set -euo pipefail
           want="$(cat .node-version)"
@@ -36,43 +42,42 @@ jobs:
             exit 1
           }
 
-      # compose.yaml keeps the container from writing anything the host runs,
-      # which is a list that only holds while someone maintains it.
-      - name: Check the read-only mounts still cover what the host runs
+      # The container reaches web/ and nothing else, which is what keeps a
+      # dependency away from everything the host runs.
+      - name: Check that the container still sees only web/
+        working-directory: .
         run: |
           set -euo pipefail
           docker compose config -q
-
-          # Read from the resolved configuration rather than the file, so that
-          # commenting a line out or moving it to another service still fails.
           config="$(docker compose config --format json)"
-          for mount in .git .claude .github .ruby-lsp tmp script \
-            compose.yaml Dockerfile .dockerignore .env CLAUDE.md update.sh wrangler.toml; do
-            jq -e --arg m "/app/$mount" '.services.app.volumes[]
-              | select(.target == $m) | .read_only == true' >/dev/null <<< "$config" || {
-              echo "compose.yaml no longer mounts $mount read-only" >&2
-              exit 1
-            }
-          done
 
-          # prettier writes these, so the read-only script/ mount has to be
-          # lifted for each of them.
-          for f in $(git ls-files 'script/*.ts' 'script/*.cjs'); do
-            jq -e --arg m "/app/$f" '.services.app.volumes[]
-              | select(.target == $m) | (.read_only // false) == false' >/dev/null <<< "$config" || {
-              echo "compose.yaml leaves $f read-only, and format will fail on it" >&2
-              exit 1
-            }
-          done
+          outside="$(jq -r --arg root "$PWD/" '.services[].volumes[]
+            | select(.type == "bind") | .source | ltrimstr($root)
+            | select(. != "web" and . != ".git")' <<< "$config")"
+          [ -z "$outside" ] || {
+            echo "compose.yaml mounts these from outside web/:" >&2
+            printf '%s\n' "$outside" >&2
+            exit 1
+          }
 
-          stray="$(git ls-files '*.rb' '*.sh' | grep -Ev '^(script/|\.claude/|\.github/|update\.sh$)' || true)"
+          jq -e '[.services[].volumes[]
+            | select(.type == "bind" and (.source | endswith("/.git")))
+            | .read_only] | length > 0 and all' >/dev/null <<< "$config" || {
+            echo '.git has to be mounted read-only' >&2
+            exit 1
+          }
+
+          # Anything under web/ is writable from the container, so a script the
+          # host runs cannot live there.
+          stray="$(git ls-files web | grep -E '\.(rb|sh)$' |
+            grep -v '^web/script/assert-container.sh$' || true)"
           [ -z "$stray" ] || {
-            echo "the host runs these, and no read-only mount covers them:" >&2
+            echo "the host runs these, and the container can write them:" >&2
             printf '%s\n' "$stray" >&2
             exit 1
           }
 
-          grep -qF '"preinstall": "sh script/assert-container.sh"' package.json || {
+          grep -qF '"preinstall": "sh script/assert-container.sh"' web/package.json || {
             echo 'package.json lost the preinstall guard' >&2
             exit 1
           }

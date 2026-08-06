@@ -21,7 +21,7 @@ mkdir -p "$WORK"
 git fetch origin
 # Everything below is written from the download.
 git checkout -qf origin/master
-git clean -qfd db
+git clean -qfd web/db
 
 # The checkout above may have moved the lockfile or the Dockerfile, and
 # node_modules lives in a volume that nothing else updates.
@@ -69,35 +69,35 @@ for channel in EA nightly; do
   [ "$channel" = nightly ] && branch=nightly
 
   version="$(export_branch "$branch")"
-  current="$(cat "versions/$channel")"
-  [ -n "$current" ] || { echo "update.sh: versions/$channel is empty" >&2; exit 1; }
+  current="$(cat "web/versions/$channel")"
+  [ -n "$current" ] || { echo "update.sh: web/versions/$channel is empty" >&2; exit 1; }
   echo "update.sh: $branch is $version (was $current)" >&2
   [ "$version" = "$current" ] && continue
 
   fresh="$WORK/$branch-csv/$version"
   # check-export.ts only warns when it cannot read the baseline, and would
   # otherwise pass an unchecked export straight through.
-  [ -d "db/$current" ] || { echo "update.sh: db/$current is missing" >&2; exit 1; }
+  [ -d "web/db/$current" ] || { echo "update.sh: web/db/$current is missing" >&2; exit 1; }
   # npm run, not npx: npx fetches tsx from the network when it is missing.
   docker compose run --rm -T -v "$fresh:/fresh:ro" check \
     npm run check:export -- /fresh --baseline "db/$current"
 
   # The other channel may have written this version already, when a nightly is
   # promoted. Both should be the same build, but only the name says so.
-  if [ -d "db/$version" ] && ! diff -rq "db/$version" "$fresh" >/dev/null; then
-    echo "update.sh: $branch's $version differs from the copy already in db/" >&2
+  if [ -d "web/db/$version" ] && ! diff -rq "web/db/$version" "$fresh" >/dev/null; then
+    echo "update.sh: $branch's $version differs from the copy already in web/db/" >&2
     exit 1
   fi
-  rm -rf "db/$version"
+  rm -rf "web/db/$version"
   # /mnt/c hands out 0777, and git would record every CSV as executable.
-  cp -r --no-preserve=mode "$fresh" "db/$version"
-  printf '%s' "$version" > "versions/$channel"
+  cp -r --no-preserve=mode "$fresh" "web/db/$version"
+  printf '%s' "$version" > "web/versions/$channel"
 
   if [ "$channel" = EA ]; then
     builds+=("$version Stable")
   # Both channels move together when a nightly is promoted, and they name the
   # same version then; only mention it once.
-  elif [ ${#builds[@]} -eq 0 ] || [ "$version" != "$(cat versions/EA)" ]; then
+  elif [ ${#builds[@]} -eq 0 ] || [ "$version" != "$(cat web/versions/EA)" ]; then
     builds+=("$version Nightly")
   else
     builds[0]="$version Stable/Nightly"
@@ -124,15 +124,15 @@ if grep -q 'no decompiled build' <<< "$feat"; then
 fi
 ruby script/sync_version.rb
 
-# The container mounts this repository read-write, and the commit below is
-# merged and deployed without anyone reading it. -z because every db/ path
-# holds spaces, which the default output quotes.
+# The container mounts web/ read-write, and the commit below is merged and
+# deployed without anyone reading it. -z because every db/ path holds spaces,
+# which the default output quotes.
 git status --porcelain -z --no-renames > "$WORK/status"
 unexpected=()
 while IFS= read -r -d '' entry; do
   case "${entry:3}" in
-    db/* | versions/* | src/generated/featModifier.ea.json | \
-      src/generated/featModifier.nightly.json | src/lib/bundledData.ts | next.config.ts) ;;
+    web/db/* | web/versions/* | web/src/generated/featModifier.ea.json | \
+      web/src/generated/featModifier.nightly.json | web/src/lib/bundledData.ts | web/next.config.ts) ;;
     *) unexpected+=("${entry:3}") ;;
   esac
 done < "$WORK/status"

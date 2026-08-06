@@ -16,6 +16,7 @@ require_relative 'archive_repo'
 # restricted to a single ref instead of --all.
 DEFAULT_REF = 'origin/master'
 
+# Paths as the commits this reads spell them; the tree moved under web/ later.
 CHANNEL_FILES = { 'stable' => 'versions/EA', 'nightly' => 'versions/nightly' }.freeze
 
 def git(*args, allow_failure: false)
