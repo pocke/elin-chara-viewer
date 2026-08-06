@@ -44,6 +44,9 @@ services:
       - check
     volumes:
       - ./web:/app:ro
+      # GIT_DIR names this for both services, and a build run here would fall
+      # back to the current time without it.
+      - ./.git:/git:ro
       - node_modules:/app/node_modules
       - npm-cache:/npm-cache
 

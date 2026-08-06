@@ -27,13 +27,16 @@ A file that the host executes or reads as configuration belongs outside `web/`.
 `docker compose run` does not publish ports, which is why the dev server is the
 one command that uses `up`.
 
-`npm ci` runs in the `check` service, which mounts web/ read-only:
+`npm ci` runs in the `check` service, which mounts `web/` read-only:
 `update.sh` commits and merges the working tree right after installing. The
 directory has to exist for the volume to mount into it, hence the `mkdir`.
 Adding a dependency writes `package.json`, so it uses `app` instead.
 
-CI checks that `compose.yaml` still mounts nothing but `web/` and a read-only
-`.git`, and that no `.rb` or `.sh` the host runs has moved under `web/`.
+CI checks that the container still reaches nothing but `web/` and a read-only
+`.git` — by mount, by `privileged` and friends, or through a named volume that
+binds — and that nothing the host runs or reads as instruction has moved under
+`web/`. A `docker compose run -v ...` is outside that check, so mount
+read-only whenever the command only reads.
 
 ## Development Workflow
 

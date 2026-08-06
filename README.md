@@ -18,7 +18,7 @@ $ docker compose up                                      # localhost:3000
 ```
 
 * `docker compose run --rm app npm run build` for production build
-* `docker compose run --rm -v '<archive-dir>:/data:ro' app npm run check:archive -- /data` parses every archived version with the app's schemas
+* `docker compose run --rm -v "$PWD/<archive-dir>:/data:ro" app npm run check:archive -- /data` parses every archived version with the app's schemas
 * `docker compose run --rm app npm run check:history` holds the change history's `PROVENANCE` to the models
 
 `docker compose run` does not publish ports, which is why the dev server is the
@@ -63,7 +63,7 @@ What this does not protect:
 * anything the container sends out over the network, or reaches on the host
   through `host.docker.internal`
 * anything the container writes inside `web/` that the host later runs —
-  `package.json`'s scripts, and `next.config.ts` and `src/lib/bundledData.ts`,
+  `package.json`'s scripts, and `web/next.config.ts` and `web/src/lib/bundledData.ts`,
   which `update.sh` rewrites and therefore has to allow through its own check
   and which run in the Vercel build once merged
 * the same `package-lock.json`, installed again by CI and by Vercel, where the
@@ -148,7 +148,7 @@ at build time.
   `--archive <dir>` sweeps every archived version instead.
 
   ```console
-  $ docker compose run --rm -v '<export-dir>:/fresh:ro' check \
+  $ docker compose run --rm -v "$PWD/<export-dir>:/fresh:ro" check \
       npm run check:export -- /fresh --baseline 'db/<version>'
   ```
 

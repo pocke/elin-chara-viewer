@@ -53,7 +53,7 @@ jobs:
           docker compose --profile '*' config -q
           config="$(docker compose --profile '*' config --format json)"
 
-          outside="$(jq -r --arg root "$PWD/" '.services[].volumes[]
+          outside="$(jq -r --arg root "$PWD/" '.services[] | (.volumes // [])[]
             | select(.type == "bind") | .source | ltrimstr($root)
             | select(. != "web" and . != ".git")' <<< "$config")"
           [ -z "$outside" ] || {
@@ -62,7 +62,7 @@ jobs:
             exit 1
           }
 
-          jq -e '[.services[].volumes[]
+          jq -e '[.services[] | (.volumes // [])[]
             | select(.type == "bind" and (.source | endswith("/.git")))
             | .read_only] | length > 0 and all' >/dev/null <<< "$config" || {
             echo '.git has to be mounted read-only' >&2
@@ -86,12 +86,20 @@ jobs:
             printf '%s\n' "$escapes" >&2
             exit 1
           }
+          # A service overriding any of these replaces the shared anchor's copy
+          # rather than merging with it.
+          jq -e '[.services[] | .user == "1000:1000" and .cap_drop == ["ALL"]
+            and (.security_opt // []) == ["no-new-privileges:true"]] | all' \
+            >/dev/null <<< "$config" || {
+            echo 'a service dropped user, cap_drop or no-new-privileges' >&2
+            exit 1
+          }
 
           # Anything under web/ is writable from the container, so nothing the
           # host runs or reads as instruction can live there.
-          stray="$( { git ls-files -s web | awk '$1 == "100755" { print $4 }'
+          stray="$( { git ls-files -s web | awk -F'\t' '$1 ~ /^100755/ { print $2 }'
                       git ls-files web | grep -E \
-                        '(\.(rb|sh|bash|py|ps1|bat)$|(^|/)(Makefile|CLAUDE\.md|\.envrc|\.tool-versions))|^web/\.(claude|vscode|idea)/'
+                        '\.(rb|sh|bash|zsh|pl|py|ps1|bat)$|(^|/)(Makefile|Rakefile|CLAUDE\.md|AGENTS\.md|\.envrc|\.npmrc|\.editorconfig|\.cursorrules|\.mcp\.json|\.tool-versions)$|^web/\.(claude|vscode|idea)/'
                     } | sort -u | grep -v '^web/script/assert-container.sh$' || true)"
           [ -z "$stray" ] || {
             echo "the host runs or reads these, and the container can write them:" >&2
@@ -100,10 +108,9 @@ jobs:
           }
 
           # The one exception above is executed by the host on `npm install`,
-          # which is exactly when it is supposed to refuse.
-          grep -qF 'ELIN_DEV_CONTAINER' web/script/assert-container.sh &&
-            grep -qF 'GITHUB_ACTIONS' web/script/assert-container.sh &&
-            grep -qF 'exit 1' web/script/assert-container.sh || {
+          # which is exactly when it is supposed to refuse. env -i is the host
+          # it has to refuse: no ELIN_DEV_CONTAINER, no GITHUB_ACTIONS.
+          ! env -i sh web/script/assert-container.sh 2>/dev/null || {
             echo 'the preinstall guard no longer refuses anything' >&2
             exit 1
           }
