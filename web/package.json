@@ -7,6 +7,7 @@
     "not dead"
   ],
   "scripts": {
+    "preinstall": "sh script/assert-container.sh",
     "predev": "node script/copy-csv.cjs",
     "dev": "next dev",
     "prebuild": "node script/copy-csv.cjs",

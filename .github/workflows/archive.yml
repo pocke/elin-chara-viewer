@@ -33,8 +33,10 @@ jobs:
         with:
           node-version-file: '.node-version'
           cache: 'npm'
+          cache-dependency-path: 'web/package-lock.json'
 
       - name: Install dependencies
+        working-directory: web
         run: npm ci
 
       # After npm ci, so that the token is not on disk while dependency
@@ -55,11 +57,11 @@ jobs:
           set -euo pipefail
 
           for channel in EA nightly; do
-            [ -s "versions/$channel" ] || {
-              echo "versions/$channel is missing or empty" >&2
+            [ -s "web/versions/$channel" ] || {
+              echo "web/versions/$channel is missing or empty" >&2
               exit 1
             }
-            cat "versions/$channel"
+            cat "web/versions/$channel"
             echo
           done | sort -u | while IFS= read -r version; do
             # A versions/ file written with a trailing newline would otherwise
@@ -70,14 +72,16 @@ jobs:
           done
 
       - name: Check that every archived version parses
-        run: npm run check:archive -- archive
+        working-directory: web
+        run: npm run check:archive -- ../archive
 
       # Before the commit below, so that one release is one push: sync-r2 keeps
       # a single pending run per group, and a third push would drop the second
       # one's range on the floor until the weekly full sync.
       - name: Rebuild the change history
         id: history
-        run: npm run build:history -- archive
+        working-directory: web
+        run: npm run build:history -- ../archive
 
       # Runs even when the step above fails, because a build that stops -- the
       # game gained a column nobody has classified -- writes nothing, and the

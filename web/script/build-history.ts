@@ -83,7 +83,13 @@ interface KeyState {
 
 const args = process.argv.slice(2);
 const allowLargeChange = args.includes('--allow-large-change');
-const archiveDir = args.find((arg) => !arg.startsWith('--')) ?? 'tmp/archive';
+// No default: the archive lives outside web/, so it reaches the container
+// only through a mount the caller names.
+const archiveDir = args.find((arg) => !arg.startsWith('--'));
+if (!archiveDir) {
+  console.error('usage: npm run build:history -- <archive-dir>');
+  process.exit(1);
+}
 
 const historyDir = path.join(archiveDir, 'history');
 const charasDir = path.join(historyDir, 'charas');

@@ -8,14 +8,14 @@
 #
 #   --channel stable|nightly   defaults to whichever versions/ file names it
 #   --release-date YYYY-MM-DD  defaults to today
-#   --db DIR                   directory holding <version>/, defaults to db
+#   --db DIR                   directory holding <version>/, defaults to web/db
 
 require 'date'
 require 'optparse'
 require 'pathname'
 require_relative 'archive_repo'
 
-ROOT = Pathname(__dir__).join('..')
+ROOT = Pathname(__dir__).join('../web')
 CHANNEL_FILES = { 'stable' => 'versions/EA', 'nightly' => 'versions/nightly' }.freeze
 
 def channel_of(version)

@@ -15,7 +15,7 @@ def prepare
   end
 end
 
-VERSION_FILES = { 'EA' => 'versions/EA', 'Nightly' => 'versions/nightly' }.freeze
+VERSION_FILES = { 'EA' => 'web/versions/EA', 'Nightly' => 'web/versions/nightly' }.freeze
 
 def feat_source(commit)
   out = IO.popen(
@@ -162,7 +162,7 @@ end
 def generate_current
   VERSION_FILES.each do |version, path|
     result, = make_json(File.read(path).strip)
-    write_json("src/generated/featModifier.#{version.downcase}.json", result)
+    write_json("web/src/generated/featModifier.#{version.downcase}.json", result)
   end
 end
 

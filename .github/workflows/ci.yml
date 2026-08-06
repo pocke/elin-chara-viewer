@@ -11,6 +11,10 @@ jobs:
     name: Check Code Quality
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: web
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,6 +24,113 @@ jobs:
         with:
           node-version-file: '.node-version'
           cache: 'npm'
+          cache-dependency-path: 'web/package-lock.json'
+
+      # Dependabot only watches npm, so nothing moves the base image with the
+      # version this job installs.
+      - name: Check that the Dockerfile and .node-version agree
+        working-directory: .
+        run: |
+          set -euo pipefail
+          want="$(cat .node-version)"
+          got="$(grep -oP '^FROM node:\K[0-9.]+' Dockerfile)" || {
+            echo 'Dockerfile has no "FROM node:<version>" line' >&2
+            exit 1
+          }
+          [ "$want" = "$got" ] || {
+            echo "Dockerfile pins Node $got, .node-version says $want" >&2
+            exit 1
+          }
+
+      # The container reaches web/ and nothing else, which is what keeps a
+      # dependency away from everything the host runs.
+      - name: Check that the container still sees only web/
+        working-directory: .
+        run: |
+          set -euo pipefail
+          # --profile '*': a service behind a profile is left out of the
+          # resolved configuration, and check is the one that runs npm ci.
+          docker compose --profile '*' config -q
+          config="$(docker compose --profile '*' config --format json)"
+
+          outside="$(jq -r --arg root "$PWD/" '.services[] | (.volumes // [])[]
+            | select(.type == "bind") | .source | ltrimstr($root)
+            | select(. != "web" and . != ".git")' <<< "$config")"
+          [ -z "$outside" ] || {
+            echo "compose.yaml mounts these from outside web/:" >&2
+            printf '%s\n' "$outside" >&2
+            exit 1
+          }
+
+          jq -e '[.services[] | (.volumes // [])[]
+            | select(.type == "bind" and (.source | endswith("/.git")))
+            | .read_only] | length > 0 and all' >/dev/null <<< "$config" || {
+            echo '.git has to be mounted read-only' >&2
+            exit 1
+          }
+
+          # A named volume can carry a bind of its own, and the keys below hand
+          # out the host by other routes than a mount.
+          jq -e '(.volumes // {}) | [.[] | .driver_opts // empty] | length == 0' \
+            >/dev/null <<< "$config" || {
+            echo 'a named volume carries driver_opts, which can bind the host' >&2
+            exit 1
+          }
+          escapes="$(jq -r '["privileged", "pid", "ipc", "network_mode",
+              "userns_mode", "devices", "cap_add", "volumes_from"] as $keys
+            | .services | to_entries[]
+            | .key as $s | .value | to_entries[]
+            | .key as $k | select($keys | index($k)) | "\($s): \($k)"' <<< "$config")"
+          [ -z "$escapes" ] || {
+            echo "these reach the host without a mount:" >&2
+            printf '%s\n' "$escapes" >&2
+            exit 1
+          }
+          # A service overriding any of these replaces the shared anchor's copy
+          # rather than merging with it.
+          jq -e '[.services[] | .user == "1000:1000" and .cap_drop == ["ALL"]
+            and (.security_opt // []) == ["no-new-privileges:true"]] | all' \
+            >/dev/null <<< "$config" || {
+            echo 'a service dropped user, cap_drop or no-new-privileges' >&2
+            exit 1
+          }
+
+          # Anything under web/ is writable from the container, so nothing the
+          # host runs or reads as instruction can live there.
+          # quotePath would wrap a non-ASCII name in quotes and hide its suffix
+          # from the pattern below.
+          stray="$( { git -c core.quotePath=false ls-files -s web |
+                        awk -F'\t' '$1 ~ /^100755/ { print $2 }'
+                      git -c core.quotePath=false ls-files web | grep -E \
+                        '\.(rb|sh|bash|zsh|pl|py|ps1|bat)$|(^|/)(Makefile|Rakefile|CLAUDE\.md|AGENTS\.md|\.envrc|\.npmrc|\.editorconfig|\.cursorrules|\.mcp\.json|\.tool-versions)$|^web/\.(claude|vscode|idea)/'
+                    } | sort -u | grep -v '^web/script/assert-container.sh$' || true)"
+          [ -z "$stray" ] || {
+            echo "the host runs or reads these, and the container can write them:" >&2
+            printf '%s\n' "$stray" >&2
+            exit 1
+          }
+
+          # The one exception above is executed by the host on `npm install`,
+          # which is exactly when it is supposed to refuse. env -i is the host
+          # it has to refuse, and reads as one only while this job runs outside
+          # a container of its own.
+          [ -f web/script/assert-container.sh ] &&
+            env -i ELIN_DEV_CONTAINER=1 sh web/script/assert-container.sh &&
+            ! env -i sh web/script/assert-container.sh 2>/dev/null || {
+            echo 'the preinstall guard no longer tells the host from the container' >&2
+            exit 1
+          }
+
+          grep -qF '"preinstall": "sh script/assert-container.sh"' web/package.json || {
+            echo 'package.json lost the preinstall guard' >&2
+            exit 1
+          }
+
+          env_lines="$(grep -Ecv '^\s*(#|$)' .env || true)"
+          grep -qxF 'COMPOSE_FILE=compose.yaml' .env && [ "$env_lines" = 1 ] || {
+            echo '.env must carry the COMPOSE_FILE pin and nothing else' >&2
+            exit 1
+          }
 
       - name: Install dependencies
         run: npm ci

@@ -1,0 +1,54 @@
+x-toolchain: &toolchain
+  build: .
+  image: elin-chara-viewer-dev
+  user: '1000:1000'
+  working_dir: /app
+  init: true
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+  environment:
+    ELIN_DEV_CONTAINER: '1'
+    # Outside /app, so that Docker does not leave a root-owned web/.git behind
+    # to hold the mount point.
+    GIT_DIR: /git
+
+# web/ holds everything the toolchain touches and nothing the host runs, so it
+# is the only part of the repository a dependency can reach. Anything the host
+# executes or reads as configuration -- update.sh, script/*.rb, .github,
+# .claude, this file -- lives outside it and stays out of the container.
+services:
+  app:
+    <<: *toolchain
+    command: npm run dev
+    ports:
+      # The HMR client connects to the port the browser sees, so the two sides
+      # have to name the same one.
+      - '127.0.0.1:3000:3000'
+    volumes:
+      - ./web:/app
+      # next.config.ts reads the last commit date. `git log` needs the object
+      # store and HEAD, neither of which it writes.
+      - ./.git:/git:ro
+      - node_modules:/app/node_modules
+      - npm-cache:/npm-cache
+
+  # `npm ci` runs here rather than in app: update.sh commits and merges the
+  # working tree right after installing.
+  check:
+    <<: *toolchain
+    # Keeps `docker compose up` from starting it; `docker compose run` enables
+    # the profile on its own.
+    profiles:
+      - check
+    volumes:
+      - ./web:/app:ro
+      # GIT_DIR is set on the anchor, so every service needs the path it names.
+      - ./.git:/git:ro
+      - node_modules:/app/node_modules
+      - npm-cache:/npm-cache
+
+volumes:
+  node_modules:
+  npm-cache:
