@@ -97,8 +97,11 @@ jobs:
 
           # Anything under web/ is writable from the container, so nothing the
           # host runs or reads as instruction can live there.
-          stray="$( { git ls-files -s web | awk -F'\t' '$1 ~ /^100755/ { print $2 }'
-                      git ls-files web | grep -E \
+          # quotePath would wrap a non-ASCII name in quotes and hide its suffix
+          # from the pattern below.
+          stray="$( { git -c core.quotePath=false ls-files -s web |
+                        awk -F'\t' '$1 ~ /^100755/ { print $2 }'
+                      git -c core.quotePath=false ls-files web | grep -E \
                         '\.(rb|sh|bash|zsh|pl|py|ps1|bat)$|(^|/)(Makefile|Rakefile|CLAUDE\.md|AGENTS\.md|\.envrc|\.npmrc|\.editorconfig|\.cursorrules|\.mcp\.json|\.tool-versions)$|^web/\.(claude|vscode|idea)/'
                     } | sort -u | grep -v '^web/script/assert-container.sh$' || true)"
           [ -z "$stray" ] || {
@@ -109,9 +112,12 @@ jobs:
 
           # The one exception above is executed by the host on `npm install`,
           # which is exactly when it is supposed to refuse. env -i is the host
-          # it has to refuse: no ELIN_DEV_CONTAINER, no GITHUB_ACTIONS.
-          ! env -i sh web/script/assert-container.sh 2>/dev/null || {
-            echo 'the preinstall guard no longer refuses anything' >&2
+          # it has to refuse, and reads as one only while this job runs outside
+          # a container of its own.
+          [ -f web/script/assert-container.sh ] &&
+            env -i ELIN_DEV_CONTAINER=1 sh web/script/assert-container.sh &&
+            ! env -i sh web/script/assert-container.sh 2>/dev/null || {
+            echo 'the preinstall guard no longer tells the host from the container' >&2
             exit 1
           }
 
