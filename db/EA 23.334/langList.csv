@@ -65,6 +65,7 @@ wMoongate,window,"転移先の選択,,,転移先の名前","Choose a portal loca
 wReturn,window,"帰還先の選択,,,帰還先の名前,帰還深層","Choose a return location,,,Location Name,Return level"
 wRuneMold,window,"抽出エンチャントの選択,,,エンチャントの名前,強度","Choose an enchantment to extract,,,Enchantment Name,Level"
 wTrain,window,"訓練する技能の選択,,,技能の候補,消費プラチナ硬貨","Choose a skill to train,,,Skill Name,Platinum Coin Cost"
+wSkyTravel,window,"座標の選択,,,目的の座標,消費チケット","Choose a coordination to move,,,Coordination,Ticket Cost"
 wCraft,window,"レシピの選択,,,製作物の名前,所有,製作スキル","Choose a recipe,,,Recipe Name,Own,Craft Skill"
 ListPeopleBuySlave,window,"売買する奴隷の選択,,,生物の名前,値段,仕事","Choose a slave,,,Creature Name,Price,Work"
 ListPeopleRevive,window,"呼び戻す仲間の選択,,,仲間の名前,値段,クラス","Choose an ally to revive,,,Ally Name,Price,Class"
