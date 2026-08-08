@@ -266,7 +266,7 @@ mush,141,胞子きのこ,spore mushroom,,,,0,,chara,1714,,0,,,12,100,0,,,,,mushr
 mush_zombie,496,お化けきのこ,monster mushroom,,,,0,,chara,2921,,0,,,23,100,0,,,"undead,maxi",,mushroom,predator,,,"1,20","Wait,miasma_Mind,SpNightmare",,,,,chara,,livestock,,,,,,,,,,,,,,,
 mush_quantum,595,量子きのこ,quantum mushroom,,,,0,,chara,604,,0,,,32,100,0,,,,,mushroom,tourist,,root,"4,0,0",SpTeleport,Impact,meleeDistance,,,chara,,livestock,,,,,,,,,,,,,,,
 cow,42,牛,cow,,,,0,,chara,"1307,1308",,0,,,12,50,0,Neutral,,,,animal,predator,,,"1,50",ActRush,,,,,chara,,livestock,,,,,,,Farm,,cow,hop,,,,,
-cow_milk,593,乳牛,dairy cow,,,,0,,chara,"307,308",,0,,,8,35,0,Neutral,,,,animal,farmer,,,"1,50",,,,,,chara,,livestock,,,,,,,Farm,,cow,hop,,,,,
+cow_milk,593,乳牛,dairy cow,,,,0,,chara,"307,308",,0,,,8,35,0,Neutral,,,,animal,farmer,,,"1,50",,,,,,chara,,livestock,,,,,,harvest,Farm,,cow,hop,,,,,
 buffalo,594,バッファロー,buffalo,,,,0,,chara,309,,0,,,19,50,0,Neutral,,,,animal,predator,,,"1,50",ActRush,,rusher/20,,,chara,,livestock,,,,,,,Farm,,cow,hop,,,,,
 reindeer,256,トナカイ,reindeer,,,,0,,chara,1323,,0,,,12,100,0,,,snow,,horse,predator,,,,,,,,,chara,,livestock,,,,,,,,,,,,,,,
 dog_shiba,275,柴犬,shiba dog,,,,0,,chara,"2015,2016",,0,,,12,100,0,,,,,shiba,predator,tank,,,,,,,,chara,,,,,,,,,,,dog,hop,,,,,
