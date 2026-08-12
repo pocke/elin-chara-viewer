@@ -339,7 +339,7 @@ dead_Fall,combat,,dead,Bad,,,#1は#2落下して死んだ。,#1 fell to #his dea
 dead_BurdenStairs,combat,,dead,Bad,,,#1は#2階段から転げ落ちて死んだ。,#1 tumbled down the staircase and died#2.
 dead_BurdenFallDown,combat,,dead,Bad,,,#1は#2転倒して死んだ。,#1 fell and died#2.
 vopal,combat,,save,,,,*シャキーン*,*vorpal*
-materialChanged,,,,,,,#1の素材は#2に変化した。,#1 transform(s) into #2.
+materialChanged,,,,,,,#1の素材は#2に変化した。,#1 transforms into #2.
 ball_hit,,,ono,,,,"*ポヨン*
 *パシッ*
 *ぽいん*","*boing*

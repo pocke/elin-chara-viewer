@@ -212,7 +212,7 @@ We regularly patrol the outskirts of the town to remove dangerous monsters. Thin
 Don't you want to make the world a slightly better place to live? It's simple, just kill about #3 monsters you come across.",,,,
 huntRace,嫌な種族,Foul race!,QuestHuntRace,,,random,,300,100,0,#2っていうのは、ほんとにどうしようもなく嫌らしい種族{だ}！ちょっと#3体ほど殺してきて{くれ}。,"I cannot stand any more of this insolent, disgusting race of #2! I beg you to kill #3 of them for me.",,,,
 defenseGame,戦争だ！,We're at war!,QuestDefenseGame,,,random,war,400,50,1000,大変{だ}！#3の貴重な#1を巡って、戦争が勃発してしまった{のだ}！すぐに戦場に赴いて敵の進行をくい止めて{くれ}！,"Dire news! A war has broken out over the #1 we hold dear in #3! Please, head to the battlefield immediately and halt the enemy's advance!",,,,
-defenseGame2,魔物の巣窟,Monster's den ,QuestDefenseGame2,,,random,war,400,50,1000,どこかの馬鹿が#3近郊の魔物の巣から#1を盗み出して{ね}、怒り狂った魔物どもが際限なく湧いてくる{のだ}。頼むから退治してきて{くれ}。,Some fool stole the #1 from a monster's lair near our town and the enraged monsters are now swarming without end. Please take care of them for the sake of #3!,,,,
+defenseGame2,魔物の巣窟,Monster's den,QuestDefenseGame2,,,random,war,400,50,1000,どこかの馬鹿が#3近郊の魔物の巣から#1を盗み出して{ね}、怒り狂った魔物どもが際限なく湧いてくる{のだ}。頼むから退治してきて{くれ}。,Some fool stole the #1 from a monster's lair near our town and the enraged monsters are now swarming without end. Please take care of them for the sake of #3!,,,,
 harvest,"農作業の手伝い
 代わりに収穫して
 収穫期","Farm worker wanted
