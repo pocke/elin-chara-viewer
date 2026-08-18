@@ -1305,6 +1305,21 @@ adv_kiria,,"「いつか私の製造者を見つけて殴ってやるの」
 「…私はスクラップではないです」",,,「私…さびついてしまったようです…」 ,,"""Someday, I will find my creator, and punch him.""
 ""Have you met any doll fanatics? &I need to punish one...""
 ""... I'm not scrap.""",,,"""I... must have gotten... rusty...""",
+adv_schwert,,"「…まだ、稼働します」
+「周辺走査——異常なし」
+「命令を確認——」",,"「戦闘プロトコル——実行」
+「 武装展開します」 
+「 敵性反応を発見」","「記憶領域——エラー。復元不能」
+「魔力制御——エラー。再試行」","「自己診断——開始」
+「魔力炉——安定 」
+「敵の消滅を確認」","""...Still operational.""
+""Area scan—no anomalies detected.""
+""Checking orders—""",,"""Combat protocol—executing.""
+""Deploying weapons.""
+""Hostile signature detected.""","""Memory sector—error. Recovery impossible.""
+""Mana control—error. Retrying.""","""Self-diagnostic—initiated.""
+""Mana core—stable.""
+""Hostile signature eliminated."""
 adv_gaki,,"「ざこ」 
 「ざこ？」
 「ざこざこざーこ♪」
