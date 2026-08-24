@@ -1,15 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-DD="${DD:-/mnt/c/Users/kuwab/AppData/Local/Microsoft/WinGet/Packages/SteamRE.DepotDownloader_Microsoft.Winget.Source_8wekyb3d8bbwe/DepotDownloader.exe}"
-MOD="${MOD:-/mnt/c/Program Files (x86)/Steam/steamapps/common/Elin/Package/Mod_ElinMiscMod}"
-STEAM_USER="${STEAM_USER:-p_ck_}"
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 WORK=/mnt/c/elin-update
 
 cd "$ROOT"
-[ -x "$DD" ] || { echo "update.sh: DepotDownloader not found: $DD" >&2; exit 1; }
-[ -f "$MOD/ElinMiscMod.dll" ] || { echo "update.sh: mod not found: $MOD/ElinMiscMod.dll" >&2; exit 1; }
+# Before the checkout below, which throws away whatever is in the tree.
+"$ROOT/script/depot-export.sh" --check
 
 trap 'rm -rf "$WORK"' EXIT
 rm -rf "$WORK"
@@ -20,54 +17,18 @@ git fetch origin
 git checkout -qf origin/master
 git clean -qfd db
 
-# Exports taken from a copy without these are byte-identical to exports from
-# the complete build.
-cat > "$WORK/filelist.txt" <<'EOF'
-regex:^(?!.*(\.resS$|\.resource$|_Elona[\\/]Texture[\\/]|_Elona[\\/]Etc[\\/]Gallery[\\/]|_Elona[\\/]Portrait[\\/])).*$
-EOF
-
-# A build does not say which version it is until it runs.
-export_branch() {
-  local branch="$1"
-  local build="$WORK/$branch" exported="$WORK/$branch-csv"
-  local build_win export_win
-  build_win="$(wslpath -w "$build")"
-  export_win="$(wslpath -w "$exported")"
-
-  "$DD" -app 2135150 -depot 2135153 -branch "$branch" \
-    -username "$STEAM_USER" -remember-password -filelist "$(wslpath -w "$WORK/filelist.txt")" \
-    -dir "$build_win" </dev/null >&2
-
-  mkdir -p "$build/Package/Mod_ElinMiscMod"
-  cp "$MOD/ElinMiscMod.dll" "$MOD/package.xml" "$build/Package/Mod_ElinMiscMod/"
-  # Neither file ships in the depot. Without steam_appid.txt the Steam client
-  # starts and launches the installed copy alongside this one.
-  printf '2135150' > "$build/steam_appid.txt"
-  printf '%s\\Package\\Mod_ElinMiscMod,1\r\n' "$build_win" > "$build/loadorder.txt"
-
-  "$ROOT/script/export-build.sh" "$build_win" "$export_win" </dev/null >&2
-
-  local dirs=()
-  mapfile -t dirs < <(find "$exported" -maxdepth 1 -mindepth 1 -type d | sort)
-  [ "${#dirs[@]}" -eq 1 ] || {
-    echo "expected one version in $exported, got: ${dirs[*]:-nothing}" >&2
-    return 1
-  }
-  basename "${dirs[0]}"
-}
-
 builds=()
 for channel in EA nightly; do
   branch=public
   [ "$channel" = nightly ] && branch=nightly
 
-  version="$(export_branch "$branch")"
+  version="$("$ROOT/script/depot-export.sh" "$WORK/$branch" --branch "$branch")"
   current="$(cat "versions/$channel")"
   [ -n "$current" ] || { echo "update.sh: versions/$channel is empty" >&2; exit 1; }
   echo "update.sh: $branch is $version (was $current)" >&2
   [ "$version" = "$current" ] && continue
 
-  fresh="$WORK/$branch-csv/$version"
+  fresh="$WORK/$branch/csv/$version"
   # check-export.ts only warns when it cannot read the baseline, and would
   # otherwise pass an unchecked export straight through.
   [ -d "db/$current" ] || { echo "update.sh: db/$current is missing" >&2; exit 1; }

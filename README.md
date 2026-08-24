@@ -28,8 +28,7 @@ at build time.
   data repository on every push to `master`, rebuilds the change history there,
   and pushes both as one commit. It needs an `ARCHIVE_REPO_TOKEN` secret with
   write access there.
-* To add a version by hand — a build downloaded from Steam, or one the release
-  flow missed:
+* To add a version by hand — an export made outside these scripts:
 
   ```console
   $ ruby script/archive_release.rb ../elin-chara-viewer-data 'EA 23.306' \
@@ -52,23 +51,40 @@ at build time.
 
 * `script/export-build.sh` is the part of it that stays: it launches a build
   that was downloaded rather than installed, waits for the export to finish,
-  and stops the game. `update.sh` uses it for the build each branch currently
-  points at.
+  and stops the game. `script/depot-export.sh` wraps it together with the
+  download and the exporter mod, and both `update.sh` and `backfill.sh` go
+  through that.
 
-* A release that was missed entirely needs the manifest of the build that is
-  no longer current, which only SteamDB lists. Copy its id from
-  https://steamdb.info/depot/2135153/manifests/ and hand it to
-  DepotDownloader; `-branch nightly` is required, because a past manifest is
-  refused on the public branch:
+* A release that was missed entirely — the next one shipped before `update.sh`
+  ran — is archived by `backfill.sh`. It shows up as a build that SteamDB lists
+  and the archive's `index.json` does not; SteamDB is also the only place that
+  gives a manifest id for a build that is no longer current, along with the
+  date it shipped: https://steamdb.info/depot/2135153/manifests/
 
   ```console
-  $ DepotDownloader.exe -app 2135150 -depot 2135153 -manifest <id> \
-      -branch nightly -username <user> -remember-password -dir C:\elin-build
-  $ script/export-build.sh 'C:\elin-build' 'C:\elin-export'
+  $ ./backfill.sh 686887586342766718 --channel nightly --release-date 2026-05-10
   ```
 
-  The build names itself, so the export lands in `C:\elin-export/<version>/`.
-  From there it is the by-hand archive flow above.
+  It downloads that build, exports it, checks the export against the archived
+  version below it, and commits and pushes the result to the archive checkout
+  at `../elin-chara-viewer-data`; `--archive DIR` points at one somewhere else.
+  It needs what `update.sh` needs — WSL, DepotDownloader signed in to Steam,
+  and an Elin installed with ElinMiscMod — and the archive checkout has to be
+  on `main`, with nothing uncommitted and nothing left unpushed.
+
+  Nothing in the build says which branch it shipped on, so `--channel` is
+  written into the version's metadata as given.
+
+  `db/` and `versions/` are left alone, because a missed release is not what
+  either branch points at. That is also why this pushes to the archive itself
+  instead of going through a release: `.github/workflows/archive.yml` archives
+  the versions `versions/` names and nothing else.
+
+  It takes one manifest per run; for a longer gap, run it once per missed
+  build, oldest first, so that each export is checked against the one before
+  it. A run that stops before it commits says what to do next, and keeps the
+  export it made, so the by-hand flow above can finish from it without
+  downloading the build again.
 
 * `npm run check:export -- <export-dir> --baseline <dir>` checks an export for
   the ways the exporter fails quietly — the column order is reconstructed from
