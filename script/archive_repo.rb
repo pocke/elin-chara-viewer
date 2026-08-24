@@ -46,6 +46,15 @@ module ArchiveRepo
     JSON.parse(File.read(File.join(version_dir(root, slug), 'meta.json')))
   end
 
+  def previous_slug(root, version)
+    key = version_key(version)
+    slugs(root)
+      .map { |slug| [version_key(read_meta(root, slug).fetch('version')), slug] }
+      .select { |other, _slug| (other <=> key).negative? }
+      .max_by { |other, _slug| other }
+      &.last
+  end
+
   # csv_files: { table name => content }
   def write_version(root, meta, csv_files)
     dir = version_dir(root, slugify(meta.fetch('version')))
