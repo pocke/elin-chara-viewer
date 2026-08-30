@@ -194,6 +194,8 @@ spell_spear,combat,,,,,,#1は#2の槍を放った。,#1 unleash(es) a spear of #
 spell_spear_hit,combat,,,,,,槍は#2を貫いた。,The spear impales #2.
 spell_arrow,combat,,,,,,#1は#2の矢を射た。,#1 shoot(s) an arrow of #2.
 spell_arrow_hit,combat,,,,,,矢は#2に命中した。,The arrow hits #2.
+spell_missile,combat,,,,,,#1は#2のミサイルを放った。,#1 launch(es) a barrage of #2 missiles.
+spell_missile_hit,combat,,,,,,ミサイルを#2に命中した。,The missile hits #2.
 spell_funnel,combat,,,,,,#1は#2の兵器を具現化させた。,#1 materialize(s) a weapon of #2.
 spell_breathe,combat,,ability,,,,#1は#2のブレスを吐いた。,#1 bellow(s) breath of #2.
 spell_breathe_hit,combat,,,,,,ブレスは#2に命中した。,The breath hits #2.
@@ -1200,3 +1202,4 @@ married,,,special,,,,#1と#2は結婚した！,#1 and #2 are now married!
 chu,,,ono,,,,*チュッ*,*kiss*
 num_little,,,,,,,ここには#1人のリトルシスターがいる。,There are/is #1 little sisters/sister here.
 num_silvercat,,,,,,,ここには#1匹のシルバーキャットがいる。,There are/is #1 silver cats/cat here.
+equip_relic,,,negative,,,,それはあなたの精気を僅かに吸い取った。,It siphoned away a small amount of your life force.
