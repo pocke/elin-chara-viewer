@@ -1202,4 +1202,5 @@ married,,,special,,,,#1と#2は結婚した！,#1 and #2 are now married!
 chu,,,ono,,,,*チュッ*,*kiss*
 num_little,,,,,,,ここには#1人のリトルシスターがいる。,There are/is #1 little sisters/sister here.
 num_silvercat,,,,,,,ここには#1匹のシルバーキャットがいる。,There are/is #1 silver cats/cat here.
-equip_relic,,,negative,,,,それはあなたの精気を僅かに吸い取った。,It siphoned away a small amount of your life force.
+equip_relic,,,negative,,,,それはあなたの一部となった。,It becomes a part of you.
+isSleepLock,,,,,,,それまだ安定してない。,It has yet to stabilize.
