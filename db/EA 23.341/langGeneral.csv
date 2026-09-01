@@ -1183,7 +1183,7 @@ info_daysWithPC,info,あなたと共に#1日を過ごしている。,Sharing #1 
 info_ride,info,あなたは#1に騎乗している。,You are riding #1.
 info_parasite,info,あなたは#1に寄生されている。,You are parasitized by #1.
 info_criminal,info,あなたは犯罪者だ。,You are a criminal.
-hintDontForget,info,一度習得したら忘れない,Permanently learned
+hintDontForget,info,このアビリティを忘れることはできない,The ability cannot be forgotten
 hintSyncRide,info,騎乗中の仲間にも効果,Effect also applies to ride
 hintPartyAbility,info,長押しでパーティー全体に発動,Press and hold to cast on entire party
 isGeneReqSlots,info,それは遺伝子枠を#1占有する。,It occupies #1 gene slots.
