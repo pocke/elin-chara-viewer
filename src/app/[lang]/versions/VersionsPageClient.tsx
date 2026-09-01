@@ -19,6 +19,7 @@ import { Search as SearchIcon } from '@mui/icons-material';
 import { useMemo, useState } from 'react';
 import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
 import RelativeDate from '@/components/RelativeDate';
+import { AddedChara } from '@/lib/history/types';
 import { normalizeForSearch } from '@/lib/searchUtils';
 import { compareVersionNames } from '@/lib/versionOrder';
 import { useTranslation } from '@/lib/simple-i18n';
@@ -28,6 +29,7 @@ export interface VersionListEntry {
   slug: string;
   channel: 'stable' | 'nightly';
   date: string;
+  added: AddedChara[];
 }
 
 interface VersionsPageClientProps {
@@ -35,7 +37,7 @@ interface VersionsPageClientProps {
 }
 
 type ChannelFilter = 'all' | VersionListEntry['channel'];
-type SortKey = 'version' | 'date' | 'channel';
+type SortKey = 'version' | 'date' | 'channel' | 'added';
 type SortDirection = 'asc' | 'desc';
 
 const compareText = (a: string, b: string): number =>
@@ -51,9 +53,12 @@ const compareBy: Record<
   channel: (a, b) =>
     compareText(a.channel, b.channel) ||
     compareVersionNames(a.version, b.version),
+  added: (a, b) =>
+    a.added.length - b.added.length ||
+    compareVersionNames(a.version, b.version),
 };
 
-const COLUMNS: SortKey[] = ['version', 'date', 'channel'];
+const COLUMNS: SortKey[] = ['version', 'date', 'channel', 'added'];
 
 export default function VersionsPageClient({
   entries,
@@ -68,6 +73,7 @@ export default function VersionsPageClient({
     version: t.common.version,
     date: t.common.releaseDate,
     channel: t.common.channel,
+    added: t.common.newCharacters,
   };
 
   const visibleEntries = useMemo(() => {
@@ -177,6 +183,25 @@ export default function VersionsPageClient({
                   {entry.channel === 'stable'
                     ? t.common.channelStable
                     : t.common.channelNightly}
+                </TableCell>
+                <TableCell>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      columnGap: 1,
+                      rowGap: 0.5,
+                    }}
+                  >
+                    {entry.added.map((chara) => (
+                      <Link
+                        key={chara.key}
+                        href={`/${language}/${entry.slug}/charas/${encodeURIComponent(chara.key)}`}
+                      >
+                        {chara[language]}
+                      </Link>
+                    ))}
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}

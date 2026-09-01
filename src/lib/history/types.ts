@@ -115,3 +115,23 @@ export const CharaHistorySchema = z.object({
 });
 
 export type CharaHistory = z.infer<typeof CharaHistorySchema>;
+
+export const AddedCharaSchema = z.object({
+  key: z.string(),
+  // As the version that gained it spelled the name, which is not always how a
+  // later version spells it.
+  ja: z.string(),
+  en: z.string(),
+});
+
+export type AddedChara = z.infer<typeof AddedCharaSchema>;
+
+// Which pages each version gained, so that the version list can say so without
+// reading every history. A page that was already there when the archive starts
+// is not a gain and is not in here.
+export const AddedCharasSchema = z.object({
+  schemaVersion: z.number(),
+  versions: z.record(z.string(), z.array(AddedCharaSchema)).default({}),
+});
+
+export type AddedCharas = z.infer<typeof AddedCharasSchema>;
