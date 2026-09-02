@@ -1204,3 +1204,4 @@ num_little,,,,,,,ここには#1人のリトルシスターがいる。,There are
 num_silvercat,,,,,,,ここには#1匹のシルバーキャットがいる。,There are/is #1 silver cats/cat here.
 equip_relic,,,negative,,,,それはあなたの一部となった。,It becomes a part of you.
 isSleepLock,,,,,,,それはまだ安定してない。,It has yet to stabilize.
+resetFeat,,,special,,,,ワァオー！全てが新鮮に感じる！,Wow! Everything feels new again!
