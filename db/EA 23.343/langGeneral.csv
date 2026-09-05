@@ -1184,6 +1184,7 @@ info_ride,info,あなたは#1に騎乗している。,You are riding #1.
 info_parasite,info,あなたは#1に寄生されている。,You are parasitized by #1.
 info_criminal,info,あなたは犯罪者だ。,You are a criminal.
 hintDontForget,info,このアビリティを忘れることはできない,The ability cannot be forgotten
+hintStaminaRecovery,info,消費したスタミナは徐々に回復する,Spent stamina gradually recovers over time
 hintSyncRide,info,騎乗中の仲間にも効果,Effect also applies to ride
 hintPartyAbility,info,長押しでパーティー全体に発動,Press and hold to cast on entire party
 isGeneReqSlots,info,それは遺伝子枠を#1占有する。,It occupies #1 gene slots.
@@ -2991,3 +2992,92 @@ party_setup,,パーティーの編成,Manage Party
 party_load,,編成 #1,Roster #1
 party_ride,,(騎乗),(Ride)
 party_parasite,,(共生),(Symbiosis)
+es_log_csc_roslyn,,ℛ* コンパイラを使用しています #1,using ℛ* compiler #1
+es_log_csc_package,,#2 からパッケージ #1 をコンパイルしています,compiling package #1 from #2
+es_log_csc_eval,,"スクリプトをコンパイルしています
+#1","compiling script
+#1"
+es_error_cs_disabled,,スクリプトコンパイラは無効化されています,script compiler is disabled
+es_log_csc_scripts,,#2 個のスクリプトファイルをコンパイルしています [#1],compiling #2 script files [#1]
+es_error_csc_diag,,"「#1」のコンパイルに失敗しました:
+#2","failed to compile '#1':
+#2"
+es_error_cs_frozen,,スクリプト状態「#1」は凍結されています,script state '#1' is frozen
+es_ui_csc_changed,,"モッド「#1」のスクリプトに変更があります
+準備ができたら 'cs.recompile' コマンドを使用してください","script changes from mod '#1'
+use command 'cs.recompile' when ready"
+es_ui_cs_ready,,"Roslyn スクリプトコンパイラが準備完了しました
+使用方法：
+  cs.eval <ここに任意の C# コードを記述>
+  cs.file <C# スクリプトファイルへのパス>","Roslyn script compiler ready
+usage:
+  cs.eval <write any C# code here>
+  cs.file <path to C# script file>"
+es_log_csc_cache_purge,,キャッシュされたスクリプト #1 件が削除されました,removed #1 cached scripts
+es_warn_missing_mods,,"現在のセーブから欠落しているMOD：
+#1","Mods missing from current save:
+#1"
+es_warn_missing_mods_yes,,セーブせずに終了,Quit Without Saving
+es_warn_missing_mods_no,,プレイを続ける,Continue Playing
+es_ui_hover_detail,,<color=blue><[マウスを乗せて]詳細を表示></color>,<color=blue><[Mouse Hover] view details></color>
+es_ui_hover_close,,<color=blue><[マウスの右ボタン]閉じる></color>,<color=blue><[RMB] close></color>
+es_ui_exception_copy,,"<color=purple><[マウスの左ボタン]詳細をコピー>
+<[マウスの中ボタン]閉じて今後表示しない></color>","<color=purple><[LMB] copy details>
+<[MMB] do not show></color>"
+es_ui_exception_analyzing,,<color=orange><スタックフレーム分析中…></color>,<color=orange><extracting stackframes...></color>
+es_ui_callstack,,//エラーが発生した時点でのアプリの動作 (最も新しいものが一番上です):,//Sequence of events (most recent on top):
+es_ui_invalid_patch,,<color=#d343f7>(互換性なし)</color>,<color=#d343f7>(INCOMPATIBLE)</color>
+es_warn_missing_method,,"<color=#d343f7>MODは、お使いのゲームバージョンに対応していません。</color>
+#1","<color=#d343f7>A mod is incompatible with your game version.</color>
+#1"
+enableModError,,エラー表示を有効にする,Enable Error Popup
+errorPopup_tip,,"有効にすると、ゲームプレイ中に発生したエラーをポップアップで表示し、原因の可能性があるMODをあわせて表示します。
+MOD関連の問題のデバッグや、MOD作者への報告に役立ちます。","When enabled, in-game errors will be shown in a popup along with any mods that may be causing them.
+Useful for debugging mod‑related problems and sending reports to mod creators."
+mod_search,,Modを検索...,Search mods...
+mod_filter,,フィルター,Filter
+mod_filter_enabled,,有効,Enabled
+mod_filter_disabled,,無効,Disabled
+mod_filter_problem,,問題あり,Problems
+mod_filter_local,,ローカル,Local
+mod_filter_workshop,,ワークショップ,Workshop
+mod_preset,,プリセット,Presets
+mod_preset_save,,現在の読み込み順を保存,Save current load order
+mod_preset_load,,プリセットを読み込む,Load preset
+mod_preset_delete,,プリセットを削除,Delete preset
+mod_preset_copy,,読み込み順をクリップボードにコピー,Copy load order to clipboard
+mod_preset_paste,,クリップボードから読み込み順を貼り付け,Paste load order from clipboard
+mod_preset_folder,,プリセットのフォルダを開く,Open preset folder
+mod_preset_name,,プリセットの名前を入力してください。,Enter a name for this preset.
+mod_preset_default_name,,新しいプリセット,New Preset
+mod_preset_overwrite,,「#1」という名前のプリセットは既に存在します。上書きしますか？,A preset named '#1' already exists. Overwrite it?
+mod_preset_saved,,プリセットを保存しました：#1,Saved preset: #1
+mod_preset_copied,,読み込み順をクリップボードにコピーしました。,Load order copied to the clipboard.
+mod_preset_none,,プリセットがありません。,No presets found.
+mod_preset_select,,プリセットを選択してください。,Select a preset.
+mod_preset_delete_confirm,,プリセット「#1」を削除しますか？,Delete preset '#1'?
+mod_preset_deleted,,プリセットを削除しました：#1,Deleted preset: #1
+mod_preset_invalid,,クリップボードに有効な読み込み順プリセットがありません。,The clipboard does not contain a valid load order preset.
+mod_preset_missing,,"以下のModはインストールされていないためスキップされます：
+#1
+残りのプリセットを適用しますか？","The following mods in this preset are not installed and will be skipped:
+#1
+Apply the rest of the preset?"
+mod_preset_more,,他 #1 件,+ #1 more
+mod_preset_apply,,適用,Apply
+mod_preset_applied,,プリセットを適用しました：#1（有効 #2 件、未所持 #3 件）。反映にはゲームの再起動が必要です。,"Applied preset: #1 (#2 mods enabled, #3 missing). Restart the game to apply."
+mod_preset_version_warn,,このプリセットはゲームバージョン #1 で作成されました（現在は #2）。,This preset was made with game version #1 (current #2).
+mod_preset_disabled,,Modが無効になっています。プリセットを使うにはModを有効にして再起動してください。,Mods are disabled. Enable mods and restart before using presets.
+mod_preview,,プレビューを表示,View preview
+mod_preview_none,,プレビュー画像がありません,No preview image
+mod_preview_gif,,プレビューはGIFアニメのため最初のフレームのみ表示,Preview is an animated GIF; showing the first frame
+mod_preview_unsupported,,対応していない画像形式です,Preview image format is not supported
+mod_info_id,,ID,ID
+mod_info_tags,,タグ,Tags
+mod_info_requires,,前提Mod,Requires
+mod_info_load_after,,後に読み込む,Load after
+mod_info_load_before,,先に読み込む,Load before
+mod_info_blocked,,#1 により無効,Blocked by #1
+mod_info_duplicate,,#1 と重複,Duplicate of #1
+mod_info_old_version,,#1 向けに作成（現在のMod API #2）,Made for #1 (current mod API #2)
+mod_info_workshop,,ワークショップページを開く,Open workshop page
