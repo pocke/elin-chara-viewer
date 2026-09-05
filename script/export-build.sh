@@ -39,10 +39,15 @@ trap 'stop; rm -f "${bat:-}"' EXIT
 bat="/mnt/c/tmp/launch-elin-$$.bat"
 printf '@echo off\r\nset ELIN_DEPOT_EXPORT_DIR=%s\r\ncd /d %s\r\nstart "" Elin.exe\r\n' \
   "$export_win" "$build_win" > "$bat"
-# cmd.exe /c は起動したプロセスツリーの終了まで戻らないので、前面で待つと
-# 以降のポーリングに到達しない。
-cmd.exe /c "$(wslpath -w "$bat")" >/dev/null 2>&1 </dev/null &
-launcher=$!
+# WSL の interop 経由で起動した Windows プロセスは wslhost の PreferSystem32
+# 緩和策を継承し、build 直下の winhttp.dll (doorstop の注入口) ではなく
+# System32 の winhttp.dll を読む。すると BepInEx が注入されず mod も動かず、
+# CSV を吐かないままタイトル画面で止まる。WMI で起動すると親が WSL の系譜から
+# 外れ、この継承を避けられる。Create は起動後すぐ戻るので前面で呼んでよい。
+bat_win="$(wslpath -w "$bat")"
+powershell.exe -NoProfile -Command \
+  "Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{ CommandLine = 'cmd.exe /c \"$bat_win\"' } | Out-Null" \
+  </dev/null >/dev/null 2>&1
 
 start=$(date +%s)
 status=timeout
@@ -72,7 +77,6 @@ done
 elapsed=$(( $(date +%s) - start ))
 
 stop
-kill "$launcher" 2>/dev/null
 # 呼び出し側がこのディレクトリを tar で読むが、プロセスが消えたあとも
 # Windows がしばらくファイルを掴んでいる。
 for _ in 1 2 3 4 5 6 7 8 9 10; do running || break; sleep 1; done
