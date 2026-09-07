@@ -3042,12 +3042,12 @@ mod_filter_problem,,問題あり,Problems
 mod_filter_local,,ローカル,Local
 mod_filter_workshop,,ワークショップ,Workshop
 mod_preset,,プリセット,Presets
-mod_preset_save,,現在の読み込み順を保存,Save current load order
+mod_preset_save,,現在の順序を保存,Save current order
 mod_preset_load,,プリセットを読み込む,Load preset
 mod_preset_delete,,プリセットを削除,Delete preset
-mod_preset_copy,,読み込み順をクリップボードにコピー,Copy load order to clipboard
-mod_preset_paste,,クリップボードから読み込み順を貼り付け,Paste load order from clipboard
-mod_preset_folder,,プリセットのフォルダを開く,Open preset folder
+mod_preset_copy,,クリップボードにコピー,Copy to clipboard
+mod_preset_paste,,クリップボードから貼り付け,Paste from clipboard
+mod_preset_folder,,フォルダを開く,Open folder
 mod_preset_name,,プリセットの名前を入力してください。,Enter a name for this preset.
 mod_preset_default_name,,新しいプリセット,New Preset
 mod_preset_overwrite,,「#1」という名前のプリセットは既に存在します。上書きしますか？,A preset named '#1' already exists. Overwrite it?
@@ -3057,27 +3057,33 @@ mod_preset_none,,プリセットがありません。,No presets found.
 mod_preset_select,,プリセットを選択してください。,Select a preset.
 mod_preset_delete_confirm,,プリセット「#1」を削除しますか？,Delete preset '#1'?
 mod_preset_deleted,,プリセットを削除しました：#1,Deleted preset: #1
-mod_preset_invalid,,クリップボードに有効な読み込み順プリセットがありません。,The clipboard does not contain a valid load order preset.
-mod_preset_missing,,"以下のModはインストールされていないためスキップされます：
+mod_preset_invalid,,クリップボードに有効なプリセットがありません。,No valid preset in the clipboard.
+mod_preset_missing,,"未インストールのためスキップされます：
 #1
-残りのプリセットを適用しますか？","The following mods in this preset are not installed and will be skipped:
+残りを適用しますか？","These mods are not installed and will be skipped:
 #1
-Apply the rest of the preset?"
+Apply the rest?"
 mod_preset_more,,他 #1 件,+ #1 more
 mod_preset_apply,,適用,Apply
-mod_preset_applied,,プリセットを適用しました：#1（有効 #2 件、未所持 #3 件）。反映にはゲームの再起動が必要です。,"Applied preset: #1 (#2 mods enabled, #3 missing). Restart the game to apply."
-mod_preset_version_warn,,このプリセットはゲームバージョン #1 で作成されました（現在は #2）。,This preset was made with game version #1 (current #2).
-mod_preset_disabled,,Modが無効になっています。プリセットを使うにはModを有効にして再起動してください。,Mods are disabled. Enable mods and restart before using presets.
+mod_preset_applied,,#1 を適用：有効 #2、未所持 #3。再起動で反映。,"Applied #1 - #2 enabled, #3 missing. Restart to apply."
+mod_preset_version_warn,,#1 で作成されたプリセットです（現在 #2）。,Preset is from #1 (current #2).
+mod_preset_disabled,,Modが無効です。有効にして再起動してください。,Mods are disabled. Enable them and restart first.
 mod_preview,,プレビューを表示,View preview
 mod_preview_none,,プレビュー画像がありません,No preview image
-mod_preview_gif,,プレビューはGIFアニメのため最初のフレームのみ表示,Preview is an animated GIF; showing the first frame
+mod_preview_gif,,GIF：先頭フレームのみ表示,GIF: first frame only
 mod_preview_unsupported,,対応していない画像形式です,Preview image format is not supported
 mod_info_id,,ID,ID
 mod_info_tags,,タグ,Tags
-mod_info_requires,,前提Mod,Requires
-mod_info_load_after,,後に読み込む,Load after
-mod_info_load_before,,先に読み込む,Load before
-mod_info_blocked,,#1 により無効,Blocked by #1
-mod_info_duplicate,,#1 と重複,Duplicate of #1
-mod_info_old_version,,#1 向けに作成（現在のMod API #2）,Made for #1 (current mod API #2)
+mod_info_requires,,前提,Requires
+mod_info_load_after,,後に読込,Load after
+mod_info_load_before,,先に読込,Load before
+mod_info_blocked,,#1 と競合のため未読み込み,"Conflicts with #1, not loaded"
+mod_info_duplicate,,#1 と重複のため無視,"Duplicate of #1, ignored"
+mod_info_old_version,,#1 用のため未読み込み（#2 以上が必要）,"Made for #1, needs #2 or newer"
 mod_info_workshop,,ワークショップページを開く,Open workshop page
+mod_info_incompatible,,競合,Conflicts
+mod_info_dep_order,,前提 #1 がこのModより後に読み込まれます - 上に移動してください,"Requires #1, which loads after this mod - move it up"
+mod_info_dep_failed,,前提 #1 はインストール済みですが読み込まれていません,"Requires #1, which is installed but did not load"
+mod_info_dep_missing,,前提 Mod が未導入：#1,Missing dependency: #1
+mod_info_parse_error,,package.xml の解析に失敗：#1,package.xml failed to parse: #1
+mod_info_or,, または , or 
