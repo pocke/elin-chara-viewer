@@ -375,6 +375,7 @@ notEnoughMoney,,,,,,,所持金が足りない。,You don't have enough money.
 notEnoughTicket,,,,,,,チケットが足りない。,You don't have enough tickets.
 notEnoughInfluence,,,,,,,影響力が足りない。,You don't have enough influence.
 notEnoughFood,,,,,,,旅糧が足りない。,You don't have enough travel rations.
+notEnoughSomething,,,,,,,#1が足りない。,You don't have enough #1.
 payBill,,,,,,,#1を支払った。,You pay #1.
 depositMoney,,,,,,,#1を#2に投入した。,You put #1 into #2.
 travel,,,,,,,#2に#1を発ってから、#3日と#4時間の旅を終えた。,#3 day(s3) and #4 hour(s4) have passed since you left #1.
