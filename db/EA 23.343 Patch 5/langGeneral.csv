@@ -1086,6 +1086,7 @@ hintSupply,hint,"積荷のタイプによって、最初に所持しているア
 and determines what kind of members you will start with."
 h_relocate,hint_above,どの拠点を移転する？,Relocate which base?
 h_hire,hint_above,誰と面会する？,Who do you want to interview with?
+h_invManiGene,hint_above,どれを貰う？,Which one will you choose?
 h_invBuy,hint_above,何を買う？,Buy what?
 h_invIdentify,hint_above,何を鑑定する？,Identify what?
 h_invSell,hint_above,何を売る？,Sell what?
@@ -2215,8 +2216,8 @@ reNone,,無関心,Indifferent
 reqFactory,,「#1」で製作可能。,"Can be crafted on ""#1""."
 reqNoFactory,,作業台を必要としない。,Requires no craft station.
 rerollShop,,"再入荷
-(影響力 -#1)","Restock
-(-#1 Influence)"
+( #2 -#1 )","Restock
+( -#1 #2 )"
 rerollQuest,,"依頼のリロール
 (影響力 -#1)","Reroll Quests
 (-#1 Influence)"
@@ -2824,6 +2825,7 @@ milkBaby,, <color=#AAFFAA>(幼児)</color> , (Baby)
 feat_reset,,成長をリセット,Reset Growth
 dna_Inferior,,劣性,inferior
 dna_Superior,,優性,superior
+dna_Superimani,,合成,synthetic
 progress_finish,,完了,Done
 gene,,#1の遺伝子 #2,#1 Gene #2
 gene_info,,《#1の記憶》 #2,《Memory of #1》 #2
