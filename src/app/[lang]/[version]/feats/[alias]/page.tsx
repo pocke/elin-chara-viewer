@@ -58,7 +58,6 @@ export const generateMetadata = async (props: {
   );
   const description = descriptionParts.join('\n');
 
-  const pathname = `/${lang}/${params.version}/feats/${params.alias}`;
   const canonicalVersion = getCanonicalVersionForFeat(
     resolved.key,
     decodedAlias
