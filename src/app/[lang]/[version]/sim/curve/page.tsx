@@ -3,15 +3,13 @@ import CurveSimClient from './CurveSimClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { generateAlternates } from '@/lib/metadata';
-import { resources, Language } from '@/lib/i18n-resources';
+import { resources, toLanguage } from '@/lib/i18n-resources';
 
 export async function generateMetadata(props: {
   params: Promise<{ lang: string; version: string }>;
 }): Promise<Metadata> {
   const { lang: langParam, version } = await props.params;
-  const lang = (
-    langParam === 'ja' || langParam === 'en' ? langParam : 'en'
-  ) as Language;
+  const lang = toLanguage(langParam);
   const pathname = `/${lang}/${version}/sim/curve`;
   const canonicalPathname =
     version !== 'EA' ? `/${lang}/EA/sim/curve` : pathname;

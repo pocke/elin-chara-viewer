@@ -1,15 +1,13 @@
 import { Metadata } from 'next';
 import { generateAlternates } from '@/lib/metadata';
-import { resources, Language } from '@/lib/i18n-resources';
+import { resources, toLanguage } from '@/lib/i18n-resources';
 import HomeClient from './HomeClient';
 
 export async function generateMetadata(props: {
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang: langParam } = await props.params;
-  const lang = (
-    langParam === 'ja' || langParam === 'en' ? langParam : 'en'
-  ) as Language;
+  const lang = toLanguage(langParam);
   const pathname = `/${lang}`;
 
   return {

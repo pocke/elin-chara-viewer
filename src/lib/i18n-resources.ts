@@ -292,12 +292,10 @@ export const resources = {
           'Elinの非公式キャラクタービューワー。全キャラクターの種族・職業・レベル・ステータス・耐性、フィート(遺伝子)の効果を検索できる。耐性シミュレーションとcurve関数シミュレーターも収録。',
       },
       charas: {
-        title: 'キャラクター一覧',
         description:
-          'Elinのキャラクターデータ590件を種族・職業・レベル・HP/MP/速度/活力・DV/PV/耐性で検索・並び替えできる一覧。',
+          'Elinのキャラクター651種(属性variant含む)を種族・職業・レベル・HP/MP/速度/活力・DV/PV/耐性で検索・並び替えできる一覧。',
       },
       feats: {
-        title: 'フィート一覧',
         description:
           'Elinのフィート(遺伝子)145件を効果・必要な遺伝子スロット・対応する種族/職業で検索・並び替えできる一覧。',
       },
@@ -597,12 +595,10 @@ export const resources = {
           "An unofficial Elin character viewer. Search every character's race, job, level, stats, and resistances, and every feat (gene)'s effect. Also includes a resistance simulator and a curve-function simulator.",
       },
       charas: {
-        title: 'Character List',
         description:
-          'A searchable, sortable list of 590 Elin characters by race, job, level, HP/MP/speed/vigor, DV/PV, and resistances.',
+          'A searchable, sortable list of 651 Elin characters (including elemental variants) by race, job, level, HP/MP/speed/vigor, DV/PV, and resistances.',
       },
       feats: {
-        title: 'Feat List',
         description:
           'A searchable, sortable list of 145 Elin feats (genes) by effect, required gene slot cost, and the races/jobs that grant them.',
       },
