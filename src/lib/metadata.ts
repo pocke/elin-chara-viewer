@@ -91,9 +91,9 @@ export function generateAlternates(
   canonicalPathname: string
 ): Metadata['alternates'] {
   const otherLang = lang === 'ja' ? 'en' : 'ja';
-  const otherPathname = pathname.replace(`/${lang}`, `/${otherLang}`);
-  const jaPathname = lang === 'ja' ? pathname : otherPathname;
-  const enPathname = lang === 'en' ? pathname : otherPathname;
+  const otherPathname = canonicalPathname.replace(`/${lang}`, `/${otherLang}`);
+  const jaPathname = lang === 'ja' ? canonicalPathname : otherPathname;
+  const enPathname = lang === 'en' ? canonicalPathname : otherPathname;
 
   return {
     canonical: `${BASE_URL}${canonicalPathname}`,
