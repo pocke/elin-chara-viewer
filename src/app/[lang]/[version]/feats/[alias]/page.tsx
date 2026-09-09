@@ -63,10 +63,7 @@ export const generateMetadata = async (props: {
     resolved.key,
     decodedAlias
   );
-  const canonicalPathname =
-    canonicalVersion !== resolved.key
-      ? `/${lang}/${canonicalVersion}/feats/${params.alias}`
-      : pathname;
+  const canonicalPathname = `/${lang}/${canonicalVersion}/feats/${params.alias}`;
 
   return {
     title: `${featName} - ${appTitle}`,

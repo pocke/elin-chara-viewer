@@ -75,10 +75,7 @@ export const generateMetadata = async (props: {
 
   const pathname = `/${lang}/${params.version}/charas/${params.id}`;
   const canonicalVersion = getCanonicalVersionForChara(resolved.key, decodedId);
-  const canonicalPathname =
-    canonicalVersion !== resolved.key
-      ? `/${lang}/${canonicalVersion}/charas/${params.id}`
-      : pathname;
+  const canonicalPathname = `/${lang}/${canonicalVersion}/charas/${params.id}`;
 
   return {
     title: `${charaName} - ${appTitle}`,
