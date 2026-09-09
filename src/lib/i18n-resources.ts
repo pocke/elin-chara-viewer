@@ -293,11 +293,11 @@ export const resources = {
       },
       charas: {
         description:
-          'Elinのキャラクター651種(属性variant含む)を種族・職業・レベル・HP/MP/速度/活力・DV/PV/耐性で検索・並び替えできる一覧。',
+          'Elinの全キャラクター(属性variant含む)を種族・職業・レベル・HP/MP/速度/活力・DV/PV/耐性で検索・並び替えできる一覧。',
       },
       feats: {
         description:
-          'Elinのフィート(遺伝子)145件を効果・必要な遺伝子スロット・対応する種族/職業で検索・並び替えできる一覧。',
+          'Elinの全フィート(遺伝子)を効果・必要な遺伝子スロット・対応する種族/職業で検索・並び替えできる一覧。',
       },
     },
   },
@@ -596,11 +596,11 @@ export const resources = {
       },
       charas: {
         description:
-          'A searchable, sortable list of 651 Elin characters (including elemental variants) by race, job, level, HP/MP/speed/vigor, DV/PV, and resistances.',
+          'A searchable, sortable list of every Elin character (including elemental variants) by race, job, level, HP/MP/speed/vigor, DV/PV, and resistances.',
       },
       feats: {
         description:
-          'A searchable, sortable list of 145 Elin feats (genes) by effect, required gene slot cost, and the races/jobs that grant them.',
+          'A searchable, sortable list of every Elin feat (gene) by effect, required gene slot cost, and the races/jobs that grant them.',
       },
     },
   },
