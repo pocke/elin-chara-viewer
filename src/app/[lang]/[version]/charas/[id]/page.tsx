@@ -73,14 +73,22 @@ export const generateMetadata = async (props: {
 
   const description = `${raceName}/${jobName}\n${primaryAttrsText}\n${t.life}${life}/${t.mana}${mana}/${t.speed}${speed}/${t.vigor}${vigor}`;
 
-  const pathname = `/${lang}/${params.version}/charas/${params.id}`;
   const canonicalVersion = getCanonicalVersionForChara(resolved.key, decodedId);
   const canonicalPathname = `/${lang}/${canonicalVersion}/charas/${params.id}`;
+  // charaDetailRow finds a row by plain id, so /charas/<baseId> (no
+  // ---element suffix) 200s and duplicates /charas/<baseId>---<element>
+  // even though generateStaticParams never emits it and nothing links to
+  // it. Canonicalizing it to one variant would misreport this page's
+  // content as that variant's, so noindex it instead.
+  const isUnlinkedVariantBase = !variantElement && chara.variants().length > 0;
 
   return {
     title: `${charaName} - ${appTitle}`,
     description,
     alternates: generateAlternates(lang, canonicalPathname),
+    ...(isUnlinkedVariantBase
+      ? { robots: { index: false, follow: true } }
+      : {}),
     openGraph: {
       title: `${charaName} - ${appTitle}`,
       description,
