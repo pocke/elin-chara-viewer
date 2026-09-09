@@ -4,7 +4,7 @@ import { CurrentVersion } from './db';
 import { allFeats } from './models/feat';
 import { charaPageIds } from './pageData';
 
-const BASE_URL = 'https://elin.pocke.me';
+export const BASE_URL = 'https://elin.pocke.me';
 
 // Cache for EA IDs (computed once at build time)
 let eaCharaIdsCache: Set<string> | null = null;
