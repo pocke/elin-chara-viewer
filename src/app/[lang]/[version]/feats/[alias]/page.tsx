@@ -1,7 +1,7 @@
-import { all, GAME_VERSIONS } from '@/lib/db';
-import { ElementSchema, elementByAlias, Element } from '@/lib/models/element';
+import { GAME_VERSIONS } from '@/lib/db';
+import { elementByAlias } from '@/lib/models/element';
 import { archivedIds } from '@/lib/archive';
-import { featDetailRows } from '@/lib/pageData';
+import { featDetailRows, featIndexRows } from '@/lib/pageData';
 import { resolveVersion } from '@/lib/versions';
 import ArchivedFeatDetailPage from './ArchivedFeatDetailPage';
 import FeatDetailClient from './FeatDetailClient';
@@ -86,17 +86,8 @@ export const generateStaticParams = () => {
 
   for (const lang of ['ja', 'en']) {
     for (const version of GAME_VERSIONS) {
-      const elementRows = all(version, 'elements', ElementSchema);
-      const featRows = elementRows.filter((row) => {
-        const elm = new Element(version, row);
-        if (!elm.isFeat()) return false;
-        return !elm.tags().includes('hidden');
-      });
-
-      const aliases = featRows.map((row) => row.alias);
-
-      for (const alias of aliases) {
-        params.push({ lang, version, alias });
+      for (const row of featIndexRows(version)) {
+        params.push({ lang, version, alias: row.alias });
       }
     }
   }

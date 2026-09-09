@@ -11,6 +11,13 @@ export const charaIndexRows = (version: GameVersion): CharaRow[] =>
     (row) => !Chara.isIgnoredCharaId(row.id)
   );
 
+export const charaPageIds = (version: GameVersion): string[] =>
+  charaIndexRows(version).flatMap((row) => {
+    const chara = new Chara(version, row);
+    const variants = chara.variants();
+    return variants.length > 0 ? variants.map((v) => v.id) : [chara.id];
+  });
+
 export const charaDetailRow = (
   version: GameVersion,
   baseId: string

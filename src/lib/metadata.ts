@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { resources } from './i18n-resources';
-import { all, CurrentVersion } from './db';
-import { CharaSchema, Chara } from './models/chara';
+import { CurrentVersion } from './db';
 import { allFeats } from './models/feat';
+import { charaPageIds } from './pageData';
 
 const BASE_URL = 'https://elin.pocke.me';
 
@@ -12,21 +12,7 @@ let eaFeatAliasesCache: Set<string> | null = null;
 
 function getEACharaIds(): Set<string> {
   if (!eaCharaIdsCache) {
-    const charaRows = all('EA', 'charas', CharaSchema);
-    // Include variant IDs as well
-    const ids: string[] = [];
-    charaRows
-      .filter((row) => !Chara.isIgnoredCharaId(row.id))
-      .forEach((row) => {
-        const chara = new Chara('EA', row);
-        const variants = chara.variants();
-        if (variants.length > 0) {
-          variants.forEach((v) => ids.push(v.id));
-        } else {
-          ids.push(row.id);
-        }
-      });
-    eaCharaIdsCache = new Set(ids);
+    eaCharaIdsCache = new Set(charaPageIds('EA'));
   }
   return eaCharaIdsCache;
 }

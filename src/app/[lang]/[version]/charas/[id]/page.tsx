@@ -1,8 +1,8 @@
-import { all, GAME_VERSIONS } from '@/lib/db';
-import { Chara, CharaSchema } from '@/lib/models/chara';
+import { GAME_VERSIONS } from '@/lib/db';
+import { Chara } from '@/lib/models/chara';
 import { ElementAttacks, elementByAlias } from '@/lib/models/element';
 import { archivedIds } from '@/lib/archive';
-import { charaDetailRow } from '@/lib/pageData';
+import { charaDetailRow, charaPageIds } from '@/lib/pageData';
 import { currentVersionName, resolveVersion } from '@/lib/versions';
 import ArchivedCharaDetailPage from './ArchivedCharaDetailPage';
 import CharaDetailClient from './CharaDetailClient';
@@ -106,18 +106,7 @@ export const generateStaticParams = () => {
 
   for (const lang of ['ja', 'en']) {
     for (const version of GAME_VERSIONS) {
-      const charaRows = all(version, 'charas', CharaSchema);
-      const baseCharas = charaRows
-        .filter((row) => !Chara.isIgnoredCharaId(row.id))
-        .map((row) => new Chara(version, row));
-
-      // Generate IDs for base characters and their variants
-      const ids = baseCharas.flatMap((chara) => {
-        const variants = chara.variants();
-        return variants.length > 0 ? variants.map((v) => v.id) : [chara.id];
-      });
-
-      for (const id of ids) {
+      for (const id of charaPageIds(version)) {
         params.push({ lang, version, id });
       }
     }
