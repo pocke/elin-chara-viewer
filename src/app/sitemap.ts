@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { Language } from '@/lib/i18n-resources';
 import {
   BASE_URL,
   getCanonicalVersionForChara,
@@ -6,29 +7,25 @@ import {
 } from '@/lib/metadata';
 import { charaPageIds, featIndexRows } from '@/lib/pageData';
 
-type Lang = 'ja' | 'en';
-const LANGS: Lang[] = ['ja', 'en'];
+const LANGS: Language[] = ['ja', 'en'];
 
-type PathForLang = (lang: Lang) => string;
-
-function toEntries(pathForLang: PathForLang): MetadataRoute.Sitemap {
-  const jaPath = pathForLang('ja');
-  const enPath = pathForLang('en');
+// A suffix is the part of the pathname after /<lang>, shared by every
+// language's URL for that page (e.g. '/EA/charas/bit---eleFire', or '' for
+// the home page).
+function toEntries(suffix: string): MetadataRoute.Sitemap {
+  const languages = Object.fromEntries(
+    LANGS.map((lang) => [lang, `${BASE_URL}/${lang}${suffix}`])
+  );
 
   return LANGS.map((lang) => ({
-    url: `${BASE_URL}${pathForLang(lang)}`,
+    url: languages[lang],
     alternates: {
-      languages: {
-        ja: `${BASE_URL}${jaPath}`,
-        en: `${BASE_URL}${enPath}`,
-        'x-default': `${BASE_URL}${jaPath}`,
-      },
+      languages: { ...languages, 'x-default': languages.ja },
     },
   }));
 }
 
-function assertUrlIsProperlyEncoded(url: string): void {
-  const { pathname } = new URL(url);
+function assertProperlyEncoded(pathname: string): void {
   for (const segment of pathname.split('/')) {
     if (!segment) continue;
 
@@ -36,22 +33,22 @@ function assertUrlIsProperlyEncoded(url: string): void {
     try {
       roundTripped = encodeURIComponent(decodeURIComponent(segment));
     } catch {
-      throw new Error(`sitemap: unparsable URL segment in ${url}`);
+      throw new Error(`sitemap: unparsable URL segment in ${pathname}`);
     }
     if (roundTripped !== segment) {
-      throw new Error(`sitemap: not encodeURIComponent-encoded: ${url}`);
+      throw new Error(`sitemap: not encodeURIComponent-encoded: ${pathname}`);
     }
   }
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPaths: PathForLang[] = [
-    (lang) => `/${lang}`,
-    (lang) => `/${lang}/EA/charas`,
-    (lang) => `/${lang}/EA/feats`,
-    (lang) => `/${lang}/EA/sim/curve`,
-    (lang) => `/${lang}/EA/sim/resist`,
-    (lang) => `/${lang}/EA/sources`,
+  const staticSuffixes = [
+    '',
+    '/EA/charas',
+    '/EA/feats',
+    '/EA/sim/curve',
+    '/EA/sim/resist',
+    '/EA/sources',
   ];
 
   const eaCharaIds = charaPageIds('EA');
@@ -66,41 +63,41 @@ export default function sitemap(): MetadataRoute.Sitemap {
       (alias) => getCanonicalVersionForFeat('Nightly', alias) === 'Nightly'
     );
 
-  const charaPaths: PathForLang[] = [
-    ...eaCharaIds.map(
-      (id): PathForLang =>
-        (lang) =>
-          `/${lang}/EA/charas/${encodeURIComponent(id)}`
-    ),
+  const charaSuffixes = [
+    ...eaCharaIds.map((id) => `/EA/charas/${encodeURIComponent(id)}`),
     ...nightlyOnlyCharaIds.map(
-      (id): PathForLang =>
-        (lang) =>
-          `/${lang}/Nightly/charas/${encodeURIComponent(id)}`
+      (id) => `/Nightly/charas/${encodeURIComponent(id)}`
     ),
   ];
 
-  const featPaths: PathForLang[] = [
-    ...eaFeatAliases.map(
-      (alias): PathForLang =>
-        (lang) =>
-          `/${lang}/EA/feats/${encodeURIComponent(alias)}`
-    ),
+  const featSuffixes = [
+    ...eaFeatAliases.map((alias) => `/EA/feats/${encodeURIComponent(alias)}`),
     ...nightlyOnlyFeatAliases.map(
-      (alias): PathForLang =>
-        (lang) =>
-          `/${lang}/Nightly/feats/${encodeURIComponent(alias)}`
+      (alias) => `/Nightly/feats/${encodeURIComponent(alias)}`
     ),
   ];
 
-  const entries = [...staticPaths, ...charaPaths, ...featPaths].flatMap(
-    toEntries
-  );
+  const entries = [
+    ...staticSuffixes,
+    ...charaSuffixes,
+    ...featSuffixes,
+  ].flatMap(toEntries);
 
   const urls = entries.map((entry) => entry.url);
   if (new Set(urls).size !== urls.length) {
     throw new Error('sitemap: duplicate URL detected');
   }
-  urls.forEach(assertUrlIsProperlyEncoded);
+
+  // Checked pre-`new URL()` pathnames rather than `new URL(url).pathname`:
+  // the WHATWG URL parser percent-encodes spaces and other reserved
+  // characters on the way in, so by the time a raw, unencoded segment
+  // reaches `.pathname` it no longer looks unencoded.
+  for (const entry of entries) {
+    assertProperlyEncoded(entry.url.slice(BASE_URL.length));
+    for (const href of Object.values(entry.alternates!.languages!)) {
+      assertProperlyEncoded((href as string).slice(BASE_URL.length));
+    }
+  }
 
   return entries;
 }
