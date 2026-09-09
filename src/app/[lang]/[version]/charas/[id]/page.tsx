@@ -8,7 +8,7 @@ import ArchivedCharaDetailPage from './ArchivedCharaDetailPage';
 import CharaDetailClient from './CharaDetailClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { resources, Language } from '@/lib/i18n-resources';
+import { resources, toLanguage } from '@/lib/i18n-resources';
 import {
   archivedPageMetadata,
   generateAlternates,
@@ -46,9 +46,7 @@ export const generateMetadata = async (props: {
     charaRow,
     variantElement as ElementAttacks | null
   );
-  const lang = (
-    params.lang === 'ja' || params.lang === 'en' ? params.lang : 'en'
-  ) as Language;
+  const lang = toLanguage(params.lang);
   const charaName = chara.normalizedName(lang);
   const appTitle = resources[lang].common.title;
 
@@ -74,7 +72,12 @@ export const generateMetadata = async (props: {
   const description = `${raceName}/${jobName}\n${primaryAttrsText}\n${t.life}${life}/${t.mana}${mana}/${t.speed}${speed}/${t.vigor}${vigor}`;
 
   const canonicalVersion = getCanonicalVersionForChara(resolved.key, decodedId);
-  const canonicalPathname = `/${lang}/${canonicalVersion}/charas/${params.id}`;
+  // params.id may carry extra ---segments past the variant element (e.g.
+  // bit---eleFire---junk); chara.id always collapses back to the real id
+  // (base, or base---element), so building the canonical path from it
+  // folds those extra-segment URLs onto their real counterpart instead of
+  // each being its own self-canonical duplicate.
+  const canonicalPathname = `/${lang}/${canonicalVersion}/charas/${encodeURIComponent(chara.id)}`;
   // charaDetailRow finds a row by plain id, so /charas/<baseId> (no
   // ---element suffix) 200s and duplicates /charas/<baseId>---<element>
   // even though generateStaticParams never emits it and nothing links to it.
