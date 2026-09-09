@@ -6,11 +6,15 @@ import FeatPageClient from './FeatPageClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { archivedPageMetadata, generateAlternates } from '@/lib/metadata';
+import { resources, Language } from '@/lib/i18n-resources';
 
 export async function generateMetadata(props: {
   params: Promise<{ lang: string; version: string }>;
 }): Promise<Metadata> {
-  const { lang, version } = await props.params;
+  const { lang: langParam, version } = await props.params;
+  const lang = (
+    langParam === 'ja' || langParam === 'en' ? langParam : 'en'
+  ) as Language;
   const pathname = `/${lang}/${version}/feats`;
   const resolved = await resolveVersion(version);
 
@@ -19,8 +23,12 @@ export async function generateMetadata(props: {
   }
 
   const canonicalPathname = version !== 'EA' ? `/${lang}/EA/feats` : pathname;
+  const appTitle = resources[lang].common.title;
+  const pageMeta = resources[lang].pageMeta.feats;
 
   return {
+    title: `${pageMeta.title} - ${appTitle}`,
+    description: pageMeta.description,
     alternates: generateAlternates(lang, canonicalPathname),
   };
 }
