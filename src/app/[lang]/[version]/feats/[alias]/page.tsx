@@ -7,7 +7,7 @@ import ArchivedFeatDetailPage from './ArchivedFeatDetailPage';
 import FeatDetailClient from './FeatDetailClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { resources, Language } from '@/lib/i18n-resources';
+import { resources, toLanguage } from '@/lib/i18n-resources';
 import {
   archivedPageMetadata,
   generateAlternates,
@@ -39,16 +39,17 @@ export const generateMetadata = async (props: {
     return {};
   }
 
-  const featName = element.name(params.lang);
-  const appTitle = resources[params.lang as Language].common.title;
+  const lang = toLanguage(params.lang);
+  const featName = element.name(lang);
+  const appTitle = resources[lang].common.title;
 
-  const textPhase = element.textPhase(params.lang) || '';
-  const textExtra = element.textExtra(params.lang) || '';
+  const textPhase = element.textPhase(lang) || '';
+  const textExtra = element.textExtra(lang) || '';
   const subElements = element.subElements();
   const subElementText = subElements
     .map(
       (sub) =>
-        `${sub.element.name(params.lang)} ${sub.coefficient > 0 ? '+' : ''}${sub.coefficient}`
+        `${sub.element.name(lang)} ${sub.coefficient > 0 ? '+' : ''}${sub.coefficient}`
     )
     .join(', ');
 
@@ -57,7 +58,6 @@ export const generateMetadata = async (props: {
   );
   const description = descriptionParts.join('\n');
 
-  const lang = params.lang as Language;
   const pathname = `/${lang}/${params.version}/feats/${params.alias}`;
   const canonicalVersion = getCanonicalVersionForFeat(
     resolved.key,

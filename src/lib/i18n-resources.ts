@@ -581,3 +581,6 @@ export const resources = {
 export type Language = 'ja' | 'en';
 export type Resources = typeof resources;
 export type Translations = Resources[Language];
+
+export const toLanguage = (value: string): Language =>
+  value === 'ja' || value === 'en' ? value : 'en';
