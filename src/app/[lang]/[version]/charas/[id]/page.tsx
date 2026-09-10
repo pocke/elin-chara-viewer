@@ -83,7 +83,7 @@ export const generateMetadata = async (props: {
   return {
     title: `${charaName} - ${appTitle}`,
     description,
-    alternates: generateAlternates(lang, pathname, canonicalPathname),
+    alternates: generateAlternates(lang, canonicalPathname),
     openGraph: {
       title: `${charaName} - ${appTitle}`,
       description,

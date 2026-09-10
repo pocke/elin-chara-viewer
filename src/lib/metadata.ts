@@ -75,19 +75,17 @@ export function archivedPageMetadata(
   return {
     title: `${version} - ${appTitle}`,
     robots: { index: false, follow: false },
-    alternates: generateAlternates(lang, pathname, pathname),
+    alternates: generateAlternates(lang, pathname),
   };
 }
 
 /**
  * Generate alternates metadata for hreflang tags
  * @param lang - Current language ('ja' or 'en')
- * @param pathname - Current pathname (e.g., '/ja/ea/charas')
  * @param canonicalPathname - Canonical pathname (use same as pathname if no cross-version canonical)
  */
 export function generateAlternates(
   lang: string,
-  pathname: string,
   canonicalPathname: string
 ): Metadata['alternates'] {
   const otherLang = lang === 'ja' ? 'en' : 'ja';

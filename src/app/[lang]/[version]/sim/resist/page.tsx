@@ -14,7 +14,7 @@ export async function generateMetadata(props: {
     version !== 'EA' ? `/${lang}/EA/sim/resist` : pathname;
 
   return {
-    alternates: generateAlternates(lang, pathname, canonicalPathname),
+    alternates: generateAlternates(lang, canonicalPathname),
   };
 }
 

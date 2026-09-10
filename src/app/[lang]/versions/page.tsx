@@ -16,7 +16,7 @@ export async function generateMetadata(props: {
 
   return {
     robots: { index: false, follow: false },
-    alternates: generateAlternates(lang, pathname, pathname),
+    alternates: generateAlternates(lang, pathname),
   };
 }
 

@@ -21,7 +21,7 @@ export async function generateMetadata(props: {
   const canonicalPathname = version !== 'EA' ? `/${lang}/EA/feats` : pathname;
 
   return {
-    alternates: generateAlternates(lang, pathname, canonicalPathname),
+    alternates: generateAlternates(lang, canonicalPathname),
   };
 }
 

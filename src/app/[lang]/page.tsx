@@ -9,7 +9,7 @@ export async function generateMetadata(props: {
   const pathname = `/${lang}`;
 
   return {
-    alternates: generateAlternates(lang, pathname, pathname),
+    alternates: generateAlternates(lang, pathname),
   };
 }
 
