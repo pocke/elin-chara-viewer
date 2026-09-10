@@ -289,15 +289,15 @@ export const resources = {
     pageMeta: {
       home: {
         description:
-          'Elinの非公式キャラクタービューワー。全キャラクターの種族・職業・レベル・ステータス・耐性、フィート(遺伝子)の効果を検索できる。耐性シミュレーションとcurve関数シミュレーターも収録。',
+          'Elinの非公式キャラクタービューワー。全キャラクターの種族・職業・ステータス・耐性、フィート等を閲覧・検索できる。',
       },
       charas: {
         description:
-          'Elinの全キャラクター(属性variant含む)を種族・職業・レベル・HP/MP/速度/活力・DV/PV/耐性で検索・並び替えできる一覧。',
+          'Elinの全キャラクターを種族・職業・ステータス・耐性・フィート等で検索・並び替えできる一覧。',
       },
       feats: {
         description:
-          'Elinの全フィート(遺伝子)を効果・必要な遺伝子スロット・対応する種族/職業で検索・並び替えできる一覧。',
+          'Elinの全フィートの効果・必要な遺伝子スロット等で検索・並び替えできる一覧。',
       },
     },
   },
@@ -592,15 +592,15 @@ export const resources = {
     pageMeta: {
       home: {
         description:
-          "An unofficial Elin character viewer. Search every character's race, job, level, stats, and resistances, and every feat (gene)'s effect. Also includes a resistance simulator and a curve-function simulator.",
+          "An unofficial Elin character viewer. Browse and search every character's race, job, stats, and resistances, plus feats and more.",
       },
       charas: {
         description:
-          'A searchable, sortable list of every Elin character (including elemental variants) by race, job, level, HP/MP/speed/vigor, DV/PV, and resistances.',
+          'A searchable, sortable list of every Elin character by race, job, stats, resistances, feats, and more.',
       },
       feats: {
         description:
-          'A searchable, sortable list of every Elin feat (gene) by effect, required gene slot cost, and the races/jobs that grant them.',
+          'A searchable, sortable list of every Elin feat by effect, required gene slot, and more.',
       },
     },
   },
