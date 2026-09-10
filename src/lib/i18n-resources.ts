@@ -286,6 +286,20 @@ export const resources = {
       description:
         'SQLを使用してゲームデータを検索できます。すべてのCSVファイルがテーブルとして読み込まれています。',
     },
+    pageMeta: {
+      home: {
+        description:
+          'Elinの非公式キャラクタービューワー。全キャラクターの種族・職業・ステータス・耐性、フィート等を閲覧・検索できる。',
+      },
+      charas: {
+        description:
+          'Elinの全キャラクターを種族・職業・ステータス・耐性・フィート等で検索・並び替えできる一覧。',
+      },
+      feats: {
+        description:
+          'Elinの全フィートの効果・必要な遺伝子スロット等で検索・並び替えできる一覧。',
+      },
+    },
   },
   en: {
     common: {
@@ -575,9 +589,26 @@ export const resources = {
       description:
         'Search game data using SQL. All CSV files are loaded as tables.',
     },
+    pageMeta: {
+      home: {
+        description:
+          "An unofficial Elin character viewer. Browse and search every character's race, job, stats, and resistances, plus feats and more.",
+      },
+      charas: {
+        description:
+          'A searchable, sortable list of every Elin character by race, job, stats, resistances, feats, and more.',
+      },
+      feats: {
+        description:
+          'A searchable, sortable list of every Elin feat by effect, required gene slot, and more.',
+      },
+    },
   },
 };
 
 export type Language = 'ja' | 'en';
 export type Resources = typeof resources;
 export type Translations = Resources[Language];
+
+export const toLanguage = (value: string): Language =>
+  value === 'ja' || value === 'en' ? value : 'en';

@@ -4,17 +4,23 @@ import ResistSimClient from './ResistSimClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { generateAlternates } from '@/lib/metadata';
+import { resources, toLanguage } from '@/lib/i18n-resources';
 
 export async function generateMetadata(props: {
   params: Promise<{ lang: string; version: string }>;
 }): Promise<Metadata> {
-  const { lang, version } = await props.params;
+  const { lang: langParam, version } = await props.params;
+  const lang = toLanguage(langParam);
   const pathname = `/${lang}/${version}/sim/resist`;
   const canonicalPathname =
     version !== 'EA' ? `/${lang}/EA/sim/resist` : pathname;
+  const appTitle = resources[lang].common.title;
+  const pageMeta = resources[lang].resistSim;
 
   return {
-    alternates: generateAlternates(lang, pathname, canonicalPathname),
+    title: `${pageMeta.title} - ${appTitle}`,
+    description: pageMeta.description,
+    alternates: generateAlternates(lang, canonicalPathname),
   };
 }
 

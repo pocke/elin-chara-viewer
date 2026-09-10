@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { resources } from './i18n-resources';
-import { all, CurrentVersion } from './db';
-import { CharaSchema, Chara } from './models/chara';
+import { CurrentVersion } from './db';
 import { allFeats } from './models/feat';
+import { charaPageIds } from './pageData';
 
-const BASE_URL = 'https://elin.pocke.me';
+export const BASE_URL = 'https://elin.pocke.me';
 
 // Cache for EA IDs (computed once at build time)
 let eaCharaIdsCache: Set<string> | null = null;
@@ -12,21 +12,7 @@ let eaFeatAliasesCache: Set<string> | null = null;
 
 function getEACharaIds(): Set<string> {
   if (!eaCharaIdsCache) {
-    const charaRows = all('EA', 'charas', CharaSchema);
-    // Include variant IDs as well
-    const ids: string[] = [];
-    charaRows
-      .filter((row) => !Chara.isIgnoredCharaId(row.id))
-      .forEach((row) => {
-        const chara = new Chara('EA', row);
-        const variants = chara.variants();
-        if (variants.length > 0) {
-          variants.forEach((v) => ids.push(v.id));
-        } else {
-          ids.push(row.id);
-        }
-      });
-    eaCharaIdsCache = new Set(ids);
+    eaCharaIdsCache = new Set(charaPageIds('EA'));
   }
   return eaCharaIdsCache;
 }
@@ -75,25 +61,23 @@ export function archivedPageMetadata(
   return {
     title: `${version} - ${appTitle}`,
     robots: { index: false, follow: false },
-    alternates: generateAlternates(lang, pathname, pathname),
+    alternates: generateAlternates(lang, pathname),
   };
 }
 
 /**
  * Generate alternates metadata for hreflang tags
  * @param lang - Current language ('ja' or 'en')
- * @param pathname - Current pathname (e.g., '/ja/ea/charas')
  * @param canonicalPathname - Canonical pathname (use same as pathname if no cross-version canonical)
  */
 export function generateAlternates(
   lang: string,
-  pathname: string,
   canonicalPathname: string
 ): Metadata['alternates'] {
   const otherLang = lang === 'ja' ? 'en' : 'ja';
-  const otherPathname = pathname.replace(`/${lang}`, `/${otherLang}`);
-  const jaPathname = lang === 'ja' ? pathname : otherPathname;
-  const enPathname = lang === 'en' ? pathname : otherPathname;
+  const otherPathname = canonicalPathname.replace(`/${lang}`, `/${otherLang}`);
+  const jaPathname = lang === 'ja' ? canonicalPathname : otherPathname;
+  const enPathname = lang === 'en' ? canonicalPathname : otherPathname;
 
   return {
     canonical: `${BASE_URL}${canonicalPathname}`,

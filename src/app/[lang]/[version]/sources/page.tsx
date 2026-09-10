@@ -5,6 +5,7 @@ import SourcesPageClient from './SourcesPageClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { archivedPageMetadata, generateAlternates } from '@/lib/metadata';
+import { resources, toLanguage } from '@/lib/i18n-resources';
 import fs from 'fs';
 import path from 'path';
 
@@ -16,7 +17,8 @@ const VERSION_TO_FOLDER: Record<CurrentVersion, string> = {
 export async function generateMetadata(props: {
   params: Promise<{ lang: string; version: string }>;
 }): Promise<Metadata> {
-  const { lang, version } = await props.params;
+  const { lang: langParam, version } = await props.params;
+  const lang = toLanguage(langParam);
   const pathname = `/${lang}/${version}/sources`;
   const resolved = await resolveVersion(version);
 
@@ -25,9 +27,13 @@ export async function generateMetadata(props: {
   }
 
   const canonicalPathname = version !== 'EA' ? `/${lang}/EA/sources` : pathname;
+  const appTitle = resources[lang].common.title;
+  const pageMeta = resources[lang].sources;
 
   return {
-    alternates: generateAlternates(lang, pathname, canonicalPathname),
+    title: `${pageMeta.title} - ${appTitle}`,
+    description: pageMeta.description,
+    alternates: generateAlternates(lang, canonicalPathname),
   };
 }
 

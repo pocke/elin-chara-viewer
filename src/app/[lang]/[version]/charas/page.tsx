@@ -6,11 +6,13 @@ import CharaPageClient from './CharaPageClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { archivedPageMetadata, generateAlternates } from '@/lib/metadata';
+import { resources, toLanguage } from '@/lib/i18n-resources';
 
 export async function generateMetadata(props: {
   params: Promise<{ lang: string; version: string }>;
 }): Promise<Metadata> {
-  const { lang, version } = await props.params;
+  const { lang: langParam, version } = await props.params;
+  const lang = toLanguage(langParam);
   const pathname = `/${lang}/${version}/charas`;
   const resolved = await resolveVersion(version);
 
@@ -19,9 +21,12 @@ export async function generateMetadata(props: {
   }
 
   const canonicalPathname = version !== 'EA' ? `/${lang}/EA/charas` : pathname;
+  const t = resources[lang].common;
 
   return {
-    alternates: generateAlternates(lang, pathname, canonicalPathname),
+    title: `${t.browseCharacters} - ${t.title}`,
+    description: resources[lang].pageMeta.charas.description,
+    alternates: generateAlternates(lang, canonicalPathname),
   };
 }
 
