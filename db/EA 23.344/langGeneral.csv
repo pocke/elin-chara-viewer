@@ -2054,8 +2054,9 @@ featStage,,#1段階,Stage #1
 FlagCell,,セルを編集,Edit Cells
 flagFloat,,浮遊セル,Float
 flagSnow,,除雪セル,Snowless
+flagOcclusion,,アイテムの自動非表示無効,Disable Item Occlusion
 flagWallPillar,,壁柱トグル,Toggle Wall Pillar
-flagShadow,,アイテムの影,Item Shadow
+flagShadow,,アイテムの影を隠す,Hide Item Shadow
 flagClear,,祭り整地,Clear(Fest)
 funcAdv,,ボタン機能（冒険）,Buttons (Adv Mode)
 funcBuild,,ボタン機能（ビルドモード）,Buttons (Build Mode)
@@ -2073,7 +2074,7 @@ headerAnnounce,,エリンのお知らせとニュース,Elin Announcements and N
 hearth,,灯,Hearth
 hideWallItems,,壁のアイテムを隠す,Hide Wall Objects
 highlightArea,,立札などの範囲をマウスホバーで表示,Highlight sign range on mouseover
-hintAltitude,,(高さ +#1),(Altitude +#1)
+hintAltitude,,(高さ #1),(Altitude #1)
 hintAutoDir,,壁向き自動調整,Auto adjust wall direction
 hintEmbarkMap,,どこへ向かう？,Where are we heading?
 hintEmbarkPreview,,土地の選択は慎重にね！,Choose carefully!
