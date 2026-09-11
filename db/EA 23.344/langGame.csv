@@ -320,7 +320,7 @@ dead_eleLightning,combat,,dead,Bad,,,#1は#2雷に打たれ死んだ。,#1 were/
 dead_eleDarkness,combat,,dead,Bad,,,#1は#2闇に蝕まれて死んだ。,#1 were/was consumed by darkness#2.
 dead_eleHoly,combat,,dead,Bad,,,#1は#2昇天した。,#1 went to heaven#2.
 dead_eleMind,combat,,dead,Bad,,,"#1は#2発狂して死んだ。
-#1は狂って自決した。","#1 lost #his mind and committed a suicide#2.
+#1は狂って自決した。","#1 lost #his mind and committed suicide#2.
 #1 lost #his mind and kill(s) #himself#2."
 dead_elePoison,combat,,dead,Bad,,,#1は#2毒に蝕まれて死んだ。,#1 were/was poisoned to death#2.
 dead_eleNether,combat,,dead,Bad,,,#1は#2冥界に墜ちた。,#1 went to hell#2.
@@ -977,6 +977,7 @@ npc_rescue,,,,,,,#1を保護した。無事に連れて帰らなければ。,You
 noteFav,,,nice,,,,あなたは#1の好物を記憶した。,You memorize #your favorite.
 deliver_arrive,,,nice,,,,#1個の宅配便が届いた。,#1 packages/package arrive(s).
 package_chara,,,,,,,箱の中から#1が飛び出てきた！,#1 jump(s) out of the box!
+statue_chara,,,,,,,#1は再び動き出した！,#1 come(s) back to life!
 targetTooFar,,,,,,,遠すぎる！,Too far away!
 escape,,,ono,,,,#1は逃げ出した。,#1 escape(s).
 wrongAmmo,,,,,,,#1は#2に装填できない。,#1 cannot be loaded into #2.

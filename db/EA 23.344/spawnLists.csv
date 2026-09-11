@@ -1,6 +1,7 @@
 id,***,parent,type,category,idCard,tag,filter
 all,,,thing,,,,
 chara,,,chara,,,,
+c_statue,,chara,chara,,,"human,neutral,-animal",
 c_guest,,chara,chara,,,"neutral,-animal",
 c_animal,,chara,chara,,,"animal,-cat",
 c_plant,,chara,chara,,,plant,
