@@ -1,11 +1,20 @@
 'use client';
 import { Box, Typography, Link as MuiLink } from '@mui/material';
 import { useTranslation } from '../lib/simple-i18n';
+import { HoverPrefetchLink as Link } from './HoverPrefetchLink';
 
 const REPOSITORY_URL = 'https://github.com/pocke/elin-chara-viewer';
 
+const footerLinkSx = {
+  color: 'text.secondary',
+  textDecoration: 'none',
+  '&:hover': {
+    textDecoration: 'underline',
+  },
+} as const;
+
 const Footer = () => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const lastCommitDate = process.env.GIT_LAST_COMMIT_DATE;
 
@@ -46,15 +55,16 @@ const Footer = () => {
             href={REPOSITORY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            sx={{
-              color: 'text.secondary',
-              textDecoration: 'none',
-              '&:hover': {
-                textDecoration: 'underline',
-              },
-            }}
+            sx={footerLinkSx}
           >
             <Typography variant="body2">{t.footer.github}</Typography>
+          </MuiLink>
+          <MuiLink
+            component={Link}
+            href={`/${language}/sitemap`}
+            sx={footerLinkSx}
+          >
+            <Typography variant="body2">{t.sitemap.title}</Typography>
           </MuiLink>
         </Box>
       </Box>
