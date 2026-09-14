@@ -11,12 +11,21 @@ export const charaIndexRows = (version: GameVersion): CharaRow[] =>
     (row) => !Chara.isIgnoredCharaId(row.id)
   );
 
-export const charaPageIds = (version: GameVersion): string[] =>
+export interface CharaPageEntry {
+  id: string;
+  chara: Chara;
+}
+
+export const charaPageEntries = (version: GameVersion): CharaPageEntry[] =>
   charaIndexRows(version).flatMap((row) => {
     const chara = new Chara(version, row);
     const variants = chara.variants();
-    return variants.length > 0 ? variants.map((v) => v.id) : [chara.id];
+    const pageCharas = variants.length > 0 ? variants : [chara];
+    return pageCharas.map((c) => ({ id: c.id, chara: c }));
   });
+
+export const charaPageIds = (version: GameVersion): string[] =>
+  charaPageEntries(version).map((entry) => entry.id);
 
 export const charaDetailRow = (
   version: GameVersion,

@@ -21,12 +21,12 @@ This is an Elin character viewer application built with Next.js and TypeScript.
 
 ### I18n (Internationalization)
 - **Always implement I18n for user-facing text** - never hardcode Japanese or English text in components
-- **Translation file location**: `src/lib/simple-i18n.tsx` contains all translation resources
+- **Translation file location**: `src/lib/i18n-resources.ts` contains all translation resources (`src/lib/simple-i18n.tsx` only re-exports the `useTranslation()` hook)
 - **Supported languages**: Japanese (`ja`) and English (`en`)
 - **Usage**: Use the `useTranslation()` hook to get `t` (translations) and `language` values
 - **Model columns with `_JP` suffix**: When models have columns ending with `_JP` (e.g., `name_JP`, `detail_JP`), implement language-specific methods that return the appropriate column based on the current language
   - Example: `name(locale: string)` method that returns `name_JP` for Japanese or `name` for English
-- **Adding new translations**: Add both Japanese and English versions to the `resources` object in `simple-i18n.tsx`
+- **Adding new translations**: Add both Japanese and English versions to the `resources` object in `i18n-resources.ts`
 
 ### Link Component
 - **Always use `HoverPrefetchLink` instead of Next.js `Link`** - to reduce Vercel Edge Requests

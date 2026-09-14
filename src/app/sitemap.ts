@@ -49,6 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/EA/sim/curve',
     '/EA/sim/resist',
     '/EA/sources',
+    '/sitemap',
   ];
 
   const eaCharaIds = charaPageIds('EA');

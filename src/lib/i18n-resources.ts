@@ -287,6 +287,14 @@ export const resources = {
       description:
         'SQLを使用してゲームデータを検索できます。すべてのCSVファイルがテーブルとして読み込まれています。',
     },
+    sitemap: {
+      title: 'サイトマップ',
+      description:
+        'EAの全キャラクター・全フィートページなど、このサイトの主要ページへのリンク一覧。',
+      pagesHeading: 'ページ',
+      charasHeading: 'キャラクター個別ページ',
+      featsHeading: 'フィート個別ページ',
+    },
     pageMeta: {
       home: {
         description:
@@ -590,6 +598,14 @@ export const resources = {
       title: 'Source Search',
       description:
         'Search game data using SQL. All CSV files are loaded as tables.',
+    },
+    sitemap: {
+      title: 'Sitemap',
+      description:
+        "Links to every EA character and feat page, plus this site's other main pages.",
+      pagesHeading: 'Pages',
+      charasHeading: 'Character pages',
+      featsHeading: 'Feat pages',
     },
     pageMeta: {
       home: {
