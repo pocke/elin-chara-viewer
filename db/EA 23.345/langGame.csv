@@ -976,7 +976,7 @@ regenerateZone,,,,,,,#1は前に訪れた時とは違う感じがする。,#1 fe
 npc_rescue,,,,,,,#1を保護した。無事に連れて帰らなければ。,You rescue #1. You must return #him safely.
 noteFav,,,nice,,,,あなたは#1の好物を記憶した。,You memorize #your favorite.
 deliver_arrive,,,nice,,,,#1個の宅配便が届いた。,#1 packages/package arrive(s).
-package_chara,,,,,,,箱の中から#1が飛び出てきた！,#1 jump(s) out of the box!
+package_chara,,,,,,,#2の中から#1が飛び出てきた！,#1 jump(s) out of #2!
 statue_chara,,,,,,,#1は再び動き出した！,#1 come(s) back to life!
 targetTooFar,,,,,,,遠すぎる！,Too far away!
 escape,,,ono,,,,#1は逃げ出した。,#1 escape(s).
