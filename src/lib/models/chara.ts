@@ -365,9 +365,7 @@ export class Chara {
       return true;
     }
     const hiddenCharaIds = [
-      'nerun',
-      'ancient_golem',
-      'mirage',
+      // race=god
       'ehekatl',
       'elin',
       'itz',
@@ -376,8 +374,18 @@ export class Chara {
       'lulwy',
       'mani',
       'opatos',
-      'eyth',
-      'horome',
+      // 通常プレイでマップにキャラとして出る根拠が無い (docs/hidden-charas.md 参照)
+      'nerun',
+      'strangeScientist',
+      'alien3',
+      'alien_queen',
+      'wynan',
+      'doppelganger',
+      'beholder',
+      'yatsu',
+      'yochlol',
+      'ancient_golem',
+      'mirage',
     ];
     if (hiddenCharaIds.includes(this.row.id)) {
       return true;
