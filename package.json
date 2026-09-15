@@ -19,6 +19,7 @@
     "build:history": "tsx script/build-history.ts",
     "check:archive": "tsx script/check-archive.ts",
     "check:export": "tsx script/check-export.ts",
+    "check:hidden": "ruby script/check-hidden-charas.rb",
     "check:history": "tsx script/check-history-provenance.ts"
   },
   "dependencies": {
