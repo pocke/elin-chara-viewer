@@ -2,6 +2,7 @@
 import { Box, Typography, Link as MuiLink } from '@mui/material';
 import { useTranslation } from '../lib/simple-i18n';
 import { HoverPrefetchLink as Link } from './HoverPrefetchLink';
+import RelativeDate from './RelativeDate';
 
 const REPOSITORY_URL = 'https://github.com/pocke/elin-chara-viewer';
 
@@ -46,7 +47,7 @@ const Footer = () => {
         <Typography variant="body2" color="text.secondary">
           {lastCommitDate && (
             <>
-              {t.footer.lastUpdated}: {lastCommitDate}
+              {t.footer.lastUpdated}: <RelativeDate date={lastCommitDate} />
             </>
           )}
         </Typography>
