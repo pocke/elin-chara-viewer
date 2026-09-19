@@ -33,10 +33,24 @@ export default function CharaPageClient({
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: 4 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-          <PersonIcon sx={{ mr: 2, fontSize: 40 }} />
-          <Typography variant="h3" component="h1">
-            {t.common.allCharacters}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'baseline',
+            flexWrap: 'wrap',
+            columnGap: 2,
+            rowGap: 1,
+            mb: 3,
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <PersonIcon sx={{ mr: 2, fontSize: 40 }} />
+            <Typography variant="h3" component="h1">
+              {t.common.allCharacters}
+            </Typography>
+          </Box>
+          <Typography variant="body2" color="text.secondary">
+            {t.pageMeta.charas.description}
           </Typography>
         </Box>
 
