@@ -43,10 +43,24 @@ export default function FeatPageClient({
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: 4 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-          <EmojiEventsIcon sx={{ mr: 2, fontSize: 40 }} />
-          <Typography variant="h3" component="h1">
-            {t.common.feats}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'baseline',
+            flexWrap: 'wrap',
+            columnGap: 2,
+            rowGap: 1,
+            mb: 3,
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <EmojiEventsIcon sx={{ mr: 2, fontSize: 40 }} />
+            <Typography variant="h3" component="h1">
+              {t.common.feats}
+            </Typography>
+          </Box>
+          <Typography variant="body2" color="text.secondary">
+            {t.pageMeta.feats.description}
           </Typography>
         </Box>
 
