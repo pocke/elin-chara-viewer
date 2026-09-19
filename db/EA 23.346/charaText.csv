@@ -504,6 +504,23 @@ nun,,"誰かが祈りを捧げる声が聞こえる。
 ""Well, you need to be punished.""
 ""You sonova...""
 ""Shit!""","""God help me!""","""Go to hell."""
+nurse,,ナースの匂いがする…,,"「これは…重症ですね♪」
+「暴れないでください！」
+「少し痛みますよ」
+「おいたはダメ！」","「キャァー」
+「まだ…勤務時間なのに…」
+「誰か…救急箱を…」","「次の患者さん、どうぞ♪」
+「もう痛くないですよ」
+「はい、ご安静に」
+「手術は成功しました」",You catch the faint scent of a nurse...,,"""This looks... serious♪""
+""Please, don't struggle!""
+""This may hurt a little.""
+""Now, no misbehaving!""","""Eek!""
+""But...I'm still on duty...""
+""Someone...get the first-aid kit...""","""Next patient, please♪""
+""You won't feel any more pain.""
+""Now, please get some rest.""
+""The operation was a success."""
 punk,,,,"「チキショー」
 「カモンベイベー」
 「ウラァ」
