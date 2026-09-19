@@ -137,6 +137,9 @@ export default function AdvancedSearchPanel({
         </Box>
       </AccordionSummary>
       <AccordionDetails>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          {t.advancedSearch.description}
+        </Typography>
         <Box
           sx={{
             mb: 2,

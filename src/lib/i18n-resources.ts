@@ -206,6 +206,8 @@ export const resources = {
     },
     advancedSearch: {
       title: '高度な検索',
+      description:
+        '任意のフィールドに条件を指定し、AND / OR やグループで組み合わせて絞り込めます。',
       addCondition: '条件を追加',
       addGroup: 'グループを追加',
       clear: 'クリア',
@@ -519,6 +521,8 @@ export const resources = {
     },
     advancedSearch: {
       title: 'Advanced Search',
+      description:
+        'Filter by conditions on any field, combined with AND / OR or nested into groups.',
       addCondition: 'Add Condition',
       addGroup: 'Add Group',
       clear: 'Clear',
