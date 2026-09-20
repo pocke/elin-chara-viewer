@@ -26,6 +26,7 @@ SpHealLight,,2,6+p/45+e/40,p/30
 SpHealHeavy,,4,8+p/40+e/35,p/25
 SpHealCritical,,6,12+p/35+e/30,p/20
 SpHeal,,8,18+p/25+e/25,p/15
+SpHealTouch,,8,18+p/25+e/25,p/15
 SpHealEris,,10,50+p/10+e/10,p/5
 SpHealOdina,,10,100+p/2+e,p
 SpHealJure,,1,1,99999999
