@@ -69,6 +69,7 @@ temple_undersea,ntyris,ルーリエ海底神殿,Sunken Temple of Lurie,Zone_Unde
 lumiest,ntyris,ルミエスト,Lumiest,Zone_Lumiest,1,100,palmia,200000000,,lumiest,Plain,,,"light,oneblock",0,0,216,default,"42,-33,336",music/3,ルミエストの都が見える。水のせせらぎが聴こえる。,You see Lumiest. Murmuring of water pleasantly echos.,,
 truce_ground,ntyris,神々の休戦地,Truce Ground,Zone_TruceGround,1,100,,700000,,truceground,Plain,,,oneblock,0,0,0,default,"32,-10,323",,寺院がある。神聖な雰囲気がする。,You see old shrines. Sacred air surrounds the ground.,,
 curryruin,ntyris,ドーガ遺跡キャンプ,Doga Ruins Camp,Zone_CurryRuin,1,100,,250000,,curry,Plain,,,"light,oneblock",30,0,88,default,"26,-3,331",,,,,
+academy_roran,,ローラン女学院,Roran Academy,Zone_AcademyRoran,1,100,,41800000,,academy_roran,Plain,,,light,0,0,210,default,,,,,,
 curryruin_dungeon,,ドーガの工場,Factory of Doga,Zone_CurryRuinDungeon,38,100,,0,DungeonFactory,,Dungeon_Factory_Curry,,Dungeon,,0,0,0,default,,,,,,
 miral_garok,ntyris,工房ミラル・ガロク,Miral and Garokk's Workshop,Zone_MiralGarok,1,100,,1500000,,miral_garok,Plain,,,"light,oneblock",40,0,145,default,"69,-26,350",,こじんまりとした工房がある。猫の鳴き声が聞こえる。,You see a quaint little workshop. The sounds of cats meowing reach your ears.,,
 house_sister,ntyris,妹の館,The Mansion of Younger Sister,Zone_SisterHouse,1,100,,110000,,house_sister,Plain,,,return,30,0,24,default,"-1,-3,-1",,,,,

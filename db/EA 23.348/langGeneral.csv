@@ -802,7 +802,7 @@ dialogAbandonHome,dialog,本当にこの土地の権利を手放す？,Really ab
 dialogSleep,dialog,寝る？,Sleep?
 dialogWriteNote,dialog,何と書く？,Write what?
 dialogLastword,dialog,遺言は？,Your last words.
-featMode,dialog,フィートの取得(#1),Acquire Feat(#1)
+featMode,dialog,フィートの取得(#1),Acquire Feat (#1)
 headerGift,dialog,ギフト,Gift
 rewardFarris,dialog,唄い手の冷ややかな視線 x1,icy stares of the talesinger x1
 rewardNone,dialog,(なし),(None)
@@ -3073,7 +3073,6 @@ mod_preset_version_warn,,#1 で作成されたプリセットです（現在 #2�
 mod_preset_disabled,,Modが無効です。有効にして再起動してください。,Mods are disabled. Enable them and restart first.
 mod_preview,,プレビューを表示,View preview
 mod_preview_none,,プレビュー画像がありません,No preview image
-mod_preview_gif,,GIF：先頭フレームのみ表示,GIF: first frame only
 mod_preview_unsupported,,対応していない画像形式です,Preview image format is not supported
 mod_info_id,,ID,ID
 mod_info_tags,,タグ,Tags
@@ -3090,3 +3089,16 @@ mod_info_dep_failed,,前提 #1 はインストール済みですが読み込ま�
 mod_info_dep_missing,,前提 Mod が未導入：#1,Missing dependency: #1
 mod_info_parse_error,,package.xml の解析に失敗：#1,package.xml failed to parse: #1
 mod_info_or,, または , or 
+mod_group_new,,グループを作成,New group
+mod_group_move,,グループに移動,Move to group
+mod_group_remove,,グループから外す,Remove from group
+mod_group_select,,グループを選択してください。,Select a group.
+mod_group_name,,グループの名前を入力してください。,Enter a name for this group.
+mod_group_default_name,,新しいグループ,New Group
+mod_group_rename,,名前を変更,Rename
+mod_group_disband,,グループを解除,Ungroup
+mod_group_expand_all,,すべて展開,Expand all
+mod_group_collapse_all,,すべて折りたたむ,Collapse all
+mod_id_copy,,IDをコピー,Copy ID
+mod_id_copied,,IDをクリップボードにコピーしました：#1,ID copied to the clipboard: #1
+mod_group_color,,色を変更,Change color
