@@ -6,7 +6,7 @@ weather_Snow,,,,,,,雪が降り始めた。,Snow starts to fall.
 weather_SnowHeavy,,,,,,,吹雪だ！,A blizzard strikes.
 weather_Cloudy,,,,,,,空はどんよりと曇っている。,The sky looks gloomy.
 weather_Ether,,,,,,,辺りの大気にエーテルが満ち始めた。,The air begins to fill with ether.
-weather_Fine,,,,,,,良い天気だ。,It's a fine weather.
+weather_Fine,,,,,,,良い天気だ。,It's fine weather.
 welcome_intro,,sys,,,,,Lafrontier presents Elin version #1,Lafrontier presents Elin version #1
 welcome,,sys,,,,,"Welcome, wanderer! Press '?' for help.","Welcome, wanderer! Press '?' for help."
 endDay,,,,,,,一日が終わりを告げた。,A day passes.
@@ -428,7 +428,7 @@ bRevive,branch,,,Good,,,#1は生き返った。,#1 return(s) to life.
 newKnownCraft,,,,,,,新しい製法を発見した！,You discover a new production!
 learnRecipeIdea,,,,,,,レシピを閃いた！,You come up with a recipe!
 learnRecipeSleep,,,,,,,夢の中でレシピを思いついた。,You come up with a recipe in your dream.
-learnRecipe,,,nice,,,,#1のレシピを強化した(#2)。,"You improve the recipe of ""#1""(#2)."
+learnRecipe,,,nice,,,,#1のレシピを強化した(#2)。,"You improve the recipe of ""#1"" (#2)."
 learnRecipeNew,,,nice,,,,#1の作り方を覚えた。,"You learn how to make ""#1""."
 noRecipes,,,,,,,知っているレシピがない。,You don't know any recipes.
 canOnlyCarry,,,,,,,#1はバックパックに収納できない。,#1 can't be stored into your backpack.
