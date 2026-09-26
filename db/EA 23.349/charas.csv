@@ -546,7 +546,7 @@ isca,397,イスカ,Isca,堕天使,fallen angel,,0,,chara,2317,,0,,,42,5,3,,,,Uni
 santa,376,サンタクロース,Santa Claus,*r,*r,,0,,chara,2416,,0,,,40,3,3,,,,UniqueMonsterAdv,mutant,gunner,,,"1,50",,,,,,chara,,,,,,,,,,,,,,,,,
 wolfguy,569,人狼,werewolf,,,,0,,chara,3110,,0,,,32,25,0,,,,,werewolf,warrior,,,"1,50","ActInsult,sword_Cold/50,ActMultiHit/50",,"featDisguise,featMurderer",,,chara,,,,,,,,,,,,,,,,,
 doppelganger,570,ドッペルゲンガー,doppelganger,,,,0,,chara,3109,,0,,,38,0,0,,,,,mutant,warrior,,,"1,50",,,"featDisguise,featMurderer",,,chara,,,,,,,,,,,,,,,,,
-mimic,429,ミミック,mimic,,,,0,,chara,2709,,100,,,15,20,0,,,random_color,,mutant,predator,,,"1,50","missile_poison,ActSlime",,"life/50,featMimic",,,chara,,,,,,,,,,,,,,,,,
+mimic,429,ミミック,mimic,,,,0,,chara,2709,,100,,,15,20,0,,,random_color,,mutant,predator,,,"1,50","missile_Poison,ActSlime",,"life/50,featMimic",,,chara,,,,,,,,,,,,,,,,,
 mimic_greater,605,グレーターミミック,greater mimic,,,,0,,chara,3108,,100,,,33,20,0,,,random_color,,mutant,predator,,,"1,50","missile_magic,ActSlime",,"life/50,featMimic,vopal/25,freemove",,,chara,,,,,,,,,,,,,,,,,
 merchant_exotic,272,*r,*r,舶来品商人,exotic merchant,,0,,chara,1028,,0,,,38,0,0,Friend,,neutral,MerchantExotic,norland,predator,,,,,,,,,chara,,resident,,buffThief,,,,,,,dealer,,,,,,
 gagu,66,ガグ,gagu,,,,0,,chara,1611,,0,,,38,100,0,,,,,troll,predator,,,"1,80","ActWeaken/40,ActFear/40",,martial/25,,,chara,,,,,,,,,,,,,,,,,
