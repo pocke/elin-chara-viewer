@@ -878,6 +878,7 @@ daEquipSharedOff,drama,共有装備は使わないでほしい,Don't use shared 
 daNothing,drama,なんでもない,Nothing.
 daGreatDebt,drama,借金返済の手助けをしたい,Let me help you with your debt.
 daGreatDebt2,drama,借金の請求書を失くしてしまった,I lost your debt bill.
+daTradeMandrake,drama,干しマンドレイクを持ってきた,I have some dried mandrakes.
 daBuy,drama,売買したい,Show me your wares.
 daBuyLand,drama,土地を拡張できるか？,I want to expand my land.
 daBuyMap,drama,地図を買う,I want to buy maps.
@@ -1735,15 +1736,17 @@ u_plat,unit,プラチナ硬貨,plat
 u2_plat,unit,<size=12>プラチナ硬貨 </size>#1<size=12>枚</size>,#1 plat#(s)
 u_money2,unit,プラチナ硬貨,plat
 u2_money2,unit,<size=12>金塊 </size>#1<size=12>本</size>,#1 gold bar#(s)
-ecopo,,エコポ,ecopo
-ticket_sky,,旅空券,Skyfarer Ticket
+ecopo,unit,エコポ,Ecopo
+ticket_sky,unit,旅空券,Skyfarer Ticket
+money3,unit,干しマンドレイク,Dried Mandrake
 u_currency_money,unit,オレン金貨#1枚,#1 oren#(s)
 u_currency_money2,unit,金塊#1本,#1 gold bar#(s)
 u_currency_plat,unit,プラチナ硬貨#1枚,#1 plat#(s)
-u_currency_influence,unit,影響力#1,#1 influence(s)
-u_currency_medal,unit,小さなメダル#1枚,#1 small medal(s)
-u_currency_casino_coin,unit,カジノチップ#1枚,#1 casino chip(s)
+u_currency_influence,unit,影響力#1,#1 influence#(s)
+u_currency_medal,unit,小さなメダル#1枚,#1 small medal#(s)
+u_currency_casino_coin,unit,カジノチップ#1枚,#1 casino chip#(s)
 u_currency_ecopo,unit,エコポ#1枚,#1 ecopo
+u_currency_money3,unit,干しマンドレイク#1本,#1 dried mandrake#(s)
 casino_coin,unit,カジノチップ,casino chip
 qReward,quest,#1オレン,#1 oren#(s)
 qRewardDefense,quest,#1オレン + 生存時間ボーナス,#1 oren#(s) + Wave Bonus
@@ -2911,7 +2914,7 @@ pp_custom,,カスタム設定,Custom Setting
 pp_disableDeathPenaltyProtection,,冒険開始後の死亡ペナルティ保護期間を設けない,No initial death penalty protection
 pp_tax,,納税の義務,Duty to pay taxes
 pp_disableManualSave,,手動でのセーブとロードを禁止する,Manual saving and loading are prohibited
-pp_disableUsermapBenefit,,ユーザーマップでのルートや採取を禁止する,Limit beneficial actions in user map
+pp_disableUsermapBenefit,,ユーザーマップでの抜け道的な行動を制限する ,Limit beneficial actions in user map
 pp_permadeath,,*永遠の死*（死亡時セーブデータ消失）,*Permadeath* (Save data wiped on death)
 pp_opMilk,,猛威をふるう乳,Dominating milk
 pp_realAdv,,残酷な世界 (Coming Soon),Cruel World (Coming Soon)

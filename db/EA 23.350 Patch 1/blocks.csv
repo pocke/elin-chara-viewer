@@ -127,7 +127,7 @@ id,alias,name_JP,name,sort,reqHarvest,hp,idThing,_tileType,_idRenderData,tiles,a
 125,pillar31,木の柱,wooden pillar,2030,"mining,1",100,pillar,Pillar,pillar,3025,,2100,100,,20,18,,tool_carving,plank/1,oak,wall,0,,0,1,-1,,,,
 126,rooftop7,屋根トップ,rooftop,1121,"mining,1",100,block,Rooftop,roof,"704,705,706,707",,4,100,,20,1,,x,-,mahogany,foundation,0,,0,0,-1,,,,
 127,wall_brick3,煉瓦の壁,brick wall,1023,"mining,1",100,wall,Wall,block_thin,"2420,-2420",,2100,100,,20,12,,factory_wall,brick,soil,wall,4,,0,1,-1,,,,
-128,block_invisi,特殊ブロック(透明),Editor Block (Invisible),1,"mining,1",100,block,InvisiBlock,,11,,2100,100,,20,1,*,x,cutstone,marble,wall,0,floor_scaffold,0,0,-1,noFake,,部屋の区間を区切るための見えないブロック。,An invisible block used to separate rooms.
+128,block_invisi,特殊ブロック(透明),Special Block (Invisible),1,"mining,1",100,block,InvisiBlock,,11,,2100,100,,20,1,*,x,cutstone,marble,wall,0,floor_scaffold,0,0,-1,noFake,,部屋の区間を区切るための見えないブロック。,An invisible block used to separate rooms.
 129,block_rock6,石のブロック,stone block,1224,"mining,1",100,block,Block,,"118,119",,2100,100,,20,25,,factory_block,rock/1,granite,wall,4,floor_rock2,1,0,-1,,,,
 130,wall_mirror,鏡の壁,mirror wall,1056,"mining,1",100,wall,Wall,block_thinEx,"2404,-2404",,2100,100,,20,26,,factory_wall,glass,glass,wall,4,,0,1,-1,,,,
 131,wall_glass,硝子の壁,glass wall,1057,"mining,1",100,wall,Wall,block_thinEx,"2403,-2403",,2100,100,,20,18,,factory_wall,glass,glass,wall,4,,0,1,-1,,,,
@@ -148,8 +148,8 @@ id,alias,name_JP,name,sort,reqHarvest,hp,idThing,_tileType,_idRenderData,tiles,a
 146,block_plank7,上質板のブロック,quality plank block,1212,"mining,1",100,block,Block,blockEx,205,,2100,100,,20,31,,factory_block,plank/1,oak,wall,3,floor_log,1,0,-1,,,,
 147,wall_plank4,上質板の壁,quality plank wall,1012,"mining,1",100,wall,Wall,block_thinEx,"2407,-2407",,2100,100,,20,31,,factory_wall,plank/1,oak,wall,3,,0,1,-1,,,,
 148,wall_plain4,漆喰の壁,plain wall,1028,"mining,1",100,wall,Wall,block_thin,"2411,-2411",,2100,100,,20,23,,factory_wall,"cutstone,brick",granite,wall,4,,0,1,-1,,,,
-149,block_editor1,特殊ブロック(室内),Editor Block (Interior),2,"mining,1",100,block,Block,,12,,2100,100,,20,1,,x,,marble,wall,0,floor_scaffold,0,0,-1,"editor,noFake",,,
-150,block_editor2,特殊ブロック(野外),Editor Block (Exterior),3,"mining,1",100,block,Block,,13,,2100,100,,20,1,,x,,marble,wall,0,floor_scaffold,0,0,-1,"editor,noFake",,,
+149,block_editor1,特殊ブロック(室内),Special Block (Interior),2,"mining,1",100,block,Block,,12,,2100,100,,20,1,,x,,marble,wall,0,floor_scaffold,0,0,-1,"editor,noFake",,,
+150,block_editor2,特殊ブロック(野外),Special Block (Exterior),3,"mining,1",100,block,Block,,13,,2100,100,,20,1,,x,,marble,wall,0,floor_scaffold,0,0,-1,"editor,noFake",,,
 151,block_plain,漆喰のブロック,plain block,1248,"mining,1",100,block,Block,,412,,2100,100,,20,24,,factory_block,"cutstone,brick",granite,wall,4,floor_rock2,1,0,-1,,,,
 152,block_plain2,漆喰のブロック,plain block,1249,"mining,1",100,block,Block,,413,,2100,100,,20,24,,factory_block,"cutstone,brick",granite,wall,4,floor_rock2,1,0,-1,,,,
 153,fence8,金属のフェンス,metal fence,1108,"mining,20",100,fence,Fence,fence,"1412,-1412",,2100,100,,20,24,,factory_wall,ingot,gold,fence,0,,0,0,-1,,,,
