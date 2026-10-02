@@ -256,7 +256,7 @@ Overcoming picky eating",QuestMeal_vegi,,,random,food,50,15,0,"野菜がダイ�
 [qFriend]がどうしても野菜を食べないので困ってい{る}！#2なら食べるかも知れないので料理してきて{くれ}。","Vegetables are essential parts of a healthy diet. Cook #2 for me. Your rewards are #1.
 My [qFriend] just won’t eat vegetables, and I'm at my wits' end! Maybe she'll eat if you prepare #2.",,,,
 meal_fruit,"ディナーのデザート
-フルーツ料理","Fruit dessert 
+フルーツ料理","Fruit dessert
 Cocktail party!",QuestMeal_fruit,,,random,food,50,15,0,"今晩のディナーのデザートに#2が食べたくなったので、配達をお願いする{よ}。
 パーティーでフルーツ料理をふるまいたい{のだ}。#2を用意してくれれば、#1を払{う}。","I want #2 for tonight's dessert. Please deliver it.
 Run a small errand for us and earn #1. We need a wicked relish for our cocktail party. Say, #2 sounds decent.",,,,

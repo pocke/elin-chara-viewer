@@ -61,7 +61,7 @@ cave_lerna,ntyris,山道への入り口,Mountain Pass,Zone,1,100,,0,,,Cave,,,clo
 larna,ntyris,ラーナ,Larna,Zone,1,100,,0,,,Plain,,,"closed,light",0,0,60,default,"45,-48,345",,,,,
 housedome,ntyris,ハウスドーム,House Dome,Zone,1,100,,0,,,Plain,,,"closed,light",0,0,0,default,"16,-28,351",,,,,
 little_garden,ntyris,リトルガーデン,Little Garden,Zone_LittleGarden,1,100,,2000000,,little_garden,Plain,,,"light,return,oneblock",25,0,0,default,"-8,-44,369",,綺麗に手入れされた庭が見える。心が温まる感じがする。,You see a well-maintained garden. It gives you a warm feeling inside.,,
-chaos_castle,ntyris,不気味な城,Fort of Chaos,Zone,1,100,,0,,,Dungeon,,,closed,0,0,0,default,"32,-33,325",,不気味な城がある。絶対に入ってはいけない予感がする。,You see an unearthly fort. Your inner voice wanrs you to not go there.,,
+chaos_castle,ntyris,不気味な城,Fort of Chaos,Zone,1,100,,0,,,Dungeon,,,closed,0,0,0,default,"32,-33,325",,不気味な城がある。絶対に入ってはいけない予感がする。,You see an unearthly fort. Your inner voice warns you to not go there.,,
 cave_mino,ntyris,ミノタウロスの巣,Minotaur's Nest,Zone_DungeonMino,25,100,,0,Dungeon,,Cave,,Dungeon,,0,0,0,default,"24,-40,322",,ミノタウロスの巣だ。入口の穴はとても大きい。,It’s a minotaur’s lair. The entrance hole is enormous.,,
 cave_yeek,ntyris,イークの洞窟,Yeek Cave,Zone_DungeonYeek,4,100,,0,Dungeon,,Cave,,,,0,0,0,default,"19,-32,322",,イークが住む洞窟だ。入口の穴はとても小さい。,You see a cave inhabited by yeeks. The entrance is scarcely more than a hole.,,
 cave_fairy,ntyris,帰らずの森,Forest of the Lost Way,Zone_DungeonFairy,18,100,,0,DungeonForest,,Dungeon_Forest,,,,0,0,0,default,"33,2,322",,,,,
