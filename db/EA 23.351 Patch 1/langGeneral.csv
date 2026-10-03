@@ -2998,6 +2998,9 @@ party_setup,,パーティーの編成,Manage Party
 party_load,,編成 #1,Roster #1
 party_ride,,(騎乗),(Ride)
 party_parasite,,(共生),(Symbiosis)
+maxSimBases,,同時にシミュレートする拠点の上限,Max Simulated Bases
+maxSleepSimHours,,一度にシミュレートする日数の上限,Max Simulated Days
+timeSimulation,,拠点の時間経過シミュレーション,Base time progression simulation
 es_log_csc_roslyn,,ℛ* コンパイラを使用しています #1,using ℛ* compiler #1
 es_log_csc_package,,#2 からパッケージ #1 をコンパイルしています,compiling package #1 from #2
 es_log_csc_eval,,"スクリプトをコンパイルしています
