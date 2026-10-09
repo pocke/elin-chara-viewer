@@ -6,11 +6,11 @@ import eaRacesContent from '../../db/EA 23.352 Patch 1/races.csv';
 import eaJobsContent from '../../db/EA 23.352 Patch 1/jobs.csv';
 import eaTacticsContent from '../../db/EA 23.352 Patch 1/tactics.csv';
 
-import nightlyCharasContent from '../../db/EA 23.352 Patch 1/charas.csv';
-import nightlyElementsContent from '../../db/EA 23.352 Patch 1/elements.csv';
-import nightlyRacesContent from '../../db/EA 23.352 Patch 1/races.csv';
-import nightlyJobsContent from '../../db/EA 23.352 Patch 1/jobs.csv';
-import nightlyTacticsContent from '../../db/EA 23.352 Patch 1/tactics.csv';
+import nightlyCharasContent from '../../db/EA 23.353/charas.csv';
+import nightlyElementsContent from '../../db/EA 23.353/elements.csv';
+import nightlyRacesContent from '../../db/EA 23.353/races.csv';
+import nightlyJobsContent from '../../db/EA 23.353/jobs.csv';
+import nightlyTacticsContent from '../../db/EA 23.353/tactics.csv';
 
 import featModifierEaJson from '../generated/featModifier.ea.json';
 import featModifierNightlyJson from '../generated/featModifier.nightly.json';
