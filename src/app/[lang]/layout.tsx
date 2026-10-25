@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/next';
 import '../globals.css';
 import ClientLayout from './ClientLayout';
 
@@ -13,6 +12,8 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
 });
+
+const cfBeaconToken = process.env.NEXT_PUBLIC_CF_BEACON_TOKEN;
 
 export const metadata: Metadata = {
   title: 'Elin Character Viewer',
@@ -38,7 +39,13 @@ export default async function RootLayout({
     <html lang={lang}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ClientLayout lang={lang}>{children}</ClientLayout>
-        <Analytics />
+        {cfBeaconToken && (
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: cfBeaconToken })}
+          />
+        )}
       </body>
     </html>
   );
