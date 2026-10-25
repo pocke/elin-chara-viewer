@@ -1,12 +1,6 @@
 import { Metadata } from 'next';
-import { archiveIndex } from '@/lib/archive';
 import { generateAlternates } from '@/lib/metadata';
-import { currentVersionOf } from '@/lib/versions';
-import VersionsPageClient, { VersionListEntry } from './VersionsPageClient';
-
-// The archive is resolved at request time only, so that a build never
-// depends on the archive host being reachable.
-export const dynamic = 'force-dynamic';
+import VersionsPageClient from './VersionsPageClient';
 
 export async function generateMetadata(props: {
   params: Promise<{ lang: string }>;
@@ -20,17 +14,6 @@ export async function generateMetadata(props: {
   };
 }
 
-export default async function VersionsPage() {
-  const index = await archiveIndex();
-
-  const entries: VersionListEntry[] = index
-    .filter((entry) => !currentVersionOf(entry.version))
-    .map((entry) => ({
-      version: entry.version,
-      slug: entry.slug,
-      channel: entry.channel,
-      date: entry.releaseDate,
-    }));
-
-  return <VersionsPageClient entries={entries} />;
+export default function VersionsPage() {
+  return <VersionsPageClient />;
 }

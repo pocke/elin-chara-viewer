@@ -6,13 +6,13 @@ import {
 } from './db';
 
 // A checkout works without configuration by reading the archive repository on
-// GitHub, which is not a host to serve readers from. NEXT_PUBLIC_VERCEL_ENV
-// rather than VERCEL_ENV, because this module is in the client bundle too.
+// GitHub, which is not a host to serve readers from. WORKERS_CI is set by
+// Workers Builds only, so it is undefined in the browser and does not throw there.
 if (
   !process.env.NEXT_PUBLIC_ARCHIVE_BASE_URL &&
-  process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
+  process.env.WORKERS_CI === '1'
 ) {
-  throw new Error('NEXT_PUBLIC_ARCHIVE_BASE_URL is required in production');
+  throw new Error('NEXT_PUBLIC_ARCHIVE_BASE_URL is required in Workers Builds');
 }
 
 export const ARCHIVE_BASE_URL =
@@ -67,21 +67,16 @@ export const FeatModifierFileSchema = z.object({
   modifiers: z.record(z.string(), z.record(z.string(), z.number())),
 });
 
-const fetchText = async (url: string, init?: RequestInit): Promise<string> => {
-  const response = await fetch(url, init);
+const fetchText = async (url: string): Promise<string> => {
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}: ${response.status}`);
   }
   return response.text();
 };
 
-// An archived version's files only change when the archive is rebuilt to
-// correct them; the index gains an entry on every release.
-const ARCHIVED_INIT: RequestInit = { next: { revalidate: 86400 } };
-const INDEX_INIT: RequestInit = { next: { revalidate: 3600 } };
-
 export const archiveIndex = async (): Promise<ArchivedVersion[]> => {
-  const text = await fetchText(`${ARCHIVE_BASE_URL}/index.json`, INDEX_INIT);
+  const text = await fetchText(`${ARCHIVE_BASE_URL}/index.json`);
   const entries: unknown[] = JSON.parse(text);
 
   // One malformed entry must not hide every other version, so entries are
@@ -100,11 +95,6 @@ export const archivedVersionBySlug = async (
   slug: string
 ): Promise<ArchivedVersion | undefined> =>
   (await archiveIndex()).find((entry) => entry.slug === slug);
-
-export const archivedIds = async (slug: string): Promise<ArchivedIds> =>
-  ArchivedIdsSchema.parse(
-    JSON.parse(await fetchText(archiveIdsUrl(slug), ARCHIVED_INIT))
-  );
 
 const inFlight = new Map<string, Promise<void>>();
 
@@ -134,12 +124,10 @@ const fetchArchivedVersion = async (
 ): Promise<void> => {
   const [csvContents, featModifier] = await Promise.all([
     Promise.all(
-      REQUIRED_TABLES.map((table) =>
-        fetchText(archiveCsvUrl(slug, table), ARCHIVED_INIT)
-      )
+      REQUIRED_TABLES.map((table) => fetchText(archiveCsvUrl(slug, table)))
     ),
     hasFeatModifier
-      ? fetchText(archiveFeatModifierUrl(slug), ARCHIVED_INIT).then(
+      ? fetchText(archiveFeatModifierUrl(slug)).then(
           (text) =>
             FeatModifierFileSchema.parse(JSON.parse(text))
               .modifiers as FeatModifierJson

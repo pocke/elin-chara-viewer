@@ -7,6 +7,8 @@ import {
 } from '@/lib/metadata';
 import { charaPageIds, featIndexRows } from '@/lib/pageData';
 
+export const dynamic = 'force-static';
+
 const LANGS: Language[] = ['ja', 'en'];
 
 // A suffix is the part of the pathname after /<lang>, shared by every

@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 import { execSync } from 'child_process';
 
 const getGitInfo = () => {
@@ -40,27 +41,51 @@ const nextConfig: NextConfig = {
       static: 180, // 静的ページを3分間キャッシュ
     },
   },
-  headers: async () => [
-    {
-      source: '/:path*',
-      headers: [
-        {
-          key: 'Cache-Control',
-          value: 'public, max-age=3600, stale-while-revalidate=86400',
-        },
-      ],
-    },
-    {
-      // CSVファイルは変更されない想定のため、1年間の長期キャッシュを設定
-      source: '/csv/:path*',
-      headers: [
-        {
-          key: 'Cache-Control',
-          value: 'public, max-age=31536000, immutable',
-        },
-      ],
-    },
-  ],
 };
 
-export default nextConfig;
+// public/_redirects does this on Cloudflare. rewrites() and redirects() in the
+// export build would only produce a warning, so they are added for `next dev`
+// alone.
+const archiveRedirects: NextConfig['redirects'] = async () => [
+  {
+    source: '/:lang/EA-:ver',
+    destination: '/:lang/EA-:ver/charas',
+    permanent: true,
+  },
+];
+
+const archiveRewrites: NextConfig['rewrites'] = async () => [
+  {
+    source: '/:lang/EA-:ver/charas',
+    destination: '/:lang/archive/charas',
+  },
+  {
+    source: '/:lang/EA-:ver/charas/:id',
+    destination: '/:lang/archive/charas/detail',
+  },
+  {
+    source: '/:lang/EA-:ver/feats',
+    destination: '/:lang/archive/feats',
+  },
+  {
+    source: '/:lang/EA-:ver/feats/:alias',
+    destination: '/:lang/archive/feats/detail',
+  },
+  {
+    source: '/:lang/EA-:ver/sources',
+    destination: '/:lang/archive/sources',
+  },
+];
+
+// `next dev` also leaves out `output: 'export'`: with it, the dev server
+// rejects an archive URL for not being among the shell's static params.
+const resolveConfig = (phase: string): NextConfig =>
+  phase === PHASE_DEVELOPMENT_SERVER
+    ? {
+        ...nextConfig,
+        rewrites: archiveRewrites,
+        redirects: archiveRedirects,
+      }
+    : { ...nextConfig, output: 'export' };
+
+export default resolveConfig;

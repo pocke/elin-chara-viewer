@@ -1,10 +1,7 @@
 import { CurrentVersion, GAME_VERSIONS } from '@/lib/db';
-import { archiveVersionUrl } from '@/lib/archive';
-import { resolveVersion } from '@/lib/versions';
 import SourcesPageClient from './SourcesPageClient';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { archivedPageMetadata, generateAlternates } from '@/lib/metadata';
+import { generateAlternates } from '@/lib/metadata';
 import { resources, toLanguage } from '@/lib/i18n-resources';
 import fs from 'fs';
 import path from 'path';
@@ -20,12 +17,6 @@ export async function generateMetadata(props: {
   const { lang: langParam, version } = await props.params;
   const lang = toLanguage(langParam);
   const pathname = `/${lang}/${version}/sources`;
-  const resolved = await resolveVersion(version);
-
-  if (resolved?.kind === 'archived') {
-    return archivedPageMetadata(lang, pathname, resolved.label);
-  }
-
   const canonicalPathname = version !== 'EA' ? `/${lang}/EA/sources` : pathname;
   const appTitle = resources[lang].common.title;
   const pageMeta = resources[lang].sources;
@@ -48,28 +39,13 @@ export function generateStaticParams() {
 }
 
 interface PageProps {
-  params: Promise<{ lang: string; version: string }>;
+  params: Promise<{ lang: string; version: CurrentVersion }>;
 }
 
 export default async function SourcesPage({ params }: PageProps) {
   const { version } = await params;
-  const resolved = await resolveVersion(version);
 
-  if (!resolved) {
-    notFound();
-  }
-
-  if (resolved.kind === 'archived') {
-    return (
-      <SourcesPageClient
-        versionLabel={resolved.label}
-        tableNames={resolved.entry.tables}
-        csvBasePath={`${archiveVersionUrl(resolved.entry.slug)}/csv`}
-      />
-    );
-  }
-
-  const folder = VERSION_TO_FOLDER[resolved.key];
+  const folder = VERSION_TO_FOLDER[version];
   const dbPath = path.join(process.cwd(), 'db', folder);
   const files = fs.readdirSync(dbPath);
   const tableNames = files
@@ -78,7 +54,7 @@ export default async function SourcesPage({ params }: PageProps) {
 
   return (
     <SourcesPageClient
-      versionLabel={resolved.label}
+      versionLabel={version}
       tableNames={tableNames}
       csvBasePath={`/csv/${folder}`}
     />

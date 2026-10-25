@@ -1,39 +1,20 @@
-import { GAME_VERSIONS } from '@/lib/db';
+import { CurrentVersion, GAME_VERSIONS } from '@/lib/db';
 import { elementByAlias } from '@/lib/models/element';
-import { archivedIds } from '@/lib/archive';
 import { featDetailRows, featIndexRows } from '@/lib/pageData';
-import { resolveVersion } from '@/lib/versions';
-import ArchivedFeatDetailPage from './ArchivedFeatDetailPage';
 import FeatDetailClient from './FeatDetailClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { resources, toLanguage } from '@/lib/i18n-resources';
-import {
-  archivedPageMetadata,
-  generateAlternates,
-  getCanonicalVersionForFeat,
-} from '@/lib/metadata';
+import { generateAlternates, getCanonicalVersionForFeat } from '@/lib/metadata';
 
 export const generateMetadata = async (props: {
-  params: Promise<{ alias: string; lang: string; version: string }>;
+  params: Promise<{ alias: string; lang: string; version: CurrentVersion }>;
 }): Promise<Metadata> => {
   const params = await props.params;
   const decodedAlias = decodeURIComponent(params.alias);
-  const resolved = await resolveVersion(params.version);
+  const version = params.version;
 
-  if (!resolved) {
-    return {};
-  }
-
-  if (resolved.kind === 'archived') {
-    return archivedPageMetadata(
-      params.lang,
-      `/${params.lang}/${params.version}/feats/${params.alias}`,
-      resolved.label
-    );
-  }
-
-  const element = elementByAlias(resolved.key, decodedAlias);
+  const element = elementByAlias(version, decodedAlias);
 
   if (!element) {
     return {};
@@ -58,10 +39,7 @@ export const generateMetadata = async (props: {
   );
   const description = descriptionParts.join('\n');
 
-  const canonicalVersion = getCanonicalVersionForFeat(
-    resolved.key,
-    decodedAlias
-  );
+  const canonicalVersion = getCanonicalVersionForFeat(version, decodedAlias);
   const canonicalPathname = `/${lang}/${canonicalVersion}/feats/${params.alias}`;
 
   return {
@@ -96,31 +74,13 @@ export const generateStaticParams = () => {
 };
 
 export default async function FeatPage(props: {
-  params: Promise<{ alias: string; version: string }>;
+  params: Promise<{ alias: string; version: CurrentVersion }>;
 }) {
   const params = await props.params;
   const decodedAlias = decodeURIComponent(params.alias);
-  const resolved = await resolveVersion(params.version);
+  const version = params.version;
 
-  if (!resolved) {
-    notFound();
-  }
-
-  if (resolved.kind === 'archived') {
-    // Checked here rather than in the client component so that a URL that
-    // never existed answers 404 instead of filling the route cache with an
-    // empty page for every alias that is asked for.
-    const ids = await archivedIds(resolved.entry.slug);
-    if (!ids.elements.includes(decodedAlias)) {
-      notFound();
-    }
-
-    return (
-      <ArchivedFeatDetailPage entry={resolved.entry} alias={decodedAlias} />
-    );
-  }
-
-  const rows = featDetailRows(resolved.key, decodedAlias);
+  const rows = featDetailRows(version, decodedAlias);
 
   if (!rows) {
     notFound();
@@ -132,7 +92,7 @@ export default async function FeatPage(props: {
       raceRows={rows.raceRows}
       jobRows={rows.jobRows}
       charaRows={rows.charaRows}
-      version={resolved.key}
+      version={version}
     />
   );
 }
