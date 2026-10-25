@@ -10,13 +10,44 @@ This is an application for viewing character data in the Elin.
 * `npm run check:history` holds the change history's `PROVENANCE` to the models
 * `npm run check:hidden` verifies `Chara#isHidden`'s id list against the game data; see [`docs/hidden-charas.md`](docs/hidden-charas.md)
 
+## Deployment
+
+The site is a static export (`output: 'export'`) served by Cloudflare Workers
+static assets, with no Worker script. Workers Builds builds and deploys it from
+this repository.
+
+* Build command `npm run build`, deploy command `npx wrangler deploy`;
+  non-production branches use `npx wrangler versions upload`. The Worker name
+  must match `name` in `wrangler.toml`.
+* `npm run build` runs `script/prune-export.cjs` afterwards. It deletes the
+  `__next.*.txt` segment files, which are most of the export and only serve
+  prefetching (`NoPrefetchLink` never prefetches), and fails the build when
+  `out/` still holds 20,000 files or more, the Workers Free limit per version.
+* `public/_headers` sets the `Cache-Control` values and `public/_redirects`
+  holds the redirects and the rewrites for past versions (below).
+* `npx wrangler dev` serves `out/` locally the way Cloudflare does, including
+  `_redirects` and `_headers`. `npm run dev` rewrites past version URLs itself.
+* Build variables:
+  * `NEXT_PUBLIC_ARCHIVE_BASE_URL`: the archive host (see below). Required when
+    building on Workers Builds (`WORKERS_CI=1`).
+  * `NEXT_PUBLIC_CF_BEACON_TOKEN`: the Cloudflare Web Analytics token. The
+    beacon script is added only when this is set.
+
 ## Past versions
 
 Only the two current versions live in `db/` and are bundled into the build. Every
 past version lives in [elin-chara-viewer-data](https://github.com/pocke/elin-chara-viewer-data)
-and is fetched at request time, so their pages are generated on demand instead of
-at build time.
+and is fetched by the browser, so the build produces no pages for them.
 
+* A past version's URL is `/<lang>/<slug>/{charas,charas/<id>,feats,feats/<alias>,sources}`
+  with a slug such as `EA-23.306`. `public/_redirects` rewrites each of them
+  (status 200) to a shell page under `src/app/[lang]/archive/`, which reads the
+  slug and the id from the URL, looks the slug up in `index.json` and renders
+  the page in the browser. A slug or id that does not exist shows "not found"
+  with status 200. Slugs always start with `EA-`, which keeps `EA` and
+  `Nightly` out of the rewrites.
+* `/versions` also reads `index.json` in the browser, so a release shows up
+  without rebuilding the site.
 * `NEXT_PUBLIC_ARCHIVE_BASE_URL` points at the archive. Production must set it:
   the default is the repository on `raw.githubusercontent.com`, which is meant
   for development and is not a CDN to serve readers from. The data repository
