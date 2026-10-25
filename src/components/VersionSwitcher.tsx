@@ -3,7 +3,7 @@ import { Button, Divider, Menu, MenuItem } from '@mui/material';
 import { SwapHoriz as SwapHorizIcon } from '@mui/icons-material';
 import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
+import { NoPrefetchLink as Link } from '@/components/NoPrefetchLink';
 import { GAME_VERSIONS, GameVersion } from '@/lib/db';
 import { useTranslation } from '@/lib/simple-i18n';
 

@@ -1,7 +1,7 @@
 'use client';
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { Link as MuiLink, Paper, Box, Chip } from '@mui/material';
-import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
+import { NoPrefetchLink as Link } from '@/components/NoPrefetchLink';
 import { useMemo } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';

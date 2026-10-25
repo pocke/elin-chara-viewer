@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { useMemo, useState } from 'react';
-import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
+import { NoPrefetchLink as Link } from '@/components/NoPrefetchLink';
 import RelativeDate from '@/components/RelativeDate';
 import { normalizeForSearch } from '@/lib/searchUtils';
 import { compareVersionNames } from '@/lib/versionOrder';

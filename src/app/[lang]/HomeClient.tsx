@@ -6,7 +6,7 @@ import {
   Apps as AppsIcon,
 } from '@mui/icons-material';
 import { useTranslation } from '../../lib/simple-i18n';
-import { HoverPrefetchLink as Link } from '../../components/HoverPrefetchLink';
+import { NoPrefetchLink as Link } from '../../components/NoPrefetchLink';
 
 export default function HomeClient() {
   const { t, language } = useTranslation();

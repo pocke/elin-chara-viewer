@@ -22,7 +22,7 @@ import {
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
+import { NoPrefetchLink as Link } from '@/components/NoPrefetchLink';
 import RelativeDate from '@/components/RelativeDate';
 import { GameVersion } from '@/lib/db';
 import { basePotential, sumPowers } from '@/lib/elementable';

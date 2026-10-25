@@ -41,7 +41,7 @@ import {
   GridToolbarQuickFilter,
 } from '@mui/x-data-grid';
 import { Link as MuiLink } from '@mui/material';
-import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
+import { NoPrefetchLink as Link } from '@/components/NoPrefetchLink';
 import { getResistanceDisplayValueCompact } from '@/lib/resistanceUtils';
 
 interface ResistSimClientProps {

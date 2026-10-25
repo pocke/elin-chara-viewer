@@ -1,7 +1,7 @@
 'use client';
 import { Box, Typography, Link as MuiLink } from '@mui/material';
 import { useTranslation } from '../lib/simple-i18n';
-import { HoverPrefetchLink as Link } from './HoverPrefetchLink';
+import { NoPrefetchLink as Link } from './NoPrefetchLink';
 import RelativeDate from './RelativeDate';
 
 const REPOSITORY_URL = 'https://github.com/pocke/elin-chara-viewer';
