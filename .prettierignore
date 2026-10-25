@@ -6,4 +6,4 @@ out
 *.md
 *.json
 public
-db
+db.wrangler

@@ -43,7 +43,8 @@ and is fetched by the browser, so the build produces no pages for them.
   with a slug such as `EA-23.306`. `public/_redirects` rewrites each of them
   (status 200) to a shell page under `src/app/[lang]/archive/`, which reads the
   slug and the id from the URL, looks the slug up in `index.json` and renders
-  the page in the browser. A slug or id that does not exist shows "not found"
+  the page in the browser. Clicking a link between past version pages reloads the whole page, because the
+  router's `<url>.txt` request is answered with the shell HTML. A slug or id that does not exist shows "not found"
   with status 200. Slugs always start with `EA-`, which keeps `EA` and
   `Nightly` out of the rewrites.
 * `/versions` also reads `index.json` in the browser, so a release shows up

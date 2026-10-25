@@ -43,6 +43,14 @@ function Message({
   );
 }
 
+const safeDecode = (value: string): string | null => {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return null;
+  }
+};
+
 export default function ArchiveShell({ screen }: { screen: ArchiveScreen }) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -67,7 +75,9 @@ export default function ArchiveShell({ screen }: { screen: ArchiveScreen }) {
         const current = currentVersionOf(entry.version);
         if (current) {
           const rest = pathname.split('/').slice(3).join('/');
-          router.replace(`/${lang}/${current}/${rest}`);
+          router.replace(
+            `/${lang}/${current}/${rest}${window.location.search}${window.location.hash}`
+          );
           return;
         }
 
@@ -107,7 +117,11 @@ export default function ArchiveShell({ screen }: { screen: ArchiveScreen }) {
   }
 
   const { entry } = resolution;
-  const id = rawId === undefined ? '' : decodeURIComponent(rawId);
+  const id = safeDecode(rawId ?? '');
+
+  if (id === null) {
+    return <Message severity="warning">{t.common.notFound}</Message>;
+  }
 
   switch (screen) {
     case 'charas':

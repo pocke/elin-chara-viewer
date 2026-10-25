@@ -11,3 +11,9 @@
 
 /:lang/archive/*
   X-Robots-Tag: noindex
+
+/:lang/EA-:ver
+  X-Robots-Tag: noindex
+
+/:lang/EA-:ver/*
+  X-Robots-Tag: noindex

@@ -56,9 +56,6 @@ export const archiveVersionUrl = (slug: string): string =>
 export const archiveCsvUrl = (slug: string, table: string): string =>
   `${archiveVersionUrl(slug)}/csv/${encodeURIComponent(table)}.csv`;
 
-export const archiveIdsUrl = (slug: string): string =>
-  `${archiveVersionUrl(slug)}/ids.json`;
-
 const archiveFeatModifierUrl = (slug: string): string =>
   `${archiveVersionUrl(slug)}/featModifier.json`;
 

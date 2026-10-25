@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { resources } from './i18n-resources';
 import { CurrentVersion } from './db';
 import { allFeats } from './models/feat';
 import { charaPageIds } from './pageData';
@@ -49,20 +48,6 @@ export function getCanonicalVersionForFeat(
 ): CurrentVersion {
   if (currentVersion === 'EA') return 'EA';
   return getEAFeatAliases().has(featAlias) ? 'EA' : 'Nightly';
-}
-
-export function archivedPageMetadata(
-  lang: string,
-  pathname: string,
-  version: string
-): Metadata {
-  const appTitle = resources[lang === 'ja' ? 'ja' : 'en'].common.title;
-
-  return {
-    title: `${version} - ${appTitle}`,
-    robots: { index: false, follow: false },
-    alternates: generateAlternates(lang, pathname),
-  };
 }
 
 /**
