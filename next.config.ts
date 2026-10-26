@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 import { execSync } from 'child_process';
+import { availableParallelism } from 'os';
 
 const getGitInfo = () => {
   try {
@@ -35,7 +36,16 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // `npm run build` in the GitHub Actions CI runs the same type check, and
+  // master requires that CI to pass.
+  typescript: {
+    ignoreBuildErrors: process.env.WORKERS_CI === '1',
+  },
   experimental: {
+    // Next.js defaults to one worker fewer than the CPU count, which is a
+    // single worker on the 2 vCPU of the Workers Builds Free plan.
+    cpus: availableParallelism(),
+    turbopackFileSystemCacheForBuild: true,
     staleTimes: {
       dynamic: 180, // 動的ページを3分間キャッシュ
       static: 180, // 静的ページを3分間キャッシュ

@@ -31,6 +31,19 @@ this repository.
 * Build variables:
   * `NEXT_PUBLIC_ARCHIVE_BASE_URL`: the archive host (see below). Required when
     building on Workers Builds (`WORKERS_CI=1`).
+* Settings > Build > Build cache is enabled. Workers Builds then restores
+  `.next/cache` between builds, which holds Turbopack's build cache
+  (`turbopackFileSystemCacheForBuild`, about 320MB). Locally a build of a new
+  commit on a warm cache compiles in about 1s instead of 30s. The cache is
+  shared by every branch, including dependabot's, so a dependency's install
+  script can write to the cache a production build reads. Clear the cache from
+  the same page when the build output looks stale or the cache keeps growing.
+* `next build` skips its type check on Workers Builds (`WORKERS_CI=1`). The
+  `Build` step of the GitHub Actions CI type checks the same code, and master
+  requires that check to pass. The ruleset does not require branches to be up
+  to date, so two pull requests that pass separately can still deploy a master
+  that fails the type check. A branch pushed without a pull request gets a
+  Preview that nothing has type checked.
 * Cloudflare Web Analytics uses the automatic setup for `elin.pocke.me`:
   Cloudflare injects the beacon into the HTML it serves on that hostname, so the
   site does not embed it.
