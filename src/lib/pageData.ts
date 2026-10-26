@@ -1,5 +1,5 @@
 import './bundledData';
-import { all, GameVersion } from './db';
+import { all, GameVersion, onVersionForgotten } from './db';
 import { Chara, CharaRow, CharaSchema } from './models/chara';
 import { ElementRow, elementByAlias } from './models/element';
 import { allFeats } from './models/feat';
@@ -43,6 +43,34 @@ export interface FeatDetailRows {
   charaRows: CharaRow[];
 }
 
+// Cache: version -> featAlias -> CharaRow[]
+const _charaRowsByFeatMap: Map<
+  GameVersion,
+  Map<string, CharaRow[]>
+> = new Map();
+
+onVersionForgotten((version) => {
+  _charaRowsByFeatMap.delete(version);
+});
+
+const charaRowsByFeat = (version: GameVersion): Map<string, CharaRow[]> => {
+  if (!_charaRowsByFeatMap.has(version)) {
+    const featMap = new Map<string, CharaRow[]>();
+    for (const row of charaIndexRows(version)) {
+      const aliases = new Set(
+        new Chara(version, row).feats().map((f) => f.element.alias)
+      );
+      for (const alias of aliases) {
+        const rows = featMap.get(alias) ?? [];
+        rows.push(row);
+        featMap.set(alias, rows);
+      }
+    }
+    _charaRowsByFeatMap.set(version, featMap);
+  }
+  return _charaRowsByFeatMap.get(version)!;
+};
+
 export const featDetailRows = (
   version: GameVersion,
   alias: string
@@ -52,16 +80,10 @@ export const featDetailRows = (
     return undefined;
   }
 
-  const charaRows = all(version, 'charas', CharaSchema)
-    .filter((row) => !Chara.isIgnoredCharaId(row.id))
-    .map((row) => new Chara(version, row))
-    .filter((chara) => chara.feats().some((f) => f.element.alias === alias))
-    .map((chara) => chara.row);
-
   return {
     elementRow: element.row,
     raceRows: racesByFeat(version, alias).map((race) => race.row),
     jobRows: jobsByFeat(version, alias).map((job) => job.row),
-    charaRows,
+    charaRows: charaRowsByFeat(version).get(alias) ?? [],
   };
 };
