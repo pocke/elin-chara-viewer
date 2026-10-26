@@ -30,8 +30,9 @@ this repository.
 * Build variables:
   * `NEXT_PUBLIC_ARCHIVE_BASE_URL`: the archive host (see below). Required when
     building on Workers Builds (`WORKERS_CI=1`).
-  * `NEXT_PUBLIC_CF_BEACON_TOKEN`: the Cloudflare Web Analytics token. The
-    beacon script is added only when this is set.
+* Cloudflare Web Analytics uses the automatic setup for `elin.pocke.me`:
+  Cloudflare injects the beacon into the HTML it serves on that hostname, so the
+  site does not embed it.
 
 ## Past versions
 

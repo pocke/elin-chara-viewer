@@ -13,8 +13,6 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-const cfBeaconToken = process.env.NEXT_PUBLIC_CF_BEACON_TOKEN;
-
 export const metadata: Metadata = {
   title: 'Elin Character Viewer',
   description: 'Browse and manage character information for Elin',
@@ -39,13 +37,6 @@ export default async function RootLayout({
     <html lang={lang}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ClientLayout lang={lang}>{children}</ClientLayout>
-        {cfBeaconToken && (
-          <script
-            defer
-            src="https://static.cloudflareinsights.com/beacon.min.js"
-            data-cf-beacon={JSON.stringify({ token: cfBeaconToken })}
-          />
-        )}
       </body>
     </html>
   );
