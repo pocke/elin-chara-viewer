@@ -17,8 +17,9 @@ static assets, with no Worker script. Workers Builds builds and deploys it from
 this repository.
 
 * Build command `npm run build`, deploy command `npx wrangler deploy`;
-  non-production branches use `npx wrangler versions upload`. The Worker name
-  must match `name` in `wrangler.toml`.
+  non-production branches use the preview command `npx wrangler preview`, which
+  creates or updates a Preview per branch. The Worker name must match `name` in
+  `wrangler.toml`.
 * `npm run build` runs `script/prune-export.cjs` afterwards. It deletes the
   `__next.*.txt` segment files, which are most of the export and only serve
   prefetching (`NoPrefetchLink` never prefetches), and fails the build when
