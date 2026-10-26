@@ -1,0 +1,9 @@
+/ /ja 301
+/:lang/EA /:lang 301
+/:lang/Nightly /:lang 301
+/:lang/EA-:ver /:lang/EA-:ver/charas 301
+/:lang/EA-:ver/charas /:lang/archive/charas 200
+/:lang/EA-:ver/charas/:id /:lang/archive/charas/detail 200
+/:lang/EA-:ver/feats /:lang/archive/feats 200
+/:lang/EA-:ver/feats/:alias /:lang/archive/feats/detail 200
+/:lang/EA-:ver/sources /:lang/archive/sources 200

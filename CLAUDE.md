@@ -29,9 +29,9 @@ This is an Elin character viewer application built with Next.js and TypeScript.
 - **Adding new translations**: Add both Japanese and English versions to the `resources` object in `i18n-resources.ts`
 
 ### Link Component
-- **Always use `HoverPrefetchLink` instead of Next.js `Link`** - to reduce Vercel Edge Requests
-- **Import**: `import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink'`
-- **Reason**: The default `next/link` prefetches on viewport entry, causing excessive Edge Requests. `HoverPrefetchLink` only prefetches on hover.
+- **Always use `NoPrefetchLink` instead of Next.js `Link`** - it renders `next/link` with `prefetch={false}`
+- **Import**: `import { NoPrefetchLink as Link } from '@/components/NoPrefetchLink'`
+- **Reason**: `script/prune-export.cjs` deletes the `__next.*.txt` segment files from the static export to stay under Cloudflare Workers' file limit, so prefetching would only produce 404 requests.
 
 ### Important Notes
 - Maintain type safety throughout the codebase

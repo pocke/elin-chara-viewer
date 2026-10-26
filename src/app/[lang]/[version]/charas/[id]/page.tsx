@@ -1,48 +1,33 @@
-import { GAME_VERSIONS } from '@/lib/db';
+import { CurrentVersion, GAME_VERSIONS } from '@/lib/db';
 import { Chara } from '@/lib/models/chara';
 import { ElementAttacks, elementByAlias } from '@/lib/models/element';
-import { archivedIds } from '@/lib/archive';
 import { charaDetailRow, charaPageIds } from '@/lib/pageData';
-import { currentVersionName, resolveVersion } from '@/lib/versions';
-import ArchivedCharaDetailPage from './ArchivedCharaDetailPage';
+import { currentVersionName } from '@/lib/versions';
 import CharaDetailClient from './CharaDetailClient';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { resources, toLanguage } from '@/lib/i18n-resources';
 import {
-  archivedPageMetadata,
   generateAlternates,
   getCanonicalVersionForChara,
 } from '@/lib/metadata';
 
 export const generateMetadata = async (props: {
-  params: Promise<{ id: string; lang: string; version: string }>;
+  params: Promise<{ id: string; lang: string; version: CurrentVersion }>;
 }): Promise<Metadata> => {
   const params = await props.params;
   const decodedId = decodeURIComponent(params.id);
   const [baseId, variantElement] = decodedId.split('---');
-  const resolved = await resolveVersion(params.version);
+  const version = params.version;
 
-  if (!resolved) {
-    return {};
-  }
-
-  if (resolved.kind === 'archived') {
-    return archivedPageMetadata(
-      params.lang,
-      `/${params.lang}/${params.version}/charas/${params.id}`,
-      resolved.label
-    );
-  }
-
-  const charaRow = charaDetailRow(resolved.key, baseId);
+  const charaRow = charaDetailRow(version, baseId);
 
   if (!charaRow) {
     return {};
   }
 
   const chara = new Chara(
-    resolved.key,
+    version,
     charaRow,
     variantElement as ElementAttacks | null
   );
@@ -63,7 +48,7 @@ export const generateMetadata = async (props: {
   const primaryAttributes = chara.primaryAttributes();
   const primaryAttrsText = primaryAttributes
     .map((attr) => {
-      const element = elementByAlias(resolved.key, attr.alias)!;
+      const element = elementByAlias(version, attr.alias)!;
       const displayName = element.name(lang);
       return `${displayName}${attr.value}`;
     })
@@ -71,7 +56,7 @@ export const generateMetadata = async (props: {
 
   const description = `${raceName}/${jobName}\n${primaryAttrsText}\n${t.life}${life}/${t.mana}${mana}/${t.speed}${speed}/${t.vigor}${vigor}`;
 
-  const canonicalVersion = getCanonicalVersionForChara(resolved.key, decodedId);
+  const canonicalVersion = getCanonicalVersionForChara(version, decodedId);
   // params.id may carry extra ---segments past the variant element (e.g.
   // bit---eleFire---junk); chara.id always collapses back to the real id
   // (base, or base---element), so building the canonical path from it
@@ -116,38 +101,16 @@ export const generateStaticParams = () => {
 };
 
 export default async function CharaPage(props: {
-  params: Promise<{ id: string; version: string }>;
+  params: Promise<{ id: string; version: CurrentVersion }>;
 }) {
   const params = await props.params;
   const decodedId = decodeURIComponent(params.id);
-  const resolved = await resolveVersion(params.version);
-
-  if (!resolved) {
-    notFound();
-  }
+  const version = params.version;
 
   // Parse variant element from ID (format: baseId#variantElement)
   const [baseId, variantElement] = decodedId.split('---');
 
-  if (resolved.kind === 'archived') {
-    // Checked here rather than in the client component so that a URL that
-    // never existed answers 404 instead of filling the route cache with an
-    // empty page for every identifier that is asked for.
-    const ids = await archivedIds(resolved.entry.slug);
-    if (!ids.charas.includes(baseId)) {
-      notFound();
-    }
-
-    return (
-      <ArchivedCharaDetailPage
-        entry={resolved.entry}
-        baseId={baseId}
-        variantElement={variantElement as ElementAttacks | null}
-      />
-    );
-  }
-
-  const charaRow = charaDetailRow(resolved.key, baseId);
+  const charaRow = charaDetailRow(version, baseId);
 
   if (!charaRow) {
     notFound();
@@ -157,8 +120,8 @@ export default async function CharaPage(props: {
     <CharaDetailClient
       charaRow={charaRow}
       variantElement={variantElement as ElementAttacks | null}
-      version={resolved.key}
-      versionName={currentVersionName(resolved.key)}
+      version={version}
+      versionName={currentVersionName(version)}
     />
   );
 }

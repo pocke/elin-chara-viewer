@@ -45,3 +45,4 @@ next-env.d.ts
 
 # Generated CSV files for source search
 /public/csv/
+.wrangler/

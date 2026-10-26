@@ -24,7 +24,7 @@ import {
 } from '@mui/icons-material';
 import { useTranslation } from '@/lib/simple-i18n';
 import { useParams } from 'next/navigation';
-import { HoverPrefetchLink as Link } from '../../../../../components/HoverPrefetchLink';
+import { NoPrefetchLink as Link } from '../../../../../components/NoPrefetchLink';
 import { Element, type ElementRow } from '@/lib/models/element';
 import { Feat } from '@/lib/models/feat';
 import { Race, type RaceRow } from '@/lib/models/race';

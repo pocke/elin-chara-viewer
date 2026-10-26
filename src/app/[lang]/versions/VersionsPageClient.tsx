@@ -1,7 +1,9 @@
 'use client';
 
 import {
+  Alert,
   Box,
+  CircularProgress,
   Container,
   MenuItem,
   Paper,
@@ -16,22 +18,20 @@ import {
   Typography,
 } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
-import { useMemo, useState } from 'react';
-import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
+import { useEffect, useMemo, useState } from 'react';
+import { NoPrefetchLink as Link } from '@/components/NoPrefetchLink';
 import RelativeDate from '@/components/RelativeDate';
+import { archiveIndex } from '@/lib/archive';
+import { currentVersionOf } from '@/lib/versions';
 import { normalizeForSearch } from '@/lib/searchUtils';
 import { compareVersionNames } from '@/lib/versionOrder';
 import { useTranslation } from '@/lib/simple-i18n';
 
-export interface VersionListEntry {
+interface VersionListEntry {
   version: string;
   slug: string;
   channel: 'stable' | 'nightly';
   date: string;
-}
-
-interface VersionsPageClientProps {
-  entries: VersionListEntry[];
 }
 
 type ChannelFilter = 'all' | VersionListEntry['channel'];
@@ -55,14 +55,41 @@ const compareBy: Record<
 
 const COLUMNS: SortKey[] = ['version', 'date', 'channel'];
 
-export default function VersionsPageClient({
-  entries,
-}: VersionsPageClientProps) {
+export default function VersionsPageClient() {
   const { t, language } = useTranslation();
+  const [entries, setEntries] = useState<VersionListEntry[] | null>(null);
+  const [failed, setFailed] = useState(false);
   const [query, setQuery] = useState('');
   const [channelFilter, setChannelFilter] = useState<ChannelFilter>('all');
   const [sortKey, setSortKey] = useState<SortKey>('version');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+
+  useEffect(() => {
+    let cancelled = false;
+
+    archiveIndex()
+      .then((index) => {
+        if (cancelled) return;
+        setEntries(
+          index
+            .filter((entry) => !currentVersionOf(entry.version))
+            .map((entry) => ({
+              version: entry.version,
+              slug: entry.slug,
+              channel: entry.channel,
+              date: entry.releaseDate,
+            }))
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+        if (!cancelled) setFailed(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const columnLabels: Record<SortKey, string> = {
     version: t.common.version,
@@ -73,7 +100,7 @@ export default function VersionsPageClient({
   const visibleEntries = useMemo(() => {
     const normalizedQuery = normalizeForSearch(query.trim());
 
-    const filtered = entries.filter(
+    const filtered = (entries ?? []).filter(
       (entry) =>
         (channelFilter === 'all' || entry.channel === channelFilter) &&
         (!normalizedQuery ||
@@ -93,6 +120,29 @@ export default function VersionsPageClient({
     setSortKey(key);
     setSortDirection('desc');
   };
+
+  if (failed) {
+    return (
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        <Alert severity="error">{t.common.versionListLoadFailed}</Alert>
+      </Container>
+    );
+  }
+
+  if (!entries) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '50vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>

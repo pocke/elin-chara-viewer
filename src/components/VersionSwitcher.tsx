@@ -2,14 +2,15 @@
 import { Button, Divider, Menu, MenuItem } from '@mui/material';
 import { SwapHoriz as SwapHorizIcon } from '@mui/icons-material';
 import { useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { HoverPrefetchLink as Link } from '@/components/HoverPrefetchLink';
+import { useRouter } from 'next/navigation';
+import { useSitePathname } from '@/lib/useSitePathname';
+import { NoPrefetchLink as Link } from '@/components/NoPrefetchLink';
 import { GAME_VERSIONS, GameVersion } from '@/lib/db';
 import { useTranslation } from '@/lib/simple-i18n';
 
 export default function VersionSwitcher() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const pathname = usePathname();
+  const pathname = useSitePathname();
   const router = useRouter();
   const { t } = useTranslation();
 

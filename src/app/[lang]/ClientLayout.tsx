@@ -15,9 +15,9 @@ import {
   ListItemText,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { HoverPrefetchLink as Link } from '../../components/HoverPrefetchLink';
+import { NoPrefetchLink as Link } from '../../components/NoPrefetchLink';
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useSitePathname } from '../../lib/useSitePathname';
 import theme from '../theme';
 // The models call all() in the browser too, so the current versions have to
 // be registered somewhere in the client graph; this layout wraps every page.
@@ -40,7 +40,7 @@ interface ClientLayoutProps {
 function ClientLayoutInner({ children }: { children: React.ReactNode }) {
   const { t, language } = useTranslation();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const pathname = usePathname();
+  const pathname = useSitePathname();
 
   const pathParts = pathname.split('/');
   const pathVersion = pathParts.length >= 4 ? pathParts[2] : null;

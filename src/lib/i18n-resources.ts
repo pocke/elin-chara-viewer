@@ -147,6 +147,7 @@ export const resources = {
       pastVersionsDescription:
         '過去のバージョンのデータを閲覧できます。データは当時のゲームから抽出したものです。',
       archivedVersionLoadFailed: '過去バージョンのデータを読み込めませんでした',
+      versionListLoadFailed: '過去バージョンの一覧を読み込めませんでした',
       releaseDate: 'リリース日',
       channel: 'チャンネル',
       channelStable: '安定版',
@@ -459,6 +460,7 @@ export const resources = {
       pastVersionsDescription:
         'Browse data from past versions, exported from the game at the time.',
       archivedVersionLoadFailed: 'Failed to load the past version data',
+      versionListLoadFailed: 'Failed to load the past version list',
       releaseDate: 'Release date',
       channel: 'Channel',
       channelStable: 'Stable',

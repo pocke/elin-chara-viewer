@@ -3,7 +3,7 @@
 import { Alert, Box } from '@mui/material';
 import ArchivedVersionProvider from '@/components/ArchivedVersionProvider';
 import { ArchivedVersion } from '@/lib/archive';
-import { ElementAttacks } from '@/lib/models/element';
+import { ElementAttacks, elementByAlias } from '@/lib/models/element';
 import { charaDetailRow } from '@/lib/pageData';
 import { useTranslation } from '@/lib/simple-i18n';
 import CharaDetailClient from './CharaDetailClient';
@@ -28,7 +28,10 @@ function Content({
   const { t } = useTranslation();
   const charaRow = charaDetailRow(version, baseId);
 
-  if (!charaRow) {
+  if (
+    !charaRow ||
+    (variantElement && !elementByAlias(version, variantElement))
+  ) {
     return (
       <Box sx={{ p: 3 }}>
         <Alert severity="warning">{t.common.notFound}</Alert>

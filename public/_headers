@@ -1,0 +1,19 @@
+/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/_next/static/*
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
+
+/csv/*
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
+
+/:lang/archive/*
+  X-Robots-Tag: noindex
+
+/:lang/EA-:ver
+  X-Robots-Tag: noindex
+
+/:lang/EA-:ver/*
+  X-Robots-Tag: noindex
