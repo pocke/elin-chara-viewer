@@ -36,6 +36,11 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // `npm run build` in the GitHub Actions CI runs the same type check, and
+  // master requires that CI to pass.
+  typescript: {
+    ignoreBuildErrors: process.env.WORKERS_CI === '1',
+  },
   experimental: {
     // Next.js defaults to one worker fewer than the CPU count, which is a
     // single worker on the 2 vCPU of the Workers Builds Free plan.
