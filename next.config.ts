@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 import { execSync } from 'child_process';
+import { availableParallelism } from 'os';
 
 const getGitInfo = () => {
   try {
@@ -36,6 +37,9 @@ const nextConfig: NextConfig = {
     },
   },
   experimental: {
+    // Next.js defaults to one worker fewer than the CPU count, which is a
+    // single worker on the 2 vCPU of the Workers Builds Free plan.
+    cpus: availableParallelism(),
     staleTimes: {
       dynamic: 180, // 動的ページを3分間キャッシュ
       static: 180, // 静的ページを3分間キャッシュ
