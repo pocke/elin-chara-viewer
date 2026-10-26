@@ -40,6 +40,7 @@ const nextConfig: NextConfig = {
     // Next.js defaults to one worker fewer than the CPU count, which is a
     // single worker on the 2 vCPU of the Workers Builds Free plan.
     cpus: availableParallelism(),
+    turbopackFileSystemCacheForBuild: true,
     staleTimes: {
       dynamic: 180, // 動的ページを3分間キャッシュ
       static: 180, // 静的ページを3分間キャッシュ
