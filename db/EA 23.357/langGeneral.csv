@@ -3045,6 +3045,7 @@ enableModError,,エラー表示を有効にする,Enable Error Popup
 errorPopup_tip,,"有効にすると、ゲームプレイ中に発生したエラーをポップアップで表示し、原因の可能性があるMODをあわせて表示します。
 MOD関連の問題のデバッグや、MOD作者への報告に役立ちます。","When enabled, in-game errors will be shown in a popup along with any mods that may be causing them.
 Useful for debugging mod‑related problems and sending reports to mod creators."
+feedbackCurrentSave,,現在のセーブ,Current save
 mod_search,,Modを検索...,Search mods...
 mod_filter,,フィルター,Filter
 mod_filter_enabled,,有効,Enabled

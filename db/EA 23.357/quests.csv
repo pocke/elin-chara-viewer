@@ -89,6 +89,8 @@ exile_quru,長い夜,Long Night,QuestDialog,quru,,,,0,0,0,眠れない。,I can'
 exile_kettle,忍び寄る影,Creeping Shadow,QuestDialog,kettle,,,,0,0,0,静かな夜だ。,The night is quiet.,,,,
 exile_whisper,噂の人物,Hot Topic ,QuestDialog,farris,,,,0,0,0,（ひそひそ）,(whispering),,,,
 exile_voice,陰に潜む声,Voice in the Shadow,QuestDialog,loytel,,,,0,0,0,さっきから、後ろに何かいる気がするんだ。,I feel like there's someone behind me.,,,,
+nevernight,不夜城,Nevernight Castle,QuestNevernight,sorin,,,,0,0,0,不毛ですね。|謎の騎士の容態が回復するのを待とう。,This is pointless.|Let's wait until the mysterious knight has recovered.,,,,
+nevernight1,,,,sorin,,,,0,0,0,|ヴェスダがコルゴンに頼み事をしたいようだ。彼の容態が回復するのを待とう。(続く),|Vesda seems to have a favor to ask of Corgon. Let's wait until he has recovered. (To be continued),,,,
 into_darkness,闇へ,Into Darkness,QuestIntoDarkness,kettle,,,,0,0,0,みんな、集まってくれないか？|イスシズルに対処するための方法を考えなければならない。,"Everyone, gather up, please.|You need to find a way to deal with Issizzle.",,,,
 into_darkness1,,,,kettle,,,,0,0,0,|ケトルの帰りを待とう。,|Let's wait for Kettle to return.,,,,
 into_darkness2,,,,kettle,,,,0,0,0,|ケトルの帰りを待とう。,|Let's wait for Kettle to return.,,,,
