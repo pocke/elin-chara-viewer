@@ -32,9 +32,13 @@ import {
   ElementAttacks,
   elementByAlias,
   resistanceElements,
-  Element,
 } from '@/lib/models/element';
 import ResistanceBarChart from '@/components/ResistanceBarChart';
+import {
+  ElementSourceSection,
+  SourcedValue,
+  elementTooltipSlotProps,
+} from '@/components/ElementSources';
 import CharaHistory from './CharaHistory';
 import { getContrastColor } from '@/lib/colorUtils';
 import {
@@ -96,10 +100,21 @@ export default function CharaDetailClient({
   const abilities = chara.abilities();
   const [actualGeneSlot, origGeneSlot] = chara.geneSlot();
 
-  const resistances = resistanceElements(version).map((element) => ({
-    value: chara.getElementPower(element.alias),
-    element: element,
-  }));
+  const elementsByAlias = new Map(
+    allElements.map((elementWithPower) => [
+      elementWithPower.element.alias,
+      elementWithPower,
+    ])
+  );
+
+  const resistances = resistanceElements(version).map((element) => {
+    const elementWithPower = elementsByAlias.get(element.alias);
+    return {
+      value: elementWithPower ? totalPower(elementWithPower) : 0,
+      element: element,
+      sources: elementWithPower?.sources ?? [],
+    };
+  });
 
   const renderElementChips = (
     elements: ElementWithPower[],
@@ -146,27 +161,13 @@ export default function CharaDetailClient({
       return (
         <Tooltip
           key={index}
-          title={createFeatTooltipContent(element, power)}
+          title={createFeatTooltipContent(
+            elementWithPower,
+            options?.isSkill ? 'potential' : 'power'
+          )}
           arrow
           placement="top"
-          slotProps={{
-            tooltip: {
-              sx: {
-                bgcolor: 'background.paper',
-                color: 'text.primary',
-                border: '1px solid',
-                borderColor: 'divider',
-                boxShadow: 2,
-                '& .MuiTooltip-arrow': {
-                  color: 'background.paper',
-                  '&::before': {
-                    border: '1px solid',
-                    borderColor: 'divider',
-                  },
-                },
-              },
-            },
-          }}
+          slotProps={elementTooltipSlotProps}
         >
           {isFeat ? (
             <Link
@@ -221,11 +222,26 @@ export default function CharaDetailClient({
     );
   };
 
-  const createFeatTooltipContent = (element: Element, power: number) => {
+  const createFeatTooltipContent = (
+    elementWithPower: ElementWithPower,
+    mode: 'power' | 'potential'
+  ) => {
+    const element = elementWithPower.element;
+    const power = totalPower(elementWithPower);
     const featName = element.name(language);
     const detail = element.detail(language);
     const textPhase = element.textPhase(language);
     const textExtra = element.textExtra(language);
+
+    const potential = calcBasePotential(elementWithPower);
+    const headerValue =
+      mode === 'potential'
+        ? potential !== 100
+          ? potential
+          : null
+        : power > 1
+          ? power
+          : null;
 
     const subElements = element.subElements().map((sub) => ({
       element: sub.element,
@@ -236,7 +252,7 @@ export default function CharaDetailClient({
       <Box sx={{ maxWidth: 300 }}>
         <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>
           {featName}
-          {power > 1 ? ` (${power})` : ''}
+          {headerValue !== null ? ` (${headerValue})` : ''}
         </Typography>
         {detail && (
           <Typography variant="body2" sx={{ mb: 1 }}>
@@ -273,6 +289,13 @@ export default function CharaDetailClient({
               </Typography>
             ))}
           </Box>
+        )}
+        {elementWithPower.sources.length > 0 && (
+          <ElementSourceSection
+            sources={elementWithPower.sources}
+            mode={mode}
+            locale={language}
+          />
         )}
       </Box>
     );
@@ -395,7 +418,12 @@ export default function CharaDetailClient({
                       <Typography variant="body2" color="text.secondary">
                         {displayName}
                       </Typography>
-                      <Typography variant="h6">{attr.value}</Typography>
+                      <SourcedValue
+                        elementWithPower={elementsByAlias.get(attr.alias)}
+                        locale={language}
+                      >
+                        {attr.value}
+                      </SourcedValue>
                     </Box>
                   );
                 })}
@@ -417,25 +445,45 @@ export default function CharaDetailClient({
                   <Typography variant="body2" color="text.secondary">
                     {t.common.life}
                   </Typography>
-                  <Typography variant="h6">{chara.life()}</Typography>
+                  <SourcedValue
+                    elementWithPower={elementsByAlias.get('life')}
+                    locale={language}
+                  >
+                    {chara.life()}
+                  </SourcedValue>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t.common.mana}
                   </Typography>
-                  <Typography variant="h6">{chara.mana()}</Typography>
+                  <SourcedValue
+                    elementWithPower={elementsByAlias.get('mana')}
+                    locale={language}
+                  >
+                    {chara.mana()}
+                  </SourcedValue>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t.common.speed}
                   </Typography>
-                  <Typography variant="h6">{chara.speed()}</Typography>
+                  <SourcedValue
+                    elementWithPower={elementsByAlias.get('SPD')}
+                    locale={language}
+                  >
+                    {chara.speed()}
+                  </SourcedValue>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t.common.vigor}
                   </Typography>
-                  <Typography variant="h6">{chara.vigor()}</Typography>
+                  <SourcedValue
+                    elementWithPower={elementsByAlias.get('vigor')}
+                    locale={language}
+                  >
+                    {chara.vigor()}
+                  </SourcedValue>
                 </Box>
               </Box>
             </Box>
@@ -455,31 +503,56 @@ export default function CharaDetailClient({
                   <Typography variant="body2" color="text.secondary">
                     {t.common.dv}
                   </Typography>
-                  <Typography variant="h6">{chara.dv()}</Typography>
+                  <SourcedValue
+                    elementWithPower={elementsByAlias.get('DV')}
+                    locale={language}
+                  >
+                    {chara.dv()}
+                  </SourcedValue>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t.common.pv}
                   </Typography>
-                  <Typography variant="h6">{chara.pv()}</Typography>
+                  <SourcedValue
+                    elementWithPower={elementsByAlias.get('PV')}
+                    locale={language}
+                  >
+                    {chara.pv()}
+                  </SourcedValue>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t.common.pdr}
                   </Typography>
-                  <Typography variant="h6">{chara.pdr()}%</Typography>
+                  <SourcedValue
+                    elementWithPower={elementsByAlias.get('PDR')}
+                    locale={language}
+                  >
+                    {chara.pdr()}%
+                  </SourcedValue>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t.common.edr}
                   </Typography>
-                  <Typography variant="h6">{chara.edr()}%</Typography>
+                  <SourcedValue
+                    elementWithPower={elementsByAlias.get('EDR')}
+                    locale={language}
+                  >
+                    {chara.edr()}%
+                  </SourcedValue>
                 </Box>
                 <Box>
                   <Typography variant="body2" color="text.secondary">
                     {t.common.ep}
                   </Typography>
-                  <Typography variant="h6">{chara.ep()}</Typography>
+                  <SourcedValue
+                    elementWithPower={elementsByAlias.get('evasionPerfect')}
+                    locale={language}
+                  >
+                    {chara.ep()}
+                  </SourcedValue>
                 </Box>
               </Box>
             </Box>
@@ -538,19 +611,40 @@ export default function CharaDetailClient({
                           gap: 0.5,
                         }}
                       >
-                        <Chip
-                          label={`${negationName}${power > 1 ? ` (${power})` : ''}`}
-                          variant="outlined"
-                          size="small"
-                          sx={{
-                            borderColor: element.getColor(),
-                            color: element.getColor(),
-                            '&:hover': {
-                              backgroundColor: element.getColor() + '20',
+                        <Tooltip
+                          title={
+                            <Box>
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ fontWeight: 'bold' }}
+                              >
+                                {negationName}
+                              </Typography>
+                              <ElementSourceSection
+                                sources={negation.sources}
+                                mode="power"
+                                locale={language}
+                              />
+                            </Box>
+                          }
+                          arrow
+                          placement="top"
+                          slotProps={elementTooltipSlotProps}
+                        >
+                          <Chip
+                            label={`${negationName}${power > 1 ? ` (${power})` : ''}`}
+                            variant="outlined"
+                            size="small"
+                            sx={{
                               borderColor: element.getColor(),
-                            },
-                          }}
-                        />
+                              color: element.getColor(),
+                              '&:hover': {
+                                backgroundColor: element.getColor() + '20',
+                                borderColor: element.getColor(),
+                              },
+                            }}
+                          />
+                        </Tooltip>
                       </Box>
                     );
                   })}

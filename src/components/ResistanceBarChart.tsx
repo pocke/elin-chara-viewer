@@ -31,10 +31,16 @@ import { useState } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
 import { Element } from '@/lib/models/element';
 import { getResistanceLabel } from '@/lib/resistanceUtils';
+import { ElementSource } from '@/lib/elementable';
+import {
+  ElementSourceLines,
+  elementTooltipSlotProps,
+} from '@/components/ElementSources';
 
 interface ResistanceData {
   value: number;
   element: Element;
+  sources: ElementSource[];
 }
 
 interface ResistanceBarChartProps {
@@ -197,10 +203,16 @@ export default function ResistanceBarChart({
                       {resistance.value > 0 ? '+' : ''}
                       {resistance.value} ({resistanceLabel})
                     </Typography>
+                    <ElementSourceLines
+                      sources={resistance.sources}
+                      mode="power"
+                      locale={locale}
+                    />
                   </Box>
                 }
                 arrow
                 placement="top"
+                slotProps={elementTooltipSlotProps}
               >
                 <Box
                   sx={{
@@ -312,10 +324,16 @@ export default function ResistanceBarChart({
                           <Typography variant="body2">
                             0 ({getResistanceLabel(0, t)})
                           </Typography>
+                          <ElementSourceLines
+                            sources={resistance.sources}
+                            mode="power"
+                            locale={locale}
+                          />
                         </Box>
                       }
                       arrow
                       placement="top"
+                      slotProps={elementTooltipSlotProps}
                     >
                       <Box
                         sx={{
