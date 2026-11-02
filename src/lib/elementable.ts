@@ -5,8 +5,13 @@ import {
   PRIMARY_ATTRIBUTE_ALIASES,
   STATS_ALIASES,
 } from './models/element';
+import type { Race } from './models/race';
+import type { Job } from './models/job';
 
-export type ElementSourceOrigin = 'chara' | 'race' | 'job';
+export type ElementSourceOrigin =
+  | { kind: 'chara' }
+  | { kind: 'race'; race: Race }
+  | { kind: 'job'; job: Job };
 
 export type ElementSource = {
   origin: ElementSourceOrigin;

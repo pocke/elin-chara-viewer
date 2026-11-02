@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import {
+  ElementSourceOrigin,
   ElementWithPower,
   parseElements,
   filterFeats,
@@ -182,6 +183,10 @@ export class Race {
     }
   }
 
+  private origin(): ElementSourceOrigin {
+    return { kind: 'race', race: this };
+  }
+
   private commonSkillElements(): ElementWithPower[] {
     const result: ElementWithPower[] = [];
     for (const id of COMMON_RACE_SKILL_IDS) {
@@ -189,7 +194,7 @@ export class Race {
       if (element) {
         result.push({
           element,
-          sources: [{ origin: 'race', via: null, power: 1 }],
+          sources: [{ origin: this.origin(), via: null, power: 1 }],
         });
       }
     }
@@ -218,7 +223,7 @@ export class Race {
         }
         result.push({
           element,
-          sources: [{ origin: 'race', via: null, power: value }],
+          sources: [{ origin: this.origin(), via: null, power: value }],
         });
       }
     }
@@ -246,7 +251,7 @@ export class Race {
         }
         result.push({
           element,
-          sources: [{ origin: 'race', via: null, power: value }],
+          sources: [{ origin: this.origin(), via: null, power: value }],
         });
       }
     }
@@ -255,7 +260,7 @@ export class Race {
 
   elements(): ElementWithPower[] {
     return [
-      ...parseElements(this.version, this.row, 'race'),
+      ...parseElements(this.version, this.row, this.origin()),
       ...this.commonSkillElements(),
       ...this.attributeElements(),
       ...this.statElements(),

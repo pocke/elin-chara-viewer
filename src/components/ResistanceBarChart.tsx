@@ -32,7 +32,10 @@ import { useTranslation } from '@/lib/simple-i18n';
 import { Element } from '@/lib/models/element';
 import { getResistanceLabel } from '@/lib/resistanceUtils';
 import { ElementSource } from '@/lib/elementable';
-import { ElementSourceLines } from '@/components/ElementSources';
+import {
+  ElementSourceLines,
+  elementTooltipSlotProps,
+} from '@/components/ElementSources';
 
 interface ResistanceData {
   value: number;
@@ -209,6 +212,7 @@ export default function ResistanceBarChart({
                 }
                 arrow
                 placement="top"
+                slotProps={elementTooltipSlotProps}
               >
                 <Box
                   sx={{
@@ -329,6 +333,7 @@ export default function ResistanceBarChart({
                       }
                       arrow
                       placement="top"
+                      slotProps={elementTooltipSlotProps}
                     >
                       <Box
                         sx={{

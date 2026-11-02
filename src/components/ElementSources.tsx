@@ -2,7 +2,17 @@
 import { ReactNode } from 'react';
 import { Box, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from '@/lib/simple-i18n';
-import { ElementSource, ElementWithPower } from '@/lib/elementable';
+import {
+  ElementSource,
+  ElementSourceOrigin,
+  ElementWithPower,
+} from '@/lib/elementable';
+
+const ORIGIN_DISPLAY_ORDER: Record<ElementSourceOrigin['kind'], number> = {
+  race: 0,
+  job: 1,
+  chara: 2,
+};
 
 export const elementTooltipSlotProps = {
   tooltip: {
@@ -37,11 +47,24 @@ export function ElementSourceLines({
   locale,
 }: ElementSourceLinesProps) {
   const { t } = useTranslation();
-  const originLabels = {
-    chara: t.common.elementSourceChara,
-    race: t.common.race,
-    job: t.common.job,
+  const withParen = (outer: string, inner: string): string =>
+    t.common.elementSourceParen
+      .replace('{{outer}}', outer)
+      .replace('{{inner}}', inner);
+  const originLabel = (origin: ElementSourceOrigin): string => {
+    switch (origin.kind) {
+      case 'chara':
+        return t.common.elementSourceChara;
+      case 'race':
+        return withParen(origin.race.name(locale), t.common.race);
+      case 'job':
+        return withParen(origin.job.name(locale), t.common.job);
+    }
   };
+  const orderedSources = [...sources].sort(
+    (a, b) =>
+      ORIGIN_DISPLAY_ORDER[a.origin.kind] - ORIGIN_DISPLAY_ORDER[b.origin.kind]
+  );
 
   const valueText = (power: number): string => {
     if (mode === 'power') {
@@ -57,13 +80,17 @@ export function ElementSourceLines({
           {t.common.skillBasePotential} 100
         </Typography>
       )}
-      {sources.map((source, index) => {
-        const origin = originLabels[source.origin];
+      {orderedSources.map((source, index) => {
+        const origin = originLabel(source.origin);
         const label = source.via
-          ? `${source.via.name(locale)} (${origin})`
+          ? withParen(source.via.name(locale), origin)
           : origin;
         return (
-          <Typography variant="body2" key={index}>
+          <Typography
+            variant="body2"
+            key={index}
+            color={source.power < 0 ? 'error' : undefined}
+          >
             {label} {valueText(source.power)}
           </Typography>
         );

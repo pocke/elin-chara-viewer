@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import {
+  ElementSourceOrigin,
   ElementWithPower,
   parseElements,
   filterFeats,
@@ -117,6 +118,10 @@ export class Job {
     }
   }
 
+  private origin(): ElementSourceOrigin {
+    return { kind: 'job', job: this };
+  }
+
   private attributeElements(): ElementWithPower[] {
     const attrs = [
       'STR',
@@ -139,7 +144,7 @@ export class Job {
         }
         result.push({
           element,
-          sources: [{ origin: 'job', via: null, power: value }],
+          sources: [{ origin: this.origin(), via: null, power: value }],
         });
       }
     }
@@ -148,7 +153,7 @@ export class Job {
 
   elements(): ElementWithPower[] {
     return [
-      ...parseElements(this.version, this.row, 'job'),
+      ...parseElements(this.version, this.row, this.origin()),
       ...this.attributeElements(),
     ];
   }
