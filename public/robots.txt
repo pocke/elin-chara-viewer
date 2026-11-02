@@ -1,4 +1,7 @@
 User-agent: *
-Allow: /
+Disallow: /ja/EA-
+Disallow: /en/EA-
+Disallow: /ja/archive/
+Disallow: /en/archive/
 
 Sitemap: https://elin.pocke.me/sitemap.xml
