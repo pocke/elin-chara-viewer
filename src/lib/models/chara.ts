@@ -175,7 +175,7 @@ export class Chara {
   elements(): ElementWithPower[] {
     return this.memoize('elements', () =>
       mergeElements(
-        parseElements(this.version, this.row, this.mainElement),
+        parseElements(this.version, this.row, 'chara', this.mainElement),
         this.race.elements(),
         this.job().elements()
       )

@@ -187,7 +187,10 @@ export class Race {
     for (const id of COMMON_RACE_SKILL_IDS) {
       const element = elementById(this.version, id);
       if (element) {
-        result.push({ element, powers: [1] });
+        result.push({
+          element,
+          sources: [{ origin: 'race', via: null, power: 1 }],
+        });
       }
     }
     return result;
@@ -213,7 +216,10 @@ export class Race {
         if (!element) {
           throw new Error(`Element not found: ${attr}`);
         }
-        result.push({ element, powers: [value] });
+        result.push({
+          element,
+          sources: [{ origin: 'race', via: null, power: value }],
+        });
       }
     }
     return result;
@@ -238,7 +244,10 @@ export class Race {
         if (!element) {
           throw new Error(`Element not found: ${alias}`);
         }
-        result.push({ element, powers: [value] });
+        result.push({
+          element,
+          sources: [{ origin: 'race', via: null, power: value }],
+        });
       }
     }
     return result;
@@ -246,7 +255,7 @@ export class Race {
 
   elements(): ElementWithPower[] {
     return [
-      ...parseElements(this.version, this.row),
+      ...parseElements(this.version, this.row, 'race'),
       ...this.commonSkillElements(),
       ...this.attributeElements(),
       ...this.statElements(),

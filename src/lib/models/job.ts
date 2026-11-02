@@ -137,7 +137,10 @@ export class Job {
         if (!element) {
           throw new Error(`Element not found: ${attr}`);
         }
-        result.push({ element, powers: [value] });
+        result.push({
+          element,
+          sources: [{ origin: 'job', via: null, power: value }],
+        });
       }
     }
     return result;
@@ -145,7 +148,7 @@ export class Job {
 
   elements(): ElementWithPower[] {
     return [
-      ...parseElements(this.version, this.row),
+      ...parseElements(this.version, this.row, 'job'),
       ...this.attributeElements(),
     ];
   }

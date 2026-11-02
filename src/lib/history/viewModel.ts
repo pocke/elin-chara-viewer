@@ -1,3 +1,4 @@
+import { powersOf } from '../elementable';
 import { Chara } from '../models/chara';
 import { AbilityValue, HistoryField, RawTable } from './types';
 
@@ -46,9 +47,9 @@ export const buildViewModel = (chara: Chara): CharaViewModel => {
 
   const elements: Record<string, number[]> = {};
   for (const elementWithPower of chara.elements()) {
-    elements[elementWithPower.element.alias] = [
-      ...elementWithPower.powers,
-    ].sort((a, b) => a - b);
+    elements[elementWithPower.element.alias] = powersOf(elementWithPower).sort(
+      (a, b) => a - b
+    );
   }
 
   return {

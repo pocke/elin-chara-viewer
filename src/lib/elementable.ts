@@ -6,13 +6,25 @@ import {
   STATS_ALIASES,
 } from './models/element';
 
-export type ElementWithPower = { element: Element; powers: number[] };
+export type ElementSourceOrigin = 'chara' | 'race' | 'job';
+
+export type ElementSource = {
+  origin: ElementSourceOrigin;
+  via: Element | null;
+  power: number;
+};
+
+export type ElementWithPower = { element: Element; sources: ElementSource[] };
+
+export function powersOf(ewp: ElementWithPower): number[] {
+  return ewp.sources.map((source) => source.power);
+}
 
 /**
  * Get total power from ElementWithPower.
  */
 export function totalPower(ewp: ElementWithPower): number {
-  return sumPowers(ewp.powers);
+  return ewp.sources.reduce((sum, source) => sum + source.power, 0);
 }
 
 export function sumPowers(powers: number[]): number {
@@ -23,7 +35,7 @@ export function sumPowers(powers: number[]): number {
  * Calculate base potential for a skill element.
  */
 export function calcBasePotential(elementWithPower: ElementWithPower): number {
-  return basePotential(elementWithPower.powers);
+  return basePotential(powersOf(elementWithPower));
 }
 
 /** A power of 1 says the skill is there at all, and adds no bonus. */
@@ -32,7 +44,7 @@ export function basePotential(powers: number[]): number {
 }
 
 /**
- * Merge multiple ElementWithPower arrays, combining powers for same Elements.
+ * Merge multiple ElementWithPower arrays, concatenating sources for same Elements.
  */
 export function mergeElements(
   ...arrays: ElementWithPower[][]
@@ -44,9 +56,9 @@ export function mergeElements(
       const key = ewp.element.alias;
       const existing = map.get(key);
       if (existing) {
-        existing.powers.push(...ewp.powers);
+        existing.sources.push(...ewp.sources);
       } else {
-        map.set(key, { element: ewp.element, powers: [...ewp.powers] });
+        map.set(key, { element: ewp.element, sources: [...ewp.sources] });
       }
     }
   }
@@ -61,6 +73,7 @@ export function mergeElements(
 export function parseElements(
   version: GameVersion,
   row: { elements?: string },
+  origin: ElementSourceOrigin,
   mainElement?: Element | null
 ): ElementWithPower[] {
   const eles = row.elements;
@@ -74,13 +87,19 @@ export function parseElements(
       if (!element) {
         throw new Error(`Element not found: ${alias}`);
       }
-      return { element, powers: [powerInt] };
+      return {
+        element,
+        sources: [{ origin, via: null, power: powerInt }],
+      };
     });
     elms.push(...elementsFromRow);
   }
 
   if (mainElement) {
-    elms.push({ element: mainElement, powers: [1] });
+    elms.push({
+      element: mainElement,
+      sources: [{ origin, via: null, power: 1 }],
+    });
   }
 
   const allElements = [...elms];
@@ -89,7 +108,13 @@ export function parseElements(
     const subElements = elementWithPower.element.subElements();
     const subElementsWithPower = subElements.map((sub) => ({
       element: sub.element,
-      powers: [Math.floor(totalPower(elementWithPower) * sub.coefficient)],
+      sources: [
+        {
+          origin,
+          via: elementWithPower.element,
+          power: Math.floor(totalPower(elementWithPower) * sub.coefficient),
+        },
+      ],
     }));
     allElements.push(...subElementsWithPower);
   }
