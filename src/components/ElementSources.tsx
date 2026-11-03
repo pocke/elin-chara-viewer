@@ -1,6 +1,6 @@
 'use client';
-import { ReactNode } from 'react';
-import { Box, Tooltip, Typography } from '@mui/material';
+import { ReactNode, useState } from 'react';
+import { Box, ClickAwayListener, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from '@/lib/simple-i18n';
 import {
   ElementSource,
@@ -122,31 +122,65 @@ export function SourcedValue({
   locale,
   children,
 }: SourcedValueProps) {
+  const [hoverOpen, setHoverOpen] = useState(false);
+  const [tapOpen, setTapOpen] = useState(false);
+
   if (!elementWithPower || elementWithPower.sources.length === 0) {
     return <Typography variant="h6">{children}</Typography>;
   }
 
   return (
     <Typography variant="h6">
-      <Tooltip
-        title={
-          <ElementSourceLines
-            sources={elementWithPower.sources}
-            mode="power"
-            locale={locale}
-          />
-        }
-        arrow
-        placement="top"
-        slotProps={elementTooltipSlotProps}
+      {/* MUI opens tooltips on touch only after a 700ms long press and calls
+          onClose leaveTouchDelay after touchend, so the tap-opened state is
+          kept outside onOpen/onClose. */}
+      <ClickAwayListener
+        onClickAway={() => setTapOpen(false)}
+        mouseEvent={tapOpen ? 'onClick' : false}
+        touchEvent={tapOpen ? 'onTouchEnd' : false}
       >
-        <Box
-          component="span"
-          sx={{ borderBottom: '1px dotted', cursor: 'help' }}
+        <Tooltip
+          title={
+            <ElementSourceLines
+              sources={elementWithPower.sources}
+              mode="power"
+              locale={locale}
+            />
+          }
+          open={hoverOpen || tapOpen}
+          onOpen={() => setHoverOpen(true)}
+          onClose={(event) => {
+            setHoverOpen(false);
+            if (event.type === 'keydown') {
+              setTapOpen(false);
+            }
+          }}
+          arrow
+          placement="top"
+          slotProps={elementTooltipSlotProps}
         >
-          {children}
-        </Box>
-      </Tooltip>
+          <Box
+            component="span"
+            // Without a focusable target, Chrome on Android treats the tap as
+            // unhandled and starts Touch to Search on nearby text:
+            // https://developer.chrome.com/blog/tap-to-search
+            tabIndex={-1}
+            onPointerUp={(event) => {
+              if (event.pointerType !== 'mouse') {
+                setTapOpen((open) => !open);
+              }
+            }}
+            sx={{
+              borderBottom: '1px dotted',
+              cursor: 'help',
+              userSelect: 'none',
+              WebkitTouchCallout: 'none',
+            }}
+          >
+            {children}
+          </Box>
+        </Tooltip>
+      </ClickAwayListener>
     </Typography>
   );
 }
