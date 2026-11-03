@@ -166,7 +166,12 @@ export function SourcedValue({
                 setTapOpen((open) => !open);
               }
             }}
-            sx={{ borderBottom: '1px dotted', cursor: 'help' }}
+            sx={{
+              borderBottom: '1px dotted',
+              cursor: 'help',
+              userSelect: 'none',
+              WebkitTouchCallout: 'none',
+            }}
           >
             {children}
           </Box>
