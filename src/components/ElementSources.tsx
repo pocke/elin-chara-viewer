@@ -161,6 +161,10 @@ export function SourcedValue({
         >
           <Box
             component="span"
+            // Without a focusable target, Chrome on Android treats the tap as
+            // unhandled and starts Touch to Search on nearby text:
+            // https://developer.chrome.com/blog/tap-to-search
+            tabIndex={-1}
             onPointerUp={(event) => {
               if (event.pointerType !== 'mouse') {
                 setTapOpen((open) => !open);
