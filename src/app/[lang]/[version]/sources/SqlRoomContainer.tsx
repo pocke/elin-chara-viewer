@@ -63,10 +63,10 @@ const ShareQueryButton: FC = () => {
   );
 
   const handleClick = () => {
+    const shareUrl = buildShareUrl(getCurrentQuery());
+    window.history.replaceState(null, '', shareUrl);
     Promise.resolve()
-      .then(() =>
-        navigator.clipboard.writeText(buildShareUrl(getCurrentQuery()))
-      )
+      .then(() => navigator.clipboard.writeText(shareUrl))
       .then(
         () => toast({ title: t.sources.shareQueryCopied }),
         () =>
