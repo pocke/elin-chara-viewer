@@ -294,6 +294,9 @@ export const resources = {
       title: 'ソース検索',
       description:
         'SQLを使用してゲームデータを検索できます。すべてのCSVファイルがテーブルとして読み込まれています。',
+      shareQuery: '共有',
+      shareQueryCopied: 'クエリ入りのURLをコピーしました',
+      shareQueryFailed: 'URLをコピーできませんでした',
     },
     sitemap: {
       title: 'サイトマップ',
@@ -614,6 +617,9 @@ export const resources = {
       title: 'Source Search',
       description:
         'Search game data using SQL. All CSV files are loaded as tables.',
+      shareQuery: 'Share',
+      shareQueryCopied: 'Copied a URL with the query',
+      shareQueryFailed: "Couldn't copy the URL",
     },
     sitemap: {
       title: 'Sitemap',
