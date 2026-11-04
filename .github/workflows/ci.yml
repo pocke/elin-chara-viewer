@@ -33,6 +33,9 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      - name: Test
+        run: npm test
+
       # The change history hides a raw column once the display group it feeds
       # has reported the change, so a column that feeds a group without saying
       # so shows the same change twice.
