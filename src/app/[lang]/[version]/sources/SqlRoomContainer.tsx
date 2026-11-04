@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, FC } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   createRoomShellSlice,
   RoomShell,
@@ -158,7 +159,8 @@ const DataPanel: FC = () => {
 function createStore(
   versionLabel: string,
   tableNames: string[],
-  csvBasePath: string
+  csvBasePath: string,
+  sharedSql: string | null
 ) {
   const dataSources: UrlDataSource[] = tableNames.map((tableName) => ({
     tableName,
@@ -166,14 +168,12 @@ function createStore(
     url: `${csvBasePath}/${tableName}.csv`,
   }));
 
-  const sharedSql = new URLSearchParams(window.location.search).get('sql');
-  const sqlEditorConfig =
-    sharedSql === null || sharedSql === ''
-      ? undefined
-      : {
-          ...createDefaultSqlEditorConfig(),
-          queries: [{ id: 'default', name: 'SQL', query: sharedSql }],
-        };
+  const sqlEditorConfig = sharedSql
+    ? {
+        ...createDefaultSqlEditorConfig(),
+        queries: [{ id: 'default', name: 'SQL', query: sharedSql }],
+      }
+    : undefined;
 
   const stateCreator: StateCreator<RoomState> = (set, get, store) => ({
     ...createRoomShellSlice({
@@ -207,7 +207,7 @@ function createStore(
     })(set, get, store),
     ...createSqlEditorSlice({ config: sqlEditorConfig })(set, get, store),
     initialize: async () => {
-      if (sqlEditorConfig) {
+      if (sharedSql) {
         // room.initialize() はこの関数が返るまで読み込み中のモーダルを閉じないので、
         // await するとクエリが終わるまで Cancel を押せない
         void get().sqlEditor.parseAndRunCurrentQuery();
@@ -224,8 +224,9 @@ export default function SqlRoomContainer({
   tableNames,
   csvBasePath,
 }: SqlRoomContainerProps) {
+  const searchParams = useSearchParams();
   const [roomStore] = useState(() =>
-    createStore(versionLabel, tableNames, csvBasePath)
+    createStore(versionLabel, tableNames, csvBasePath, searchParams.get('sql'))
   );
 
   return (
