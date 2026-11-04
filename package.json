@@ -21,7 +21,9 @@
     "check:archive": "tsx script/check-archive.ts",
     "check:export": "tsx script/check-export.ts",
     "check:hidden": "ruby script/check-hidden-charas.rb",
-    "check:history": "tsx script/check-history-provenance.ts"
+    "check:history": "tsx script/check-history-provenance.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -53,6 +55,8 @@
     "tailwindcss": "^3.4.19",
     "tsx": "^4.23.1",
     "typescript": "^5",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5",
     "wrangler": "^4.152.0"
   }
 }
