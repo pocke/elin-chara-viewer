@@ -206,6 +206,13 @@ function createStore(
       },
     })(set, get, store),
     ...createSqlEditorSlice({ config: sqlEditorConfig })(set, get, store),
+    initialize: async () => {
+      if (sqlEditorConfig) {
+        // room.initialize() はこの関数が返るまで読み込み中のモーダルを閉じないので、
+        // await するとクエリが終わるまで Cancel を押せない
+        void get().sqlEditor.parseAndRunCurrentQuery();
+      }
+    },
   });
 
   const { roomStore } = createRoomStore<RoomState>(stateCreator);
