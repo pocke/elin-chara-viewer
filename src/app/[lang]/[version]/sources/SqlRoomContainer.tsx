@@ -75,7 +75,7 @@ const ShareQueryButton: FC = () => {
 
   return (
     <Button
-      className="flex h-6 items-center justify-center gap-1 px-3"
+      className="text-foreground flex h-6 items-center justify-center gap-1 px-3"
       variant="outline"
       size="xs"
       onClick={handleClick}
