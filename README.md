@@ -6,6 +6,7 @@ This is an application for viewing character data in the Elin.
 
 * `npm run dev` for development server
 * `npm run build` for production build
+* `npm test` runs the unit tests (Vitest)
 * `npm run check:archive -- <archive-dir>` parses every archived version with the app's schemas (defaults to `tmp/archive`)
 * `npm run check:history` holds the change history's `PROVENANCE` to the models
 * `npm run check:hidden` verifies `Chara#isHidden`'s id list against the game data; see [`docs/hidden-charas.md`](docs/hidden-charas.md)
