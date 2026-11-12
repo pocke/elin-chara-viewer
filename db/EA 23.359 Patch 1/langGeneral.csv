@@ -41,6 +41,7 @@ _deciphered,_sys,解読済みの#1,deciphered #1
 _titled,_sys,「#1」という題名の#2,"#2 titled ""#1"""
 _flavor,_sys,(#1風味),(#1 flavor)
 _named,_sys,「#1」と名付けられた#2,"#2 named ""#1"""
+_named2,_sys,#1#2,#1 #2
 _written,_sys,「#1」と書かれた#2,"#2 labelled ""#1"""
 _engraved,_sys,「#1」と刻まれた#2,"#2 engraved ""#1"""
 _engravedAlt,_sys,#1と刻まれた#2,#2 engraved #1

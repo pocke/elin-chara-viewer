@@ -122,8 +122,7 @@ cat_stray,,"「おうちしってう？」
 mogu,,"「く…」
 「ぽ…」
 「きゅ～」
-「きゅ～ぽ～」
-",,「…」,"「くぱぉ！」
+「きゅ～ぽ～」",,「…」,"「くぱぉ！」
 「クパァ！」",,"""Cu...""
 ""...po.""",,,"""Cupo!""",
 cat_black,,"「うみみゃ」
@@ -471,13 +470,9 @@ miral,,"「今日のご飯はなんにしよう」
 ""I've got a cat I wanna frame! &And now nothing shall ever be the same.""",,,,
 nino,,,,,,,,,,,
 noble,,"「ふん」
-
 「下賤の者が」
-
 「服が汚れ{る}」
-
 「今夜の劇は何かな」
-
 「優雅に過ごしたいもの{だ}」",,"「無礼者！」
 「ガード、とっととこのアホを捕まえろ」
 「ガード！きてくれー！」","「パパにいいつけてやるんだ」
@@ -490,7 +485,7 @@ noble,,"「ふん」
 ""Guards! Hurry up and get this idiot!""
 ""Guards! Come here!""","""I'm going to tell my father.""
 ""What! How dare you!""
-""No… Stop…""","""Trash."
+""No… Stop…""","""Trash."""
 nun,,"誰かが祈りを捧げる声が聞こえる。
 「おお、この迷える子猫に道標の光を…」
 「祈りなさい。どんな時でも救いはあります」
@@ -545,26 +540,27 @@ punk,,,,"「チキショー」
 ""Stop it!""
 ""I can't lose!""",
 rich,,,,"「金か？金が欲しいのか？」
-
 「汚い手で触らないでくれるか」
-
 「周りの衆、見てないで助けぬか」
-
 「金の亡者め！」","「貴様には一銭もやらん…」
 「なんとまあ」
 「下衆め」
 「まだ死にたくないー…ぐぉ」
-「遺言書いといてよかったわ」",「フン」,,,"""Money, you want money right?
-""
+「遺言書いといてよかったわ」",「フン」,,,"""Money, you want money right?""
 ""Remove your filthy hands at once!""
-
 ""Guards, help me!""
-
 ""Money grubbing peasant!""","""I won't give you a single coin.""
 ""Oh my god…""
 ""You bastard!""
 ""I don't want to die…""
 ""I'm glad I wrote a will.""","""Hmm…"""
+samurai,,,,"「武士とは死ぬこととみつけたり！」
+「玉砕じゃ！」
+「死なばもろとも」","「バンザーイ！」
+「スシ！」",「討ち取ったり！」,,,"""Death is the way of samurai!""
+""To the death!""
+""We're going down together!""","""Banzai!""
+""Sushi!""","""I have vanquished my foe!"""
 shojo,,,,,"「きゃぁー」
 「ダメぇ！」","少女は服のほこりをはらった。
 少女はあなたを見てにっこり笑った。
@@ -628,31 +624,19 @@ olderyoungersister,,"「#onii」
 「ずっと一緒だよ、#brother2♪」
 「#brother2、何してるの？」
 「大好きだよ、#brother2♪」",,"「#brother2どいて！」
-
 「#brother2に触るな！」
-
-「#brother2、見ててね♪」",「#brother2、そいつ殺せない！ 」,"あなたは妹の頭をなでた。
+「#brother2、見ててね♪」",「#brother2、そいつ殺せない！」,"あなたは妹の頭をなでた。
 あなたは妹の姿に目を細めた。
 妹は上目づかいにあなたの顔を覗いた。","""#onii""
-
 ""#onii""
-
 ""#onii""
-
 ""#onii""
-
 ""#onii""
-
 ""Can I hold your hand, #brother2?""
-
 ""What do you want to eat today, #brother2?""
-
 ""We'll always be together, #brother2♪""
-
 ""What are you doing, #brother2?""
-
-""I love you so much, #brother2♪""
-",,"""Move over, #brother2!""
+""I love you so much, #brother2♪""",,"""Move over, #brother2!""
 ""Don't touch #brother2!""
 ""Watch me, #brother2♪""","""I can't...#brother2!""","You pat your little sister's head.
 You narrow your eyes at your little sister.
@@ -724,15 +708,12 @@ tourist_festival,,"「屋台でおいしいもの売ってるかな？」
 「すげえ！」
 「人がゴミのよう{だ}」",,@tourist,@tourist,@tourist,"""Let's check the food stall.""
 ""No! I want to play a little longer!""
-
 ""What a noisy street.""
-
 ""Oh my god!""
-
 ""Aha, some human garbage.""",,@tourist,@tourist,@tourist
 tourist_hotspring,,"「いい湯{だ}」
 「次はどこの温泉にしようかな」
-「温泉から上がるとお腹が空くよね」 
+「温泉から上がるとお腹が空くよね」
 「体がポカポカしてきた {のだ}」
 水をパシャパシャする音が聞こえる。
 温泉の香りがする。",,@tourist,@tourist,@tourist,"""Nice hot bath!""
@@ -795,27 +776,27 @@ sad_creature,,"「ｼﾃ…」
 ""again...""
 ""growing...""
 ""so many...""
-”Ed...ward...""","""please...""
+""Ed...ward...""","""please...""
 ""kill me...""
 ""again...""
 ""growing...""
 ""so many...""
-”Ed...ward...""","""please...""
+""Ed...ward...""","""please...""
 ""kill me...""
 ""again...""
 ""growing...""
 ""so many...""
-”Ed...ward...""","""please...""
+""Ed...ward...""","""please...""
 ""kill me...""
 ""again...""
 ""growing...""
 ""so many...""
-”Ed...ward...""","""please...""
+""Ed...ward...""","""please...""
 ""kill me...""
 ""again...""
 ""growing...""
 ""so many...""
-”Ed...ward..."""
+""Ed...ward..."""
 sailor,,"「陸は久しぶり{だ}」
 「潮風が香るぜ！」
 「アホイ！」
@@ -872,9 +853,7 @@ informer,,"*ひそひそ*
 「いいネタを仕入れたぞ」
 「ほう！」
 「ははーん」","「耳寄りの情報が{ある}！」
-
 「ネタを買っていかない{か}？」
-
 「旦那、いい話がある{よ}」",@merchant,@merchant,@merchant,"*whispering*
 ""I've got a good story for you.""
 ""Oh!""
@@ -906,7 +885,7 @@ You hear fervent prayers.",,"""You heathen!""
 ""I shall come to Thee, my God!""
 ""May God curse you!""","""Repent!""
 ""You got what you deserve.""
- ""A fitting death for a heathen."""
+""A fitting death for a heathen."""
 ashland,,"誰かが武器の手入れをする音が聞こえる。
 「ウィロウのキッチンのパイは絶品だ！」
 「ミシリアはこれからどうなってしまうんだ？」
@@ -926,15 +905,13 @@ fiama,,"エレアのように美しい娘の横顔にあなたは見とれた。
 「獣に変えられた王子の童話を&知っているかしら？」
 「シェト様が無事ならいいけど…」
 「ちょうどいい休憩になったわ」
-「あなたはいつも皮肉屋ね」
-",,"「躾が必要ね」
+「あなたはいつも皮肉屋ね」",,"「躾が必要ね」
 「愚かね」
 「やめなさい！」",「アッシュ…！」,フィアマは服のほこりを払った。,"You are stunned by the face of a girl who is as beautiful as an Elean.
 ""Do you know the fairy tale of the ugly beast?""
 ""I hope Master Cetrus is alright...""
 ""It was a nice break.""
-""You're sarcastic as ever.""
-",,"""You need to be disciplined.""
+""You're sarcastic as ever.""",,"""You need to be disciplined.""
 ""How foolish.""
 ""Stop it!""","""Ash...!""",Fiama brushes the dust off her clothes.
 mayor,,,"「用件は何{だ}？」
@@ -951,19 +928,16 @@ seeker,,"「ふむ…犬が西向きゃ尾は東だな…」
 「さて、次の未知を探そうか…」
 「妹猫がいるなら、妹犬だっていそうなものだが…」
 誰かが本のページをめくる音が聞こえた。
-誰かが執筆する音が聞こえた。 ",,"「それが君の哲学かい」 
+誰かが執筆する音が聞こえた。",,"「それが君の哲学かい」
 「君の物語を見せてくれ」
-「この世界は物騒だな」 
-「こら、本を傷つけるんじゃない」 ",「仕方がない…次は死後の世界を探究するか…」 ,「それが君の物語か…さみしい結末だな」 ,"""Well...When the raven flies her tail follows... ""
+「この世界は物騒だな」
+「こら、本を傷つけるんじゃない」",「仕方がない…次は死後の世界を探究するか…」,「それが君の物語か…さみしい結末だな」,"""Well...When the raven flies her tail follows...""
 ""Now, onto the next unknown...""
 ""If there's a cat sister, &one would think there's a dog sister too...""
-You hear the sound of someone turning a page. 
-You hear the sound of someone writing. ",,"""Is this your philosophy?""
-
+You hear the sound of someone turning a page.
+You hear the sound of someone writing.",,"""Is this your philosophy?""
 ""Show me your story.""
-
 ""This world is dangerous.""
-
 ""Hey, don't damage the book.""","""Perhaps I shall explore the afterlife next...""","""So that's your story... A sad ending."""
 ineien,,"神秘的な古代の言葉で誰かが呟いた。
 どこからかリラの美しい音色が聴こえる。
@@ -977,11 +951,8 @@ Beautiful tunes of lyra are come from somewhere.
 ""Vindale will not be involved in the world of humans.""
 You feel an uneasy premonition.",,,,
 jonan,,"誰かが弱々しく独り言を呟いた。
-
 「私が許されることはないだろう…」
-
 「全てはミシリアのため」
-
 「なぜヴィンデールは何も応えてくれない？」",,,,,"Someone muttered weakly to himself.
 ""I shall never be forgiven...""
 ""All for the sake of Mysilia.""
@@ -1104,8 +1075,8 @@ guild_doorman_mage,,「止まれ…身分を照会させてもらう」,「こ�
 guild_doorman_fighter,,「止まれ…身分を照会させてもらう」,「この先は戦士ギルドの管轄だ」,,,,"""Stop… Let me make sure you are on my lists.""","""Beyond here is the jurisdiction of the Fighters Guild.""",,,
 guild_doorman_thief,,「止まりなさい。身分の照会が必要よ…」,「この先は盗賊ギルドの管轄…」,,,,"""Stop. Let me make sure you are on my lists...""","""Beyond here is the jurisdiction of the Thieves Guild...""",,,
 isygarad,,,,「さあ、踊ってみせよ」,「馬鹿な…！」,「つまらぬな」,,,"""Show me your dance.""","""This can’t be…!""","""How boring."""
-mech_golem_a,,,,「行くぞ！」,「あとは任せたぜ、ウィッジ！」,,,,“Here we go!”,"“I’ll leave the rest to you, Widge!”",
-mech_golem_b,,,,「行くぞ！」,「あとは任せたぜ、ヒッグス！」,,,,“Here we go!”,"“I’ll leave the rest to you, Higgs!”",
+mech_golem_a,,,,「行くぞ！」,「あとは任せたぜ、ウィッジ！」,,,,"""Here we go!""","""I’ll leave the rest to you, Widge!""",
+mech_golem_b,,,,「行くぞ！」,「あとは任せたぜ、ヒッグス！」,,,,"""Here we go!""","""I’ll leave the rest to you, Higgs!""",
 eluminaire,,"*スヤスヤ*
 「むにゅむにゃ」
 「…はっ！」",,,,,"*snooze*
@@ -1237,8 +1208,7 @@ You sense someone's warm gaze.
 ""You don't have to suffer anymore."""
 keeper_garden,,"「かわいいのう」
 「フホホホ」",,「フホホホ！わっちに刃を向けるか！」,「フホォホホホォ！天晴じゃ！」,「フホホホホ、弱いのう！」,"""How adorable.""
-""Muwohoho.""",,"""Muwohohoho! You dare challenge me!?""","
-""Muwohohoho! Splendid!","""Muwohohoho, how weak you are!"""
+""Muwohoho.""",,"""Muwohohoho! You dare challenge me!?""","""Muwohohoho! Splendid!""","""Muwohohoho, how weak you are!"""
 namamani,,,,"「馬鹿にしてくれるじゃないか」
 「また誤動作か？」
 「いいぞ」",「やってくれたな」,"「くだらないな」
@@ -1256,12 +1226,13 @@ namamani2,,,,"「お前は敵なのか？」
 ""So be it.""","""Am I... going to die? ""","""So... you were my enemy?""
 ""Who am I?"""
 erishe,,"「どこに行ってしまったのかしらね？」
-柔らかな陽だまりの中にいるような温かさをあなたは感じた。 
+柔らかな陽だまりの中にいるような温かさをあなたは感じた。
 「ふふ、おいで、ヴェセル」
 「時が経つのを忘れてしまいそうです」
 「早く帰らなきゃ」
 「お芝居に遅れてしまいます」",,「や…やめてください」,「にい…さん…」,「ごめんなさい…」,"""I wonder where he went?""
-You feel a warmth as if being wrapped in gentle sunlight. ""Come here, Vesel.""
+You feel a warmth as if being wrapped in gentle sunlight.
+""Come here, Vesel.""
 ""It feels like I could forget the passage of time.""
 ""We should hurry back.""
 ""We'll be late for the play.""",,"""P-please... stop.""","""B-brother...""","""Sorry..."""
@@ -1319,7 +1290,7 @@ defender,,誰かに守られている気がする。,,,「主よ、お許しく�
 The defender smiles at you."
 adv_kiria,,"「いつか私の製造者を見つけて殴ってやるの」
 「人形愛好者は懲らしめなければなりません…」
-「…私はスクラップではないです」",,,「私…さびついてしまったようです…」 ,,"""Someday, I will find my creator, and punch him.""
+「…私はスクラップではないです」",,,「私…さびついてしまったようです…」,,"""Someday, I will find my creator, and punch him.""
 ""Have you met any doll fanatics? &I need to punish one...""
 ""... I'm not scrap.""",,,"""I... must have gotten... rusty...""",
 adv_schwert,,"「…まだ、稼働します」
@@ -1337,19 +1308,19 @@ adv_schwert,,"「…まだ、稼働します」
 ""Mana control—error. Retrying.""","""Self-diagnostic—initiated.""
 ""Mana core—stable.""
 ""Hostile signature eliminated."""
-adv_gaki,,"「ざこ」 
+adv_gaki,,"「ざこ」
 「ざこ？」
 「ざこざこざーこ♪」
-「ざぁこざぁこ♥」 
+「ざぁこざぁこ♥」
 小声で罵倒されている気がする。
-牙姫はにやりと笑った。",,"「ざこ！！」 
+牙姫はにやりと笑った。",,"「ざこ！！」
 「ざーこざこざこざっこざこー♪」
 「ざこっ！ ざこっ！」
 「ざぁこざぁこ♥」
-「ざぁ～こぉ～」","「ざこ……」 
-「ざっっっっっこ！！」 ","「ざっっっっっっっっっっこ♪」
+「ざぁ～こぉ～」","「ざこ……」
+「ざっっっっっこ！！」","「ざっっっっっっっっっっこ♪」
 「ざぁこざぁこ♥」
-「ざこざこざこざこざこざこざこざこ」 ","""Weakling.""
+「ざこざこざこざこざこざこざこざこ」","""Weakling.""
 ""Weakling?""
 ""Weak-weak-weaaklnig♪""
 ""Weaakling-weaakling♥""
@@ -1358,12 +1329,10 @@ Gaki grins wickedly.",,"""Weakling!!""
 ""Weak-weak-weak-weak-weaakling♪""
 ""Weakling! Weakling!""
 ""Weaak-weaakling♥""
-""Weaaaakling.""
-","""Weakling…""
+""Weaaaakling.""","""Weakling…""
 ""Weaaaaakling!!""","""Weaaaaakling♪""
 ""Weaak-weaakling♥""
-""Weak-weak-weak-weak-weak-weak-weak-weakling.""
-"
+""Weak-weak-weak-weak-weak-weak-weak-weakling."""
 adv_verna,,"「影は、私の鏡」
 「暗闇は怖くない。君はどうかな？」
 「この翼、触ってみる？ 」
@@ -1371,18 +1340,17 @@ adv_verna,,"「影は、私の鏡」
 「この世界は奇妙ね 」",,"「影よ、さあ共に舞おう」
 「瞬きする間に終わらせるわ」
 「哀れね」
-「影よ集え」",「この世界は眩しすぎるわ」 ,"「さよなら」
+「影よ集え」",「この世界は眩しすぎるわ」,"「さよなら」
 「終わりよ」
 「私の世界へようこそ」
-「闇に呑まれるがいい」 ","""The shadow is my mirror.""
+「闇に呑まれるがいい」","""The shadow is my mirror.""
 ""I'm not afraid of the dark. Are you?""
 ""Do you want to touch my wings?""
 ""Makes me want to go somewhere far away.""
 ""This world is strange, isn't it?""",,"""Shadows, come dance with me.""
 ""I'll end it.""
 ""How pitiful.""
-""Shadows, come.""
-","""This world is too bright for me.""","""Goodbye.""
+""Shadows, come.""","""This world is too bright for me.""","""Goodbye.""
 ""It's the end.""
 ""Welcome to my world.""
 ""May you be swallowed by the darkness."""
@@ -1393,7 +1361,7 @@ adv_mesherada,,"「心は決して忘れない。&幾千もの歳月が流れ、
 「約束が私をこの旅へと縛るのだ」
 「風がそなたの名を運んでくる」
 「そなたのまなざしは&忘れられた夢のように感じる」",,"「なんと無礼な！」
-「私の探し物の邪魔をするなど！」",「生まれ変わってもそなたを探し続けよう…」,"「すまぬ... 」
+「私の探し物の邪魔をするなど！」",「生まれ変わってもそなたを探し続けよう…」,"「すまぬ...」
 「私は鎖に繋がれている」","""Ages pass, across lifetimes and boundless &paths, yet my heart remembers.""
 ""Mine path stretches eternal, but for thee, &it shall never feel too long.""
 ""Lifetimes pass, yet my heart still yearns for &the one I swore to find.""
