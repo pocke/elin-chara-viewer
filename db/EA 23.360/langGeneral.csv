@@ -930,8 +930,9 @@ daTailBuy,drama,暗い場所に移ろう,I'll buy you.
 daBird,drama,鳥を眺めにいかない？,Interested in watching birds?
 daBirdBuy,drama,一緒に鳥を眺めよう,Let's go watch birds.
 depart,drama,別れたい,I'm going to abandon you.
-depart1,drama,ああ,Yes.
+depart1,drama,別れる,Depart.
 depart2,drama,考え直す,On the second thought...
+depart3,drama,野に放つ,Release into the wild.
 deWithdraw,drama,引き出す,I want to withdraw my money.
 letsTalk,drama,話がしたい,Let's talk.
 captionEditBio,editBio,キャラ編集,Edit Chara
@@ -3112,3 +3113,7 @@ mod_group_collapse_all,,すべて折りたたむ,Collapse all
 mod_id_copy,,IDをコピー,Copy ID
 mod_id_copied,,IDをクリップボードにコピーしました：#1,ID copied to the clipboard: #1
 mod_group_color,,色を変更,Change color
+mod_check_all,,すべてチェック,Check All
+mod_uncheck_all,,すべてチェック解除,Uncheck All
+mod_check_all_confirm,,#1個のModにチェックを入れますか？,Check #1 mod(s)?
+mod_uncheck_all_confirm,,#1個のModのチェックを外しますか？,Uncheck #1 mod(s)?
