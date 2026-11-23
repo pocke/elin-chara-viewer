@@ -1,10 +1,10 @@
 import { FeatModifierJson, registerVersionData } from './db';
 
-import eaCharasContent from '../../db/EA 23.355/charas.csv';
-import eaElementsContent from '../../db/EA 23.355/elements.csv';
-import eaRacesContent from '../../db/EA 23.355/races.csv';
-import eaJobsContent from '../../db/EA 23.355/jobs.csv';
-import eaTacticsContent from '../../db/EA 23.355/tactics.csv';
+import eaCharasContent from '../../db/EA 23.362/charas.csv';
+import eaElementsContent from '../../db/EA 23.362/elements.csv';
+import eaRacesContent from '../../db/EA 23.362/races.csv';
+import eaJobsContent from '../../db/EA 23.362/jobs.csv';
+import eaTacticsContent from '../../db/EA 23.362/tactics.csv';
 
 import nightlyCharasContent from '../../db/EA 23.362/charas.csv';
 import nightlyElementsContent from '../../db/EA 23.362/elements.csv';
