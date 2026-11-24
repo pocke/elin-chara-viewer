@@ -217,7 +217,7 @@ id,alias,name_JP,name,altname_JP,altname,aliasParent,aliasRef,aliasMtp,parentFac
 487,creativeChef,創作料理家,Creative Chef,,,,,,0,0,0,head,1,10,0,100,0,1,0,,,Skill,ENC,enchant,,,"flag,noRune",,50,0,10,5,0,,,0,,,,,,,,,それは独創的な調理を可能にする。,It lets you cook creatively.,,,,,,,,,,
 488,deathagony,断末魔の叫び,Death Agony,,,,,,0,0,25,,1,10,0,100,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それは断末魔の叫びを上げる。,It screams in its death throes.,,,,,,,,,,
 489,music_drunk,魂の旋律,Melody of the Soul,,,,,,0,0,100,,1,10,0,100,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それは聴衆を酔わせる。,It mesmerizes the audience.,,,,,,,,,,
-490,farsee,千里眼,farseer,,,,,,0,0,0,head,1,40,0,300,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それはより遠くを見ることを可能にする。,It allows you to see farther.,,,,,,,,,,
+490,farsee,千里眼,Farseer,,,,,,0,0,0,head,1,40,0,300,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それはより遠くを見ることを可能にする。,It allows you to see farther.,,,,,,,,,,
 491,negateGravity,重力無効,Immunity to Gravity,,,,,,0,0,0,,1,1,0,100,0,1,0,,,Skill,ENC,enchant,,,flag,,50,0,10,5,0,,,0,,,,,,,,,それは重力からあなたを守る。,It protects you from gravity.,,,,,,,,,,
 492,shiawaseStep,ご機嫌ステップ,Cheerful Steps,,,,,,0,0,0,foot,1,50,0,500,0,1,0,,,Skill,ENC,enchant,,,,,50,0,10,5,0,,,0,,,,,,,,,それは歩く度にあなたに経験値を与える。,It gives you experience every time you walk.,,,,,,,,,,
 493,freemove,自由移動,Freedom of Movement,,,,,,0,0,0,foot,1,16,200,150,0,1,0,,,Skill,ENC,enchant,,,flag,,50,0,10,5,0,,,0,,,,,,,,,それは移動を阻害する効果からあなたを守る。,It protects you from effects that hinder movement.,,,,,,,,,,
@@ -589,7 +589,7 @@ Legendary Ascetic",,,,,,0,0,100,,1,1,1000,0,1,1,0,,,Feat,FEAT,feat,general,,,,50
 You are a journeyman of an ascetic.
 You are an expert of an ascetic.
 You are a master of an ascetic.
-You are an legendary ascetic.",,,,,,,,,,
+You are a legendary ascetic.",,,,,,,,,,
 1611,featMana,"魔力の遺伝子
 魔力の細胞
 魔力の血液
@@ -606,7 +606,7 @@ Magic Being",,,,,,0,0,100,,1,1,1000,0,1,1,0,,,Feat,FEAT,feat,general,,,,50,0,10,
 Your cells contain magic.
 Your blood contain magic.
 Your body is made of magic.
-Magic dominats your entire body.",,,,,,,,,,
+Magic dominates your entire body.",,,,,,,,,,
 1612,featStamina,"短距離走者
 中距離走者
 長距離走者","Short Distance Runner
