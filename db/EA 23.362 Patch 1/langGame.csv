@@ -1210,3 +1210,6 @@ isSleepLock,,,,,,,それはまだ安定してない。,It has yet to stabilize.
 resetFeat,,,special,,,,ワァオー！全てが新鮮に感じる！,Wow! Everything feels new again!
 weightScale,,,,,,,#2 kg,#2 kg
 heightMeasure,,,,,,,#2 cm,#2 cm
+blood_oil,,,negative,,,,"ペッペッ、この血は吸えたものじゃない！
+この血は古びた油の味がする！","Ptooey! This blood is undrinkable!
+This blood tastes like rancid oil!"
