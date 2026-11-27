@@ -86,7 +86,8 @@ export type ElementAttacks =
   | 'eleAcid'
   | 'eleCut'
   | 'eleImpact'
-  | 'eleVoid';
+  | 'eleVoid'
+  | 'eleCat';
 
 // Cache: version -> alias -> Element
 const _elementsMap: Map<GameVersion, Map<string, Element>> = new Map();
@@ -171,12 +172,15 @@ export function resistanceElements(version: GameVersion): Element[] {
     'resAcid',
     'resCut',
     'resImpact',
+    'resCat',
   ];
 
-  return resistanceAliases.map((alias) => {
+  return resistanceAliases.flatMap((alias) => {
     const element = elementByAlias(version, alias);
+    // resCat was added with EA 23.323, so archived builds before it lack it.
+    if (!element && alias === 'resCat') return [];
     if (!element) throw new Error(`Element not found: ${alias}`);
-    return element;
+    return [element];
   });
 }
 
@@ -197,6 +201,14 @@ export function attackElements(version: GameVersion): Element[] {
     .filter((row) => row.alias.startsWith('ele'))
     .filter((row) => row.chance > 0)
     .map((row) => new Element(version, row));
+}
+
+// Unlike attackElements(), this includes elements with chance 0 such as eleCat,
+// which no random spell uses but which has a resistance.
+export function attackElementsWithResistance(version: GameVersion): Element[] {
+  return resistanceElements(version).flatMap(
+    (resistance) => resistance.parent() ?? []
+  );
 }
 
 /**
@@ -303,6 +315,7 @@ export class Element {
       eleCut: '#ff0000',
       eleImpact: '#666666',
       eleVoid: '#666666',
+      eleCat: '#a0522d',
 
       resFire: '#ff4500',
       resCold: '#0000ff',
@@ -320,6 +333,7 @@ export class Element {
       resAcid: '#2e8b57',
       resCut: '#ff0000',
       resImpact: '#666666',
+      resCat: '#a0522d',
     };
 
     return elementColors[this.row.alias] || '#666666';
