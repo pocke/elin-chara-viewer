@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { all, registerVersionData } from '../db';
+import { toCsv } from '../testing/csv';
 import { Chara, CharaRow, CharaSchema } from './chara';
 
 const VERSION = 'test-chara';
@@ -122,20 +123,10 @@ const COLUMNS = {
 
 type Table = keyof typeof COLUMNS;
 
-// A column left out of a row is written as an empty cell, which the schemas
-// read as 0 for numbers and '' for strings.
 const csv = <T extends Table>(
   table: T,
   rows: Partial<Record<(typeof COLUMNS)[T][number], string>>[]
-): string => {
-  const quote = (cell: string) => `"${cell.replaceAll('"', '""')}"`;
-  const columns: readonly (typeof COLUMNS)[T][number][] = COLUMNS[table];
-  const lines = [
-    columns,
-    ...rows.map((row) => columns.map((column) => row[column] ?? '')),
-  ];
-  return lines.map((cells) => cells.map(quote).join(',')).join('\n');
-};
+): string => toCsv<(typeof COLUMNS)[T][number]>(COLUMNS[table], rows);
 
 const charaRow = (id: string): CharaRow => {
   const row = all(VERSION, 'charas', CharaSchema).find((r) => r.id === id);

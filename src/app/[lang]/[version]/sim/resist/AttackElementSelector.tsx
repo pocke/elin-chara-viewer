@@ -15,7 +15,7 @@ import {
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { useState } from 'react';
 import { useTranslation } from '@/lib/simple-i18n';
-import { attackElements } from '@/lib/models/element';
+import { attackElementsWithResistance } from '@/lib/models/element';
 import type { AttackElement } from '@/lib/resistSimUtils';
 import { getContrastColor } from '@/lib/colorUtils';
 import { GameVersion } from '@/lib/db';
@@ -34,7 +34,7 @@ export default function AttackElementSelector({
   const { t, language } = useTranslation();
   const [newElementAlias, setNewElementAlias] = useState<string>('');
 
-  const availableElements = attackElements(version);
+  const availableElements = attackElementsWithResistance(version);
 
   const handleAddElement = (elementAlias: string) => {
     if (!elementAlias) return;
