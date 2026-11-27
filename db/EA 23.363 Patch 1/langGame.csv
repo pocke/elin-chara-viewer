@@ -286,6 +286,7 @@ dmg_eleCut,combat,,dmgEle,,,,#1は切り刻まれた。,#1 are/is slashed.
 dmg_eleMagic,combat,,dmgEle,,,,魔力が#1を吹き飛ばした。,The magical force blasts #1 away.
 dmg_eleEther,combat,,dmgEle,,,,#1の存在は揺らいだ。,#your existence wavers.
 dmg_eleImpact,combat,,dmgEle,,,,,
+dmg_eleCat,combat,,dmgEle,,,,,
 kill_attack,combat,,dead,Bad,,,"殺した。
 粉々の肉片に変えた。
 ミンチにした。
