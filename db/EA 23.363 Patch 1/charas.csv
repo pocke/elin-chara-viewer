@@ -590,7 +590,7 @@ dagon,477,ダゴン,Dagon,,,,0,,chara_L,25,,0,,,49,100,0,,Water,water,,yith,warr
 cthaat,475,クタアト,Cthaat,,,,0,,chara_LW,203,,0,,,46,100,0,,Water,water,,yith,warmage,,,"2,20","SpSummonTidalWave/50,ActEntangle,ActTouchDrown/50",,"featMassSummoner,featSummoner/2,featAquatic",,,chara,,,,,,,,,,,,,,,,,
 cube,43,キューブ,cube,,,,0,,chara,1403,,0,,,48,25,0,,,,,machine,none,,stand,"1,20,40",ActGazeDim/20,,featSplit,,,chara,,,,,,,,,,,,,,,,,
 spiralking,182,螺旋の王,spiral king,,,,0,,chara_L,1,,0,,,52,100,0,,,,,yith,wizard,,,"2,50","arrow_Chaos/60,arrow_Nether/40,ball_Sound/40,ActGazeMutation/10",,"resChaos/10,resNether/5,resSound/10",,,chara,,,,,,,,,,,,,,,,,
-eluminaire,245,エルミナレ,Eluminaire,謎の従者,mysterious servant,,0,,chara,1730,,0,,,65,0,4,Friend,,party,UniqueChara,elea,warmage,,,"3,50","bolt_Ether,ball_Ether,miasma_Ether,sword_Ether,comet_Ether",,,,,chara,,,,,,,f/21/172/43/polite|私|貴方,,,,,,,,,,
+eluminaire,245,エルミナレ,Eluminaire,謎の従者,mysterious servant,,0,,chara,1730,727,0,,,65,0,4,Friend,,party,UniqueChara,elea,warmage,,,"3,50","bolt_Ether,ball_Ether,miasma_Ether,sword_Ether,comet_Ether",,,,,chara,,,,,,,f/21/172/43/polite|私|貴方,,,,,,,,,,
 ancient_golem,261,古代の石の巨人,Ancient stone golem,,,,0,"2,2",chara_LL,2,,0,,,75,0,4,Friend,,,UniqueChara,ent,wizard,,,,,,,,,chara,,,,,,,,,,,,,,,,,
 mirage,260,ミラージュ,Mirage,対魔道装甲,Anti Golem,,0,"2,2",chara_LL,1,,0,,,90,0,4,Friend,,,UniqueChara,eulderna,wizard,,,,,,,,,chara,,,,,,,,,,,,,,,,,
 doga,506,ドーガ,Doga,工場長,Factory Chief,,0,"2,2",chara_LL,1,,0,,,42,0,4,,,boss,UniqueChara,machine,gunner,,,"4,20","SpSummonMachine/30,sword_Fire,flare_Fire/50,SpHOT,ActMissileBarrage,SpVanishHex",,"featElder,levitation",,,chara,,,,,,,,,,,,,,,,,
